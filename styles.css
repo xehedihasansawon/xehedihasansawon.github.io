@@ -1568,6 +1568,47 @@ dialog img{max-height:70vh;object-fit:contain;background:#031617}
 
 /* =========================================================
    HERO V5 — ACCENT COLOR PASS
+   Monochrome green identity: white + sage only
+   ========================================================= */
+:root{
+  --hero-accent:#A8C7B3;
+}
+
+.hero-v5 h1 .hero-name-main,
+.hero-v5 h1 .hero-name-accent{
+  color:#F2F8F4;
+}
+
+.hero-v5-role .hero-accent{
+  color:#E7EFEA;
+  font-weight:700;
+}
+
+.hero-v5-meta strong{
+  color:#C2D1C8;
+  font-weight:600;
+}
+
+.hero-v5-meta span:not(:last-child)::after{
+  background:#7FA18D;
+  opacity:.75;
+}
+
+.hero-v5-dot{
+  background:#B9D4C2;
+  box-shadow:0 0 10px rgba(185,212,194,.42);
+}
+
+.hero-v5-actions .mint-button span{
+  color:#4E6D5C;
+}
+
+.hero-v5-actions .outline-button:hover{
+  border-color:rgba(168,199,179,.55);
+  color:#EAF3ED;
+}
+
+
    Warm champagne + sage accents for the green visual identity
    ========================================================= */
 :root{
