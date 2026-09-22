@@ -1207,3 +1207,114 @@ dialog img{max-height:70vh;object-fit:contain;background:#031617}
   }
 }
 
+/* =========================================================
+   HERO V5 — TYPOGRAPHY REDESIGN
+   Easier reading, less tracking, fewer all-caps labels
+   ========================================================= */
+.hero-v5-topline{
+  margin-bottom:14px;
+  font-size:11px;
+  line-height:1.45;
+  font-weight:600;
+  letter-spacing:.01em;
+  text-transform:none;
+  color:#d6e2da;
+}
+
+.hero-v5-dot{
+  width:7px;
+  height:7px;
+}
+
+.hero-v5-eyebrow{
+  margin:0 0 10px;
+  font-size:12px;
+  line-height:1.45;
+  font-weight:600;
+  letter-spacing:.01em;
+  text-transform:none;
+  color:#9fc0ad;
+}
+
+.hero-v5 h1{
+  font-size:65px;
+  line-height:.86;
+  letter-spacing:0;
+}
+
+.hero-v5-role{
+  max-width:575px;
+  margin:18px 0 22px;
+  font-size:15px;
+  line-height:1.65;
+  font-weight:500;
+  letter-spacing:0;
+  color:#dce8e0;
+}
+
+.hero-v5-role span{
+  display:inline;
+  margin:0;
+  font:inherit;
+  color:inherit;
+}
+
+.hero-v5-actions .mint-button,
+.hero-v5-actions .outline-button{
+  font-size:12px;
+  font-weight:700;
+  letter-spacing:0;
+  text-transform:none;
+  padding:10px 19px;
+}
+
+.hero-v5-meta{
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:8px;
+  padding-top:14px;
+  border-top:1px solid rgba(218,241,222,.12);
+}
+
+.hero-v5-meta span{
+  position:relative;
+  padding:0 16px 0 0;
+  border:0;
+  background:none;
+  border-radius:0;
+  font-size:11px;
+  line-height:1.5;
+  font-weight:500;
+  letter-spacing:0;
+  text-transform:none;
+  color:#aebfb5;
+}
+
+.hero-v5-meta span:not(:last-child)::after{
+  content:"";
+  position:absolute;
+  right:6px;
+  top:50%;
+  width:3px;
+  height:3px;
+  margin-top:-1.5px;
+  border-radius:50%;
+  background:#6f9380;
+}
+
+@media (max-width:1050px){
+  .hero-v5-eyebrow{font-size:11.5px}
+  .hero-v5-role{font-size:14px}
+  .hero-v5-meta span{font-size:10.5px}
+}
+
+@media (max-width:760px){
+  .hero-v5-topline{font-size:10px}
+  .hero-v5-eyebrow{font-size:11px}
+  .hero-v5-role{font-size:13.5px}
+  .hero-v5-actions .mint-button,
+  .hero-v5-actions .outline-button{font-size:11px}
+  .hero-v5-meta span{font-size:10px}
+}
+
