@@ -1318,3 +1318,116 @@ dialog img{max-height:70vh;object-fit:contain;background:#031617}
   .hero-v5-meta span{font-size:10px}
 }
 
+/* =========================================================
+   HERO V5 — FINAL MICRO POLISH
+   Blend, spacing, CTA consistency and focus-line refinement
+   ========================================================= */
+@media (min-width:761px){
+  .hero-v5-panel{
+    min-height:360px;
+    grid-template-columns:minmax(0,1.38fr) minmax(300px,.62fr);
+  }
+
+  .hero-v5-copy{
+    padding:46px 50px 42px 44px;
+    transform:translateY(7px);
+  }
+
+  .hero-v5-eyebrow{
+    color:#a8c5b4;
+    font-weight:700;
+  }
+
+  .hero-v5-role{
+    max-width:540px;
+    margin:17px 0 20px;
+    line-height:1.58;
+  }
+
+  .hero-v5-actions{
+    align-items:center;
+  }
+
+  .hero-v5-actions .mint-button,
+  .hero-v5-actions .outline-button{
+    min-height:38px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    box-sizing:border-box;
+  }
+
+  .hero-v5-actions .outline-button{
+    padding-left:20px;
+    padding-right:20px;
+  }
+
+  .hero-v5-meta{
+    max-width:545px;
+    padding-top:13px;
+  }
+
+  .hero-v5-meta span{
+    color:#bdcec4;
+  }
+
+  .hero-v5-visual:before{
+    width:45%;
+    background:linear-gradient(90deg,#071f20 0%,rgba(7,31,32,.86) 20%,rgba(7,31,32,.48) 55%,transparent 100%);
+  }
+
+  .hero-v5-image-shade{
+    background:
+      linear-gradient(180deg,rgba(4,25,26,.02),rgba(4,25,26,.08)),
+      linear-gradient(90deg,rgba(5,31,32,.16),transparent 46%);
+  }
+}
+
+.hero-v5-panel{
+  box-shadow:
+    0 22px 55px rgba(0,0,0,.14),
+    inset 0 1px 0 rgba(255,255,255,.022);
+}
+
+.hero-v5-topline{
+  color:#dbe6df;
+}
+
+.hero-v5-meta span:not(:last-child)::after{
+  background:#7da08b;
+}
+
+.home-v2 .v2-strip{
+  border-top:1px solid rgba(218,241,222,.06);
+}
+
+.home-v2 .v2-strip-inner{
+  min-height:40px;
+}
+
+@media (max-width:1050px) and (min-width:761px){
+  .hero-v5-copy{
+    padding:40px 34px 36px 34px;
+    transform:translateY(5px);
+  }
+
+  .hero-v5-panel{
+    grid-template-columns:minmax(0,1.28fr) 310px;
+  }
+}
+
+@media (max-width:760px){
+  .hero-v5-copy{
+    transform:none;
+  }
+
+  .hero-v5-actions .mint-button,
+  .hero-v5-actions .outline-button{
+    min-height:38px;
+  }
+
+  .hero-v5-visual:before{
+    width:auto;
+  }
+}
+
