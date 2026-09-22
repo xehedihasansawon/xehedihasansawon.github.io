@@ -1951,3 +1951,48 @@ dialog img{max-height:70vh;object-fit:contain;background:#031617}
   color:#F2F8F4;
 }
 
+/* =========================================================
+   HERO V5 — SMALL POLISH
+   Softer red, tighter name gap, clearer meta line
+   ========================================================= */
+.hero-v5 h1{
+  line-height:.84;
+  letter-spacing:0;
+}
+
+.hero-v5 h1 .hero-name-accent{
+  color:#B61E24;
+}
+
+.hero-v5-role{
+  color:#E8F0EB;
+}
+
+.hero-v5-meta{
+  padding-top:15px;
+  border-top:1px solid rgba(218,241,222,.14);
+}
+
+.hero-v5-meta span,
+.hero-v5-meta strong{
+  color:#D6E2DC;
+  font-weight:600;
+}
+
+.hero-v5-meta span:not(:last-child)::after{
+  background:rgba(242,248,244,.55);
+  opacity:1;
+}
+
+.hero-v5-topline{
+  color:#EEF5F1;
+}
+
+.hero-v5-eyebrow{
+  color:#D7E4DD;
+}
+
+.hero-v5-actions .mint-button span{
+  color:#6A7A70;
+}
+
