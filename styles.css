@@ -1566,3 +1566,43 @@ dialog img{max-height:70vh;object-fit:contain;background:#031617}
   }
 }
 
+/* =========================================================
+   HERO V5 — ACCENT COLOR PASS
+   Coral-red highlights while preserving the green identity
+   ========================================================= */
+:root{
+  --hero-accent:#E06C75;
+}
+
+.hero-v5 h1 .hero-name-main{
+  color:#f2f8f4;
+}
+
+.hero-v5 h1 .hero-name-accent{
+  color:var(--hero-accent);
+}
+
+.hero-v5-role .hero-accent{
+  color:var(--hero-accent);
+  font-weight:700;
+}
+
+.hero-v5-meta strong{
+  color:var(--hero-accent);
+  font-weight:700;
+}
+
+.hero-v5-dot{
+  background:var(--hero-accent);
+  box-shadow:0 0 10px rgba(224,108,117,.52);
+}
+
+.hero-v5-actions .mint-button span{
+  color:#b84e58;
+}
+
+.hero-v5-actions .outline-button:hover{
+  border-color:rgba(224,108,117,.72);
+  color:#f3d7da;
+}
+
