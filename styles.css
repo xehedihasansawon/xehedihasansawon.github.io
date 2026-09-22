@@ -1996,3 +1996,19 @@ dialog img{max-height:70vh;object-fit:contain;background:#031617}
   color:#6A7A70;
 }
 
+/* =========================================================
+   HERO V5 — NAME LINE GAP FIX
+   ========================================================= */
+.hero-v5 h1{
+  line-height:.92;
+}
+
+.hero-v5 h1 .hero-name-main,
+.hero-v5 h1 .hero-name-accent{
+  display:inline-block;
+}
+
+.hero-v5 h1 .hero-name-accent{
+  margin-top:3px;
+}
+
