@@ -761,14 +761,14 @@ dialog img{max-height:70vh;object-fit:contain;background:#031617}
 
 @media (min-width:761px){
   .home-v2 .v2-hero-grid{
-    grid-template-columns:minmax(0,1fr) 410px;
-    min-height:520px;
-    gap:42px;
+    grid-template-columns:minmax(0,1fr) 330px;
+    min-height:500px;
+    gap:56px;
     align-items:center;
   }
 
   .home-v2 .v2-hero-copy{
-    padding:54px 0 48px 8px;
+    padding:52px 0 46px 8px;
   }
 
   .home-v2 .v2-hero h1{
@@ -785,23 +785,23 @@ dialog img{max-height:70vh;object-fit:contain;background:#031617}
   }
 
   .home-v2 .v2-hero .hero-desc{
-    max-width:600px;
+    max-width:610px;
     font-size:13px;
     line-height:1.74;
     margin-bottom:22px;
   }
 
   .home-v2 .v2-hero-visual{
-    width:100%;
-    max-width:410px;
-    height:410px;
+    width:330px;
+    height:360px;
     min-height:0;
     justify-self:end;
     align-self:center;
-    margin:0;
+    margin:0 10px 0 0;
     border:1px solid rgba(218,241,222,.18);
-    border-radius:16px;
+    border-radius:18px;
     overflow:hidden;
+    background:#082523;
     box-shadow:0 22px 55px rgba(0,0,0,.20);
   }
 
@@ -809,7 +809,7 @@ dialog img{max-height:70vh;object-fit:contain;background:#031617}
     width:100%;
     height:100%;
     object-fit:cover;
-    object-position:center 24%;
+    object-position:center 22%;
   }
 
   .home-v2 .v2-proof-row{
@@ -819,13 +819,14 @@ dialog img{max-height:70vh;object-fit:contain;background:#031617}
 
 @media (max-width:1050px) and (min-width:761px){
   .home-v2 .v2-hero-grid{
-    grid-template-columns:minmax(0,1fr) 360px;
-    gap:28px;
+    grid-template-columns:minmax(0,1fr) 300px;
+    gap:34px;
   }
 
   .home-v2 .v2-hero-visual{
-    max-width:360px;
-    height:390px;
+    width:300px;
+    height:340px;
+    margin-right:0;
   }
 
   .home-v2 .v2-hero h1{
@@ -844,13 +845,13 @@ dialog img{max-height:70vh;object-fit:contain;background:#031617}
   }
 
   .home-v2 .v2-hero-visual{
-    width:min(100%,420px);
-    height:350px;
+    width:min(84%,320px);
+    height:330px;
     min-height:0;
     justify-self:center;
     margin:0 auto 30px;
     border:1px solid rgba(218,241,222,.18);
-    border-radius:14px;
+    border-radius:16px;
     overflow:hidden;
   }
 
@@ -858,6 +859,6 @@ dialog img{max-height:70vh;object-fit:contain;background:#031617}
     width:100%;
     height:100%;
     object-fit:cover;
-    object-position:center 22%;
+    object-position:center 20%;
   }
 }
