@@ -1431,3 +1431,138 @@ dialog img{max-height:70vh;object-fit:contain;background:#031617}
   }
 }
 
+/* =========================================================
+   HERO V5 — SCALE UP PASS
+   Use available space, improve readability and presence
+   ========================================================= */
+@media (min-width:761px){
+  .hero-v5-panel{
+    min-height:398px;
+    grid-template-columns:minmax(0,1.36fr) minmax(320px,.64fr);
+  }
+
+  .hero-v5-copy{
+    padding:52px 54px 48px 46px;
+    transform:translateY(4px);
+  }
+
+  .hero-v5-topline{
+    margin-bottom:15px;
+    font-size:12px;
+    line-height:1.45;
+  }
+
+  .hero-v5-eyebrow{
+    margin-bottom:11px;
+    font-size:13px;
+    line-height:1.45;
+  }
+
+  .hero-v5 h1{
+    font-size:72px;
+    line-height:.86;
+    max-width:610px;
+  }
+
+  .hero-v5-role{
+    max-width:590px;
+    margin:20px 0 23px;
+    font-size:16.5px;
+    line-height:1.6;
+  }
+
+  .hero-v5-actions{
+    gap:12px;
+    margin-bottom:22px;
+  }
+
+  .hero-v5-actions .mint-button,
+  .hero-v5-actions .outline-button{
+    min-height:41px;
+    padding:11px 21px;
+    font-size:12.5px;
+  }
+
+  .hero-v5-meta{
+    max-width:590px;
+    padding-top:15px;
+    gap:9px;
+  }
+
+  .hero-v5-meta span{
+    font-size:12px;
+    line-height:1.5;
+  }
+
+  .hero-v5-visual{
+    min-height:398px;
+  }
+
+  .hero-v5-visual img{
+    object-position:center 18%;
+  }
+}
+
+@media (max-width:1050px) and (min-width:761px){
+  .hero-v5-panel{
+    min-height:382px;
+    grid-template-columns:minmax(0,1.28fr) 300px;
+  }
+
+  .hero-v5-copy{
+    padding:46px 36px 42px 36px;
+  }
+
+  .hero-v5 h1{
+    font-size:65px;
+  }
+
+  .hero-v5-topline{
+    font-size:11px;
+  }
+
+  .hero-v5-eyebrow{
+    font-size:12px;
+  }
+
+  .hero-v5-role{
+    font-size:15px;
+  }
+
+  .hero-v5-meta span{
+    font-size:11px;
+  }
+
+  .hero-v5-visual{
+    min-height:382px;
+  }
+}
+
+@media (max-width:760px){
+  .hero-v5 h1{
+    font-size:56px;
+  }
+
+  .hero-v5-topline{
+    font-size:10.5px;
+  }
+
+  .hero-v5-eyebrow{
+    font-size:11.5px;
+  }
+
+  .hero-v5-role{
+    font-size:14px;
+  }
+
+  .hero-v5-actions .mint-button,
+  .hero-v5-actions .outline-button{
+    min-height:40px;
+    font-size:11.5px;
+  }
+
+  .hero-v5-meta span{
+    font-size:10.5px;
+  }
+}
+
