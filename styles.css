@@ -1568,6 +1568,51 @@ dialog img{max-height:70vh;object-fit:contain;background:#031617}
 
 /* =========================================================
    HERO V5 — ACCENT COLOR PASS
+   True muted red accent
+   ========================================================= */
+:root{
+  --hero-accent:#C94A4A;
+  --hero-accent-dark:#A93636;
+}
+
+.hero-v5 h1 .hero-name-main{
+  color:#F2F8F4;
+}
+
+.hero-v5 h1 .hero-name-accent{
+  color:var(--hero-accent);
+}
+
+.hero-v5-role .hero-accent{
+  color:var(--hero-accent);
+  font-weight:700;
+}
+
+.hero-v5-meta strong{
+  color:var(--hero-accent);
+  font-weight:700;
+}
+
+.hero-v5-meta span:not(:last-child)::after{
+  background:var(--hero-accent);
+  opacity:.82;
+}
+
+.hero-v5-dot{
+  background:var(--hero-accent);
+  box-shadow:0 0 8px rgba(201,74,74,.34);
+}
+
+.hero-v5-actions .mint-button span{
+  color:var(--hero-accent-dark);
+}
+
+.hero-v5-actions .outline-button:hover{
+  border-color:rgba(201,74,74,.68);
+  color:#F5DADA;
+}
+
+
    Premium red accent
    ========================================================= */
 :root{
