@@ -1566,8 +1566,7 @@ dialog img{max-height:70vh;object-fit:contain;background:#031617}
   }
 }
 
-/* =========================================================
-   HERO V5 — ACCENT COLOR PASS
+
    Balanced true red accent
    ========================================================= */
 :root{
@@ -1900,5 +1899,55 @@ dialog img{max-height:70vh;object-fit:contain;background:#031617}
 .hero-v5-meta span:not(:last-child)::after{
   background:rgba(242,248,244,.45);
   opacity:1;
+}
+
+/* =========================================================
+   HERO V5 — FINAL ACCENT LOGIC
+   Red surname + green availability status + white supporting text
+   ========================================================= */
+:root{
+  --hero-red:#C1121F;
+  --hero-green:#A8C7B3;
+}
+
+.hero-v5 h1 .hero-name-main{
+  color:#F2F8F4;
+}
+
+.hero-v5 h1 .hero-name-accent{
+  color:var(--hero-red);
+}
+
+.hero-v5-topline{
+  color:#EAF2ED;
+}
+
+.hero-v5-dot{
+  background:var(--hero-green);
+  box-shadow:0 0 9px rgba(168,199,179,.45);
+}
+
+.hero-v5-role .hero-accent{
+  color:#F2F8F4;
+  font-weight:700;
+}
+
+.hero-v5-meta strong{
+  color:#F2F8F4;
+  font-weight:600;
+}
+
+.hero-v5-meta span:not(:last-child)::after{
+  background:rgba(242,248,244,.45);
+  opacity:1;
+}
+
+.hero-v5-actions .mint-button span{
+  color:#5D7A69;
+}
+
+.hero-v5-actions .outline-button:hover{
+  border-color:rgba(168,199,179,.62);
+  color:#F2F8F4;
 }
 
