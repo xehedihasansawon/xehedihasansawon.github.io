@@ -1069,3 +1069,141 @@ dialog img{max-height:70vh;object-fit:contain;background:#031617}
   }
 }
 
+/* =========================================================
+   HERO V5 — READABILITY PASS
+   Larger type, stronger contrast, reduced eye strain
+   ========================================================= */
+.hero-v5-topline{
+  font-size:9.8px;
+  line-height:1.4;
+  letter-spacing:.055em;
+  color:#d5e2da;
+}
+
+.hero-v5-eyebrow{
+  margin-bottom:10px;
+  font-size:10.5px;
+  line-height:1.4;
+  letter-spacing:.13em;
+  color:#9fc0ad;
+}
+
+.hero-v5 h1{
+  font-size:66px;
+  line-height:.86;
+  letter-spacing:.005em;
+  color:#f2f8f4;
+}
+
+.hero-v5-role{
+  max-width:575px;
+  margin:18px 0 22px;
+  font-size:16px;
+  line-height:1.48;
+  font-weight:600;
+  letter-spacing:0;
+  color:#edf4ef;
+}
+
+.hero-v5-role span{
+  margin-top:5px;
+  font-size:13.5px;
+  line-height:1.6;
+  font-weight:500;
+  color:#c7d6cd;
+}
+
+.hero-v5-actions{
+  gap:11px;
+  margin-bottom:20px;
+}
+
+.hero-v5-actions .mint-button,
+.hero-v5-actions .outline-button{
+  padding:10px 19px;
+  font-size:11px;
+  line-height:1.2;
+  letter-spacing:.015em;
+}
+
+.hero-v5-meta{
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:9px;
+  max-width:575px;
+  padding-top:13px;
+  border-top:1px solid rgba(218,241,222,.13);
+  color:#b9cbc0;
+}
+
+.hero-v5-meta span{
+  padding:0;
+  border:0;
+  border-radius:0;
+  background:none;
+  font-size:9.8px;
+  line-height:1.45;
+  font-weight:600;
+  letter-spacing:.035em;
+  text-transform:none;
+  color:#b9cbc0;
+}
+
+.hero-v5-meta i{
+  font-style:normal;
+  font-size:10px;
+  color:#7fa28e;
+}
+
+.home-v2 .v2-strip-inner{
+  font-size:8.8px;
+  letter-spacing:.045em;
+  color:rgba(228,239,232,.72);
+}
+
+@media (max-width:1050px){
+  .hero-v5 h1{
+    font-size:61px;
+  }
+
+  .hero-v5-role{
+    font-size:14.5px;
+  }
+
+  .hero-v5-role span{
+    font-size:12.5px;
+  }
+}
+
+@media (max-width:760px){
+  .hero-v5 h1{
+    font-size:54px;
+  }
+
+  .hero-v5-topline{
+    font-size:9px;
+  }
+
+  .hero-v5-eyebrow{
+    font-size:9.8px;
+  }
+
+  .hero-v5-role{
+    font-size:14px;
+  }
+
+  .hero-v5-role span{
+    font-size:12px;
+  }
+
+  .hero-v5-meta span{
+    font-size:9.2px;
+  }
+
+  .hero-v5-actions .mint-button,
+  .hero-v5-actions .outline-button{
+    font-size:10.5px;
+  }
+}
+
