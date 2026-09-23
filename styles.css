@@ -8383,3 +8383,18 @@ button.featured-case-media{
     display:block !important;
   }
 }
+
+
+/* CapCut exact logo from provided reference image */
+.home-v2 .about-me-frame .capcut-logo-image{
+  display:block;
+  width:28px;
+  height:auto;
+  object-fit:contain;
+  opacity:.96;
+}
+
+.home-v2 .about-me-frame .logo-cap{
+  display:grid !important;
+  place-items:center !important;
+}
