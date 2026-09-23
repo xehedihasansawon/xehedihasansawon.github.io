@@ -9911,3 +9911,30 @@ button.featured-case-media{
     font-size:8.6px;
   }
 }
+
+
+/* =========================================================
+   OFFICE APP LOGOS — EXACT PROVIDED ASSETS
+   ========================================================= */
+.home-v2 .office-logo{
+  overflow:hidden;
+  padding:0 !important;
+  background:transparent !important;
+  border-color:rgba(218,241,222,.12) !important;
+}
+
+.home-v2 .office-logo img{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+}
+
+.home-v2 .office-word img,
+.home-v2 .office-excel img{
+  padding:2px;
+}
+
+.home-v2 .office-powerpoint img{
+  border-radius:7px;
+}
