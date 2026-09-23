@@ -9938,3 +9938,223 @@ button.featured-case-media{
 .home-v2 .office-powerpoint img{
   border-radius:7px;
 }
+
+
+/* =========================================================
+   TOOLS & SKILLS — CLEAN PORTFOLIO REDESIGN
+   Minimal hierarchy, 4x2 tools grid, editorial skills list.
+   ========================================================= */
+.home-v2 .tools-skills-section{
+  padding:26px 0 48px !important;
+}
+
+.home-v2 .tools-skills-frame{
+  overflow:hidden !important;
+}
+
+.home-v2 .ts-simple-layout{
+  display:grid;
+  grid-template-columns:1.08fr .92fr;
+  min-height:0;
+}
+
+.home-v2 .ts-pane{
+  padding:24px 26px 26px;
+}
+
+.home-v2 .ts-tools-pane{
+  border-right:1px solid rgba(218,241,222,.10);
+}
+
+.home-v2 .ts-kicker{
+  margin:0 0 5px;
+  font-size:8px;
+  line-height:1;
+  font-weight:800;
+  letter-spacing:.17em;
+  text-transform:uppercase;
+  color:#8FA79A;
+}
+
+.home-v2 .ts-pane h3{
+  margin:0 0 17px;
+  font-family:"Bebas Neue",Impact,sans-serif;
+  font-size:30px;
+  line-height:1;
+  letter-spacing:.025em;
+  color:#F4F8F5;
+}
+
+/* Tools */
+.home-v2 .ts-tools-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:9px;
+}
+
+.home-v2 .ts-tool-card{
+  min-width:0;
+  min-height:102px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:flex-start;
+  gap:12px;
+  padding:14px 13px;
+  border:1px solid rgba(218,241,222,.10);
+  border-radius:11px;
+  background:rgba(3,27,27,.30);
+  transition:transform .2s ease,border-color .2s ease,background .2s ease;
+}
+
+.home-v2 .ts-tool-card:hover{
+  transform:translateY(-2px);
+  border-color:rgba(226,29,42,.27);
+  background:rgba(7,39,36,.58);
+}
+
+.home-v2 .ts-tool-card strong{
+  display:block;
+  max-width:100%;
+  font-size:10.6px;
+  line-height:1.2;
+  font-weight:650;
+  color:#EEF5F1;
+  white-space:normal;
+}
+
+.home-v2 .ts-tool-card .software-logo,
+.home-v2 .ts-tool-card .office-logo{
+  width:40px !important;
+  height:40px !important;
+  flex:0 0 40px !important;
+  display:grid !important;
+  place-items:center !important;
+  overflow:hidden;
+  border-radius:9px !important;
+}
+
+.home-v2 .ts-tool-card .office-logo{
+  padding:0 !important;
+  border:1px solid rgba(218,241,222,.12) !important;
+  background:transparent !important;
+}
+
+.home-v2 .ts-tool-card .office-logo img{
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+}
+
+.home-v2 .ts-tool-card .capcut-logo-image{
+  width:28px !important;
+  height:auto !important;
+}
+
+.home-v2 .ts-tool-card .vscode-logo-image{
+  width:29px !important;
+  height:29px !important;
+}
+
+/* Skills */
+.home-v2 .ts-skills-list{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  column-gap:24px;
+  border-top:1px solid rgba(218,241,222,.09);
+}
+
+.home-v2 .ts-skill-item{
+  display:grid;
+  grid-template-columns:29px minmax(0,1fr);
+  align-items:center;
+  gap:10px;
+  min-height:63px;
+  border-bottom:1px solid rgba(218,241,222,.085);
+  transition:padding-left .2s ease,color .2s ease;
+}
+
+.home-v2 .ts-skill-item:hover{
+  padding-left:5px;
+}
+
+.home-v2 .ts-skill-item span{
+  font-family:"Bebas Neue",Impact,sans-serif;
+  font-size:13px;
+  line-height:1;
+  letter-spacing:.08em;
+  color:#E21D2A;
+}
+
+.home-v2 .ts-skill-item strong{
+  font-family:"Bebas Neue",Impact,sans-serif;
+  font-size:20px;
+  line-height:1;
+  letter-spacing:.018em;
+  font-weight:400;
+  color:#EAF2ED;
+}
+
+.home-v2 .ts-skill-item:hover strong{
+  color:#FFFFFF;
+}
+
+@media (max-width:1180px) and (min-width:1051px){
+  .home-v2 .ts-tools-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+
+  .home-v2 .ts-tool-card{
+    min-height:82px;
+    flex-direction:row;
+    align-items:center;
+    justify-content:flex-start;
+  }
+}
+
+@media (max-width:1050px){
+  .home-v2 .ts-simple-layout{
+    grid-template-columns:1fr;
+  }
+
+  .home-v2 .ts-tools-pane{
+    border-right:0;
+    border-bottom:1px solid rgba(218,241,222,.10);
+  }
+
+  .home-v2 .ts-tools-grid{
+    grid-template-columns:repeat(4,minmax(0,1fr));
+  }
+}
+
+@media (max-width:760px){
+  .home-v2 .ts-pane{
+    padding:20px 18px 21px;
+  }
+
+  .home-v2 .ts-tools-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+
+  .home-v2 .ts-tool-card{
+    min-height:84px;
+    flex-direction:row;
+    align-items:center;
+    justify-content:flex-start;
+  }
+
+  .home-v2 .ts-skills-list{
+    grid-template-columns:1fr;
+  }
+
+  .home-v2 .ts-skill-item{
+    min-height:56px;
+  }
+}
+
+@media (max-width:430px){
+  .home-v2 .ts-tools-grid{
+    grid-template-columns:1fr;
+  }
+}
