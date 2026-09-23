@@ -8582,3 +8582,58 @@ button.featured-case-media{
     grid-template-columns:1fr 1fr !important;
   }
 }
+
+
+/* =========================================================
+   ABOUT ME — ADD VS CODE + MICROSOFT 365 NOTE
+   Keep creative tools primary and office tools secondary.
+   ========================================================= */
+.home-v2 .about-me-frame .software-card-vscode{
+  grid-column:1 / -1;
+}
+
+.home-v2 .about-me-frame .logo-vscode{
+  color:#23A9F2;
+  border-color:rgba(35,169,242,.42);
+  background:rgba(35,169,242,.055);
+  font-size:19px;
+  font-weight:700;
+}
+
+.home-v2 .about-me-frame .office-tools-note{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin:9px 0 0 !important;
+  padding:9px 10px;
+  border:1px solid rgba(218,241,222,.09);
+  border-radius:9px;
+  background:rgba(3,27,27,.30);
+}
+
+.home-v2 .about-me-frame .office-tools-note strong{
+  font-size:8.6px;
+  line-height:1.2;
+  font-weight:700;
+  color:#C9D6CF;
+}
+
+.home-v2 .about-me-frame .office-tools-note span{
+  font-size:8px;
+  line-height:1.2;
+  color:#91A89C;
+  white-space:nowrap;
+}
+
+@media (max-width:760px){
+  .home-v2 .about-me-frame .software-card-vscode{
+    grid-column:1 / -1;
+  }
+
+  .home-v2 .about-me-frame .office-tools-note{
+    align-items:flex-start;
+    flex-direction:column;
+    gap:4px;
+  }
+}
