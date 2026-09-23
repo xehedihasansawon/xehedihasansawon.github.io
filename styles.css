@@ -4057,3 +4057,137 @@ button.featured-case-media{
   }
 }
 
+/* =========================================================
+   REAL LIFE PROJECTS — IMAGE + READABILITY FIX
+   Outer size/layout remains locked
+   ========================================================= */
+@media (min-width:761px){
+  .real-project-split-card{
+    grid-template-columns:minmax(0,48%) minmax(0,52%) !important;
+  }
+
+  .real-project-thumb{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:6px;
+    background:
+      radial-gradient(circle at 50% 45%,rgba(20,58,52,.24),transparent 62%),
+      #061D1E;
+  }
+
+  .real-project-thumb::before,
+  .real-project-thumb::after{
+    display:none !important;
+  }
+
+  .real-project-thumb img{
+    width:100% !important;
+    height:100% !important;
+    object-fit:contain !important;
+    object-position:center !important;
+    border-radius:8px;
+    filter:saturate(1.03) contrast(1.02);
+  }
+
+  .real-project-details{
+    padding:15px 17px 14px !important;
+  }
+
+  .real-project-details small{
+    margin-bottom:7px !important;
+    font-size:9px !important;
+    line-height:1.25 !important;
+    letter-spacing:.07em !important;
+    color:#B7CAC0 !important;
+  }
+
+  .real-project-details strong{
+    margin-bottom:8px !important;
+    font-size:29px !important;
+    line-height:.96 !important;
+    color:#F6FAF7 !important;
+  }
+
+  .real-project-details p{
+    max-width:100% !important;
+    font-size:11px !important;
+    line-height:1.5 !important;
+    color:#D7E2DC !important;
+    opacity:.98 !important;
+  }
+
+  .real-project-details span{
+    margin-top:10px !important;
+    font-size:9.5px !important;
+    letter-spacing:.02em !important;
+    color:#F2F7F4 !important;
+  }
+}
+
+@media (max-width:1050px) and (min-width:761px){
+  .real-project-split-card{
+    grid-template-columns:minmax(0,46%) minmax(0,54%) !important;
+  }
+
+  .real-project-details{
+    padding:12px 13px !important;
+  }
+
+  .real-project-details small{
+    font-size:8px !important;
+  }
+
+  .real-project-details strong{
+    font-size:25px !important;
+  }
+
+  .real-project-details p{
+    font-size:9.5px !important;
+  }
+
+  .real-project-details span{
+    font-size:8.8px !important;
+  }
+}
+
+@media (max-width:760px){
+  .real-project-thumb{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:5px;
+    background:#061D1E;
+  }
+
+  .real-project-thumb::before,
+  .real-project-thumb::after{
+    display:none !important;
+  }
+
+  .real-project-thumb img{
+    width:100% !important;
+    height:100% !important;
+    object-fit:contain !important;
+    object-position:center !important;
+    border-radius:7px;
+  }
+
+  .real-project-details small{
+    font-size:7.8px !important;
+  }
+
+  .real-project-details strong{
+    font-size:23px !important;
+  }
+
+  .real-project-details p{
+    font-size:9.2px !important;
+    line-height:1.45 !important;
+  }
+
+  .real-project-details span{
+    font-size:8.6px !important;
+  }
+}
+
