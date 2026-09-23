@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=creative-services-revert-20260924-15">
+  <link rel="stylesheet" href="styles.css?v=service-workflow-popups-20260924-16">
   <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
 </head>
 <body class="home-v2">
@@ -185,12 +185,24 @@
 
           <div class="creative-services-content">
             <div class="v2-service-grid">
-              <article><span>01</span><h3>Brand Identity</h3><p>Logo systems, visual direction and consistent brand assets.</p></article>
-              <article><span>02</span><h3>Social & Marketing Design</h3><p>Campaign posts, ads and promotional social media visuals.</p></article>
-              <article><span>03</span><h3>Sports & Jersey Design</h3><p>Team identity, match graphics and apparel concepts.</p></article>
-              <article><span>04</span><h3>Video & Motion Content</h3><p>Short-form edits, reels and promotional motion content.</p></article>
-              <article><span>05</span><h3>Digital Marketing Support</h3><p>Campaign support, social sales flow and customer handling.</p></article>
-              <article><span>06</span><h3>Business Workflow Design</h3><p>Clear digital flows for inventory, orders and reporting.</p></article>
+              <button type="button" class="service-detail-card" data-service="brand">
+                <span>01</span><h3>Brand Identity</h3><p>Logo systems, visual direction and consistent brand assets.</p>
+              </button>
+              <button type="button" class="service-detail-card" data-service="social">
+                <span>02</span><h3>Social & Marketing Design</h3><p>Campaign posts, ads and promotional social media visuals.</p>
+              </button>
+              <button type="button" class="service-detail-card" data-service="sports">
+                <span>03</span><h3>Sports & Jersey Design</h3><p>Team identity, match graphics and apparel concepts.</p>
+              </button>
+              <button type="button" class="service-detail-card" data-service="video">
+                <span>04</span><h3>Video & Motion Content</h3><p>Short-form edits, reels and promotional motion content.</p>
+              </button>
+              <button type="button" class="service-detail-card" data-service="marketing">
+                <span>05</span><h3>Digital Marketing Support</h3><p>Campaign support, social sales flow and customer handling.</p>
+              </button>
+              <button type="button" class="service-detail-card" data-service="workflow">
+                <span>06</span><h3>Business Workflow Design</h3><p>Clear digital flows for inventory, orders and reporting.</p>
+              </button>
             </div>
           </div>
         </div>
@@ -297,12 +309,47 @@
     </div>
   </footer>
 
+  <dialog id="serviceDialog" class="service-dialog">
+    <button class="dialog-close" id="serviceDialogClose" aria-label="Close service details">×</button>
+    <div class="service-dialog-content">
+      <p class="service-dialog-eyebrow">Service workflow</p>
+      <h2 id="serviceDialogTitle"></h2>
+      <p class="service-dialog-summary" id="serviceDialogSummary"></p>
+
+      <div class="service-dialog-layout">
+        <section class="service-dialog-workflow">
+          <h3>How I work</h3>
+          <ol id="serviceDialogWorkflow"></ol>
+        </section>
+
+        <aside class="service-dialog-side">
+          <div>
+            <h3>Deliverables</h3>
+            <ul id="serviceDialogDeliverables"></ul>
+          </div>
+          <div>
+            <h3>Tools & process</h3>
+            <ul id="serviceDialogTools"></ul>
+          </div>
+          <div>
+            <h3>What I need from you</h3>
+            <ul id="serviceDialogNeeds"></ul>
+          </div>
+          <div>
+            <h3>Final handoff</h3>
+            <p id="serviceDialogHandoff"></p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </dialog>
+
   <dialog id="projectDialog">
     <button class="dialog-close" id="dialogClose" aria-label="Close project">×</button>
     <img id="dialogImage" src="" alt="">
     <div class="dialog-content"><h2 id="dialogTitle"></h2><p id="dialogMeta"></p></div>
   </dialog>
 
-  <script src="script.js?v=phase02-v2-20260923-1"></script>
+  <script src="script.js?v=service-workflow-popups-20260924-2"></script>
 </body>
 </html>
