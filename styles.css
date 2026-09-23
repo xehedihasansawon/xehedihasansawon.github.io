@@ -8398,3 +8398,187 @@ button.featured-case-media{
   display:grid !important;
   place-items:center !important;
 }
+
+
+/* =========================================================
+   ABOUT ME — CARD-BASED REDESIGN
+   Replace flat split layout with two intentional inner panels.
+   ========================================================= */
+@media (min-width:1051px){
+  .home-v2 .about-me-content{
+    display:grid !important;
+    grid-template-columns:minmax(0,1.28fr) minmax(390px,.92fr) !important;
+    gap:12px !important;
+    padding:12px 14px 14px !important;
+    align-items:stretch !important;
+  }
+
+  .home-v2 .about-me-frame .about-story-panel,
+  .home-v2 .about-me-frame .about-toolkit-panel{
+    border:1px solid rgba(218,241,222,.105) !important;
+    border-radius:14px !important;
+    overflow:hidden;
+  }
+
+  .home-v2 .about-me-frame .about-story-panel{
+    padding:27px 30px 28px !important;
+    border-right:1px solid rgba(218,241,222,.105) !important;
+    background:
+      radial-gradient(circle at 0% 100%,rgba(142,182,155,.055),transparent 36%),
+      linear-gradient(145deg,rgba(8,39,36,.48),rgba(5,31,32,.73)) !important;
+    justify-content:center !important;
+  }
+
+  .home-v2 .about-me-frame .about-story-panel h2{
+    max-width:650px !important;
+    margin:0 0 17px !important;
+    font-size:47px !important;
+    line-height:.94 !important;
+  }
+
+  .home-v2 .about-me-frame .about-story-panel>p{
+    max-width:700px !important;
+    margin-bottom:10px !important;
+    font-size:13.1px !important;
+    line-height:1.68 !important;
+    color:#C5D2CB !important;
+  }
+
+  .home-v2 .about-me-frame .about-story-panel .v2-about-meta{
+    width:min(100%,620px) !important;
+    grid-template-columns:.82fr 1.35fr !important;
+    gap:9px !important;
+    margin-top:17px !important;
+  }
+
+  .home-v2 .about-me-frame .about-story-panel .v2-about-meta div{
+    min-height:54px;
+    padding:10px 12px !important;
+    border:1px solid rgba(218,241,222,.11) !important;
+    border-radius:9px !important;
+    background:rgba(3,25,25,.38) !important;
+  }
+
+  .home-v2 .about-me-frame .about-toolkit-panel{
+    padding:22px 22px 22px !important;
+    gap:13px !important;
+    background:
+      radial-gradient(circle at 100% 0%,rgba(226,29,42,.035),transparent 28%),
+      linear-gradient(145deg,rgba(6,34,33,.56),rgba(4,27,28,.82)) !important;
+    justify-content:flex-start !important;
+  }
+
+  .home-v2 .about-me-frame .about-toolkit-panel .v2-eyebrow{
+    margin:0 0 1px !important;
+    font-size:8px !important;
+    letter-spacing:.18em !important;
+    color:#93AA9E !important;
+  }
+
+  .home-v2 .about-me-frame .tool-section h3,
+  .home-v2 .about-me-frame .skill-section h3{
+    margin:0 0 10px !important;
+    font-size:29px !important;
+    line-height:1 !important;
+  }
+
+  .home-v2 .about-me-frame .software-grid{
+    gap:8px !important;
+  }
+
+  .home-v2 .about-me-frame .software-card{
+    min-height:60px !important;
+    padding:9px 10px !important;
+    gap:10px !important;
+    border:1px solid rgba(218,241,222,.11) !important;
+    border-radius:10px !important;
+    background:rgba(3,27,27,.45) !important;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.018);
+  }
+
+  .home-v2 .about-me-frame .software-card:hover{
+    border-color:rgba(226,29,42,.28) !important;
+    background:rgba(7,39,36,.68) !important;
+  }
+
+  .home-v2 .about-me-frame .software-logo{
+    flex-basis:37px !important;
+    width:37px !important;
+    height:37px !important;
+  }
+
+  .home-v2 .about-me-frame .software-card strong{
+    font-size:11px !important;
+  }
+
+  .home-v2 .about-me-frame .skill-section{
+    margin-top:0 !important;
+    padding-top:12px !important;
+    border-top:1px solid rgba(218,241,222,.09) !important;
+  }
+
+  .home-v2 .about-me-frame .skill-tags{
+    grid-template-columns:1fr 1fr !important;
+    gap:7px !important;
+  }
+
+  .home-v2 .about-me-frame .skill-tags span{
+    min-height:31px !important;
+    justify-content:flex-start !important;
+    padding:8px 10px !important;
+    font-size:9.3px !important;
+    text-align:left !important;
+    border-radius:8px !important;
+    background:rgba(3,27,27,.40) !important;
+  }
+
+  .home-v2 .about-me-frame .skill-tags span::before{
+    display:block !important;
+    content:"";
+    width:4px;
+    height:4px;
+    flex:0 0 4px;
+    margin-right:7px;
+    border-radius:50%;
+    background:#8EB69B;
+    opacity:.78;
+  }
+}
+
+@media (max-width:1050px) and (min-width:761px){
+  .home-v2 .about-me-content{
+    padding:11px 12px 13px !important;
+    gap:11px !important;
+  }
+
+  .home-v2 .about-me-frame .about-story-panel,
+  .home-v2 .about-me-frame .about-toolkit-panel{
+    border:1px solid rgba(218,241,222,.105) !important;
+    border-radius:13px !important;
+  }
+
+  .home-v2 .about-me-frame .about-story-panel{
+    border-bottom:1px solid rgba(218,241,222,.105) !important;
+  }
+}
+
+@media (max-width:760px){
+  .home-v2 .about-me-content{
+    padding:10px 10px 11px !important;
+    gap:10px !important;
+  }
+
+  .home-v2 .about-me-frame .about-story-panel,
+  .home-v2 .about-me-frame .about-toolkit-panel{
+    border:1px solid rgba(218,241,222,.105) !important;
+    border-radius:12px !important;
+  }
+
+  .home-v2 .about-me-frame .about-story-panel{
+    border-bottom:1px solid rgba(218,241,222,.105) !important;
+  }
+
+  .home-v2 .about-me-frame .skill-tags{
+    grid-template-columns:1fr 1fr !important;
+  }
+}
