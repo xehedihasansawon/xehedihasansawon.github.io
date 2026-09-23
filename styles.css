@@ -3853,3 +3853,207 @@ button.featured-case-media{
   }
 }
 
+/* =========================================================
+   REAL LIFE PROJECTS — FINAL INTERNAL POLISH
+   Size/layout locked. Visual finish only.
+   ========================================================= */
+.real-projects-panel.real-projects-panel-split{
+  box-shadow:
+    0 22px 55px rgba(0,0,0,.14),
+    inset 0 1px 0 rgba(255,255,255,.03);
+}
+
+.real-projects-panel-split .real-projects-head{
+  align-items:end;
+}
+
+.real-projects-panel-split .v2-eyebrow{
+  margin-bottom:6px;
+  color:#C3D0C9;
+  letter-spacing:.22em;
+}
+
+.real-projects-panel-split .real-projects-head h2{
+  font-size:42px;
+  line-height:.92;
+  letter-spacing:.02em;
+  color:#F3F8F5;
+}
+
+.real-projects-panel-split .real-projects-head h2 span{
+  color:#C1121F;
+}
+
+.real-projects-panel-split .real-projects-head>p{
+  max-width:350px;
+  color:#D0DBD5;
+  opacity:.92;
+  font-size:11px;
+  line-height:1.65;
+}
+
+.real-projects-split-grid{
+  gap:12px;
+}
+
+.real-project-split-card{
+  border:1px solid rgba(218,241,222,.12);
+  border-radius:15px;
+  background:
+    linear-gradient(115deg,rgba(7,30,28,.96),rgba(4,23,24,.98));
+  box-shadow:
+    0 10px 24px rgba(0,0,0,.08),
+    inset 0 1px 0 rgba(255,255,255,.02);
+  transition:
+    border-color .22s cubic-bezier(.2,.8,.2,1),
+    transform .22s cubic-bezier(.2,.8,.2,1),
+    box-shadow .22s cubic-bezier(.2,.8,.2,1),
+    background .22s ease;
+}
+
+.real-project-thumb{
+  position:relative;
+  border-right:1px solid rgba(255,255,255,.03);
+}
+
+.real-project-thumb::before{
+  content:"";
+  position:absolute;
+  z-index:1;
+  inset:0;
+  pointer-events:none;
+  background:
+    linear-gradient(180deg,rgba(2,14,15,.08) 0%,rgba(2,14,15,.22) 100%);
+}
+
+.real-project-thumb::after{
+  content:"";
+  position:absolute;
+  z-index:2;
+  inset:0;
+  pointer-events:none;
+  background:
+    linear-gradient(90deg,rgba(2,14,15,.02) 0%,rgba(2,14,15,0) 58%,rgba(2,14,15,.42) 100%);
+}
+
+.real-project-thumb img{
+  filter:saturate(1.02) contrast(1.02);
+}
+
+.real-project-details{
+  justify-content:center;
+  padding:14px 16px 13px;
+}
+
+.real-project-details small{
+  margin-bottom:7px;
+  font-size:8px;
+  line-height:1.2;
+  letter-spacing:.09em;
+  color:#9CB2A7;
+}
+
+.real-project-details strong{
+  margin-bottom:8px;
+  font-size:27px;
+  line-height:.95;
+  letter-spacing:.02em;
+  color:#F4FAF6;
+}
+
+.real-project-details p{
+  max-width:95%;
+  margin:0;
+  display:-webkit-box;
+  -webkit-box-orient:vertical;
+  -webkit-line-clamp:2;
+  overflow:hidden;
+  font-size:10px;
+  line-height:1.55;
+  color:#D4DFD9;
+  opacity:.93;
+}
+
+.real-project-details span{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  width:max-content;
+  margin-top:10px;
+  font-size:8.5px;
+  line-height:1;
+  font-weight:800;
+  letter-spacing:.03em;
+  color:#F0F5F2;
+  opacity:.95;
+  transition:
+    color .22s ease,
+    transform .22s ease,
+    opacity .22s ease;
+}
+
+.real-project-details span::after{
+  content:"↗";
+  font-size:10px;
+  line-height:1;
+  color:#C1121F;
+}
+
+@media (hover:hover){
+  .real-project-split-card:hover{
+    border-color:#B61E24;
+    transform:translateY(-2px);
+    box-shadow:
+      0 14px 28px rgba(0,0,0,.14),
+      0 0 0 1px rgba(182,30,36,.03);
+  }
+
+  .real-project-split-card:hover .real-project-thumb img{
+    transform:scale(1.035);
+    filter:saturate(1.06) brightness(1.03);
+  }
+
+  .real-project-split-card:hover .real-project-details span{
+    color:#FFF;
+    opacity:1;
+    transform:translateX(2px);
+  }
+}
+
+@media (max-width:1050px) and (min-width:761px){
+  .real-projects-panel-split .real-projects-head h2{
+    font-size:38px;
+  }
+
+  .real-project-details{
+    padding:12px 13px;
+  }
+
+  .real-project-details strong{
+    font-size:24px;
+  }
+
+  .real-project-details p{
+    font-size:9px;
+  }
+}
+
+@media (max-width:760px){
+  .real-projects-panel-split .real-projects-head h2{
+    font-size:34px;
+  }
+
+  .real-projects-panel-split .real-projects-head>p{
+    font-size:10px;
+  }
+
+  .real-project-details strong{
+    font-size:23px;
+  }
+
+  .real-project-details p{
+    max-width:100%;
+    font-size:9px;
+  }
+}
+
