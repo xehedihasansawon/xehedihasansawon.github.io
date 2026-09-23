@@ -4910,3 +4910,55 @@ button.featured-case-media{
     line-height:1.5;
   }
 }
+
+
+/* =========================================================
+   REAL LIFE PROJECTS — BOXED STACKED SECTION HEADER
+   Keep existing typography sizes; stack eyebrow/title/intro vertically.
+   Project cards/layout remain locked.
+   ========================================================= */
+.section-heading-real-projects{
+  display:block !important;
+  width:100%;
+  margin:0 0 17px !important;
+  padding:18px 22px 17px !important;
+  border:1px solid rgba(218,241,222,.14);
+  border-radius:16px;
+  background:
+    linear-gradient(110deg,rgba(11,43,38,.44),rgba(5,31,32,.72));
+  box-shadow:
+    0 14px 32px rgba(0,0,0,.10),
+    inset 0 1px 0 rgba(255,255,255,.022);
+}
+
+.section-heading-real-projects .v2-eyebrow{
+  display:block !important;
+  margin:0 0 5px !important;
+}
+
+.section-heading-real-projects h2{
+  display:block !important;
+  margin:0 !important;
+}
+
+.section-heading-real-projects .section-heading-intro{
+  display:block !important;
+  max-width:620px !important;
+  margin:8px 0 0 !important;
+  justify-self:auto !important;
+}
+
+@media (max-width:1050px) and (min-width:761px){
+  .section-heading-real-projects{
+    padding:16px 19px 15px !important;
+    margin-bottom:15px !important;
+  }
+}
+
+@media (max-width:760px){
+  .section-heading-real-projects{
+    padding:15px 16px 14px !important;
+    margin-bottom:14px !important;
+    border-radius:14px;
+  }
+}
