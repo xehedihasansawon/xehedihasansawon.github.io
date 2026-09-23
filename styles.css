@@ -4349,3 +4349,108 @@ button.featured-case-media{
   }
 }
 
+/* =========================================================
+   REAL LIFE PROJECTS — FINAL MICRO POLISH
+   Layout/section sizing locked
+   ========================================================= */
+@media (min-width:1051px){
+  .real-projects-panel-split .real-projects-head>p{
+    max-width:350px !important;
+    font-size:10.5px !important;
+    line-height:1.48 !important;
+    color:#C9D7CF !important;
+    opacity:1 !important;
+  }
+
+  .real-project-details strong{
+    margin-bottom:10px !important;
+  }
+
+  .real-project-details p{
+    margin:0 !important;
+    line-height:1.58 !important;
+  }
+
+  .real-project-details span{
+    display:inline-flex !important;
+    align-items:center !important;
+    gap:5px !important;
+    margin-top:12px !important;
+    font-size:10.5px !important;
+    font-weight:800 !important;
+    line-height:1 !important;
+    letter-spacing:.01em !important;
+  }
+
+  .real-project-details span::after{
+    content:"↗";
+    display:inline-block;
+    color:#ff2b2b;
+    font-size:11px;
+    line-height:1;
+    transform:translateY(-1px);
+  }
+
+  .real-project-details span .real-project-arrow,
+  .real-project-details span i,
+  .real-project-details span b{
+    display:none !important;
+  }
+}
+
+@media (max-width:1050px) and (min-width:761px){
+  .real-projects-panel-split .real-projects-head>p{
+    font-size:9.5px !important;
+    line-height:1.45 !important;
+    color:#C7D4CD !important;
+  }
+
+  .real-project-details strong{
+    margin-bottom:8px !important;
+  }
+
+  .real-project-details p{
+    line-height:1.52 !important;
+  }
+
+  .real-project-details span{
+    display:inline-flex !important;
+    align-items:center !important;
+    gap:4px !important;
+    margin-top:10px !important;
+    font-weight:800 !important;
+  }
+
+  .real-project-details span::after{
+    content:"↗";
+    color:#ff2b2b;
+    font-size:10px;
+    transform:translateY(-1px);
+  }
+}
+
+@media (max-width:760px){
+  .real-projects-panel-split .real-projects-head>p{
+    color:#C7D4CD !important;
+    line-height:1.45 !important;
+  }
+
+  .real-project-details p{
+    line-height:1.5 !important;
+  }
+
+  .real-project-details span{
+    display:inline-flex !important;
+    align-items:center !important;
+    gap:4px !important;
+    font-weight:800 !important;
+  }
+
+  .real-project-details span::after{
+    content:"↗";
+    color:#ff2b2b;
+    font-size:9px;
+    transform:translateY(-1px);
+  }
+}
+
