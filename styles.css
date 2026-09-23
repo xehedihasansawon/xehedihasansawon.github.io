@@ -5278,3 +5278,120 @@ button.featured-case-media{
 .home-v2 .featured-cases-section .section-heading-real-projects{
   padding-bottom:8px !important;
 }
+
+
+/* =========================================================
+   DESIGN SHOWCASE — MATCH LOCKED REAL LIFE PROJECTS STYLE
+   Same outer frame, compact heading, divider and visual rhythm.
+   ========================================================= */
+.home-v2 .design-showcase-section{
+  padding:26px 0 48px !important;
+}
+
+.home-v2 .design-showcase-frame{
+  width:100%;
+  overflow:hidden;
+  border:1px solid rgba(218,241,222,.14);
+  border-radius:20px;
+  background:
+    linear-gradient(110deg,rgba(11,43,38,.34) 0%,rgba(5,31,32,.66) 52%,rgba(5,31,32,.32) 100%);
+  box-shadow:
+    0 20px 48px rgba(0,0,0,.12),
+    inset 0 1px 0 rgba(255,255,255,.02);
+}
+
+.home-v2 .portfolio-section-heading{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  padding:8px 18px 9px;
+  border-bottom:1px solid rgba(218,241,222,.10);
+}
+
+.home-v2 .portfolio-section-heading .v2-eyebrow{
+  margin:0 0 1px;
+  font-size:8px;
+  line-height:1.2;
+  font-weight:700;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:#BFD0C7;
+}
+
+.home-v2 .portfolio-section-heading h2{
+  margin:0;
+  font-family:"Bebas Neue",Impact,sans-serif;
+  font-size:46px;
+  line-height:.9;
+  letter-spacing:.018em;
+  text-transform:uppercase;
+  color:#F4F8F5;
+}
+
+.home-v2 .portfolio-section-heading h2 span{
+  color:#E21D2A;
+}
+
+.home-v2 .design-showcase-content{
+  padding:12px 20px 20px;
+}
+
+.home-v2 .design-showcase-frame .v2-gallery{
+  gap:10px;
+}
+
+.home-v2 .design-showcase-frame .v2-gallery .project-open{
+  border-color:rgba(218,241,222,.12);
+  border-radius:13px;
+  background:#071F20;
+}
+
+@media (max-width:1050px) and (min-width:761px){
+  .home-v2 .design-showcase-section{
+    padding:24px 0 44px !important;
+  }
+
+  .home-v2 .portfolio-section-heading{
+    padding:8px 16px 9px;
+  }
+
+  .home-v2 .portfolio-section-heading h2{
+    font-size:42px;
+  }
+
+  .home-v2 .design-showcase-content{
+    padding:11px 17px 17px;
+  }
+}
+
+@media (max-width:760px){
+  .home-v2 .design-showcase-section{
+    padding:22px 0 38px !important;
+  }
+
+  .home-v2 .design-showcase-frame{
+    border-radius:16px;
+  }
+
+  .home-v2 .portfolio-section-heading{
+    padding:9px 14px 10px;
+  }
+
+  .home-v2 .portfolio-section-heading h2{
+    font-size:36px;
+  }
+
+  .home-v2 .design-showcase-content{
+    padding:10px 12px 12px;
+  }
+
+  .home-v2 .design-showcase-frame .v2-gallery{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+
+@media (max-width:480px){
+  .home-v2 .design-showcase-frame .v2-gallery{
+    grid-template-columns:1fr;
+  }
+}
