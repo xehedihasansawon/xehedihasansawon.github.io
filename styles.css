@@ -4284,68 +4284,68 @@ button.featured-case-media{
    ========================================================= */
 @media (min-width:1051px){
   .real-project-details small{
-    font-size:10px !important;
-    line-height:1.3 !important;
-    letter-spacing:.075em !important;
-    color:#C2D2C9 !important;
+    font-size:11.5px !important;
+    line-height:1.35 !important;
+    letter-spacing:.07em !important;
+    color:#D0DDD6 !important;
   }
 
   .real-project-details strong{
-    font-size:31px !important;
+    font-size:34px !important;
     line-height:.98 !important;
-    margin-bottom:9px !important;
+    margin-bottom:10px !important;
   }
 
   .real-project-details p{
-    font-size:12px !important;
-    line-height:1.55 !important;
-    color:#DCE6E0 !important;
+    font-size:13.5px !important;
+    line-height:1.6 !important;
+    color:#E2EBE6 !important;
   }
 
   .real-project-details span{
-    font-size:10.5px !important;
+    font-size:12px !important;
     line-height:1.1 !important;
     font-weight:800 !important;
-    margin-top:11px !important;
+    margin-top:12px !important;
   }
 }
 
 @media (max-width:1050px) and (min-width:761px){
   .real-project-details small{
-    font-size:9px !important;
-    line-height:1.25 !important;
+    font-size:10.5px !important;
+    line-height:1.3 !important;
   }
 
   .real-project-details strong{
-    font-size:27px !important;
+    font-size:30px !important;
   }
 
   .real-project-details p{
-    font-size:10.5px !important;
-    line-height:1.5 !important;
+    font-size:12px !important;
+    line-height:1.55 !important;
   }
 
   .real-project-details span{
-    font-size:9.4px !important;
+    font-size:10.5px !important;
   }
 }
 
 @media (max-width:760px){
   .real-project-details small{
-    font-size:8.4px !important;
+    font-size:9.4px !important;
   }
 
   .real-project-details strong{
-    font-size:24px !important;
+    font-size:26px !important;
   }
 
   .real-project-details p{
-    font-size:9.8px !important;
-    line-height:1.48 !important;
+    font-size:10.8px !important;
+    line-height:1.52 !important;
   }
 
   .real-project-details span{
-    font-size:9px !important;
+    font-size:9.8px !important;
   }
 }
 
