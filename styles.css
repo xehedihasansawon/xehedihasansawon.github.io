@@ -8010,3 +8010,64 @@ button.featured-case-media{
     border-radius:8px !important;
   }
 }
+
+
+/* =========================================================
+   ABOUT ME — REMOVE DUPLICATE PHOTO / TWO-COLUMN LAYOUT
+   Hero already carries the portrait, so About focuses on content.
+   ========================================================= */
+@media (min-width:1051px){
+  .home-v2 .about-me-content{
+    grid-template-columns:1.45fr .95fr !important;
+    min-height:0 !important;
+  }
+
+  .home-v2 .about-me-frame .v2-about-copy{
+    padding:30px 34px !important;
+    border-right:1px solid rgba(218,241,222,.10) !important;
+  }
+
+  .home-v2 .about-me-frame .v2-skills{
+    padding:26px 26px 25px !important;
+  }
+
+  .home-v2 .about-me-frame .v2-about-copy h2{
+    max-width:620px;
+    font-size:48px !important;
+  }
+
+  .home-v2 .about-me-frame .v2-about-copy>p{
+    max-width:680px !important;
+    font-size:12.8px !important;
+  }
+
+  .home-v2 .about-me-frame .v2-about-meta{
+    max-width:610px;
+  }
+}
+
+@media (max-width:1050px) and (min-width:761px){
+  .home-v2 .about-me-content{
+    grid-template-columns:1fr !important;
+  }
+
+  .home-v2 .about-me-frame .v2-about-copy{
+    border-right:0 !important;
+    border-bottom:1px solid rgba(218,241,222,.10) !important;
+  }
+
+  .home-v2 .about-me-frame .v2-skills{
+    grid-column:auto !important;
+  }
+}
+
+@media (max-width:760px){
+  .home-v2 .about-me-content{
+    grid-template-columns:1fr !important;
+  }
+
+  .home-v2 .about-me-frame .v2-about-copy{
+    border-right:0 !important;
+    border-bottom:1px solid rgba(218,241,222,.10) !important;
+  }
+}
