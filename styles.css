@@ -4261,3 +4261,20 @@ button.featured-case-media{
   }
 }
 
+/* =========================================================
+   REAL LIFE PROJECTS — 1400x1000 COVER FIT
+   New covers match card media ratio, so fill the frame.
+   ========================================================= */
+.real-project-thumb{
+  padding:0 !important;
+  background:#061D1E !important;
+}
+
+.real-project-thumb img{
+  width:100% !important;
+  height:100% !important;
+  object-fit:cover !important;
+  object-position:center !important;
+  border-radius:0 !important;
+}
+
