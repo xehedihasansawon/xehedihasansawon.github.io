@@ -3778,3 +3778,60 @@ button.featured-case-media{
   }
 }
 
+/* =========================================================
+   REAL LIFE PROJECTS — MATCH HERO ACTUAL VISUAL HEIGHT
+   Hero min-height is 398px, but its content renders taller.
+   Match that final visual footprint without touching hero.
+   ========================================================= */
+@media (min-width:1051px){
+  .real-projects-panel.real-projects-panel-split{
+    min-height:480px !important;
+    height:480px !important;
+    padding:22px !important;
+    gap:16px !important;
+  }
+
+  .real-projects-panel-split .real-projects-head{
+    min-height:64px;
+  }
+
+  .real-projects-split-grid{
+    gap:12px;
+  }
+
+  .real-project-split-card{
+    grid-template-columns:minmax(0,47%) minmax(0,53%);
+  }
+
+  .real-project-details{
+    padding:14px 16px 13px;
+  }
+
+  .real-project-details small{
+    margin-bottom:6px;
+    font-size:7.8px;
+  }
+
+  .real-project-details strong{
+    margin-bottom:7px;
+    font-size:25px;
+  }
+
+  .real-project-details p{
+    font-size:9.5px;
+    line-height:1.5;
+  }
+
+  .real-project-details span{
+    margin-top:9px;
+    font-size:8.4px;
+  }
+}
+
+@media (max-width:1050px) and (min-width:761px){
+  .real-projects-panel.real-projects-panel-split{
+    min-height:438px !important;
+    height:438px !important;
+  }
+}
+
