@@ -7605,3 +7605,82 @@ button.featured-case-media{
     font-size:9.4px !important;
   }
 }
+
+
+/* =========================================================
+   ABOUT ME — BALANCE SKILLS PANEL + REDUCE EMPTY SPACE
+   Compact grouped skills layout on desktop.
+   ========================================================= */
+@media (min-width:1051px){
+  .home-v2 .about-me-content{
+    grid-template-columns:.92fr 1.34fr .84fr !important;
+    min-height:340px !important;
+  }
+
+  .home-v2 .about-me-frame .v2-about-image{
+    min-height:340px !important;
+  }
+
+  .home-v2 .about-me-frame .v2-about-copy{
+    padding:26px 30px !important;
+  }
+
+  .home-v2 .about-me-frame .v2-skills{
+    padding:24px 24px !important;
+  }
+
+  .home-v2 .about-me-frame .v2-skills h3{
+    margin-bottom:15px !important;
+  }
+
+  .home-v2 .about-me-frame .skills-groups{
+    grid-template-columns:1fr 1fr !important;
+    gap:10px !important;
+  }
+
+  .home-v2 .about-me-frame .skills-group{
+    padding:10px 11px 11px !important;
+    border-radius:9px !important;
+  }
+
+  .home-v2 .about-me-frame .skills-group:nth-child(3){
+    grid-column:1 / -1;
+  }
+
+  .home-v2 .about-me-frame .skills-group-label{
+    margin-bottom:7px !important;
+  }
+
+  .home-v2 .about-me-frame .skills-group .v2-skill-list{
+    gap:6px !important;
+  }
+
+  .home-v2 .about-me-frame .skills-group .v2-skill-list span{
+    padding:7px 9px !important;
+    font-size:9.3px !important;
+  }
+
+  .home-v2 .about-me-frame .v2-about-meta{
+    margin-top:18px !important;
+  }
+}
+
+@media (max-width:1050px) and (min-width:761px){
+  .home-v2 .about-me-frame .skills-groups{
+    grid-template-columns:1fr 1fr !important;
+  }
+
+  .home-v2 .about-me-frame .skills-group:nth-child(3){
+    grid-column:1 / -1;
+  }
+}
+
+@media (max-width:760px){
+  .home-v2 .about-me-frame .skills-groups{
+    grid-template-columns:1fr !important;
+  }
+
+  .home-v2 .about-me-frame .skills-group:nth-child(3){
+    grid-column:auto;
+  }
+}
