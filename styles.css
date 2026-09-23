@@ -9456,3 +9456,80 @@ button.featured-case-media{
     grid-template-columns:1fr;
   }
 }
+
+
+/* =========================================================
+   TOOLS — WORD / EXCEL / POWERPOINT AS INDIVIDUAL APPS
+   Remove generic Microsoft 365 note.
+   ========================================================= */
+.home-v2 .office-apps-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:8px;
+  margin-top:12px;
+}
+
+.home-v2 .office-app{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  min-height:55px;
+  padding:9px 10px;
+  border:1px solid rgba(218,241,222,.09);
+  border-radius:9px;
+  background:rgba(3,27,27,.30);
+}
+
+.home-v2 .office-logo{
+  flex:0 0 34px;
+  width:34px;
+  height:34px;
+  display:grid;
+  place-items:center;
+  border-radius:8px;
+  font-family:Inter,Arial,sans-serif;
+  font-size:14px;
+  font-weight:800;
+  line-height:1;
+}
+
+.home-v2 .office-word{
+  color:#4A86E8;
+  border:1px solid rgba(74,134,232,.42);
+  background:rgba(74,134,232,.07);
+}
+
+.home-v2 .office-excel{
+  color:#21A366;
+  border:1px solid rgba(33,163,102,.42);
+  background:rgba(33,163,102,.07);
+}
+
+.home-v2 .office-powerpoint{
+  color:#D35230;
+  border:1px solid rgba(211,82,48,.42);
+  background:rgba(211,82,48,.07);
+}
+
+.home-v2 .office-app strong{
+  display:block;
+  margin-bottom:3px;
+  font-size:10px;
+  line-height:1.1;
+  color:#EEF5F1;
+}
+
+.home-v2 .office-app small{
+  display:block;
+  font-size:7.3px;
+  line-height:1.2;
+  color:#8FA79A;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+}
+
+@media (max-width:760px){
+  .home-v2 .office-apps-grid{
+    grid-template-columns:1fr;
+  }
+}
