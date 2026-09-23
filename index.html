@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=ai-digital-premium-polish-20260924-28">
+  <link rel="stylesheet" href="styles.css?v=ai-digital-workflow-popup-20260924-29">
   <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
 </head>
 <body class="home-v2">
@@ -219,15 +219,25 @@
 
           <div class="ai-digital-content">
             <div class="v2-digital-grid">
-              <article class="v2-digital-main">
+              <article class="v2-digital-main digital-detail-card" data-digital="erp" role="button" tabindex="0" aria-label="View ERP workflow details">
                 <div class="v2-digital-badge">ERP / WORKFLOW</div>
                 <h3>From a product idea to an operating system.</h3>
                 <p>Sourcing, inventory, pricing, customer orders, courier status, expenses and reporting inside one connected workflow.</p>
                 <div class="v2-chip-row"><span>Inventory</span><span>Orders</span><span>Courier</span><span>Expenses</span><span>Reports</span></div>
+                <span class="digital-workflow-link">View workflow ↗</span>
               </article>
-              <article><span class="v2-icon">AI</span><h3>AI-Assisted Creation</h3><p>Prompting, visual ideation and repeatable creative workflows.</p></article>
-              <article><span class="v2-icon">WEB</span><h3>Web & Portfolio Builds</h3><p>Responsive digital experiences designed to present work clearly.</p></article>
-              <article><span class="v2-icon">OPS</span><h3>Business Documents</h3><p>Reusable operational templates for clear, consistent communication.</p></article>
+              <article class="digital-detail-card" data-digital="ai" role="button" tabindex="0" aria-label="View AI-assisted creation workflow">
+                <span class="v2-icon">AI</span><h3>AI-Assisted Creation</h3><p>Prompting, visual ideation and repeatable creative workflows.</p>
+                <span class="digital-workflow-link">View workflow ↗</span>
+              </article>
+              <article class="digital-detail-card" data-digital="web" role="button" tabindex="0" aria-label="View web and portfolio workflow">
+                <span class="v2-icon">WEB</span><h3>Web & Portfolio Builds</h3><p>Responsive digital experiences designed to present work clearly.</p>
+                <span class="digital-workflow-link">View workflow ↗</span>
+              </article>
+              <article class="digital-detail-card" data-digital="docs" role="button" tabindex="0" aria-label="View business document workflow">
+                <span class="v2-icon">OPS</span><h3>Business Documents</h3><p>Reusable operational templates for clear, consistent communication.</p>
+                <span class="digital-workflow-link">View workflow ↗</span>
+              </article>
             </div>
           </div>
         </div>
@@ -316,7 +326,7 @@
   <dialog id="serviceDialog" class="service-dialog">
     <button class="dialog-close" id="serviceDialogClose" aria-label="Close service details">×</button>
     <div class="service-dialog-content">
-      <p class="service-dialog-eyebrow">Service workflow</p>
+      <p class="service-dialog-eyebrow" id="serviceDialogEyebrow">Service workflow</p>
       <h2 id="serviceDialogTitle"></h2>
       <p class="service-dialog-summary" id="serviceDialogSummary"></p>
 
@@ -354,6 +364,6 @@
     <div class="dialog-content"><h2 id="dialogTitle"></h2><p id="dialogMeta"></p></div>
   </dialog>
 
-  <script src="script.js?v=service-workflow-popups-20260924-2"></script>
+  <script src="script.js?v=ai-digital-workflow-popup-20260924-3"></script>
 </body>
 </html>
