@@ -7383,3 +7383,158 @@ button.featured-case-media{
     font-size:34px !important;
   }
 }
+
+
+/* =========================================================
+   ABOUT ME — PREMIUM REBALANCE
+   Stronger copy hierarchy, cleaner skills, better column balance.
+   ========================================================= */
+@media (min-width:1051px){
+  .home-v2 .about-me-content{
+    grid-template-columns:.92fr 1.28fr .90fr !important;
+    min-height:350px !important;
+  }
+
+  .home-v2 .about-me-frame .v2-about-image{
+    min-height:350px !important;
+    position:relative;
+  }
+
+  .home-v2 .about-me-frame .v2-about-image::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    background:
+      linear-gradient(180deg,transparent 68%,rgba(3,18,18,.22)),
+      linear-gradient(90deg,transparent 82%,rgba(5,31,32,.18));
+  }
+
+  .home-v2 .about-me-frame .v2-about-image img{
+    object-position:center 42% !important;
+  }
+
+  .home-v2 .about-me-frame .v2-about-copy{
+    padding:30px 32px !important;
+  }
+
+  .home-v2 .about-me-frame .v2-skills{
+    padding:30px 28px !important;
+  }
+
+  .home-v2 .about-me-frame .v2-about-copy h2{
+    margin-bottom:18px !important;
+    font-size:44px !important;
+    line-height:.95 !important;
+    letter-spacing:.018em !important;
+  }
+
+  .home-v2 .about-me-frame .v2-about-copy>p{
+    max-width:620px;
+    margin-bottom:12px !important;
+    font-size:12.5px !important;
+    line-height:1.72 !important;
+    color:#C0CEC6 !important;
+  }
+
+  .home-v2 .about-me-frame .v2-about-meta{
+    grid-template-columns:1fr 1.35fr !important;
+    gap:10px !important;
+    margin-top:22px !important;
+  }
+
+  .home-v2 .about-me-frame .v2-about-meta div{
+    padding:11px 12px !important;
+    border:1px solid rgba(218,241,222,.10) !important;
+    border-radius:9px;
+    background:rgba(5,31,32,.42);
+  }
+
+  .home-v2 .about-me-frame .v2-about-meta strong{
+    font-size:8px !important;
+    letter-spacing:.13em !important;
+    color:#8FA79A !important;
+  }
+
+  .home-v2 .about-me-frame .v2-about-meta span{
+    margin-top:4px !important;
+    font-size:11px !important;
+    color:#EDF5F0 !important;
+  }
+
+  .home-v2 .about-me-frame .v2-skills .v2-eyebrow{
+    font-size:8px !important;
+    margin-bottom:3px !important;
+  }
+
+  .home-v2 .about-me-frame .v2-skills h3{
+    margin:0 0 19px !important;
+    font-size:32px !important;
+    line-height:1 !important;
+  }
+
+  .home-v2 .about-me-frame .v2-skill-list{
+    gap:8px !important;
+  }
+
+  .home-v2 .about-me-frame .v2-skill-list span{
+    padding:9px 11px !important;
+    font-size:10.2px !important;
+    line-height:1 !important;
+    border-radius:8px !important;
+    border-color:rgba(218,241,222,.13) !important;
+    background:rgba(7,35,33,.70) !important;
+    color:#D8E5DE !important;
+    transition:border-color .2s ease,background-color .2s ease,transform .2s ease;
+  }
+
+  .home-v2 .about-me-frame .v2-skill-list span:hover{
+    transform:translateY(-1px);
+    border-color:rgba(226,29,42,.32) !important;
+    background:rgba(9,42,38,.90) !important;
+  }
+}
+
+@media (max-width:1050px) and (min-width:761px){
+  .home-v2 .about-me-frame .v2-about-copy h2{
+    font-size:40px !important;
+  }
+
+  .home-v2 .about-me-frame .v2-about-copy>p{
+    font-size:11.8px !important;
+  }
+
+  .home-v2 .about-me-frame .v2-skills h3{
+    font-size:30px !important;
+  }
+
+  .home-v2 .about-me-frame .v2-skill-list span{
+    font-size:9.8px !important;
+  }
+}
+
+@media (max-width:760px){
+  .home-v2 .about-me-frame .v2-about-copy h2{
+    font-size:36px !important;
+  }
+
+  .home-v2 .about-me-frame .v2-about-copy>p{
+    font-size:11px !important;
+    line-height:1.65 !important;
+  }
+
+  .home-v2 .about-me-frame .v2-about-meta{
+    grid-template-columns:1fr !important;
+  }
+
+  .home-v2 .about-me-frame .v2-about-meta div{
+    padding:10px 11px !important;
+    border:1px solid rgba(218,241,222,.10) !important;
+    border-radius:8px;
+    background:rgba(5,31,32,.42);
+  }
+
+  .home-v2 .about-me-frame .v2-skill-list span{
+    font-size:9.6px !important;
+  }
+}
