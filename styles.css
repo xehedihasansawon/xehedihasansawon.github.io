@@ -6759,3 +6759,41 @@ button.featured-case-media{
     font-size:12.2px !important;
   }
 }
+
+
+/* =========================================================
+   SERVICE POPUP — REMOVE EXTRA EMPTY HEIGHT
+   Keep current typography, let content determine popup height.
+   ========================================================= */
+@media (min-width:901px){
+  .service-dialog{
+    height:auto !important;
+    min-height:0 !important;
+    max-height:calc(100vh - 12px) !important;
+    overflow:hidden !important;
+  }
+
+  .service-dialog-content{
+    height:auto !important;
+    min-height:0 !important;
+    display:block !important;
+  }
+
+  .service-dialog-layout{
+    flex:none !important;
+    min-height:0 !important;
+  }
+}
+
+@media (min-width:901px) and (max-height:720px){
+  .service-dialog{
+    height:auto !important;
+    min-height:0 !important;
+    max-height:calc(100vh - 8px) !important;
+  }
+
+  .service-dialog-content{
+    height:auto !important;
+    min-height:0 !important;
+  }
+}
