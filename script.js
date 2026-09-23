@@ -176,6 +176,7 @@ document.querySelectorAll('.service-detail-card').forEach(card => {
     const detail = serviceDetails[card.dataset.service];
     if (!detail) return;
 
+    serviceDialogEyebrow.textContent = 'Service workflow';
     serviceDialogTitle.textContent = detail.title;
     serviceDialogSummary.textContent = detail.summary;
     fillServiceList(serviceDialogWorkflow, detail.workflow);
@@ -195,4 +196,106 @@ serviceDialog.addEventListener('click', event => {
 });
 serviceDialog.addEventListener('close', () => {
   document.body.style.overflow = '';
+});
+
+
+const digitalProjectDetails = {
+  erp: {
+    eyebrow: 'Digital project workflow',
+    title: 'ERP & Business Workflow',
+    summary: 'I structure a business system around the real flow of products, stock, orders, delivery, expenses and reporting instead of treating each task as a separate sheet or tool.',
+    workflow: [
+      'Process discovery: map how sourcing, inventory, pricing, customer orders, delivery and finance currently move through the business.',
+      'Module planning: separate the system into practical areas such as products, lots, inventory, sales, courier, expenses, salary and reporting.',
+      'Data structure: define the fields, statuses and relationships needed so the same information does not have to be entered repeatedly.',
+      'Interface planning: design clear forms, tables, filters, dashboards and actions around the daily operating flow.',
+      'Scenario testing: test the workflow using realistic stock updates, orders, delivery changes, cancellations and expense entries.',
+      'Refinement and rollout: simplify confusing steps, connect the modules and prepare the system for future features without rebuilding the core.'
+    ],
+    deliverables: ['Workflow and module map','Inventory / order status structure','Forms, tables and dashboard flow','Reporting structure','Prototype or implementation scope'],
+    tools: ['Workflow mapping','Front-end development tools','Database / structured data tools','GitHub version control'],
+    needs: ['Current business process','Sample products and orders','Required statuses','User roles','Reports the business needs'],
+    handoff: 'A documented and organized system structure, with the agreed prototype or implementation prepared so new modules can be added later.'
+  },
+  ai: {
+    eyebrow: 'Digital project workflow',
+    title: 'AI-Assisted Creation',
+    summary: 'I use AI as part of a controlled creative workflow for ideation, prompting, visual planning and repeatable content production while keeping the final direction intentional.',
+    workflow: [
+      'Goal definition: decide what needs to be created, who it is for and what the final output must achieve.',
+      'Reference and constraint setup: collect brand rules, examples, visual references and consistency requirements.',
+      'Prompt and concept development: build prompts and test directions until the visual or content structure is useful.',
+      'Selection and refinement: choose the strongest output, correct inconsistencies and refine the creative direction.',
+      'Production integration: combine AI output with design, editing or other production tools instead of using raw generations as the final result.',
+      'Reusable workflow: document the successful process so similar content can be produced faster and more consistently later.'
+    ],
+    deliverables: ['Prompt / concept direction','Visual or content variations','Refined production assets','Repeatable prompt workflow','Final creative output as scoped'],
+    tools: ['ChatGPT / AI tools','Image and video generation tools','Adobe creative tools','Prompt documentation'],
+    needs: ['Project goal','Reference style','Brand constraints','Required format','Examples of what should or should not be produced'],
+    handoff: 'The approved creative output plus the reusable direction or prompt structure included in the agreed scope.'
+  },
+  web: {
+    eyebrow: 'Digital project workflow',
+    title: 'Web & Portfolio Builds',
+    summary: 'I plan responsive websites around clear hierarchy, real content and practical navigation so the work or business is easy to understand on desktop and mobile.',
+    workflow: [
+      'Content and goal review: define the audience, pages, actions and information the website needs to communicate.',
+      'Information architecture: organize sections, navigation and page flow before styling the interface.',
+      'Visual system: establish typography, colors, spacing, cards and reusable components for consistent presentation.',
+      'Responsive build: implement the interface and adapt the layout across desktop, tablet and mobile.',
+      'Content integration and testing: add real content, check navigation, responsiveness and common interaction states.',
+      'Polish and deployment preparation: refine the final experience, organize the code and prepare the agreed deployment or handoff.'
+    ],
+    deliverables: ['Page / section structure','Responsive UI','Reusable visual components','Interactive states','Deployment-ready build as scoped'],
+    tools: ['HTML / CSS / JavaScript','VS Code','GitHub','Design and image tools'],
+    needs: ['Website goal','Page/content list','Brand assets','Images and copy','Required links or functionality'],
+    handoff: 'Organized website files and source code, with deployment or repository handoff based on the agreed project scope.'
+  },
+  docs: {
+    eyebrow: 'Digital project workflow',
+    title: 'Business Documents',
+    summary: 'I design reusable business documents that keep customer-facing and internal communication structured, consistent and easy to update.',
+    workflow: [
+      'Use-case review: identify who uses the document, when it is used and what information must always be included.',
+      'Information hierarchy: organize headings, fields, tables, notes and actions in the order people actually need them.',
+      'Visual system: apply consistent typography, spacing and brand styling without making the document cluttered.',
+      'Template design: build the reusable layout for print, PDF or digital use depending on the workflow.',
+      'Real-data testing: test the template with realistic names, quantities, prices, notes and longer content.',
+      'Template handoff: prepare the master version and clear reusable structure for future records or reports.'
+    ],
+    deliverables: ['Reusable document template','Print / PDF layout','Structured fields and tables','Brand-consistent formatting','Master editable version'],
+    tools: ['Adobe design tools','Document / spreadsheet tools','PDF export workflow'],
+    needs: ['Document purpose','Required fields','Example data','Brand details','Print or digital requirements'],
+    handoff: 'A clean master template with export-ready versions and the editable format included in the agreed scope.'
+  }
+};
+
+const serviceDialogEyebrow = document.getElementById('serviceDialogEyebrow');
+
+const openWorkflowDialog = detail => {
+  if (!detail) return;
+
+  serviceDialogEyebrow.textContent = detail.eyebrow || 'Service workflow';
+  serviceDialogTitle.textContent = detail.title;
+  serviceDialogSummary.textContent = detail.summary;
+  fillServiceList(serviceDialogWorkflow, detail.workflow);
+  fillServiceList(serviceDialogDeliverables, detail.deliverables);
+  fillServiceList(serviceDialogTools, detail.tools);
+  fillServiceList(serviceDialogNeeds, detail.needs);
+  serviceDialogHandoff.textContent = detail.handoff;
+
+  serviceDialog.showModal();
+  document.body.style.overflow = 'hidden';
+};
+
+document.querySelectorAll('.digital-detail-card').forEach(card => {
+  const openDigital = () => openWorkflowDialog(digitalProjectDetails[card.dataset.digital]);
+
+  card.addEventListener('click', openDigital);
+  card.addEventListener('keydown', event => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      openDigital();
+    }
+  });
 });
