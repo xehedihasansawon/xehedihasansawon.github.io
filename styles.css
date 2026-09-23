@@ -3835,3 +3835,21 @@ button.featured-case-media{
   }
 }
 
+/* =========================================================
+   REAL LIFE PROJECTS — EQUAL OUTER SPACING
+   Keep locked hero/capabilities untouched
+   ========================================================= */
+@media (min-width:761px){
+  .featured-cases-section{
+    padding-top:26px !important;
+    padding-bottom:26px !important;
+  }
+}
+
+@media (max-width:760px){
+  .featured-cases-section{
+    padding-top:22px !important;
+    padding-bottom:22px !important;
+  }
+}
+
