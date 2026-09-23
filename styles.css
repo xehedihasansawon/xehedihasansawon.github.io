@@ -5266,3 +5266,9 @@ button.featured-case-media{
     font-size:36px !important;
   }
 }
+
+
+/* REAL LIFE PROJECTS — remove redundant left red accent */
+.home-v2 .featured-cases-section .real-projects-section-frame::before{
+  display:none !important;
+}
