@@ -2940,3 +2940,323 @@ dialog img{max-height:70vh;object-fit:contain;background:#031617}
   }
 }
 
+/* =========================================================
+   FEATURED CASE STUDIES — REAL PROJECT ROWS
+   Same shell measurement as locked hero
+   ========================================================= */
+.featured-cases-section{
+  padding:68px 0 74px;
+}
+
+.featured-cases-heading{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(280px,420px);
+  gap:44px;
+  align-items:end;
+  margin-bottom:30px;
+}
+
+.featured-cases-heading h2{
+  margin:0;
+  font-family:"Bebas Neue",Impact,sans-serif;
+  font-size:48px;
+  line-height:.94;
+  letter-spacing:.025em;
+  text-transform:uppercase;
+  color:#F2F8F4;
+}
+
+.featured-cases-heading h2 span{
+  color:var(--c5);
+}
+
+.featured-cases-heading>p{
+  max-width:420px;
+  justify-self:end;
+  margin:0;
+  font-size:12px;
+  line-height:1.75;
+  color:#AFC1B7;
+}
+
+.featured-cases-list{
+  display:grid;
+  gap:15px;
+}
+
+.featured-case{
+  position:relative;
+  width:100%;
+  min-height:252px;
+  display:grid;
+  grid-template-columns:minmax(0,43%) minmax(0,57%);
+  overflow:hidden;
+  border:1px solid rgba(218,241,222,.12);
+  border-radius:18px;
+  background:
+    linear-gradient(110deg,rgba(11,43,38,.78),rgba(7,31,32,.94));
+  color:inherit;
+  text-decoration:none;
+  box-shadow:0 12px 26px rgba(0,0,0,.08);
+  transform:translateY(0);
+  transition:
+    border-color .24s cubic-bezier(.2,.8,.2,1),
+    transform .24s cubic-bezier(.2,.8,.2,1),
+    box-shadow .24s cubic-bezier(.2,.8,.2,1),
+    background-color .24s ease;
+}
+
+.featured-case-reverse{
+  grid-template-columns:minmax(0,57%) minmax(0,43%);
+}
+
+.featured-case-reverse .featured-case-media{
+  order:2;
+}
+
+.featured-case-reverse .featured-case-copy{
+  order:1;
+}
+
+.featured-case-media{
+  position:relative;
+  min-width:0;
+  min-height:252px;
+  overflow:hidden;
+  border:0;
+  padding:0;
+  background:#09221F;
+}
+
+button.featured-case-media{
+  width:100%;
+  cursor:pointer;
+  appearance:none;
+  font:inherit;
+  text-align:initial;
+}
+
+.featured-case-media::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:
+    linear-gradient(180deg,transparent 55%,rgba(4,23,22,.22)),
+    linear-gradient(90deg,rgba(5,31,32,.06),transparent 35%);
+}
+
+.featured-case-reverse .featured-case-media::after{
+  background:
+    linear-gradient(180deg,transparent 55%,rgba(4,23,22,.22)),
+    linear-gradient(270deg,rgba(5,31,32,.06),transparent 35%);
+}
+
+.featured-case-media img{
+  width:100%;
+  height:100%;
+  min-height:252px;
+  display:block;
+  object-fit:cover;
+  transition:transform .45s ease,filter .45s ease;
+}
+
+.featured-case:first-child .featured-case-media img{
+  object-position:center center;
+}
+
+.featured-case:nth-child(2) .featured-case-media img{
+  object-position:center 34%;
+}
+
+.featured-case:nth-child(3) .featured-case-media img{
+  object-position:center center;
+}
+
+.featured-case-copy{
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:30px 34px;
+}
+
+.featured-case-type{
+  display:block;
+  margin-bottom:9px;
+  font-size:10px;
+  line-height:1.45;
+  font-weight:700;
+  letter-spacing:.055em;
+  text-transform:uppercase;
+  color:#98B7A5;
+}
+
+.featured-case-copy h3{
+  max-width:650px;
+  margin:0 0 12px;
+  font-family:"Bebas Neue",Impact,sans-serif;
+  font-size:34px;
+  line-height:.98;
+  letter-spacing:.02em;
+  color:#F3F8F5;
+}
+
+.featured-case-copy p{
+  max-width:650px;
+  margin:0;
+  font-size:12.5px;
+  line-height:1.72;
+  color:#B7C8BE;
+}
+
+.featured-case-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+  margin-top:17px;
+}
+
+.featured-case-tags span{
+  padding:6px 9px;
+  border:1px solid rgba(218,241,222,.10);
+  border-radius:999px;
+  background:rgba(255,255,255,.018);
+  font-size:9px;
+  line-height:1;
+  font-weight:700;
+  letter-spacing:.025em;
+  color:#C8D6CE;
+}
+
+.featured-case-link{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  width:max-content;
+  margin-top:20px;
+  font-size:10.5px;
+  line-height:1;
+  font-weight:800;
+  letter-spacing:.03em;
+  color:#E6EFE9;
+}
+
+.featured-case-link i{
+  font-style:normal;
+  color:#B61E24;
+  transition:transform .22s ease;
+}
+
+.portfolio-case-media{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:25px;
+  background:
+    radial-gradient(circle at 55% 45%,rgba(35,83,71,.30),transparent 58%),
+    #081F1F;
+}
+
+.portfolio-case-media .portfolio-browser{
+  width:min(100%,520px);
+  height:190px;
+  position:relative;
+  z-index:1;
+  border-radius:11px;
+  box-shadow:0 18px 40px rgba(0,0,0,.24);
+}
+
+@media (hover:hover){
+  .featured-case:hover{
+    border-color:#B61E24;
+    transform:translateY(-3px);
+    box-shadow:
+      0 16px 34px rgba(0,0,0,.14),
+      0 0 0 1px rgba(182,30,36,.025);
+  }
+
+  .featured-case:hover .featured-case-media img{
+    transform:scale(1.025);
+    filter:saturate(1.03);
+  }
+
+  .featured-case:hover .featured-case-link i{
+    transform:translate(2px,-2px);
+  }
+}
+
+@media (max-width:900px){
+  .featured-cases-section{
+    padding:54px 0 60px;
+  }
+
+  .featured-cases-heading{
+    grid-template-columns:1fr;
+    gap:13px;
+    margin-bottom:24px;
+  }
+
+  .featured-cases-heading>p{
+    justify-self:start;
+  }
+
+  .featured-case,
+  .featured-case-reverse{
+    grid-template-columns:1fr;
+  }
+
+  .featured-case-reverse .featured-case-media,
+  .featured-case-reverse .featured-case-copy{
+    order:initial;
+  }
+
+  .featured-case-media,
+  .featured-case-media img{
+    min-height:260px;
+  }
+
+  .featured-case-copy{
+    padding:26px 26px 28px;
+  }
+}
+
+@media (max-width:560px){
+  .featured-cases-heading h2{
+    font-size:40px;
+  }
+
+  .featured-case{
+    border-radius:14px;
+  }
+
+  .featured-case-media,
+  .featured-case-media img{
+    min-height:220px;
+  }
+
+  .featured-case-copy{
+    padding:23px 20px 24px;
+  }
+
+  .featured-case-copy h3{
+    font-size:29px;
+  }
+
+  .featured-case-copy p{
+    font-size:11.5px;
+  }
+
+  .featured-case-tags span{
+    font-size:8.5px;
+  }
+
+  .portfolio-case-media{
+    padding:18px;
+  }
+
+  .portfolio-case-media .portfolio-browser{
+    height:165px;
+  }
+}
+
