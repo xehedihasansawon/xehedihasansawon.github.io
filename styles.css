@@ -8071,3 +8071,156 @@ button.featured-case-media{
     border-bottom:1px solid rgba(218,241,222,.10) !important;
   }
 }
+
+
+/* =========================================================
+   ABOUT ME — FINAL TWO-COLUMN POLISH
+   More compact, better balanced, cleaner desktop hierarchy.
+   ========================================================= */
+@media (min-width:1051px){
+  .home-v2 .about-me-content{
+    grid-template-columns:1.34fr .86fr !important;
+    min-height:0 !important;
+    align-items:stretch !important;
+  }
+
+  .home-v2 .about-me-frame .v2-about-copy{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding:27px 32px 28px !important;
+  }
+
+  .home-v2 .about-me-frame .v2-about-copy h2{
+    max-width:650px !important;
+    margin-bottom:16px !important;
+    font-size:46px !important;
+    line-height:.94 !important;
+  }
+
+  .home-v2 .about-me-frame .v2-about-copy>p{
+    max-width:700px !important;
+    margin-bottom:10px !important;
+    font-size:13px !important;
+    line-height:1.68 !important;
+  }
+
+  .home-v2 .about-me-frame .v2-about-meta{
+    width:min(100%,620px);
+    grid-template-columns:.82fr 1.35fr !important;
+    gap:9px !important;
+    margin-top:16px !important;
+  }
+
+  .home-v2 .about-me-frame .v2-about-meta div{
+    padding:10px 12px !important;
+    border-radius:9px !important;
+  }
+
+  .home-v2 .about-me-frame .v2-skills{
+    gap:13px !important;
+    padding:22px 24px 23px !important;
+    justify-content:center !important;
+  }
+
+  .home-v2 .about-me-frame .v2-skills .v2-eyebrow{
+    margin-bottom:0 !important;
+  }
+
+  .home-v2 .about-me-frame .tool-section h3,
+  .home-v2 .about-me-frame .skill-section h3{
+    margin-bottom:10px !important;
+    font-size:27px !important;
+  }
+
+  .home-v2 .about-me-frame .software-grid{
+    grid-template-columns:1fr 1fr !important;
+    gap:8px !important;
+  }
+
+  .home-v2 .about-me-frame .software-card{
+    min-height:57px !important;
+    padding:8px 10px !important;
+    gap:9px !important;
+    border-radius:10px !important;
+  }
+
+  .home-v2 .about-me-frame .software-logo{
+    flex-basis:35px !important;
+    width:35px !important;
+    height:35px !important;
+    border-radius:8px !important;
+    font-size:14px !important;
+  }
+
+  .home-v2 .about-me-frame .software-card strong{
+    font-size:10.7px !important;
+  }
+
+  .home-v2 .about-me-frame .software-card small{
+    font-size:6.7px !important;
+  }
+
+  .home-v2 .about-me-frame .skill-section{
+    margin-top:1px;
+    padding-top:12px !important;
+    border-top:1px solid rgba(218,241,222,.09) !important;
+  }
+
+  .home-v2 .about-me-frame .skill-tags{
+    grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+    gap:6px !important;
+  }
+
+  .home-v2 .about-me-frame .skill-tags span{
+    min-height:30px !important;
+    justify-content:center !important;
+    padding:7px 7px !important;
+    text-align:center;
+    font-size:8.4px !important;
+    border-radius:8px !important;
+  }
+
+  .home-v2 .about-me-frame .skill-tags span::before{
+    display:none !important;
+  }
+}
+
+@media (max-width:1180px) and (min-width:1051px){
+  .home-v2 .about-me-frame .skill-tags{
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  }
+
+  .home-v2 .about-me-frame .skill-tags span{
+    font-size:8.8px !important;
+  }
+}
+
+@media (max-width:1050px) and (min-width:761px){
+  .home-v2 .about-me-frame .v2-skills{
+    padding:22px !important;
+  }
+
+  .home-v2 .about-me-frame .software-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  }
+
+  .home-v2 .about-me-frame .skill-tags{
+    grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+  }
+}
+
+@media (max-width:760px){
+  .home-v2 .about-me-frame .v2-about-copy{
+    padding:21px 18px !important;
+  }
+
+  .home-v2 .about-me-frame .v2-skills{
+    padding:20px 18px !important;
+  }
+
+  .home-v2 .about-me-frame .software-grid,
+  .home-v2 .about-me-frame .skill-tags{
+    grid-template-columns:1fr 1fr !important;
+  }
+}
