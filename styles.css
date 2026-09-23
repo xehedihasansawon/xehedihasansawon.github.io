@@ -2593,3 +2593,91 @@ dialog img{max-height:70vh;object-fit:contain;background:#031617}
   }
 }
 
+/* =========================================================
+   CAPABILITIES STRIP — ALIGNMENT FIX
+   ========================================================= */
+.home-v2 .v2-strip-inner{
+  min-height:48px;
+  display:grid;
+  grid-template-columns:
+    minmax(0,1fr) auto
+    minmax(0,1fr) auto
+    minmax(0,1fr) auto
+    minmax(0,1fr) auto
+    minmax(0,1fr) auto
+    minmax(0,1fr);
+  align-items:center;
+  gap:0;
+  padding:0;
+  overflow:visible;
+}
+
+.home-v2 .v2-strip-item{
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:0;
+  padding:0 12px;
+  transform:none;
+}
+
+.home-v2 .v2-strip-dot{
+  display:block;
+  width:4px;
+  height:4px;
+  margin:0 8px;
+  align-self:center;
+  transform:none;
+}
+
+@media (hover:hover){
+  .home-v2 .v2-strip-item:hover{
+    color:#B61E24;
+    background:none;
+    transform:none;
+  }
+}
+
+@media (max-width:1050px){
+  .home-v2 .v2-strip-inner{
+    display:flex;
+    justify-content:flex-start;
+    gap:0;
+    overflow-x:auto;
+    scrollbar-width:none;
+  }
+
+  .home-v2 .v2-strip-inner::-webkit-scrollbar{
+    display:none;
+  }
+
+  .home-v2 .v2-strip-item{
+    flex:0 0 170px;
+    width:170px;
+    padding:0 12px;
+  }
+
+  .home-v2 .v2-strip-dot{
+    flex:0 0 4px;
+    margin:0 6px;
+  }
+}
+
+@media (max-width:560px){
+  .home-v2 .v2-strip-inner{
+    min-height:44px;
+  }
+
+  .home-v2 .v2-strip-item{
+    flex-basis:150px;
+    width:150px;
+  }
+
+  .home-v2 .v2-strip-dot{
+    width:3px;
+    height:3px;
+    flex-basis:3px;
+  }
+}
+
