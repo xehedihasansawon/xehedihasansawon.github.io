@@ -6850,3 +6850,142 @@ button.featured-case-media{
     padding-bottom:18px !important;
   }
 }
+
+
+/* =========================================================
+   AI & DIGITAL PROJECTS — MATCH LOCKED HOMEPAGE SECTION SYSTEM
+   Same frame, heading scale and visual rhythm as previous sections.
+   ========================================================= */
+.home-v2 .ai-digital-section{
+  padding:26px 0 48px !important;
+  background:transparent !important;
+}
+
+.home-v2 .ai-digital-frame{
+  width:100%;
+  overflow:hidden;
+  border:1px solid rgba(218,241,222,.14);
+  border-radius:20px;
+  background:
+    linear-gradient(110deg,rgba(11,43,38,.34) 0%,rgba(5,31,32,.66) 52%,rgba(5,31,32,.32) 100%);
+  box-shadow:
+    0 20px 48px rgba(0,0,0,.12),
+    inset 0 1px 0 rgba(255,255,255,.02);
+}
+
+.home-v2 .ai-digital-content{
+  padding:12px 20px 20px;
+}
+
+.home-v2 .ai-digital-frame .v2-digital-grid{
+  grid-template-columns:1.35fr repeat(3,1fr);
+  gap:10px;
+}
+
+.home-v2 .ai-digital-frame .v2-digital-grid article{
+  min-height:196px !important;
+  padding:20px !important;
+  border:1px solid rgba(218,241,222,.11) !important;
+  border-radius:13px !important;
+  background:#071F20 !important;
+  box-shadow:none !important;
+}
+
+.home-v2 .ai-digital-frame .v2-digital-main{
+  background:
+    linear-gradient(145deg,rgba(35,83,71,.38),rgba(5,31,32,.90)) !important;
+}
+
+.home-v2 .ai-digital-frame .v2-digital-badge{
+  padding:5px 8px;
+  font-size:7.5px;
+  border-color:rgba(218,241,222,.16);
+  background:rgba(255,255,255,.015);
+}
+
+.home-v2 .ai-digital-frame .v2-digital-grid h3{
+  margin:19px 0 7px;
+  font-size:15px !important;
+  line-height:1.35;
+}
+
+.home-v2 .ai-digital-frame .v2-digital-main h3{
+  max-width:390px;
+  font-size:30px !important;
+  line-height:.98;
+}
+
+.home-v2 .ai-digital-frame .v2-digital-grid p{
+  font-size:10.5px !important;
+  line-height:1.58 !important;
+  color:#AFC1B7 !important;
+}
+
+.home-v2 .ai-digital-frame .v2-icon{
+  width:42px;
+  height:42px;
+  border-radius:9px;
+  font-size:15px;
+}
+
+.home-v2 .ai-digital-frame .v2-chip-row{
+  margin-top:16px;
+}
+
+.home-v2 .ai-digital-frame .v2-chip-row span{
+  padding:5px 8px;
+  font-size:7.5px;
+}
+
+@media (max-width:1050px) and (min-width:761px){
+  .home-v2 .ai-digital-section{
+    padding:24px 0 44px !important;
+  }
+
+  .home-v2 .ai-digital-content{
+    padding:11px 17px 17px;
+  }
+
+  .home-v2 .ai-digital-frame .v2-digital-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .home-v2 .ai-digital-frame .v2-digital-main{
+    grid-column:1 / -1;
+  }
+
+  .home-v2 .ai-digital-frame .v2-digital-grid article{
+    min-height:170px !important;
+  }
+}
+
+@media (max-width:760px){
+  .home-v2 .ai-digital-section{
+    padding:22px 0 38px !important;
+  }
+
+  .home-v2 .ai-digital-frame{
+    border-radius:16px;
+  }
+
+  .home-v2 .ai-digital-content{
+    padding:10px 12px 12px;
+  }
+
+  .home-v2 .ai-digital-frame .v2-digital-grid{
+    grid-template-columns:1fr;
+  }
+
+  .home-v2 .ai-digital-frame .v2-digital-main{
+    grid-column:auto;
+  }
+
+  .home-v2 .ai-digital-frame .v2-digital-grid article{
+    min-height:0 !important;
+    padding:17px !important;
+  }
+
+  .home-v2 .ai-digital-frame .v2-digital-main h3{
+    font-size:27px !important;
+  }
+}
