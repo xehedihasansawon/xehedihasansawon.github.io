@@ -5088,3 +5088,88 @@ button.featured-case-media{
     padding:10px 16px 11px !important;
   }
 }
+
+
+/* =========================================================
+   REAL LIFE PROJECTS — SINGLE COHESIVE SECTION FRAME
+   One outer frame contains header + divider + locked 2x2 project panel.
+   Cards, card grid and panel height remain unchanged.
+   ========================================================= */
+.home-v2 .featured-cases-section .real-projects-section-frame{
+  position:relative;
+  width:100%;
+  overflow:hidden;
+  border:1px solid rgba(218,241,222,.14);
+  border-radius:20px;
+  background:
+    linear-gradient(110deg,rgba(11,43,38,.34) 0%,rgba(5,31,32,.66) 52%,rgba(5,31,32,.32) 100%);
+  box-shadow:
+    0 20px 48px rgba(0,0,0,.12),
+    inset 0 1px 0 rgba(255,255,255,.02);
+}
+
+.home-v2 .featured-cases-section .real-projects-section-frame::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:17px;
+  width:2px;
+  height:54px;
+  border-radius:0 999px 999px 0;
+  background:#E21D2A;
+  opacity:.9;
+}
+
+.home-v2 .featured-cases-section .section-heading-real-projects{
+  width:100% !important;
+  padding:13px 20px 14px !important;
+  margin:0 !important;
+  border:0 !important;
+  border-bottom:1px solid rgba(218,241,222,.10) !important;
+  border-radius:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+}
+
+.home-v2 .featured-cases-section .section-heading-real-projects .v2-eyebrow{
+  margin-bottom:2px !important;
+}
+
+.home-v2 .featured-cases-section .section-heading-real-projects .section-heading-intro{
+  margin-top:5px !important;
+}
+
+.home-v2 .featured-cases-section .real-projects-panel.real-projects-panel-split{
+  width:100% !important;
+  margin:0 !important;
+  border:0 !important;
+  border-radius:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+}
+
+@media (max-width:1050px) and (min-width:761px){
+  .home-v2 .featured-cases-section .section-heading-real-projects{
+    padding:12px 18px 13px !important;
+  }
+
+  .home-v2 .featured-cases-section .real-projects-section-frame::before{
+    top:15px;
+    height:48px;
+  }
+}
+
+@media (max-width:760px){
+  .home-v2 .featured-cases-section .real-projects-section-frame{
+    border-radius:16px;
+  }
+
+  .home-v2 .featured-cases-section .section-heading-real-projects{
+    padding:12px 15px 13px !important;
+  }
+
+  .home-v2 .featured-cases-section .real-projects-section-frame::before{
+    top:14px;
+    height:42px;
+  }
+}
