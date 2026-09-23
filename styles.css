@@ -6989,3 +6989,151 @@ button.featured-case-media{
     font-size:27px !important;
   }
 }
+
+
+/* =========================================================
+   AI & DIGITAL PROJECTS — PREMIUM CARD POLISH
+   Stronger hierarchy, better density, cleaner accents.
+   ========================================================= */
+@media (min-width:1051px){
+  .home-v2 .ai-digital-content{
+    padding:12px 20px 18px !important;
+  }
+
+  .home-v2 .ai-digital-frame .v2-digital-grid{
+    grid-template-columns:1.48fr repeat(3,1fr) !important;
+    gap:10px !important;
+  }
+
+  .home-v2 .ai-digital-frame .v2-digital-grid article{
+    position:relative;
+    min-height:178px !important;
+    padding:18px 19px !important;
+    overflow:hidden;
+    border-color:rgba(218,241,222,.10) !important;
+    background:rgba(5,31,32,.78) !important;
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.018),
+      0 8px 18px rgba(0,0,0,.045) !important;
+    transition:
+      transform .22s ease,
+      border-color .22s ease,
+      background-color .22s ease,
+      box-shadow .22s ease;
+  }
+
+  .home-v2 .ai-digital-frame .v2-digital-grid article:not(.v2-digital-main){
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+  }
+
+  .home-v2 .ai-digital-frame .v2-digital-grid article::after{
+    content:"";
+    position:absolute;
+    left:0;
+    right:0;
+    top:0;
+    height:2px;
+    background:linear-gradient(90deg,transparent,rgba(226,29,42,.38),transparent);
+    opacity:0;
+    transition:opacity .22s ease;
+  }
+
+  .home-v2 .ai-digital-frame .v2-digital-grid article:hover{
+    transform:translateY(-2px);
+    border-color:rgba(226,29,42,.38) !important;
+    background:rgba(7,35,33,.94) !important;
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.022),
+      0 12px 24px rgba(0,0,0,.08) !important;
+  }
+
+  .home-v2 .ai-digital-frame .v2-digital-grid article:hover::after{
+    opacity:1;
+  }
+
+  .home-v2 .ai-digital-frame .v2-digital-main{
+    justify-content:flex-start !important;
+    background:
+      radial-gradient(circle at 100% 0%,rgba(226,29,42,.08),transparent 30%),
+      linear-gradient(145deg,rgba(35,83,71,.42),rgba(5,31,32,.91)) !important;
+  }
+
+  .home-v2 .ai-digital-frame .v2-digital-badge{
+    width:max-content;
+    padding:5px 9px !important;
+    border-color:rgba(226,29,42,.20) !important;
+    color:#D9E7DF !important;
+    background:rgba(226,29,42,.045) !important;
+  }
+
+  .home-v2 .ai-digital-frame .v2-digital-main h3{
+    max-width:410px !important;
+    margin:16px 0 8px !important;
+    font-size:31px !important;
+    line-height:.95 !important;
+  }
+
+  .home-v2 .ai-digital-frame .v2-digital-grid article:not(.v2-digital-main) h3{
+    margin:15px 0 7px !important;
+    font-size:16px !important;
+    line-height:1.25 !important;
+  }
+
+  .home-v2 .ai-digital-frame .v2-digital-grid p{
+    font-size:11px !important;
+    line-height:1.55 !important;
+    color:#B8C8BF !important;
+  }
+
+  .home-v2 .ai-digital-frame .v2-icon{
+    width:44px !important;
+    height:44px !important;
+    border-radius:10px !important;
+    border-color:rgba(218,241,222,.14) !important;
+    background:rgba(142,182,155,.045) !important;
+    color:#E8F2EC !important;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.02);
+  }
+
+  .home-v2 .ai-digital-frame .v2-chip-row{
+    gap:6px !important;
+    margin-top:14px !important;
+  }
+
+  .home-v2 .ai-digital-frame .v2-chip-row span{
+    padding:5px 8px !important;
+    border-color:rgba(218,241,222,.13) !important;
+    background:rgba(255,255,255,.012) !important;
+    color:#C7D6CE !important;
+  }
+}
+
+@media (max-width:1050px) and (min-width:761px){
+  .home-v2 .ai-digital-frame .v2-digital-grid article{
+    min-height:160px !important;
+  }
+
+  .home-v2 .ai-digital-frame .v2-digital-main h3{
+    font-size:29px !important;
+  }
+}
+
+@media (max-width:760px){
+  .home-v2 .ai-digital-frame .v2-digital-grid article{
+    padding:16px !important;
+  }
+
+  .home-v2 .ai-digital-frame .v2-digital-grid article:not(.v2-digital-main){
+    min-height:142px !important;
+  }
+
+  .home-v2 .ai-digital-frame .v2-digital-grid article:not(.v2-digital-main) h3{
+    font-size:15px !important;
+  }
+
+  .home-v2 .ai-digital-frame .v2-digital-grid p{
+    font-size:10.5px !important;
+  }
+}
