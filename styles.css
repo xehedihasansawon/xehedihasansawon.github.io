@@ -6797,3 +6797,56 @@ button.featured-case-media{
     min-height:0 !important;
   }
 }
+
+
+/* =========================================================
+   SERVICE POPUP — TRUE CONTENT-FIT HEIGHT
+   Remove all forced viewport height so the dialog hugs its content.
+   ========================================================= */
+@media (min-width:901px){
+  .service-dialog{
+    height:fit-content !important;
+    min-height:0 !important;
+    max-height:none !important;
+    block-size:fit-content !important;
+    max-block-size:none !important;
+    overflow:visible !important;
+  }
+
+  .service-dialog-content{
+    height:fit-content !important;
+    min-height:0 !important;
+    max-height:none !important;
+    block-size:fit-content !important;
+    padding-bottom:22px !important;
+  }
+
+  .service-dialog-layout{
+    height:auto !important;
+    min-height:0 !important;
+    max-height:none !important;
+    align-items:start !important;
+  }
+
+  .service-dialog-workflow,
+  .service-dialog-side{
+    height:auto !important;
+    min-height:0 !important;
+    max-height:none !important;
+  }
+}
+
+@media (min-width:901px) and (max-height:720px){
+  .service-dialog{
+    height:fit-content !important;
+    max-height:none !important;
+    block-size:fit-content !important;
+    max-block-size:none !important;
+  }
+
+  .service-dialog-content{
+    height:fit-content !important;
+    max-height:none !important;
+    padding-bottom:18px !important;
+  }
+}
