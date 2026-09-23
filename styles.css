@@ -4611,3 +4611,31 @@ button.featured-case-media{
   }
 }
 
+/* =========================================================
+   HERO + REAL LIFE PROJECTS — EXACT OUTER SIZE LOCK
+   Same shell width + same fixed desktop/tablet height
+   ========================================================= */
+@media (min-width:1051px){
+  .hero-v5-panel,
+  .real-projects-panel.real-projects-panel-split{
+    min-height:480px !important;
+    height:480px !important;
+  }
+}
+
+@media (max-width:1050px) and (min-width:761px){
+  .hero-v5-panel,
+  .real-projects-panel.real-projects-panel-split{
+    min-height:438px !important;
+    height:438px !important;
+  }
+}
+
+@media (max-width:760px){
+  .hero-v5-panel,
+  .real-projects-panel.real-projects-panel-split{
+    height:auto !important;
+    min-height:0 !important;
+  }
+}
+
