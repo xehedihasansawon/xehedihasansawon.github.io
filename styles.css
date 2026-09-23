@@ -5272,3 +5272,9 @@ button.featured-case-media{
 .home-v2 .featured-cases-section .real-projects-section-frame::before{
   display:none !important;
 }
+
+
+/* REAL LIFE PROJECTS — CLEAN HEADER AFTER INTRO REMOVAL */
+.home-v2 .featured-cases-section .section-heading-real-projects{
+  padding-bottom:8px !important;
+}
