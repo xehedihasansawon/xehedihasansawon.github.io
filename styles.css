@@ -4525,3 +4525,89 @@ button.featured-case-media{
   }
 }
 
+/* =========================================================
+   REAL LIFE PROJECTS — TITLE POLISH
+   Single-line, compact, premium
+   ========================================================= */
+.real-projects-panel-split .v2-eyebrow{
+  color:#BFD0C7 !important;
+  letter-spacing:.17em !important;
+  font-weight:700 !important;
+}
+
+.real-projects-title{
+  position:relative;
+  display:inline-flex !important;
+  align-items:baseline;
+  gap:.16em;
+  width:max-content;
+  white-space:nowrap;
+  letter-spacing:.01em !important;
+  text-shadow:0 1px 0 rgba(255,255,255,.02);
+}
+
+.real-projects-title-main{
+  color:#F1F7F3 !important;
+}
+
+.real-projects-title-accent{
+  color:#E21D2A !important;
+}
+
+.real-projects-title::after{
+  content:"";
+  position:absolute;
+  left:1px;
+  bottom:-7px;
+  width:42px;
+  height:2px;
+  border-radius:999px;
+  background:#E21D2A;
+  opacity:.95;
+}
+
+@media (min-width:1051px){
+  .real-projects-panel-split .real-projects-head{
+    height:38px !important;
+    min-height:38px !important;
+  }
+
+  .real-projects-panel-split .v2-eyebrow{
+    margin-bottom:2px !important;
+    font-size:7.5px !important;
+  }
+
+  .real-projects-title{
+    font-size:35px !important;
+    line-height:.9 !important;
+  }
+}
+
+@media (max-width:1050px) and (min-width:761px){
+  .real-projects-panel-split .real-projects-head{
+    height:36px !important;
+    min-height:36px !important;
+  }
+
+  .real-projects-title{
+    font-size:32px !important;
+  }
+
+  .real-projects-title::after{
+    bottom:-6px;
+    width:36px;
+  }
+}
+
+@media (max-width:760px){
+  .real-projects-title{
+    font-size:29px !important;
+    white-space:normal;
+  }
+
+  .real-projects-title::after{
+    width:34px;
+    bottom:-5px;
+  }
+}
+
