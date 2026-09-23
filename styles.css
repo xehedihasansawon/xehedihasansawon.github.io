@@ -2125,8 +2125,7 @@ dialog img{max-height:70vh;object-fit:contain;background:#031617}
   }
 }
 
-/* =========================================================
-   CAPABILITIES STRIP — PREMIUM RAIL
+
    Numbered capability rail with restrained red interaction
    ========================================================= */
 .home-v2 .v2-strip{
@@ -2316,6 +2315,163 @@ dialog img{max-height:70vh;object-fit:contain;background:#031617}
   .home-v2 .v2-strip-item:not(:last-child)::after{
     top:16px;
     height:24px;
+  }
+
+  .home-v2 .v2-strip-item::before{
+    left:12px;
+    right:12px;
+  }
+}
+
+/* =========================================================
+   CAPABILITIES STRIP — FINAL COMPACT POLISH
+   ========================================================= */
+.home-v2 .v2-strip{
+  position:relative;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 50% -40%,rgba(35,83,71,.16),transparent 55%),
+    linear-gradient(90deg,rgba(7,31,32,.95),rgba(10,39,35,.92),rgba(7,31,32,.95));
+  border-top:1px solid rgba(218,241,222,.10);
+  border-bottom:1px solid rgba(218,241,222,.10);
+}
+
+.home-v2 .v2-strip-inner{
+  min-height:54px;
+  display:grid;
+  grid-template-columns:repeat(6,minmax(0,1fr));
+  gap:0;
+  padding:0;
+  overflow:visible;
+}
+
+.home-v2 .v2-strip-item{
+  position:relative;
+  min-width:0;
+  height:54px;
+  display:grid;
+  grid-template-columns:1fr auto;
+  align-items:center;
+  gap:8px;
+  padding:0 16px;
+  color:rgba(238,245,240,.88);
+  transition:background-color .22s ease,color .22s ease;
+}
+
+.home-v2 .v2-strip-item::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:16px;
+  right:16px;
+  height:2px;
+  background:#B61E24;
+  transform:scaleX(0);
+  transform-origin:left center;
+  transition:transform .22s ease;
+}
+
+.home-v2 .v2-strip-item:not(:last-child)::after{
+  content:"";
+  position:absolute;
+  top:16px;
+  right:0;
+  width:1px;
+  height:22px;
+  background:rgba(218,241,222,.08);
+}
+
+.home-v2 .v2-strip-item b{
+  min-width:0;
+  font-size:11.5px;
+  line-height:1;
+  font-weight:800;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+  white-space:nowrap;
+  color:inherit;
+}
+
+.home-v2 .v2-strip-item i{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-style:normal;
+  font-size:11px;
+  line-height:1;
+  color:#B61E24;
+  opacity:.30;
+  transform:translate(-1px,1px);
+  transition:opacity .22s ease,transform .22s ease,color .22s ease;
+}
+
+@media (hover:hover){
+  .home-v2 .v2-strip-item:hover{
+    color:#F4F9F6;
+    background:rgba(35,83,71,.16);
+  }
+
+  .home-v2 .v2-strip-item:hover::before{
+    transform:scaleX(1);
+  }
+
+  .home-v2 .v2-strip-item:hover i{
+    opacity:1;
+    transform:translate(1px,-1px);
+  }
+}
+
+@media (max-width:1080px){
+  .home-v2 .v2-strip-item{
+    padding:0 12px;
+  }
+
+  .home-v2 .v2-strip-item b{
+    font-size:10.6px;
+  }
+
+  .home-v2 .v2-strip-item::before{
+    left:12px;
+    right:12px;
+  }
+}
+
+@media (max-width:900px){
+  .home-v2 .v2-strip-inner{
+    display:flex;
+    justify-content:flex-start;
+    overflow-x:auto;
+    scrollbar-width:none;
+  }
+
+  .home-v2 .v2-strip-inner::-webkit-scrollbar{
+    display:none;
+  }
+
+  .home-v2 .v2-strip-item{
+    flex:0 0 auto;
+    min-width:175px;
+  }
+}
+
+@media (max-width:560px){
+  .home-v2 .v2-strip-inner{
+    min-height:50px;
+  }
+
+  .home-v2 .v2-strip-item{
+    height:50px;
+    min-width:160px;
+    padding:0 12px;
+  }
+
+  .home-v2 .v2-strip-item b{
+    font-size:9.8px;
+  }
+
+  .home-v2 .v2-strip-item:not(:last-child)::after{
+    top:14px;
+    height:22px;
   }
 
   .home-v2 .v2-strip-item::before{
