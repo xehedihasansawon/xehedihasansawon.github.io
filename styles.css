@@ -5173,3 +5173,21 @@ button.featured-case-media{
     height:42px;
   }
 }
+
+
+/* =========================================================
+   HERO — WIDER DESKTOP FOOTPRINT
+   Use more of the available viewport without redesigning the hero.
+   Inner layout, typography and locked height remain unchanged.
+   ========================================================= */
+@media (min-width:1051px){
+  .home-v2 .hero-v5 > .shell{
+    width:min(calc(100% - 32px), 1280px) !important;
+  }
+}
+
+@media (max-width:1050px) and (min-width:761px){
+  .home-v2 .hero-v5 > .shell{
+    width:min(calc(100% - 36px), 1000px) !important;
+  }
+}
