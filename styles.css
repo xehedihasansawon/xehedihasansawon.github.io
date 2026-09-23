@@ -5470,3 +5470,109 @@ button.featured-case-media{
     font-size:20px;
   }
 }
+
+
+/* =========================================================
+   CREATIVE SERVICES — MATCH LOCKED HOMEPAGE SECTION SYSTEM
+   Same outer frame + heading scale as Real Life Projects / Design Showcase.
+   ========================================================= */
+.home-v2 .creative-services-section{
+  padding:26px 0 48px !important;
+}
+
+.home-v2 .creative-services-frame{
+  width:100%;
+  overflow:hidden;
+  border:1px solid rgba(218,241,222,.14);
+  border-radius:20px;
+  background:
+    linear-gradient(110deg,rgba(11,43,38,.34) 0%,rgba(5,31,32,.66) 52%,rgba(5,31,32,.32) 100%);
+  box-shadow:
+    0 20px 48px rgba(0,0,0,.12),
+    inset 0 1px 0 rgba(255,255,255,.02);
+}
+
+.home-v2 .creative-services-content{
+  padding:12px 20px 20px;
+}
+
+.home-v2 .creative-services-frame .v2-service-grid{
+  gap:10px;
+}
+
+.home-v2 .creative-services-frame .v2-service-grid article{
+  min-height:154px !important;
+  padding:18px 19px !important;
+  border:1px solid rgba(218,241,222,.11) !important;
+  border-radius:13px !important;
+  background:#071F20 !important;
+  box-shadow:none !important;
+}
+
+.home-v2 .creative-services-frame .v2-service-grid article:hover{
+  transform:translateY(-2px);
+  border-color:rgba(226,29,42,.52) !important;
+  background:#082321 !important;
+}
+
+.home-v2 .creative-services-frame .v2-service-grid article>span{
+  font-size:28px;
+  color:rgba(218,241,222,.20);
+}
+
+.home-v2 .creative-services-frame .v2-service-grid h3{
+  margin:16px 0 6px;
+  font-size:14px;
+  line-height:1.25;
+}
+
+.home-v2 .creative-services-frame .v2-service-grid p{
+  max-width:320px;
+  font-size:10px;
+  line-height:1.55;
+  color:#AFC1B7;
+}
+
+@media (max-width:1050px) and (min-width:761px){
+  .home-v2 .creative-services-section{
+    padding:24px 0 44px !important;
+  }
+
+  .home-v2 .creative-services-content{
+    padding:11px 17px 17px;
+  }
+
+  .home-v2 .creative-services-frame .v2-service-grid article{
+    min-height:148px !important;
+    padding:17px !important;
+  }
+}
+
+@media (max-width:760px){
+  .home-v2 .creative-services-section{
+    padding:22px 0 38px !important;
+  }
+
+  .home-v2 .creative-services-frame{
+    border-radius:16px;
+  }
+
+  .home-v2 .creative-services-content{
+    padding:10px 12px 12px;
+  }
+
+  .home-v2 .creative-services-frame .v2-service-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+
+  .home-v2 .creative-services-frame .v2-service-grid article{
+    min-height:145px !important;
+    padding:15px !important;
+  }
+}
+
+@media (max-width:520px){
+  .home-v2 .creative-services-frame .v2-service-grid{
+    grid-template-columns:1fr;
+  }
+}
