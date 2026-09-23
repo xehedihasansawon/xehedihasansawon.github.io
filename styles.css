@@ -4962,3 +4962,71 @@ button.featured-case-media{
     border-radius:14px;
   }
 }
+
+
+/* =========================================================
+   REAL LIFE PROJECTS — BOX HEADER FORCE FIX
+   Explicit vertical stack + visible premium container.
+   Typography sizing remains from the existing section heading rules.
+   ========================================================= */
+.home-v2 .featured-cases-section .section-heading-real-projects{
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:flex-start !important;
+  justify-content:center !important;
+  grid-template-columns:none !important;
+  gap:0 !important;
+  width:100% !important;
+  min-height:0 !important;
+  height:auto !important;
+  padding:18px 22px 17px !important;
+  margin:0 0 17px !important;
+  border:1px solid rgba(218,241,222,.16) !important;
+  border-radius:16px !important;
+  background:#082522 !important;
+  box-shadow:
+    0 12px 30px rgba(0,0,0,.12),
+    inset 0 1px 0 rgba(255,255,255,.025) !important;
+}
+
+.home-v2 .featured-cases-section .section-heading-real-projects .v2-eyebrow{
+  display:block !important;
+  width:auto !important;
+  margin:0 0 5px !important;
+  padding:0 !important;
+  justify-self:auto !important;
+  align-self:flex-start !important;
+}
+
+.home-v2 .featured-cases-section .section-heading-real-projects h2{
+  display:block !important;
+  width:auto !important;
+  margin:0 !important;
+  padding:0 !important;
+  justify-self:auto !important;
+  align-self:flex-start !important;
+}
+
+.home-v2 .featured-cases-section .section-heading-real-projects .section-heading-intro{
+  display:block !important;
+  width:auto !important;
+  max-width:620px !important;
+  margin:8px 0 0 !important;
+  padding:0 !important;
+  justify-self:auto !important;
+  align-self:flex-start !important;
+  text-align:left !important;
+}
+
+@media (max-width:1050px) and (min-width:761px){
+  .home-v2 .featured-cases-section .section-heading-real-projects{
+    padding:16px 19px 15px !important;
+  }
+}
+
+@media (max-width:760px){
+  .home-v2 .featured-cases-section .section-heading-real-projects{
+    padding:15px 16px 14px !important;
+    border-radius:14px !important;
+  }
+}
