@@ -9047,3 +9047,17 @@ button.featured-case-media{
     grid-column:auto;
   }
 }
+
+
+/* VS Code exact logo from provided reference image */
+.home-v2 .tools-skills-frame .vscode-logo-image{
+  display:block;
+  width:29px;
+  height:29px;
+  object-fit:contain;
+}
+
+.home-v2 .tools-skills-frame .logo-vscode{
+  display:grid !important;
+  place-items:center !important;
+}
