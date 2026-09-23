@@ -5191,3 +5191,21 @@ button.featured-case-media{
     width:min(calc(100% - 36px), 1000px) !important;
   }
 }
+
+
+/* =========================================================
+   HOMEPAGE — WIDER CONSISTENT SECTION FOOTPRINT
+   Use more viewport width across every major homepage section.
+   Section internals/layouts remain unchanged.
+   ========================================================= */
+@media (min-width:1051px){
+  .home-v2 main > section > .shell{
+    width:min(calc(100% - 32px), 1280px) !important;
+  }
+}
+
+@media (max-width:1050px) and (min-width:761px){
+  .home-v2 main > section > .shell{
+    width:min(calc(100% - 36px), 1000px) !important;
+  }
+}
