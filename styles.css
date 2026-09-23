@@ -2125,3 +2125,202 @@ dialog img{max-height:70vh;object-fit:contain;background:#031617}
   }
 }
 
+/* =========================================================
+   CAPABILITIES STRIP — PREMIUM RAIL
+   Numbered capability rail with restrained red interaction
+   ========================================================= */
+.home-v2 .v2-strip{
+  position:relative;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 50% -40%,rgba(35,83,71,.18),transparent 55%),
+    linear-gradient(90deg,rgba(7,31,32,.94),rgba(10,39,35,.90),rgba(7,31,32,.94));
+  border-top:1px solid rgba(218,241,222,.10);
+  border-bottom:1px solid rgba(218,241,222,.11);
+}
+
+.home-v2 .v2-strip::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:linear-gradient(90deg,transparent,rgba(218,241,222,.025),transparent);
+}
+
+.home-v2 .v2-strip-inner{
+  min-height:64px;
+  display:grid;
+  grid-template-columns:repeat(6,minmax(0,1fr));
+  gap:0;
+  padding:0;
+  overflow:visible;
+}
+
+.home-v2 .v2-strip-item{
+  position:relative;
+  min-width:0;
+  height:64px;
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  align-items:center;
+  gap:9px;
+  padding:0 18px;
+  color:rgba(232,241,235,.82);
+  transition:
+    background-color .24s ease,
+    color .24s ease,
+    transform .24s ease;
+}
+
+.home-v2 .v2-strip-item::before{
+  content:"";
+  position:absolute;
+  top:0;
+  left:18px;
+  right:18px;
+  height:2px;
+  background:#B61E24;
+  transform:scaleX(0);
+  transform-origin:left center;
+  transition:transform .24s ease;
+}
+
+.home-v2 .v2-strip-item:not(:last-child)::after{
+  content:"";
+  position:absolute;
+  top:18px;
+  right:0;
+  width:1px;
+  height:28px;
+  background:rgba(218,241,222,.09);
+}
+
+.home-v2 .v2-strip-item small{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:20px;
+  margin:0;
+  font-family:"Inter",sans-serif;
+  font-size:8px;
+  line-height:1;
+  font-weight:700;
+  letter-spacing:.08em;
+  color:rgba(142,182,155,.58);
+  transition:color .24s ease;
+}
+
+.home-v2 .v2-strip-item b{
+  min-width:0;
+  font-size:10.5px;
+  line-height:1;
+  font-weight:700;
+  letter-spacing:.055em;
+  text-transform:uppercase;
+  white-space:nowrap;
+  color:inherit;
+}
+
+.home-v2 .v2-strip-item i{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-style:normal;
+  font-size:11px;
+  line-height:1;
+  color:#B61E24;
+  opacity:.26;
+  transform:translate(-2px,2px);
+  transition:
+    color .24s ease,
+    opacity .24s ease,
+    transform .24s ease;
+}
+
+@media (hover:hover){
+  .home-v2 .v2-strip-item:hover{
+    color:#F4F9F6;
+    background:rgba(35,83,71,.18);
+  }
+
+  .home-v2 .v2-strip-item:hover::before{
+    transform:scaleX(1);
+  }
+
+  .home-v2 .v2-strip-item:hover small{
+    color:#A8C7B3;
+  }
+
+  .home-v2 .v2-strip-item:hover i{
+    opacity:1;
+    transform:translate(1px,-1px);
+  }
+}
+
+@media (max-width:1080px){
+  .home-v2 .v2-strip-item{
+    padding:0 13px;
+    gap:7px;
+  }
+
+  .home-v2 .v2-strip-item b{
+    font-size:9.6px;
+  }
+
+  .home-v2 .v2-strip-item::before{
+    left:13px;
+    right:13px;
+  }
+}
+
+@media (max-width:900px){
+  .home-v2 .v2-strip-inner{
+    display:flex;
+    justify-content:flex-start;
+    overflow-x:auto;
+    scrollbar-width:none;
+    scroll-snap-type:x proximity;
+  }
+
+  .home-v2 .v2-strip-inner::-webkit-scrollbar{
+    display:none;
+  }
+
+  .home-v2 .v2-strip-item{
+    flex:0 0 auto;
+    min-width:185px;
+    scroll-snap-align:start;
+  }
+}
+
+@media (max-width:560px){
+  .home-v2 .v2-strip-inner{
+    min-height:56px;
+  }
+
+  .home-v2 .v2-strip-item{
+    height:56px;
+    min-width:168px;
+    padding:0 12px;
+    gap:7px;
+  }
+
+  .home-v2 .v2-strip-item b{
+    font-size:9.2px;
+  }
+
+  .home-v2 .v2-strip-item small{
+    font-size:7.5px;
+  }
+
+  .home-v2 .v2-strip-item:not(:last-child)::after{
+    top:16px;
+    height:24px;
+  }
+
+  .home-v2 .v2-strip-item::before{
+    left:12px;
+    right:12px;
+  }
+}
+
