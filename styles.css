@@ -4639,3 +4639,17 @@ button.featured-case-media{
   }
 }
 
+/* =========================================================
+   HERO / STRIP / REAL LIFE PROJECTS — EQUAL VERTICAL GAPS
+   Desktop/tablet spacing lock
+   ========================================================= */
+@media (min-width:761px){
+  .hero-v5{
+    padding-bottom:22px !important;
+  }
+
+  .featured-cases-section{
+    padding-top:22px !important;
+  }
+}
+
