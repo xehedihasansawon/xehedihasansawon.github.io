@@ -11442,3 +11442,163 @@ button.featured-case-media{
     font-size:9.8px !important;
   }
 }
+
+
+/* =========================================================
+   EXPERIENCE & COMMUNITY — REAL EXPERIENCE CARDS
+   ========================================================= */
+.home-v2 .experience-community-section{
+  padding:24px 0 44px !important;
+}
+
+.home-v2 .experience-community-frame{
+  overflow:hidden;
+}
+
+.home-v2 .experience-community-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  padding:14px 18px 18px;
+}
+
+.home-v2 .experience-card{
+  position:relative;
+  min-height:205px;
+  padding:17px 18px 16px 20px;
+  overflow:hidden;
+  border:1px solid rgba(218,241,222,.10);
+  border-radius:12px;
+  background:linear-gradient(145deg,rgba(7,38,35,.44),rgba(3,27,27,.67));
+  transition:transform .2s ease,border-color .2s ease,background .2s ease,box-shadow .2s ease;
+}
+
+.home-v2 .experience-card::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:16px;
+  bottom:16px;
+  width:2px;
+  border-radius:999px;
+  background:#E21D2A;
+  opacity:.68;
+}
+
+.home-v2 .experience-card:hover{
+  transform:translateY(-2px);
+  border-color:rgba(226,29,42,.28);
+  background:linear-gradient(145deg,rgba(10,45,40,.55),rgba(4,31,30,.76));
+  box-shadow:0 10px 24px rgba(0,0,0,.10);
+}
+
+.home-v2 .experience-card-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:13px;
+}
+
+.home-v2 .experience-no{
+  display:grid;
+  place-items:center;
+  width:31px;
+  height:25px;
+  border:1px solid rgba(226,29,42,.20);
+  border-radius:6px;
+  font-family:"Bebas Neue",Impact,sans-serif;
+  font-size:14px;
+  letter-spacing:.08em;
+  color:#E21D2A;
+  background:rgba(226,29,42,.035);
+}
+
+.home-v2 .experience-type{
+  font-size:7.7px;
+  line-height:1;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  font-weight:800;
+  color:#91A79B;
+}
+
+.home-v2 .experience-card h3{
+  margin:0 0 6px;
+  font-family:"Bebas Neue",Impact,sans-serif;
+  font-size:29px;
+  line-height:1;
+  letter-spacing:.018em;
+  color:#F2F7F4;
+}
+
+.home-v2 .experience-role{
+  margin:0 0 11px;
+  font-size:10.8px;
+  line-height:1.35;
+  font-weight:650;
+  color:#D3E0D9;
+}
+
+.home-v2 .experience-desc{
+  max-width:620px;
+  margin:0 0 15px;
+  font-size:10.5px;
+  line-height:1.55;
+  color:#AFC0B7;
+}
+
+.home-v2 .experience-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:7px;
+}
+
+.home-v2 .experience-tags span{
+  display:inline-flex;
+  align-items:center;
+  min-height:26px;
+  padding:6px 10px;
+  border:1px solid rgba(218,241,222,.10);
+  border-radius:999px;
+  background:rgba(255,255,255,.018);
+  font-size:9px;
+  line-height:1;
+  color:#CBD8D1;
+}
+
+.home-v2 .experience-card:hover .experience-tags span{
+  border-color:rgba(226,29,42,.17);
+}
+
+@media (max-width:900px){
+  .home-v2 .experience-community-grid{
+    grid-template-columns:1fr;
+  }
+
+  .home-v2 .experience-card{
+    min-height:0;
+  }
+}
+
+@media (max-width:760px){
+  .home-v2 .experience-community-grid{
+    padding:11px 12px 13px;
+  }
+
+  .home-v2 .experience-card{
+    padding:15px 15px 14px 17px;
+  }
+
+  .home-v2 .experience-card h3{
+    font-size:26px;
+  }
+
+  .home-v2 .experience-role{
+    font-size:10.2px;
+  }
+
+  .home-v2 .experience-desc{
+    font-size:10px;
+  }
+}
