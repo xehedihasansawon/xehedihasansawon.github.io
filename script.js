@@ -299,3 +299,54 @@ document.querySelectorAll('.digital-detail-card').forEach(card => {
     }
   });
 });
+
+
+/* =========================================================
+   CONTACT — COPY EMAIL
+   Avoid mail-client dependency and provide direct feedback.
+   ========================================================= */
+const copyEmailButtons = document.querySelectorAll('[data-copy-email]');
+
+const copyTextToClipboard = async text => {
+  if (navigator.clipboard && window.isSecureContext) {
+    await navigator.clipboard.writeText(text);
+    return true;
+  }
+
+  const textarea = document.createElement('textarea');
+  textarea.value = text;
+  textarea.setAttribute('readonly', '');
+  textarea.style.position = 'fixed';
+  textarea.style.opacity = '0';
+  document.body.appendChild(textarea);
+  textarea.select();
+
+  let copied = false;
+  try {
+    copied = document.execCommand('copy');
+  } catch (error) {
+    copied = false;
+  }
+
+  textarea.remove();
+  return copied;
+};
+
+copyEmailButtons.forEach(button => {
+  const originalText = button.textContent.trim();
+
+  button.addEventListener('click', async () => {
+    const email = button.dataset.copyEmail;
+    if (!email) return;
+
+    const copied = await copyTextToClipboard(email);
+
+    button.textContent = copied ? 'Email copied ✓' : email;
+    button.classList.toggle('is-copied', copied);
+
+    window.setTimeout(() => {
+      button.textContent = originalText;
+      button.classList.remove('is-copied');
+    }, 1800);
+  });
+});
