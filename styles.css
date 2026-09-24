@@ -10158,3 +10158,51 @@ button.featured-case-media{
     grid-template-columns:1fr;
   }
 }
+
+
+/* =========================================================
+   TOOLS — ORIGINAL SOFTWARE LOGO ASSETS
+   All 8 tools use image assets with consistent visual sizing.
+   ========================================================= */
+.home-v2 .ts-tool-card .tool-logo-image{
+  width:42px !important;
+  height:42px !important;
+  flex:0 0 42px !important;
+  display:grid !important;
+  place-items:center !important;
+  overflow:hidden !important;
+  padding:0 !important;
+  border:0 !important;
+  border-radius:9px !important;
+  background:transparent !important;
+  color:inherit !important;
+}
+
+.home-v2 .ts-tool-card .tool-logo-image img{
+  display:block !important;
+  width:100% !important;
+  height:100% !important;
+  object-fit:contain !important;
+  padding:0 !important;
+  border-radius:8px;
+}
+
+.home-v2 .ts-tool-card:nth-child(4) .tool-logo-image img{
+  width:34px !important;
+  height:34px !important;
+  margin:auto;
+}
+
+.home-v2 .ts-tool-card:nth-child(5) .tool-logo-image img{
+  width:38px !important;
+  height:38px !important;
+  margin:auto;
+}
+
+.home-v2 .ts-tool-card:nth-child(6) .tool-logo-image img,
+.home-v2 .ts-tool-card:nth-child(7) .tool-logo-image img,
+.home-v2 .ts-tool-card:nth-child(8) .tool-logo-image img{
+  width:39px !important;
+  height:39px !important;
+  margin:auto;
+}
