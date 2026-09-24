@@ -29,6 +29,7 @@ document.querySelectorAll('[data-lightbox]').forEach(button => {
     lightboxImage.src = button.dataset.lightbox;
     lightboxImage.alt = button.querySelector('img')?.alt || 'Project artwork';
     lightbox.showModal();
+    document.body.style.overflow = 'hidden';
   });
 });
 
@@ -38,6 +39,7 @@ lightbox?.addEventListener('click', event => {
 });
 
 lightbox?.addEventListener('close', () => {
+  document.body.style.overflow = '';
   if (lastLightboxTrigger) lastLightboxTrigger.focus();
 });
 
