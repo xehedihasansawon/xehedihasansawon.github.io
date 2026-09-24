@@ -12575,3 +12575,206 @@ button.featured-case-media{
     min-width:90px !important;
   }
 }
+
+
+/* =========================================================
+   CONTACT V3 — VISIBLE DIRECT CONTACT + PROFILE GROUPS
+   Premium final-contact hierarchy with real details visible.
+   ========================================================= */
+.home-v2 .contact-v3{
+  min-height:0 !important;
+  padding:27px 30px 28px !important;
+}
+
+.home-v2 .contact-v3 .contact-status{
+  margin-bottom:10px !important;
+}
+
+.home-v2 .contact-v3 > p{
+  margin-bottom:5px !important;
+}
+
+.home-v2 .contact-v3 h2{
+  margin-bottom:10px !important;
+}
+
+.home-v2 .contact-v3 > small{
+  max-width:720px !important;
+}
+
+.home-v2 .contact-primary-grid{
+  width:min(100%,820px);
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:19px;
+}
+
+.home-v2 .contact-channel-card{
+  min-width:0;
+  min-height:102px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  padding:16px 17px;
+  border:1px solid rgba(218,241,222,.11);
+  border-radius:12px;
+  background:rgba(4,29,29,.44);
+  text-align:left;
+  transition:transform .2s ease,border-color .2s ease,background .2s ease,box-shadow .2s ease;
+}
+
+.home-v2 .contact-channel-card:hover{
+  transform:translateY(-2px);
+  border-color:rgba(226,29,42,.28);
+  background:rgba(7,39,36,.58);
+  box-shadow:0 10px 24px rgba(0,0,0,.10);
+}
+
+.home-v2 .contact-whatsapp{
+  color:inherit;
+}
+
+.home-v2 .contact-channel-copy{
+  min-width:0;
+}
+
+.home-v2 .contact-channel-label{
+  display:block;
+  margin:0 0 5px;
+  font-size:8px;
+  line-height:1;
+  font-weight:800;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:#8FA89A;
+}
+
+.home-v2 .contact-channel-copy strong{
+  display:block;
+  margin:0 0 5px;
+  font-size:15px;
+  line-height:1.2;
+  font-weight:700;
+  color:#F0F6F2;
+  overflow-wrap:anywhere;
+}
+
+.home-v2 .contact-channel-copy small{
+  display:block;
+  margin:0 !important;
+  font-size:9.3px !important;
+  line-height:1.4 !important;
+  color:#92A99D !important;
+}
+
+.home-v2 .contact-channel-action{
+  flex:0 0 auto;
+  min-width:85px;
+  min-height:34px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:8px 12px;
+  border:1px solid rgba(226,29,42,.28);
+  border-radius:999px;
+  background:rgba(226,29,42,.055);
+  font-size:9.5px;
+  line-height:1;
+  font-weight:700;
+  color:#F1F6F3;
+}
+
+.home-v2 .contact-whatsapp .contact-channel-action{
+  border-color:#E21D2A;
+  background:#E21D2A;
+  color:#fff;
+}
+
+.home-v2 .contact-copy-action{
+  appearance:none;
+  -webkit-appearance:none;
+  cursor:pointer;
+  font-family:inherit;
+}
+
+.home-v2 .contact-copy-action:hover,
+.home-v2 .contact-copy-action.is-copied{
+  border-color:rgba(117,201,140,.36);
+  background:rgba(117,201,140,.075);
+  color:#E0F5E6;
+}
+
+.home-v2 .contact-secondary-grid{
+  width:min(100%,820px);
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:11px;
+}
+
+.home-v2 .contact-link-group{
+  min-width:0;
+  padding:11px 12px 12px;
+  border-top:1px solid rgba(218,241,222,.075);
+}
+
+.home-v2 .contact-link-group-title{
+  display:block;
+  margin:0 0 8px;
+  font-size:7.7px;
+  line-height:1;
+  font-weight:800;
+  letter-spacing:.15em;
+  text-transform:uppercase;
+  color:#718B7D;
+}
+
+.home-v2 .contact-v3 .contact-links{
+  width:100% !important;
+  max-width:none !important;
+  display:flex !important;
+  justify-content:flex-start !important;
+  flex-wrap:wrap !important;
+  gap:6px !important;
+  margin:0 !important;
+}
+
+.home-v2 .contact-v3 .contact-links a{
+  min-width:0 !important;
+  min-height:29px !important;
+  padding:7px 10px !important;
+  font-size:8.8px !important;
+}
+
+@media (max-width:760px){
+  .home-v2 .contact-v3{
+    padding:25px 16px 24px !important;
+  }
+
+  .home-v2 .contact-primary-grid,
+  .home-v2 .contact-secondary-grid{
+    grid-template-columns:1fr;
+  }
+
+  .home-v2 .contact-secondary-grid{
+    gap:0;
+  }
+
+  .home-v2 .contact-channel-card{
+    min-height:94px;
+  }
+}
+
+@media (max-width:520px){
+  .home-v2 .contact-channel-card{
+    align-items:flex-start;
+    flex-direction:column;
+    gap:12px;
+  }
+
+  .home-v2 .contact-channel-action{
+    min-width:96px;
+  }
+}
