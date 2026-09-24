@@ -10629,3 +10629,76 @@ button.featured-case-media{
     font-size:9.5px !important;
   }
 }
+
+
+/* =========================================================
+   TOOLS & SKILLS — MATCH LOCKED SECTION HEADER MEASUREMENTS
+   Same header rhythm as Design Showcase / About Me.
+   ========================================================= */
+.home-v2 .tools-skills-frame .ts-final-heading{
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:flex-start !important;
+  justify-content:initial !important;
+  text-align:left !important;
+  padding:8px 18px 9px !important;
+  border-bottom:1px solid rgba(218,241,222,.10) !important;
+}
+
+.home-v2 .tools-skills-frame .ts-final-heading .v2-eyebrow{
+  margin:0 0 1px !important;
+  font-size:8px !important;
+  line-height:1.2 !important;
+  font-weight:700 !important;
+  letter-spacing:.18em !important;
+  text-transform:uppercase !important;
+  color:#BFD0C7 !important;
+}
+
+.home-v2 .tools-skills-frame .ts-final-heading h2{
+  margin:0 !important;
+  font-size:46px !important;
+  line-height:.9 !important;
+  letter-spacing:.018em !important;
+  text-align:left !important;
+}
+
+.home-v2 .tools-skills-frame .ts-final-layout{
+  align-items:stretch !important;
+}
+
+.home-v2 .tools-skills-frame .ts-final-pane{
+  padding:12px 20px 20px !important;
+}
+
+.home-v2 .tools-skills-frame .ts-final-subhead{
+  margin-bottom:12px !important;
+}
+
+@media (max-width:1050px) and (min-width:761px){
+  .home-v2 .tools-skills-frame .ts-final-heading{
+    padding:8px 16px 9px !important;
+  }
+
+  .home-v2 .tools-skills-frame .ts-final-heading h2{
+    font-size:42px !important;
+  }
+
+  .home-v2 .tools-skills-frame .ts-final-pane{
+    padding:11px 17px 17px !important;
+  }
+}
+
+@media (max-width:760px){
+  .home-v2 .tools-skills-frame .ts-final-heading{
+    padding:9px 14px 10px !important;
+  }
+
+  .home-v2 .tools-skills-frame .ts-final-heading h2{
+    font-size:36px !important;
+  }
+
+  .home-v2 .tools-skills-frame .ts-final-pane{
+    padding:10px 12px 12px !important;
+  }
+}
