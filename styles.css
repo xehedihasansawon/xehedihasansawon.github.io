@@ -13414,3 +13414,73 @@ button.featured-case-media{
     margin-left:0 !important;
   }
 }
+
+
+/* =========================================================
+   FOOTER — BRAND NAME ALIGNMENT FIX
+   Full name reads as one balanced signature, not a stacked badge.
+   ========================================================= */
+.home-v2 .footer-main{
+  grid-template-columns:minmax(330px,1.25fr) minmax(380px,1.55fr) minmax(270px,.95fr) !important;
+  align-items:center !important;
+}
+
+.home-v2 .footer-brand{
+  min-width:0 !important;
+}
+
+.home-v2 .footer-brand .footer-name{
+  display:flex !important;
+  align-items:baseline !important;
+  flex-wrap:nowrap !important;
+  gap:7px !important;
+  margin:0 0 7px !important;
+  white-space:nowrap !important;
+  font-family:"Bebas Neue",Impact,sans-serif !important;
+  font-size:24px !important;
+  line-height:.92 !important;
+  letter-spacing:.025em !important;
+  color:#F2F7F4 !important;
+}
+
+.home-v2 .footer-brand .footer-name-main,
+.home-v2 .footer-brand .footer-name-accent{
+  display:inline !important;
+  margin:0 !important;
+  font:inherit !important;
+  line-height:inherit !important;
+  letter-spacing:inherit !important;
+}
+
+.home-v2 .footer-brand .footer-name-accent{
+  color:#E21D2A !important;
+}
+
+.home-v2 .footer-brand .footer-role{
+  display:block !important;
+  margin:0 !important;
+  max-width:320px !important;
+  font-size:9.8px !important;
+  line-height:1.45 !important;
+  letter-spacing:.01em !important;
+  color:#9EAEA5 !important;
+}
+
+@media (max-width:1050px){
+  .home-v2 .footer-main{
+    grid-template-columns:1fr 1fr !important;
+  }
+
+  .home-v2 .footer-brand .footer-name{
+    font-size:23px !important;
+  }
+}
+
+@media (max-width:700px){
+  .home-v2 .footer-brand .footer-name{
+    flex-wrap:wrap !important;
+    gap:4px 7px !important;
+    white-space:normal !important;
+    font-size:22px !important;
+  }
+}
