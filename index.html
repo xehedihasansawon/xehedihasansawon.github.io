@@ -41,10 +41,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=portfolio-quality-pass-20260925-82">
+  <link rel="stylesheet" href="styles.css?v=portfolio-quality-pass-20260925-83">
   <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
 </head>
 <body class="home-v2">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
   <header class="topbar">
     <div class="shell nav">
       <a class="signature" href="#home" aria-label="Home">Mhs<span>.</span></a>
@@ -60,7 +61,7 @@
 
       <a class="outline-pill desktop-cta" href="#contact">Let's work together <span>→</span></a>
 
-      <button class="menu-button" id="menuButton" aria-label="Open menu" aria-expanded="false">
+      <button class="menu-button" id="menuButton" aria-label="Open menu" aria-controls="mobileNav" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
     </div>
@@ -71,7 +72,7 @@
     </nav>
   </header>
 
-  <main>
+  <main id="main-content">
     <section class="hero-v5" id="home">
       <div class="shell">
         <div class="hero-v5-panel">
@@ -595,7 +596,7 @@
     </div>
   </footer>
 
-  <dialog id="serviceDialog" class="service-dialog">
+  <dialog id="serviceDialog" class="service-dialog" aria-labelledby="serviceDialogTitle" aria-describedby="serviceDialogSummary">
     <button class="dialog-close" id="serviceDialogClose" aria-label="Close service details">×</button>
     <div class="service-dialog-content">
       <p class="service-dialog-eyebrow" id="serviceDialogEyebrow">Service workflow</p>
@@ -630,7 +631,7 @@
     </div>
   </dialog>
 
-  <dialog id="projectDialog" class="project-detail-dialog">
+  <dialog id="projectDialog" class="project-detail-dialog" aria-labelledby="dialogTitle" aria-describedby="dialogSummary">
     <button class="dialog-close" id="dialogClose" aria-label="Close project">×</button>
     <div class="project-detail-layout">
       <div class="project-detail-media">
@@ -646,6 +647,6 @@
     </div>
   </dialog>
 
-  <script src="script.js?v=portfolio-quality-pass-20260925-2"></script>
+  <script src="script.js?v=portfolio-quality-pass-20260925-3"></script>
 </body>
 </html>
