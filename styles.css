@@ -13481,3 +13481,29 @@ button.featured-case-media{
     gap:16px !important;
   }
 }
+
+
+/* =========================================================
+   HEADER — ANCHOR OFFSET & NAV STATE FIX
+   Keeps section headings clear of the sticky header and
+   separates hover feedback from the active navigation state.
+   ========================================================= */
+.home-v2 main section[id]{
+  scroll-margin-top:84px !important;
+}
+
+.home-v2 .desktop-nav a:hover:not(.active)::after{
+  width:10px !important;
+  background:rgba(142,182,155,.72) !important;
+}
+
+.home-v2 .desktop-nav a.active::after{
+  width:22px !important;
+  background:#E21D2A !important;
+}
+
+@media (max-width:900px){
+  .home-v2 main section[id]{
+    scroll-margin-top:76px !important;
+  }
+}
