@@ -13507,3 +13507,251 @@ button.featured-case-media{
     scroll-margin-top:76px !important;
   }
 }
+
+
+/* =========================================================
+   PORTFOLIO — QUALITY PASS
+   Proof depth, accessibility and final interaction polish.
+   ========================================================= */
+
+/* Rich project snapshot dialog */
+.home-v2 .project-detail-dialog{
+  width:min(960px,calc(100% - 32px)) !important;
+  max-height:88vh !important;
+  padding:0 !important;
+  overflow:hidden !important;
+  border:1px solid rgba(218,241,222,.16) !important;
+  border-radius:18px !important;
+  background:#051B1C !important;
+  box-shadow:0 34px 110px rgba(0,0,0,.62) !important;
+}
+
+.home-v2 .project-detail-layout{
+  display:grid;
+  grid-template-columns:minmax(0,1.08fr) minmax(330px,.92fr);
+  min-height:430px;
+}
+
+.home-v2 .project-detail-media{
+  min-height:430px;
+  display:grid;
+  place-items:center;
+  padding:18px;
+  overflow:hidden;
+  border-right:1px solid rgba(218,241,222,.09);
+  background:#031516;
+}
+
+.home-v2 .project-detail-media img{
+  width:100% !important;
+  height:100% !important;
+  max-height:68vh !important;
+  object-fit:contain !important;
+  border-radius:11px;
+  background:#031516 !important;
+}
+
+.home-v2 .project-detail-content{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:34px 32px 32px !important;
+}
+
+.home-v2 .project-dialog-eyebrow{
+  margin:0 0 9px !important;
+  font-size:8.5px !important;
+  line-height:1 !important;
+  font-weight:800 !important;
+  letter-spacing:.17em !important;
+  text-transform:uppercase !important;
+  color:#E21D2A !important;
+}
+
+.home-v2 .project-detail-content h2{
+  margin:0 0 7px !important;
+  font-family:"Bebas Neue",Impact,sans-serif !important;
+  font-size:40px !important;
+  line-height:.94 !important;
+  letter-spacing:.02em !important;
+  color:#F3F8F5 !important;
+}
+
+.home-v2 .project-dialog-meta{
+  margin:0 0 18px !important;
+  font-size:9px !important;
+  line-height:1.45 !important;
+  font-weight:700 !important;
+  letter-spacing:.06em !important;
+  text-transform:uppercase !important;
+  color:#91A79B !important;
+}
+
+.home-v2 .project-dialog-summary{
+  margin:0 !important;
+  font-size:12px !important;
+  line-height:1.72 !important;
+  color:#C1D0C8 !important;
+}
+
+.home-v2 .project-dialog-points{
+  display:grid;
+  gap:8px;
+  margin:22px 0 0;
+  padding:0;
+  list-style:none;
+}
+
+.home-v2 .project-dialog-points li{
+  position:relative;
+  padding:10px 11px 10px 28px;
+  border:1px solid rgba(218,241,222,.085);
+  border-radius:9px;
+  background:rgba(255,255,255,.015);
+  font-size:10px;
+  line-height:1.45;
+  color:#D4E0D9;
+}
+
+.home-v2 .project-dialog-points li::before{
+  content:"";
+  position:absolute;
+  left:12px;
+  top:50%;
+  width:5px;
+  height:5px;
+  transform:translateY(-50%);
+  border-radius:50%;
+  background:#E21D2A;
+}
+
+.home-v2 .project-detail-dialog .dialog-close{
+  z-index:5;
+  width:36px !important;
+  height:36px !important;
+  border-color:rgba(218,241,222,.15) !important;
+  background:rgba(3,21,22,.90) !important;
+}
+
+.home-v2 .project-detail-dialog .dialog-close:hover{
+  border-color:rgba(226,29,42,.45) !important;
+  color:#fff;
+}
+
+/* Experience timeline clarity */
+.home-v2 .experience-card-top{
+  justify-content:flex-start !important;
+}
+
+.home-v2 .experience-type{
+  margin-left:0 !important;
+}
+
+.home-v2 .experience-period{
+  margin-left:auto;
+  font-size:8px;
+  line-height:1;
+  font-weight:700;
+  letter-spacing:.05em;
+  color:#6F897B;
+  white-space:nowrap;
+}
+
+/* Whole-card showcase interaction */
+.home-v2 .design-showcase-card{
+  cursor:pointer;
+}
+
+.home-v2 .real-project-split-card.project-card{
+  cursor:pointer;
+}
+
+/* Keyboard accessibility */
+.home-v2 a:focus-visible,
+.home-v2 button:focus-visible,
+.home-v2 [role="button"]:focus-visible{
+  outline:2px solid #E21D2A !important;
+  outline-offset:3px !important;
+}
+
+.home-v2 .mobile-nav a.active{
+  color:#fff !important;
+}
+
+.home-v2 .mobile-nav a.active::before{
+  content:"";
+  display:inline-block;
+  width:5px;
+  height:5px;
+  margin-right:7px;
+  border-radius:50%;
+  background:#E21D2A;
+  vertical-align:middle;
+}
+
+@media (max-width:760px){
+  .home-v2 .project-detail-dialog{
+    width:min(94vw,620px) !important;
+    max-height:90vh !important;
+    overflow:auto !important;
+  }
+
+  .home-v2 .project-detail-layout{
+    grid-template-columns:1fr;
+    min-height:0;
+  }
+
+  .home-v2 .project-detail-media{
+    min-height:0;
+    height:min(42vh,330px);
+    padding:13px;
+    border-right:0;
+    border-bottom:1px solid rgba(218,241,222,.09);
+  }
+
+  .home-v2 .project-detail-media img{
+    max-height:100% !important;
+  }
+
+  .home-v2 .project-detail-content{
+    padding:24px 20px 22px !important;
+  }
+
+  .home-v2 .project-detail-content h2{
+    font-size:34px !important;
+  }
+
+  .home-v2 .project-dialog-summary{
+    font-size:11px !important;
+  }
+
+  .home-v2 .experience-period{
+    font-size:7.5px;
+  }
+}
+
+@media (max-width:480px){
+  .home-v2 .experience-card-top{
+    flex-wrap:wrap !important;
+    gap:8px !important;
+  }
+
+  .home-v2 .experience-period{
+    width:100%;
+    margin-left:43px;
+  }
+}
+
+@media (prefers-reduced-motion:reduce){
+  html{
+    scroll-behavior:auto !important;
+  }
+
+  *,
+  *::before,
+  *::after{
+    animation-duration:.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.01ms !important;
+  }
+}
