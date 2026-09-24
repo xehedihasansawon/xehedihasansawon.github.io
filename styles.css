@@ -12162,3 +12162,61 @@ button.featured-case-media{
     font-size:8.7px;
   }
 }
+
+
+/* =========================================================
+   CONTACT — DIRECT CHANNEL LINKS
+   ========================================================= */
+.home-v2 .contact-links{
+  width:auto !important;
+  max-width:100% !important;
+  border-top:0 !important;
+  padding-top:0 !important;
+  margin-top:16px !important;
+  gap:7px !important;
+}
+
+.home-v2 .contact-links a{
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  min-height:30px !important;
+  padding:7px 11px !important;
+  border:1px solid rgba(218,241,222,.10) !important;
+  border-radius:999px !important;
+  background:rgba(255,255,255,.018) !important;
+  font-size:9px !important;
+  line-height:1 !important;
+  font-weight:650 !important;
+  color:#AFC1B7 !important;
+  transition:transform .2s ease,border-color .2s ease,color .2s ease,background .2s ease !important;
+}
+
+.home-v2 .contact-links a:hover{
+  transform:translateY(-1px) !important;
+  border-color:rgba(226,29,42,.28) !important;
+  background:rgba(226,29,42,.045) !important;
+  color:#F1F6F3 !important;
+}
+
+.home-v2 footer .socials{
+  gap:7px !important;
+}
+
+.home-v2 footer .socials a{
+  width:28px !important;
+  height:28px !important;
+  font-size:8.5px !important;
+  text-transform:uppercase !important;
+  border-color:rgba(218,241,222,.16) !important;
+}
+
+@media (max-width:520px){
+  .home-v2 .contact-links{
+    justify-content:center !important;
+  }
+
+  .home-v2 .contact-links a{
+    min-width:86px !important;
+  }
+}
