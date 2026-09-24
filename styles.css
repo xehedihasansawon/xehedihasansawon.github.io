@@ -12778,3 +12778,25 @@ button.featured-case-media{
     min-width:96px;
   }
 }
+
+
+/* CONTACT — SINGLE-LINE DESKTOP HEADLINE */
+@media (min-width:1051px){
+  .home-v2 .contact-v3 h2{
+    max-width:none !important;
+    white-space:nowrap !important;
+    font-size:46px !important;
+    line-height:.94 !important;
+  }
+
+  .home-v2 .contact-v3 h2 span{
+    display:inline !important;
+    margin:0 !important;
+  }
+}
+
+@media (max-width:1050px){
+  .home-v2 .contact-v3 h2{
+    white-space:normal !important;
+  }
+}
