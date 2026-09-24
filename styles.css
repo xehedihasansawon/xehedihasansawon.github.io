@@ -12220,3 +12220,155 @@ button.featured-case-media{
     min-width:86px !important;
   }
 }
+
+
+/* =========================================================
+   CONTACT — PREMIUM MICRO POLISH V2
+   Keep centered CTA, refine rhythm, depth and direct channels.
+   ========================================================= */
+.home-v2 .contact-cta .cta-box{
+  min-height:270px !important;
+  padding:31px 36px 30px !important;
+  background:
+    radial-gradient(circle at 15% 20%,rgba(142,182,155,.055),transparent 25%),
+    radial-gradient(circle at 86% 12%,rgba(226,29,42,.045),transparent 22%),
+    linear-gradient(110deg,rgba(11,43,38,.36) 0%,rgba(5,31,32,.72) 52%,rgba(5,31,32,.38) 100%) !important;
+}
+
+.home-v2 .contact-cta .cta-box::before{
+  width:112px !important;
+  height:2px !important;
+  opacity:.9 !important;
+}
+
+.home-v2 .contact-status{
+  margin-bottom:11px !important;
+  padding:6px 11px !important;
+  font-size:8.9px !important;
+  color:#C5D5CC !important;
+  background:rgba(142,182,155,.05) !important;
+}
+
+.home-v2 .contact-cta .cta-box>p{
+  margin-bottom:6px !important;
+  font-size:8.6px !important;
+  letter-spacing:.185em !important;
+}
+
+.home-v2 .contact-cta .cta-box h2{
+  max-width:900px !important;
+  margin-bottom:12px !important;
+  font-size:52px !important;
+  line-height:.91 !important;
+}
+
+.home-v2 .contact-cta .cta-box small{
+  max-width:735px !important;
+  font-size:11.8px !important;
+  line-height:1.58 !important;
+  color:#C0CEC6 !important;
+}
+
+.home-v2 .contact-cta .cta-actions{
+  gap:11px !important;
+  margin-top:19px !important;
+}
+
+.home-v2 .contact-cta .mint-button,
+.home-v2 .contact-cta .outline-button{
+  min-height:44px !important;
+  padding:12px 22px !important;
+  font-size:10.7px !important;
+}
+
+.home-v2 .contact-cta .mint-button{
+  min-width:190px !important;
+}
+
+.home-v2 .contact-cta .outline-button{
+  min-width:166px !important;
+  border-color:rgba(218,241,222,.18) !important;
+}
+
+.home-v2 .contact-direct{
+  width:min(100%,610px);
+  margin-top:15px;
+}
+
+.home-v2 .contact-direct-label{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  width:100%;
+  margin:0 0 9px;
+  font-size:8px;
+  line-height:1;
+  font-weight:700;
+  letter-spacing:.13em;
+  text-transform:uppercase;
+  color:#728D7E;
+}
+
+.home-v2 .contact-direct-label::before,
+.home-v2 .contact-direct-label::after{
+  content:"";
+  flex:1;
+  height:1px;
+  background:rgba(218,241,222,.07);
+}
+
+.home-v2 .contact-links{
+  margin:0 !important;
+  justify-content:center !important;
+  gap:7px !important;
+}
+
+.home-v2 .contact-links a{
+  min-height:31px !important;
+  padding:7px 12px !important;
+  font-size:9.2px !important;
+  color:#B9C9C0 !important;
+  border-color:rgba(218,241,222,.105) !important;
+  background:rgba(255,255,255,.014) !important;
+}
+
+.home-v2 .contact-links a:hover{
+  border-color:rgba(226,29,42,.30) !important;
+  background:rgba(226,29,42,.05) !important;
+  color:#F4F8F5 !important;
+}
+
+@media (max-width:1050px) and (min-width:761px){
+  .home-v2 .contact-cta .cta-box h2{
+    font-size:47px !important;
+  }
+}
+
+@media (max-width:760px){
+  .home-v2 .contact-cta .cta-box{
+    min-height:0 !important;
+    padding:27px 18px 26px !important;
+  }
+
+  .home-v2 .contact-cta .cta-box h2{
+    font-size:40px !important;
+  }
+
+  .home-v2 .contact-direct{
+    width:min(100%,520px);
+  }
+}
+
+@media (max-width:520px){
+  .home-v2 .contact-cta .cta-box h2{
+    font-size:35px !important;
+  }
+
+  .home-v2 .contact-direct-label{
+    font-size:7.6px;
+  }
+
+  .home-v2 .contact-links a{
+    min-width:82px !important;
+  }
+}
