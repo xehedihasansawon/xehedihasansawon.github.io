@@ -12800,3 +12800,195 @@ button.featured-case-media{
     white-space:normal !important;
   }
 }
+
+
+/* =========================================================
+   CONTACT V3 — PREMIUM POLISH PASS
+   Stronger cards, cleaner profile groups, tighter visual rhythm.
+   ========================================================= */
+.home-v2 .contact-v3{
+  position:relative;
+  padding:28px 32px 30px !important;
+  background:
+    radial-gradient(circle at 50% -16%,rgba(226,29,42,.055),transparent 30%),
+    radial-gradient(circle at 8% 50%,rgba(142,182,155,.035),transparent 28%),
+    linear-gradient(110deg,rgba(11,43,38,.36) 0%,rgba(5,31,32,.72) 52%,rgba(5,31,32,.38) 100%) !important;
+}
+
+.home-v2 .contact-v3::after{
+  content:"";
+  position:absolute;
+  left:50%;
+  bottom:0;
+  width:36%;
+  height:1px;
+  transform:translateX(-50%);
+  background:linear-gradient(90deg,transparent,rgba(142,182,155,.18),transparent);
+  pointer-events:none;
+}
+
+.home-v2 .contact-v3 .contact-status{
+  margin-bottom:9px !important;
+}
+
+.home-v2 .contact-v3 > p{
+  margin-bottom:5px !important;
+}
+
+.home-v2 .contact-v3 h2{
+  margin-bottom:10px !important;
+  font-size:48px !important;
+  letter-spacing:.006em !important;
+}
+
+.home-v2 .contact-v3 > small{
+  max-width:700px !important;
+  font-size:11.3px !important;
+  line-height:1.55 !important;
+  color:#B9C9C0 !important;
+}
+
+/* primary contact cards */
+.home-v2 .contact-primary-grid{
+  width:min(100%,840px) !important;
+  gap:11px !important;
+  margin-top:18px !important;
+}
+
+.home-v2 .contact-channel-card{
+  position:relative;
+  min-height:110px !important;
+  padding:17px 18px !important;
+  border-radius:13px !important;
+  border-color:rgba(218,241,222,.105) !important;
+  background:
+    linear-gradient(145deg,rgba(7,39,36,.54),rgba(3,27,27,.70)) !important;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.018) !important;
+}
+
+.home-v2 .contact-channel-card::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:14px;
+  bottom:14px;
+  width:2px;
+  border-radius:999px;
+  opacity:.72;
+}
+
+.home-v2 .contact-whatsapp::before{
+  background:#75C98C;
+}
+
+.home-v2 .contact-email-card::before{
+  background:#E21D2A;
+}
+
+.home-v2 .contact-channel-card:hover{
+  transform:translateY(-2px) !important;
+  border-color:rgba(218,241,222,.18) !important;
+  background:
+    linear-gradient(145deg,rgba(9,46,41,.66),rgba(4,31,30,.80)) !important;
+  box-shadow:
+    0 12px 28px rgba(0,0,0,.10),
+    inset 0 1px 0 rgba(255,255,255,.02) !important;
+}
+
+.home-v2 .contact-channel-label{
+  margin-bottom:6px !important;
+  font-size:8.2px !important;
+  color:#9AB1A4 !important;
+}
+
+.home-v2 .contact-channel-copy strong{
+  margin-bottom:6px !important;
+  font-size:16px !important;
+  letter-spacing:.01em !important;
+}
+
+.home-v2 .contact-channel-copy small{
+  font-size:9.5px !important;
+  color:#9FB2A7 !important;
+}
+
+.home-v2 .contact-channel-action{
+  min-width:88px !important;
+  min-height:36px !important;
+  padding:9px 13px !important;
+  font-size:9.5px !important;
+}
+
+.home-v2 .contact-whatsapp .contact-channel-action{
+  box-shadow:0 7px 18px rgba(226,29,42,.13) !important;
+}
+
+/* secondary groups become intentional mini-panels */
+.home-v2 .contact-secondary-grid{
+  width:min(100%,840px) !important;
+  gap:11px !important;
+  margin-top:11px !important;
+}
+
+.home-v2 .contact-link-group{
+  padding:12px 13px 13px !important;
+  border:1px solid rgba(218,241,222,.075) !important;
+  border-radius:11px !important;
+  background:rgba(3,27,27,.20) !important;
+}
+
+.home-v2 .contact-link-group-title{
+  margin-bottom:9px !important;
+  font-size:7.8px !important;
+  color:#80998B !important;
+}
+
+.home-v2 .contact-v3 .contact-links{
+  gap:7px !important;
+}
+
+.home-v2 .contact-v3 .contact-links a{
+  min-height:30px !important;
+  padding:7px 11px !important;
+  border-color:rgba(218,241,222,.095) !important;
+  background:rgba(255,255,255,.012) !important;
+  color:#BCCBC3 !important;
+  font-size:9px !important;
+}
+
+.home-v2 .contact-v3 .contact-links a:hover{
+  transform:translateY(-1px) !important;
+  border-color:rgba(226,29,42,.28) !important;
+  background:rgba(226,29,42,.045) !important;
+  color:#F2F7F4 !important;
+}
+
+.home-v2 .contact-profile-links a{
+  min-width:84px !important;
+}
+
+/* desktop alignment */
+@media (min-width:1051px){
+  .home-v2 .contact-v3{
+    padding-top:29px !important;
+    padding-bottom:29px !important;
+  }
+
+  .home-v2 .contact-v3 h2{
+    white-space:nowrap !important;
+  }
+}
+
+@media (max-width:760px){
+  .home-v2 .contact-v3{
+    padding:25px 15px 24px !important;
+  }
+
+  .home-v2 .contact-channel-card{
+    min-height:100px !important;
+  }
+
+  .home-v2 .contact-link-group{
+    margin-top:0 !important;
+  }
+}
