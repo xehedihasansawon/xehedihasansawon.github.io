@@ -12992,3 +12992,51 @@ button.featured-case-media{
     margin-top:0 !important;
   }
 }
+
+
+/* =========================================================
+   CONTACT — SECONDARY GROUP ALIGNMENT FIX
+   Equal height, matching baselines and centered link rows.
+   ========================================================= */
+.home-v2 .contact-secondary-grid{
+  align-items:stretch !important;
+}
+
+.home-v2 .contact-link-group{
+  min-height:74px !important;
+  display:flex !important;
+  flex-direction:column !important;
+  justify-content:flex-start !important;
+  padding:11px 13px 12px !important;
+}
+
+.home-v2 .contact-link-group-title{
+  min-height:14px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  margin:0 0 9px !important;
+  text-align:center !important;
+}
+
+.home-v2 .contact-v3 .contact-link-group .contact-links{
+  flex:1 !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  flex-wrap:wrap !important;
+  gap:7px !important;
+}
+
+.home-v2 .contact-v3 .contact-link-group .contact-links a{
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  min-height:30px !important;
+}
+
+@media (max-width:760px){
+  .home-v2 .contact-link-group{
+    min-height:0 !important;
+  }
+}
