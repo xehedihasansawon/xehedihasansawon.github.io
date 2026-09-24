@@ -10524,3 +10524,108 @@ button.featured-case-media{
     grid-template-columns:1fr;
   }
 }
+
+
+/* =========================================================
+   TOOLS & SKILLS — ALIGNMENT POLISH
+   Left-align section header and tighten lower content balance.
+   ========================================================= */
+.home-v2 .tools-skills-frame .ts-final-heading{
+  display:block !important;
+  text-align:left !important;
+  align-items:initial !important;
+  justify-content:initial !important;
+  padding:13px 20px 14px !important;
+}
+
+.home-v2 .tools-skills-frame .ts-final-heading .v2-eyebrow{
+  margin:0 0 2px !important;
+  text-align:left !important;
+}
+
+.home-v2 .tools-skills-frame .ts-final-heading h2{
+  margin:0 !important;
+  text-align:left !important;
+}
+
+.home-v2 .tools-skills-frame .ts-section-intro{
+  max-width:620px !important;
+  margin:6px 0 0 !important;
+  text-align:left !important;
+  font-size:10px !important;
+  line-height:1.45 !important;
+  color:#98AAA1 !important;
+}
+
+.home-v2 .tools-skills-frame .ts-final-layout{
+  grid-template-columns:1fr 1fr !important;
+  align-items:stretch !important;
+}
+
+.home-v2 .tools-skills-frame .ts-final-pane{
+  padding:20px 26px 23px !important;
+}
+
+.home-v2 .tools-skills-frame .ts-final-subhead{
+  display:block !important;
+  margin-bottom:14px !important;
+}
+
+.home-v2 .tools-skills-frame .ts-final-subhead h3{
+  font-size:30px !important;
+}
+
+.home-v2 .tools-skills-frame .ts-final-tools-grid{
+  gap:9px !important;
+}
+
+.home-v2 .tools-skills-frame .ts-final-tool-card{
+  min-height:92px !important;
+  padding:12px 13px !important;
+  gap:9px !important;
+}
+
+.home-v2 .tools-skills-frame .ts-final-tool-card strong{
+  font-size:10.5px !important;
+}
+
+.home-v2 .tools-skills-frame .ts-capability-grid{
+  gap:9px !important;
+}
+
+.home-v2 .tools-skills-frame .ts-capability-card{
+  min-height:136px !important;
+  padding:16px 15px !important;
+  grid-template-columns:29px minmax(0,1fr) !important;
+  gap:11px !important;
+}
+
+.home-v2 .tools-skills-frame .ts-capability-card h4{
+  margin-bottom:14px !important;
+  font-size:22px !important;
+}
+
+.home-v2 .tools-skills-frame .ts-capability-card p{
+  margin-bottom:7px !important;
+  font-size:9.3px !important;
+}
+
+@media (max-width:1050px){
+  .home-v2 .tools-skills-frame .ts-final-layout{
+    grid-template-columns:1fr !important;
+  }
+}
+
+@media (max-width:760px){
+  .home-v2 .tools-skills-frame .ts-final-heading{
+    padding:12px 17px 13px !important;
+  }
+
+  .home-v2 .tools-skills-frame .ts-final-pane{
+    padding:18px 17px 20px !important;
+  }
+
+  .home-v2 .tools-skills-frame .ts-section-intro{
+    font-size:9.5px !important;
+  }
+}
