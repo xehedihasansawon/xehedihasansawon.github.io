@@ -1,53 +1,141 @@
 const menuButton = document.getElementById('menuButton');
 const mobileNav = document.getElementById('mobileNav');
 
+const closeMobileNav = () => {
+  mobileNav.classList.remove('open');
+  menuButton.setAttribute('aria-expanded', 'false');
+};
+
 menuButton.addEventListener('click', () => {
   const open = mobileNav.classList.toggle('open');
   menuButton.setAttribute('aria-expanded', String(open));
 });
 
 mobileNav.querySelectorAll('a').forEach(a => {
-  a.addEventListener('click', () => {
-    mobileNav.classList.remove('open');
-    menuButton.setAttribute('aria-expanded', 'false');
-  });
+  a.addEventListener('click', closeMobileNav);
 });
+
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && mobileNav.classList.contains('open')) {
+    closeMobileNav();
+    menuButton.focus();
+  }
+});
+
+
+/* =========================================================
+   PROJECT SNAPSHOTS
+   Rich, concise proof for showcase work without turning every
+   homepage card into a full case-study page.
+   ========================================================= */
+const projectDetails = {
+  miuw: {
+    eyebrow: 'Business system project',
+    meta: 'ERP Workflow · Inventory · Sales · Delivery · Reporting',
+    summary: 'A practical business workflow concept that connects products, stock, customer orders, delivery status, expenses and reporting instead of treating each task as a separate process.',
+    points: ['Workflow architecture and module planning','Inventory, order and delivery status structure','Expense and reporting flow designed for future expansion']
+  },
+  portfolio: {
+    eyebrow: 'Personal digital project',
+    meta: 'Personal Brand · Responsive UI · Front-End',
+    summary: 'This portfolio is designed and built as one connected presentation system for real project work, design capability, digital workflows, experience and direct client contact.',
+    points: ['Responsive section and interaction system','GitHub version-controlled iterative build','Case studies, service workflows and project previews']
+  },
+  'sports-kit': {
+    eyebrow: 'Design showcase',
+    meta: 'Sportswear · Apparel Design',
+    summary: 'A custom football kit concept focused on clear team identity, strong contrast and a presentation that works for both design review and sports promotion.',
+    points: ['Jersey visual direction','Front-and-back sportswear presentation','Team-focused color and graphic treatment']
+  },
+  'kings-kitchen': {
+    eyebrow: 'Design showcase',
+    meta: 'Menu Design · Restaurant Branding',
+    summary: 'A restaurant-focused visual piece built around clear food presentation, readable hierarchy and a branded promotional look.',
+    points: ['Menu-led information hierarchy','Food and promotional visual balance','Restaurant brand presentation']
+  },
+  'long-lounge': {
+    eyebrow: 'Design showcase',
+    meta: 'Social Media Design · Hospitality',
+    summary: 'A hospitality promotional creative designed to communicate the offer quickly while keeping the visual direction polished and social-media ready.',
+    points: ['Promotional content hierarchy','Hospitality-focused visual direction','Social-media-ready composition']
+  },
+  'cp-five-star': {
+    eyebrow: 'Design showcase',
+    meta: 'Social Media Design · Food Promotion',
+    summary: 'A food-promotion creative that combines product focus, offer visibility and compact social advertising hierarchy.',
+    points: ['Product-first composition','Offer and callout hierarchy','Platform-ready promotional design']
+  }
+};
 
 const dialog = document.getElementById('projectDialog');
 const dialogImage = document.getElementById('dialogImage');
+const dialogEyebrow = document.getElementById('dialogEyebrow');
 const dialogTitle = document.getElementById('dialogTitle');
 const dialogMeta = document.getElementById('dialogMeta');
+const dialogSummary = document.getElementById('dialogSummary');
+const dialogPoints = document.getElementById('dialogPoints');
+
+const openProjectDialog = card => {
+  const img = card.querySelector('img');
+  const detail = projectDetails[card.dataset.project] || {};
+
+  dialogImage.src = img?.src || '';
+  dialogImage.alt = img?.alt || card.dataset.title || 'Project preview';
+  dialogEyebrow.textContent = detail.eyebrow || 'Project snapshot';
+  dialogTitle.textContent = card.dataset.title || '';
+  dialogMeta.textContent = detail.meta || card.dataset.meta || '';
+  dialogSummary.textContent = detail.summary || 'Selected project work from my portfolio.';
+
+  dialogPoints.innerHTML = '';
+  (detail.points || []).forEach(point => {
+    const li = document.createElement('li');
+    li.textContent = point;
+    dialogPoints.appendChild(li);
+  });
+
+  dialog.showModal();
+  document.body.style.overflow = 'hidden';
+};
 
 document.querySelectorAll('.project-card').forEach(card => {
-  const opener = card.querySelector('.project-open');
+  const opener = card.matches('button') ? card : card.querySelector('.project-open');
   if (!opener || opener.tagName === 'A') return;
-  opener.addEventListener('click', () => {
-    const img = card.querySelector('img');
-    dialogImage.src = img.src;
-    dialogImage.alt = img.alt;
-    dialogTitle.textContent = card.dataset.title;
-    dialogMeta.textContent = card.dataset.meta;
-    dialog.showModal();
-    document.body.style.overflow = 'hidden';
-  });
+  opener.addEventListener('click', () => openProjectDialog(card));
 });
 
 document.getElementById('dialogClose').addEventListener('click', () => dialog.close());
-dialog.addEventListener('click', e => {
-  if (e.target === dialog) dialog.close();
+dialog.addEventListener('click', event => {
+  if (event.target === dialog) dialog.close();
 });
 dialog.addEventListener('close', () => {
   document.body.style.overflow = '';
 });
 
-const sectionLinks = [...document.querySelectorAll('.desktop-nav a')];
-const sections = sectionLinks.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+
+/* =========================================================
+   PRIMARY NAVIGATION STATE
+   Desktop and mobile stay in sync with the section in view.
+   ========================================================= */
+const sectionLinks = [...document.querySelectorAll('.desktop-nav a, .mobile-nav a')];
+const sections = [...new Set(
+  sectionLinks
+    .map(a => document.querySelector(a.getAttribute('href')))
+    .filter(Boolean)
+)];
+
+const setActiveSection = id => {
+  sectionLinks.forEach(link => {
+    const isActive = link.getAttribute('href') === id;
+    link.classList.toggle('active', isActive);
+    if (isActive) link.setAttribute('aria-current', 'location');
+    else link.removeAttribute('aria-current');
+  });
+};
 
 const observer = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     if (!entry.isIntersecting) return;
-    const id = '#' + entry.target.id;
-    sectionLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === id));
+    setActiveSection('#' + entry.target.id);
   });
 }, {rootMargin:'-30% 0px -60% 0px', threshold:0});
 
