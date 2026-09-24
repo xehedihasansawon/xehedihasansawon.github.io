@@ -11602,3 +11602,108 @@ button.featured-case-media{
     font-size:10px;
   }
 }
+
+
+/* =========================================================
+   EXPERIENCE & COMMUNITY — MATCH CREATIVE SERVICES CARD SYSTEM
+   ========================================================= */
+.home-v2 .experience-community-section{
+  padding:24px 0 44px !important;
+}
+
+.home-v2 .experience-community-frame{
+  overflow:hidden !important;
+}
+
+.home-v2 .experience-community-grid{
+  display:grid !important;
+  grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  gap:10px !important;
+  padding:12px 18px 18px !important;
+}
+
+.home-v2 .experience-service-card{
+  position:relative !important;
+  min-height:154px !important;
+  padding:22px 20px 18px !important;
+  border:1px solid rgba(218,241,222,.11) !important;
+  border-radius:12px !important;
+  background:rgba(3,27,27,.28) !important;
+  transition:transform .2s ease,border-color .2s ease,background .2s ease !important;
+}
+
+.home-v2 .experience-service-card:hover{
+  transform:translateY(-2px) !important;
+  border-color:rgba(226,29,42,.28) !important;
+  background:rgba(7,38,35,.48) !important;
+}
+
+.home-v2 .experience-service-card::after{
+  content:"↗" !important;
+  position:absolute !important;
+  top:17px !important;
+  right:18px !important;
+  font-size:9px !important;
+  color:#E21D2A !important;
+  opacity:.75 !important;
+}
+
+.home-v2 .experience-service-no{
+  display:block !important;
+  margin:0 0 15px !important;
+  font-family:"Bebas Neue",Impact,sans-serif !important;
+  font-size:30px !important;
+  line-height:1 !important;
+  letter-spacing:.04em !important;
+  color:rgba(142,182,155,.38) !important;
+}
+
+.home-v2 .experience-service-card h3{
+  margin:0 0 6px !important;
+  font-family:inherit !important;
+  font-size:16px !important;
+  line-height:1.25 !important;
+  font-weight:700 !important;
+  color:#F1F6F3 !important;
+}
+
+.home-v2 .experience-service-role{
+  margin:0 0 8px !important;
+  font-size:10px !important;
+  line-height:1.35 !important;
+  font-weight:650 !important;
+  color:#C7D6CE !important;
+}
+
+.home-v2 .experience-service-desc{
+  max-width:620px !important;
+  margin:0 !important;
+  font-size:10.5px !important;
+  line-height:1.55 !important;
+  color:#A7BBB0 !important;
+}
+
+@media (max-width:900px){
+  .home-v2 .experience-community-grid{
+    grid-template-columns:1fr !important;
+  }
+}
+
+@media (max-width:760px){
+  .home-v2 .experience-community-grid{
+    padding:10px 12px 13px !important;
+  }
+
+  .home-v2 .experience-service-card{
+    min-height:145px !important;
+    padding:19px 16px 16px !important;
+  }
+
+  .home-v2 .experience-service-no{
+    font-size:27px !important;
+  }
+
+  .home-v2 .experience-service-card h3{
+    font-size:15px !important;
+  }
+}
