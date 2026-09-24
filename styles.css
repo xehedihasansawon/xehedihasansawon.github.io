@@ -13755,3 +13755,29 @@ button.featured-case-media{
     transition-duration:.01ms !important;
   }
 }
+
+
+/* =========================================================
+   ACCESSIBILITY — FINAL
+   Keyboard entry point and clear focus without changing layout.
+   ========================================================= */
+.home-v2 .skip-link{
+  position:fixed;
+  left:18px;
+  top:12px;
+  z-index:999;
+  transform:translateY(-150%);
+  padding:9px 13px;
+  border:1px solid #E21D2A;
+  border-radius:8px;
+  background:#031718;
+  color:#fff;
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.02em;
+  transition:transform .18s ease;
+}
+
+.home-v2 .skip-link:focus{
+  transform:translateY(0);
+}
