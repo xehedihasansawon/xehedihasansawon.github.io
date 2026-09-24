@@ -97,10 +97,17 @@ const openProjectDialog = card => {
   document.body.style.overflow = 'hidden';
 };
 
+let lastProjectTrigger = null;
+
 document.querySelectorAll('.project-card').forEach(card => {
   const opener = card.matches('button') ? card : card.querySelector('.project-open');
   if (!opener || opener.tagName === 'A') return;
-  opener.addEventListener('click', () => openProjectDialog(card));
+
+  opener.setAttribute('aria-haspopup', 'dialog');
+  opener.addEventListener('click', () => {
+    lastProjectTrigger = opener;
+    openProjectDialog(card);
+  });
 });
 
 document.getElementById('dialogClose').addEventListener('click', () => dialog.close());
@@ -109,6 +116,7 @@ dialog.addEventListener('click', event => {
 });
 dialog.addEventListener('close', () => {
   document.body.style.overflow = '';
+  if (lastProjectTrigger) lastProjectTrigger.focus();
 });
 
 
@@ -259,8 +267,13 @@ const fillServiceList = (element, items) => {
   });
 };
 
+let lastWorkflowTrigger = null;
+
 document.querySelectorAll('.service-detail-card').forEach(card => {
+  card.setAttribute('aria-haspopup', 'dialog');
+
   card.addEventListener('click', () => {
+    lastWorkflowTrigger = card;
     const detail = serviceDetails[card.dataset.service];
     if (!detail) return;
 
@@ -284,6 +297,7 @@ serviceDialog.addEventListener('click', event => {
 });
 serviceDialog.addEventListener('close', () => {
   document.body.style.overflow = '';
+  if (lastWorkflowTrigger) lastWorkflowTrigger.focus();
 });
 
 
@@ -377,7 +391,12 @@ const openWorkflowDialog = detail => {
 };
 
 document.querySelectorAll('.digital-detail-card').forEach(card => {
-  const openDigital = () => openWorkflowDialog(digitalProjectDetails[card.dataset.digital]);
+  card.setAttribute('aria-haspopup', 'dialog');
+
+  const openDigital = () => {
+    lastWorkflowTrigger = card;
+    openWorkflowDialog(digitalProjectDetails[card.dataset.digital]);
+  };
 
   card.addEventListener('click', openDigital);
   card.addEventListener('keydown', event => {
@@ -422,6 +441,7 @@ const copyTextToClipboard = async text => {
 
 copyEmailButtons.forEach(button => {
   const originalText = button.textContent.trim();
+  button.setAttribute('aria-live', 'polite');
 
   button.addEventListener('click', async () => {
     const email = button.dataset.copyEmail;
