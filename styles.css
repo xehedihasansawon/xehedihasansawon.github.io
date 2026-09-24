@@ -12017,3 +12017,148 @@ button.featured-case-media{
     width:100% !important;
   }
 }
+
+
+/* =========================================================
+   CONTACT — FINAL POLISH
+   Stronger hierarchy, status, micro-meta, tighter premium rhythm.
+   ========================================================= */
+.home-v2 .contact-cta .cta-box{
+  min-height:252px !important;
+  padding:30px 34px 28px !important;
+  isolation:isolate;
+}
+
+.home-v2 .contact-cta .cta-box::after{
+  content:"";
+  position:absolute;
+  z-index:-1;
+  inset:0;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 50% -10%,rgba(226,29,42,.055),transparent 31%),
+    linear-gradient(180deg,rgba(255,255,255,.012),transparent 42%);
+}
+
+.home-v2 .contact-status{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  margin:0 0 10px;
+  padding:6px 10px;
+  border:1px solid rgba(142,182,155,.14);
+  border-radius:999px;
+  background:rgba(142,182,155,.045);
+  font-size:8.7px;
+  line-height:1;
+  font-weight:700;
+  letter-spacing:.055em;
+  color:#BFD0C7;
+}
+
+.home-v2 .contact-status>span{
+  width:6px;
+  height:6px;
+  flex:0 0 6px;
+  border-radius:50%;
+  background:#75C98C;
+  box-shadow:0 0 0 4px rgba(117,201,140,.075);
+}
+
+.home-v2 .contact-cta .cta-box>p{
+  margin:0 0 5px !important;
+  font-size:8.4px !important;
+  letter-spacing:.17em !important;
+  color:#9FB3A7 !important;
+}
+
+.home-v2 .contact-cta .cta-box h2{
+  max-width:820px !important;
+  margin:0 0 12px !important;
+  font-size:50px !important;
+  line-height:.92 !important;
+  letter-spacing:.008em !important;
+}
+
+.home-v2 .contact-cta .cta-box small{
+  max-width:715px !important;
+  font-size:11.7px !important;
+  line-height:1.55 !important;
+  color:#BDCBC3 !important;
+}
+
+.home-v2 .contact-cta .cta-actions{
+  margin-top:20px !important;
+}
+
+.home-v2 .contact-cta .mint-button,
+.home-v2 .contact-cta .outline-button{
+  min-height:43px !important;
+  padding:11px 21px !important;
+}
+
+.home-v2 .contact-cta .mint-button{
+  min-width:181px !important;
+}
+
+.home-v2 .contact-cta .outline-button{
+  min-width:160px !important;
+}
+
+.home-v2 .contact-meta{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:15px;
+  padding-top:12px;
+  border-top:1px solid rgba(218,241,222,.075);
+  width:min(100%,560px);
+  font-size:9px;
+  line-height:1.4;
+  color:#839A8D;
+}
+
+.home-v2 .contact-meta i{
+  font-style:normal;
+  color:#587769;
+}
+
+.home-v2 .contact-meta a{
+  color:#9FB3A7;
+  transition:color .2s ease;
+}
+
+.home-v2 .contact-meta a:hover{
+  color:#E7F1EB;
+}
+
+@media (max-width:760px){
+  .home-v2 .contact-cta .cta-box{
+    padding:26px 18px 25px !important;
+  }
+
+  .home-v2 .contact-cta .cta-box h2{
+    font-size:40px !important;
+  }
+
+  .home-v2 .contact-status{
+    font-size:8.2px;
+  }
+
+  .home-v2 .contact-meta{
+    margin-top:13px;
+  }
+}
+
+@media (max-width:520px){
+  .home-v2 .contact-cta .cta-box h2{
+    font-size:35px !important;
+  }
+
+  .home-v2 .contact-meta{
+    gap:6px;
+    font-size:8.7px;
+  }
+}
