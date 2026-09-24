@@ -11860,3 +11860,160 @@ button.featured-case-media{
     padding:10px 12px 12px !important;
   }
 }
+
+
+/* =========================================================
+   CONTACT — CLEAN PREMIUM CTA
+   Remove image text duplication and match portfolio frame language.
+   ========================================================= */
+.home-v2 .contact-cta{
+  padding:24px 0 42px !important;
+  border-bottom:1px solid var(--line);
+  background:transparent !important;
+}
+
+.home-v2 .contact-cta .cta-box{
+  position:relative;
+  min-height:238px !important;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  padding:32px 28px 34px !important;
+  text-align:center;
+  border:1px solid rgba(218,241,222,.14) !important;
+  border-radius:20px !important;
+  background:
+    radial-gradient(circle at 50% 0%,rgba(142,182,155,.08),transparent 38%),
+    linear-gradient(110deg,rgba(11,43,38,.34) 0%,rgba(5,31,32,.70) 52%,rgba(5,31,32,.36) 100%) !important;
+  box-shadow:
+    0 20px 48px rgba(0,0,0,.12),
+    inset 0 1px 0 rgba(255,255,255,.02) !important;
+}
+
+.home-v2 .contact-cta .cta-box::before{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:0;
+  width:150px;
+  height:2px;
+  transform:translateX(-50%);
+  background:linear-gradient(90deg,transparent,#E21D2A,transparent);
+  opacity:.85;
+}
+
+.home-v2 .contact-cta .cta-box p{
+  margin:0 0 7px !important;
+  font-size:9px !important;
+  line-height:1.25 !important;
+  font-weight:700 !important;
+  letter-spacing:.18em !important;
+  text-transform:uppercase !important;
+  color:#AFC3B7 !important;
+}
+
+.home-v2 .contact-cta .cta-box h2{
+  max-width:760px;
+  margin:0 0 11px !important;
+  font-family:"Bebas Neue",Impact,sans-serif !important;
+  font-size:48px !important;
+  line-height:.94 !important;
+  letter-spacing:.012em !important;
+  text-transform:uppercase !important;
+  color:#F3F8F5 !important;
+}
+
+.home-v2 .contact-cta .cta-box h2 span{
+  color:#E21D2A !important;
+}
+
+.home-v2 .contact-cta .cta-box small{
+  display:block;
+  max-width:760px;
+  margin:0 auto !important;
+  font-size:11.5px !important;
+  line-height:1.6 !important;
+  color:#B7C8BF !important;
+}
+
+.home-v2 .contact-cta .cta-actions{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  flex-wrap:wrap !important;
+  gap:10px !important;
+  margin-top:19px !important;
+}
+
+.home-v2 .contact-cta .mint-button,
+.home-v2 .contact-cta .outline-button{
+  min-height:42px !important;
+  padding:11px 20px !important;
+  border-radius:999px !important;
+  font-size:10.5px !important;
+  line-height:1 !important;
+  font-weight:750 !important;
+  letter-spacing:.01em !important;
+  text-transform:none !important;
+}
+
+.home-v2 .contact-cta .mint-button{
+  color:#fff !important;
+  border:1px solid #E21D2A !important;
+  background:#E21D2A !important;
+  box-shadow:0 8px 24px rgba(226,29,42,.16) !important;
+}
+
+.home-v2 .contact-cta .mint-button:hover{
+  transform:translateY(-2px) !important;
+  background:#F12835 !important;
+  border-color:#F12835 !important;
+}
+
+.home-v2 .contact-cta .outline-button{
+  min-width:154px !important;
+  color:#EAF2ED !important;
+  border:1px solid rgba(218,241,222,.20) !important;
+  background:rgba(255,255,255,.015) !important;
+  box-shadow:none !important;
+}
+
+.home-v2 .contact-cta .outline-button:hover{
+  transform:translateY(-2px) !important;
+  border-color:rgba(226,29,42,.35) !important;
+  background:rgba(226,29,42,.045) !important;
+}
+
+@media (max-width:760px){
+  .home-v2 .contact-cta{
+    padding:22px 0 34px !important;
+  }
+
+  .home-v2 .contact-cta .cta-box{
+    min-height:0 !important;
+    padding:28px 18px 30px !important;
+    border-radius:16px !important;
+  }
+
+  .home-v2 .contact-cta .cta-box h2{
+    font-size:38px !important;
+  }
+
+  .home-v2 .contact-cta .cta-box small{
+    font-size:10.5px !important;
+  }
+}
+
+@media (max-width:520px){
+  .home-v2 .contact-cta .cta-actions{
+    width:100% !important;
+    flex-direction:column !important;
+  }
+
+  .home-v2 .contact-cta .mint-button,
+  .home-v2 .contact-cta .outline-button{
+    width:100% !important;
+  }
+}
