@@ -12443,3 +12443,103 @@ button.featured-case-media{
   border-color:rgba(226,29,42,.32) !important;
   color:#F4F8F5;
 }
+
+
+/* =========================================================
+   CONTACT — FINAL VISUAL CLEANUP
+   Controlled headline, no duplicate channels, tighter premium rhythm.
+   ========================================================= */
+.home-v2 .contact-cta .cta-box{
+  min-height:248px !important;
+  padding:28px 34px 27px !important;
+}
+
+.home-v2 .contact-cta .cta-box h2{
+  max-width:820px !important;
+  margin:0 0 11px !important;
+  font-size:50px !important;
+  line-height:.9 !important;
+}
+
+.home-v2 .contact-cta .cta-box h2 .contact-line-one,
+.home-v2 .contact-cta .cta-box h2 .contact-line-two{
+  display:block !important;
+}
+
+.home-v2 .contact-cta .cta-box h2 .contact-line-one{
+  color:#F3F8F5 !important;
+}
+
+.home-v2 .contact-cta .cta-box h2 .contact-line-two{
+  margin-top:3px !important;
+  color:#E21D2A !important;
+}
+
+.home-v2 .contact-cta .cta-box small{
+  max-width:690px !important;
+  font-size:11.4px !important;
+}
+
+.home-v2 .contact-cta .cta-actions{
+  margin-top:18px !important;
+}
+
+.home-v2 .contact-direct{
+  width:min(100%,520px) !important;
+  margin-top:14px !important;
+}
+
+.home-v2 .contact-direct-label{
+  margin-bottom:8px !important;
+  color:#6F8A7B !important;
+}
+
+.home-v2 .contact-links{
+  gap:8px !important;
+}
+
+.home-v2 .contact-links a{
+  min-width:92px !important;
+  min-height:32px !important;
+  padding:8px 13px !important;
+  font-size:9.3px !important;
+  border-color:rgba(218,241,222,.11) !important;
+  background:rgba(255,255,255,.012) !important;
+}
+
+.home-v2 .contact-cta .copy-email-button{
+  min-width:165px !important;
+  border-color:rgba(218,241,222,.18) !important;
+  color:#E7F0EA !important;
+  background:rgba(255,255,255,.012) !important;
+}
+
+.home-v2 .contact-cta .copy-email-button:hover{
+  border-color:rgba(226,29,42,.32) !important;
+  background:rgba(226,29,42,.04) !important;
+}
+
+@media (max-width:760px){
+  .home-v2 .contact-cta .cta-box{
+    min-height:0 !important;
+    padding:26px 18px 25px !important;
+  }
+
+  .home-v2 .contact-cta .cta-box h2{
+    font-size:39px !important;
+  }
+
+  .home-v2 .contact-direct{
+    width:min(100%,440px) !important;
+  }
+}
+
+@media (max-width:520px){
+  .home-v2 .contact-cta .cta-box h2{
+    font-size:34px !important;
+  }
+
+  .home-v2 .contact-links a{
+    min-width:84px !important;
+  }
+}
