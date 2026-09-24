@@ -10946,3 +10946,140 @@ button.featured-case-media{
     align-items:center !important;
   }
 }
+
+
+/* =========================================================
+   TOOLS & SKILLS — SKILLS-FIRST FINAL PRIORITY
+   Skills are the portfolio value; tools are supporting context.
+   ========================================================= */
+.home-v2 .tools-skills-frame .ts-final-layout{
+  grid-template-columns:1.34fr .66fr !important;
+}
+
+/* Main heading explicitly prioritizes SKILLS */
+.home-v2 .tools-skills-frame > .portfolio-section-heading h2 span{
+  color:#E21D2A !important;
+}
+
+/* Skills: stronger visual and information hierarchy */
+.home-v2 .tools-skills-frame .ts-final-skills{
+  padding:15px 22px 20px !important;
+}
+
+.home-v2 .tools-skills-frame .ts-final-skills .ts-final-subhead h3{
+  font-size:36px !important;
+}
+
+.home-v2 .tools-skills-frame .ts-capability-grid{
+  grid-template-columns:1fr 1fr !important;
+  gap:11px !important;
+}
+
+.home-v2 .tools-skills-frame .ts-capability-card{
+  min-height:154px !important;
+  padding:17px 17px 15px !important;
+  grid-template-columns:29px minmax(0,1fr) !important;
+  gap:12px !important;
+  background:
+    linear-gradient(145deg,rgba(8,42,38,.48),rgba(3,27,27,.72)) !important;
+}
+
+.home-v2 .tools-skills-frame .ts-capability-card h4{
+  margin:0 0 8px !important;
+  font-size:26px !important;
+  line-height:.98 !important;
+}
+
+.home-v2 .tools-skills-frame .ts-capability-desc{
+  max-width:310px;
+  margin:0 0 14px;
+  font-size:9.7px;
+  line-height:1.45;
+  color:#A7BBB0;
+}
+
+.home-v2 .tools-skills-frame .ts-capability-card p{
+  margin:0 0 6px !important;
+  padding-left:12px !important;
+  font-size:10px !important;
+  color:#D0DDD6 !important;
+}
+
+/* Tools: intentionally secondary, compact support panel */
+.home-v2 .tools-skills-frame .ts-final-tools{
+  padding:15px 18px 20px !important;
+  background:rgba(2,21,21,.12);
+}
+
+.home-v2 .tools-skills-frame .ts-final-tools .ts-final-subhead h3{
+  font-size:28px !important;
+  color:#DCE8E1 !important;
+}
+
+.home-v2 .tools-skills-frame .ts-final-tools-grid{
+  grid-template-columns:1fr 1fr !important;
+  gap:8px !important;
+}
+
+.home-v2 .tools-skills-frame .ts-final-tool-card{
+  min-height:60px !important;
+  gap:10px !important;
+  padding:9px 10px !important;
+  border-color:rgba(218,241,222,.08) !important;
+  background:rgba(3,27,27,.24) !important;
+  box-shadow:none !important;
+}
+
+.home-v2 .tools-skills-frame .ts-final-tool-card:hover{
+  transform:translateY(-2px) !important;
+  border-color:rgba(226,29,42,.22) !important;
+  background:rgba(7,38,35,.42) !important;
+}
+
+.home-v2 .tools-skills-frame .ts-final-tool-card strong{
+  font-size:9.8px !important;
+  font-weight:600 !important;
+  color:#C9D8D0 !important;
+}
+
+.home-v2 .tools-skills-frame .ts-final-tool-card .tool-logo-image{
+  width:36px !important;
+  height:36px !important;
+  flex:0 0 36px !important;
+}
+
+/* Responsive: still Skills first */
+@media (max-width:1180px) and (min-width:1051px){
+  .home-v2 .tools-skills-frame .ts-final-layout{
+    grid-template-columns:1.22fr .78fr !important;
+  }
+}
+
+@media (max-width:1050px){
+  .home-v2 .tools-skills-frame .ts-final-layout{
+    grid-template-columns:1fr !important;
+  }
+
+  .home-v2 .tools-skills-frame .ts-final-skills{
+    border-right:0 !important;
+    border-bottom:1px solid rgba(218,241,222,.10) !important;
+  }
+
+  .home-v2 .tools-skills-frame .ts-final-tools-grid{
+    grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+  }
+}
+
+@media (max-width:760px){
+  .home-v2 .tools-skills-frame .ts-capability-grid{
+    grid-template-columns:1fr !important;
+  }
+
+  .home-v2 .tools-skills-frame .ts-capability-card{
+    min-height:142px !important;
+  }
+
+  .home-v2 .tools-skills-frame .ts-final-tools-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  }
+}
