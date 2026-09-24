@@ -35,9 +35,9 @@ button{font:inherit}
 .nav{height:64px;display:flex;align-items:center;gap:28px}
 .signature{
   font-family:cursive;font-style:italic;font-size:33px;font-weight:700;
-  transform:rotate(-5deg);margin-right:auto;line-height:1;color:var(--text)
+  transform:rotate(-5deg);margin-right:auto;line-height:1;color:#E21D2A
 }
-.signature span{color:var(--c5)}
+.signature span{color:#E21D2A}
 .desktop-nav{display:flex;gap:31px;align-items:center}
 .desktop-nav a{
   text-transform:uppercase;font-size:11px;font-weight:700;
