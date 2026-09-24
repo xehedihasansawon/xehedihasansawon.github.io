@@ -12543,3 +12543,35 @@ button.featured-case-media{
     min-width:84px !important;
   }
 }
+
+
+/* =========================================================
+   CONTACT — PROFESSIONAL PROFILE LINKS
+   ========================================================= */
+.home-v2 .contact-profile-label{
+  margin-top:12px !important;
+}
+
+.home-v2 .contact-profile-links a{
+  min-width:98px !important;
+  color:#C6D4CC !important;
+  border-color:rgba(142,182,155,.14) !important;
+  background:rgba(142,182,155,.025) !important;
+}
+
+.home-v2 .contact-profile-links a:hover{
+  border-color:rgba(226,29,42,.30) !important;
+  color:#F4F8F5 !important;
+  background:rgba(226,29,42,.05) !important;
+}
+
+.home-v2 footer .socials{
+  flex-wrap:wrap !important;
+  justify-content:center !important;
+}
+
+@media (max-width:520px){
+  .home-v2 .contact-profile-links a{
+    min-width:90px !important;
+  }
+}
