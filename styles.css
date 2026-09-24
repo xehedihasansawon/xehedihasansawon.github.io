@@ -10757,3 +10757,57 @@ button.featured-case-media{
     font-size:36px !important;
   }
 }
+
+
+/* =========================================================
+   TOOLS & SKILLS — SKILLS FIRST / HIGHER PRIORITY
+   Skills left and slightly wider, Tools right.
+   ========================================================= */
+.home-v2 .tools-skills-frame .ts-final-layout{
+  grid-template-columns:1.12fr .88fr !important;
+}
+
+.home-v2 .tools-skills-frame .ts-final-skills{
+  order:1 !important;
+  border-right:1px solid rgba(218,241,222,.10) !important;
+}
+
+.home-v2 .tools-skills-frame .ts-final-tools{
+  order:2 !important;
+  border-right:0 !important;
+}
+
+.home-v2 .tools-skills-frame .ts-capability-card{
+  min-height:136px !important;
+}
+
+.home-v2 .tools-skills-frame .ts-final-tools-grid{
+  grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+}
+
+@media (max-width:1180px) and (min-width:1051px){
+  .home-v2 .tools-skills-frame .ts-final-layout{
+    grid-template-columns:1.05fr .95fr !important;
+  }
+
+  .home-v2 .tools-skills-frame .ts-final-tools-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  }
+}
+
+@media (max-width:1050px){
+  .home-v2 .tools-skills-frame .ts-final-layout{
+    grid-template-columns:1fr !important;
+  }
+
+  .home-v2 .tools-skills-frame .ts-final-skills{
+    order:1 !important;
+    border-right:0 !important;
+    border-bottom:1px solid rgba(218,241,222,.10) !important;
+  }
+
+  .home-v2 .tools-skills-frame .ts-final-tools{
+    order:2 !important;
+    border-right:0 !important;
+  }
+}
