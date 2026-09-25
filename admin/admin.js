@@ -27,6 +27,8 @@ const emailDisplay = document.querySelector("#adminEmailDisplay");
 const mobileMenuToggle = document.querySelector("#mobileMenuToggle");
 const sidebarBackdrop = document.querySelector("#sidebarBackdrop");
 const dashboardNavLink = document.querySelector(".cms-nav .nav-item.active");
+const contentStoreDot = document.querySelector("#contentStoreDot");
+const contentStoreStatus = document.querySelector("#contentStoreStatus");
 
 const allPanels = [
   configPanel,
@@ -143,6 +145,31 @@ if (!hasValidConfig) {
   recoveryRedirectUrl.search = "";
   recoveryRedirectUrl.hash = "";
 
+  const setContentStoreStatus = (state, label) => {
+    if (!contentStoreDot || !contentStoreStatus) return;
+
+    contentStoreDot.classList.remove("checking", "ready", "missing");
+    contentStoreDot.classList.add(state);
+    contentStoreStatus.textContent = label;
+  };
+
+  const checkContentStore = async () => {
+    setContentStoreStatus("checking", "Checking…");
+
+    const { error } = await supabaseClient
+      .from("cms_content_entries")
+      .select("content_key", { head: true, count: "exact" });
+
+    if (error) {
+      console.warn("CMS content store check failed:", error.message);
+      setContentStoreStatus("missing", "Migration required");
+      return false;
+    }
+
+    setContentStoreStatus("ready", "Ready");
+    return true;
+  };
+
   const checkAdminMembership = async (user) => {
     if (!user?.id) {
       return { allowed: false, reason: "No authenticated user." };
@@ -174,6 +201,7 @@ if (!hasValidConfig) {
     setMessage(adminMessage, "");
     setSidebarOpen(false);
     showOnly(adminPanel);
+    checkContentStore();
   };
 
   const enterLogin = (message = "") => {
