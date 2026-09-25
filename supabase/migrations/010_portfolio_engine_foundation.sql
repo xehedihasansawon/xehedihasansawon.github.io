@@ -96,8 +96,40 @@ revoke all on table public.portfolio_projects from public;
 revoke all on table public.portfolio_projects from anon;
 revoke all on table public.portfolio_projects from authenticated;
 
-grant select on table public.portfolio_categories to anon;
-grant select on table public.portfolio_projects to anon;
+grant select (
+  id,
+  slug,
+  name,
+  description,
+  sort_order,
+  is_active
+)
+on table public.portfolio_categories
+to anon;
+
+grant select (
+  id,
+  slug,
+  title,
+  summary,
+  category_id,
+  cover_image_url,
+  cover_image_alt,
+  action_label,
+  action_href,
+  tags,
+  badges,
+  is_featured,
+  show_on_homepage,
+  sort_order,
+  category_sort_order,
+  visibility,
+  is_published,
+  published_at,
+  created_at
+)
+on table public.portfolio_projects
+to anon;
 
 grant select, insert, update, delete
 on table public.portfolio_categories
