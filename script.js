@@ -286,17 +286,17 @@ document.querySelectorAll('.service-detail-card').forEach(card => {
 
   card.addEventListener('click', () => {
     lastWorkflowTrigger = card;
-    const detail = serviceDetails[card.dataset.service];
+    const detail = card.__cmsServiceDetail || serviceDetails[card.dataset.service];
     if (!detail) return;
 
-    serviceDialogEyebrow.textContent = 'Service workflow';
+    serviceDialogEyebrow.textContent = detail.eyebrow || 'Service workflow';
     serviceDialogTitle.textContent = detail.title;
     serviceDialogSummary.textContent = detail.summary;
-    fillServiceList(serviceDialogWorkflow, detail.workflow);
-    fillServiceList(serviceDialogDeliverables, detail.deliverables);
-    fillServiceList(serviceDialogTools, detail.tools);
-    fillServiceList(serviceDialogNeeds, detail.needs);
-    serviceDialogHandoff.textContent = detail.handoff;
+    fillServiceList(serviceDialogWorkflow, detail.workflow || []);
+    fillServiceList(serviceDialogDeliverables, detail.deliverables || []);
+    fillServiceList(serviceDialogTools, detail.tools || []);
+    fillServiceList(serviceDialogNeeds, detail.needs || []);
+    serviceDialogHandoff.textContent = detail.handoff || '';
 
     serviceDialog.showModal();
     document.body.style.overflow = 'hidden';
