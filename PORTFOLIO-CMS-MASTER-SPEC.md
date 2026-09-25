@@ -171,34 +171,51 @@ Acceptance checklist:
 Lock rule:
 Do not change Phase 1C behavior during later feature work unless a verified bug or security requirement makes it necessary.
 
-## Active module
+## Completed module
 
-**Phase 1D — CMS Content Store & Draft/Publish Security Foundation**
+**Phase 1D — CMS Content Store & Draft/Publish Security Foundation — LOCKED / DONE**
 
-Purpose:
-Create the smallest secure database layer needed before homepage content becomes editable.
+Owner approval: 2026-09-25
 
-Scope:
-- Add a single generic `cms_content_entries` table for future CMS modules
-- Keep draft and published JSON data separate in the same entry
-- Give public/anonymous visitors read access only to published columns and only when published data exists
-- Give allowlisted admins RLS-protected select/insert/update/delete access
-- Deny non-admin authenticated accounts through RLS
-- Automatically track draft updates, publish timestamps and the authenticated updater
-- Add a dashboard readiness check showing whether the migration is installed
-- Do not seed or edit homepage content yet
-- Do not enable Homepage/Projects navigation yet
-- Do not implement version history in this module; that remains a later requirement
-- Preserve all locked Phase 1A–1C behavior and keep public portfolio files untouched
+Purpose delivered:
+Created the smallest secure database layer needed before homepage content becomes editable.
+
+Scope delivered:
+- Added generic `cms_content_entries` table for future CMS modules
+- Draft and published JSON data are separated in the same entry
+- Public/anonymous visitors can read only published columns and only rows with published data
+- Allowlisted admins receive RLS-protected select/insert/update/delete access
+- Non-admin authenticated accounts remain blocked by RLS policies
+- Draft updates, publish timestamps and authenticated updater metadata are tracked
+- Admin dashboard readiness indicator confirms the migration is installed
+- No homepage content was seeded or moved into the CMS
+- Homepage/Projects navigation remains disabled
+- Version history was intentionally not implemented in this module
+- Locked Phase 1A–1C behavior and public portfolio files remain untouched
+
+Security verification:
+- Temporary test row `security.test` was inserted
+- Anonymous published read succeeded
+- Anonymous `draft_data` read returned the expected permission error
+- Temporary test row was deleted successfully
+- Cleanup query completed with no rows returned, which is expected for DELETE without RETURNING
 
 Acceptance checklist:
-- [ ] Migration runs successfully in Supabase
-- [ ] `cms_content_entries` table exists with RLS enabled
-- [ ] Admin dashboard changes from “Migration required” to “Ready”
-- [ ] Allowlisted admin can query the table
-- [ ] Public access cannot read draft data
-- [ ] No homepage content has been moved into the CMS yet
-- [ ] Public portfolio remains visually unchanged
+- [x] Migration runs successfully in Supabase
+- [x] `cms_content_entries` table exists with RLS enabled
+- [x] Admin dashboard shows “Ready”
+- [x] Allowlisted admin can query the table
+- [x] Public access can read published data
+- [x] Public access cannot read draft data
+- [x] Temporary security test data was cleaned up
+- [x] No homepage content has been moved into the CMS yet
+- [x] Public portfolio remains visually unchanged
 
 Lock rule:
-After owner approval, freeze the content-store schema and only extend it through explicit later migrations.
+Freeze the Phase 1D content-store schema. Extend it only through explicit later migrations when a later module has a demonstrated need.
+
+## Next module
+
+**Phase 1E — Foundation next layer**
+
+Plan the exact scope before writing code. Continue the one-module-at-a-time rule and keep public portfolio content untouched.
