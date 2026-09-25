@@ -577,11 +577,16 @@ if (!hasValidConfig) {
 
   heroImageUploadButton?.addEventListener("click", uploadHeroImage);
 
-  heroImageUploadInput?.addEventListener("change", () => {
+  heroImageUploadInput?.addEventListener("change", async () => {
     const file = heroImageUploadInput.files?.[0];
-    setHeroImageUploadStatus(
-      file ? `Selected: ${file.name}` : ""
-    );
+
+    if (!file) {
+      setHeroImageUploadStatus("");
+      return;
+    }
+
+    setHeroImageUploadStatus(`Selected: ${file.name} · starting upload…`);
+    await uploadHeroImage();
   });
 
   heroPreviewButton?.addEventListener("click", () => {
