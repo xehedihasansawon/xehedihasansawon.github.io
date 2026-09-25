@@ -36,7 +36,15 @@ const allPanels = [
   adminPanel
 ];
 
-let recoveryMode = false;
+const initialUrl = new URL(window.location.href);
+const initialHashParams = new URLSearchParams(
+  initialUrl.hash.startsWith("#") ? initialUrl.hash.slice(1) : initialUrl.hash
+);
+const initialRecoveryIntent =
+  initialHashParams.get("type") === "recovery" ||
+  initialUrl.searchParams.get("recovery") === "1";
+
+let recoveryMode = initialRecoveryIntent;
 
 const isPlaceholder = (value) =>
   !value ||
@@ -181,6 +189,32 @@ if (!hasValidConfig) {
     setMessage(passwordUpdateMessage, "");
     showOnly(passwordUpdatePanel);
     document.querySelector("#newPassword")?.focus();
+  };
+
+  const openVerifiedRecovery = async (session) => {
+    if (!session?.user) {
+      return false;
+    }
+
+    const membership = await checkAdminMembership(session.user);
+
+    if (!membership.allowed) {
+      await supabaseClient.auth.signOut();
+      enterLogin("This recovery account is not authorized for the CMS.");
+      return true;
+    }
+
+    enterPasswordUpdate();
+
+    if (window.location.hash || window.location.search) {
+      window.history.replaceState(
+        {},
+        document.title,
+        window.location.pathname
+      );
+    }
+
+    return true;
   };
 
   const guardSession = async (session) => {
@@ -368,19 +402,10 @@ if (!hasValidConfig) {
     }
   });
 
-  supabaseClient.auth.onAuthStateChange(async (event, session) => {
+  const handleAuthEvent = async (event, session) => {
     if (event === "PASSWORD_RECOVERY") {
       recoveryMode = true;
-
-      const membership = await checkAdminMembership(session?.user);
-
-      if (!membership.allowed) {
-        await supabaseClient.auth.signOut();
-        enterLogin("This recovery account is not authorized for the CMS.");
-        return;
-      }
-
-      enterPasswordUpdate();
+      await openVerifiedRecovery(session);
       return;
     }
 
@@ -397,6 +422,14 @@ if (!hasValidConfig) {
     ) {
       await guardSession(session);
     }
+  };
+
+  supabaseClient.auth.onAuthStateChange((event, session) => {
+    window.setTimeout(() => {
+      handleAuthEvent(event, session).catch((error) => {
+        console.error("Auth event handling failed:", error);
+      });
+    }, 0);
   });
 
   const { data: sessionData, error: sessionError } =
@@ -405,6 +438,31 @@ if (!hasValidConfig) {
   if (sessionError) {
     console.error("Session check failed:", sessionError);
     enterLogin("Could not verify the current session.");
+  } else if (initialRecoveryIntent) {
+    recoveryMode = true;
+
+    const opened = await openVerifiedRecovery(sessionData.session);
+
+    if (!opened) {
+      window.setTimeout(async () => {
+        const { data, error } = await supabaseClient.auth.getSession();
+
+        if (error) {
+          console.error("Delayed recovery session check failed:", error);
+          enterLogin("Recovery session could not be verified.");
+          return;
+        }
+
+        const recovered = await openVerifiedRecovery(data.session);
+
+        if (!recovered) {
+          recoveryMode = false;
+          enterLogin(
+            "Recovery link could not establish a session. Request a fresh recovery email and open the newest link."
+          );
+        }
+      }, 500);
+    }
   } else if (!recoveryMode) {
     await guardSession(sessionData.session);
   }
