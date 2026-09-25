@@ -29,6 +29,8 @@ const sidebarBackdrop = document.querySelector("#sidebarBackdrop");
 const dashboardNavLink = document.querySelector(".cms-nav .nav-item.active");
 const contentStoreDot = document.querySelector("#contentStoreDot");
 const contentStoreStatus = document.querySelector("#contentStoreStatus");
+const revisionStoreDot = document.querySelector("#revisionStoreDot");
+const revisionStoreStatus = document.querySelector("#revisionStoreStatus");
 
 const allPanels = [
   configPanel,
@@ -170,6 +172,31 @@ if (!hasValidConfig) {
     return true;
   };
 
+  const setRevisionStoreStatus = (state, label) => {
+    if (!revisionStoreDot || !revisionStoreStatus) return;
+
+    revisionStoreDot.classList.remove("checking", "ready", "missing");
+    revisionStoreDot.classList.add(state);
+    revisionStoreStatus.textContent = label;
+  };
+
+  const checkRevisionStore = async () => {
+    setRevisionStoreStatus("checking", "Checking…");
+
+    const { error } = await supabaseClient
+      .from("cms_content_revisions")
+      .select("revision_id", { head: true, count: "exact" });
+
+    if (error) {
+      console.warn("CMS revision store check failed:", error.message);
+      setRevisionStoreStatus("missing", "Migration required");
+      return false;
+    }
+
+    setRevisionStoreStatus("ready", "Ready");
+    return true;
+  };
+
   const checkAdminMembership = async (user) => {
     if (!user?.id) {
       return { allowed: false, reason: "No authenticated user." };
@@ -202,6 +229,7 @@ if (!hasValidConfig) {
     setSidebarOpen(false);
     showOnly(adminPanel);
     checkContentStore();
+    checkRevisionStore();
   };
 
   const enterLogin = (message = "") => {
