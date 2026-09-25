@@ -131,6 +131,7 @@ export const initProjectManager = ({ supabaseClient, showCmsView }) => {
 
   const resetCategoryForm = () => {
     categoryForm.reset();
+    delete categorySlugInput.dataset.manual;
     categoryIdInput.value = "";
     categoryActiveInput.checked = true;
     categorySaveButton.textContent = "Save category";
@@ -155,6 +156,7 @@ export const initProjectManager = ({ supabaseClient, showCmsView }) => {
 
   const resetProjectForm = () => {
     projectForm.reset();
+    delete projectSlugInput.dataset.manual;
     projectIdInput.value = "";
     projectCoverUrlInput.value = "";
     projectCoverAltInput.value = "";
@@ -653,6 +655,7 @@ export const initProjectManager = ({ supabaseClient, showCmsView }) => {
     if (!payload) return;
 
     const id = projectIdInput.value.trim();
+    const wasPublished = projectPublishedAtLoad;
 
     setBusy(true);
     projectSaveButton.textContent = "Saving…";
@@ -687,7 +690,7 @@ export const initProjectManager = ({ supabaseClient, showCmsView }) => {
       projectUnpublishButton.hidden = true;
       projectCancelButton.hidden = false;
       setProjectMessage(
-        projectPublishedAtLoad
+        wasPublished
           ? "Saved as draft and unpublished."
           : "Draft saved. Public project data has not been published."
       );
