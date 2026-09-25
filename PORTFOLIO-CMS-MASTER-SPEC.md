@@ -1060,11 +1060,67 @@ Acceptance checklist:
 Lock rule:
 Freeze the Phase 3A schema/security contract. Later Phase 3 modules may extend it compatibly when required, but must not weaken RLS or expose draft/private projects.
 
-## Next module
+## Active module
 
 **Phase 3B — Media / Image Workflow**
 
-Plan the exact upload, optimization, storage-path, metadata and cleanup contract before coding. Keep Phase 3A and all Phase 2 modules locked.
+Purpose:
+Build a reusable web-optimized image pipeline for future dynamic projects while keeping all existing public project rendering unchanged.
+
+Scope:
+- Keep Phase 2A–2K and Phase 3A locked
+- Reuse the existing `portfolio-media` Supabase Storage bucket and its allowlisted-admin mutation policies
+- Add admin-only `public.portfolio_media` metadata table
+- Accept JPG, PNG and WebP source images
+- Allow source files up to 25 MB for local browser processing; do not upload the source original
+- Reject source images above 60 megapixels to limit browser memory risk
+- Generate a display variant that preserves the source/natural aspect ratio
+- Display max-width choices: 1600, 2000 or 2400 px, with no upscaling
+- Generate a separate thumbnail variant
+- Thumbnail width choices: 640, 800 or 1000 px
+- Thumbnail aspect choices: 16:10, 4:3, 1:1 or natural
+- Output format choices: Auto, WebP, JPG or PNG
+- In Auto mode, preserve PNG output when PNG-transparency preservation is enabled; otherwise prefer WebP
+- Provide adjustable WebP/JPG compression quality
+- Flatten transparency to white when explicit JPG output is selected
+- Enforce the existing 8 MB Storage output limit per optimized variant
+- Store source dimensions/size plus display/thumbnail dimensions, bytes, paths and public URLs in metadata
+- Store accessibility alt text
+- Use `projects/library/<media-id>/...` Storage paths
+- Provide preview metadata in px and KB/MB
+- Provide Media Library with display/thumbnail URL copy actions
+- Provide deletion/cleanup of both optimized Storage objects and metadata
+- Clean up partial Storage uploads if later upload/metadata steps fail
+- Do not attach images to projects yet; that begins in Phase 3C
+- Do not migrate or alter Phase 2 project cards
+- Keep production `main` untouched
+
+Acceptance checklist:
+- [ ] Migration 011 runs successfully
+- [ ] Storage Bucket reports Ready
+- [ ] Media Metadata reports Ready
+- [ ] Empty library reports 0 media items
+- [ ] JPG source can be optimized/uploaded
+- [ ] PNG source is supported
+- [ ] WebP source is supported
+- [ ] Auto output generates web-ready output
+- [ ] Explicit WebP output works
+- [ ] Explicit JPG output works
+- [ ] Explicit PNG output works
+- [ ] Display variant preserves natural aspect ratio
+- [ ] Thumbnail ratio selection works
+- [ ] Display/thumbnail dimensions and sizes are shown
+- [ ] Media item appears in library after upload
+- [ ] Copy display URL works
+- [ ] Copy thumbnail URL works
+- [ ] Delete removes media metadata and both optimized Storage objects
+- [ ] Partial-upload cleanup path is implemented
+- [ ] Source original is not uploaded
+- [ ] Existing public project rendering remains unchanged
+- [ ] No production `main` deployment occurs
+
+Lock rule:
+After owner verification, freeze the Phase 3B media metadata/storage-path and optimization contract. Later modules may consume these media records but must not begin serving large source originals.
 
 ## Planned Phase 3 sequence
 
