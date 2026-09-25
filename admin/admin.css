@@ -163,18 +163,35 @@ button {
   box-shadow: 0 0 0 4px rgba(240, 74, 67, 0.09);
 }
 
-.login-form button,
+.login-form button:not(.text-button),
 .secondary-button {
   min-height: 46px;
   border-radius: 13px;
   font-weight: 800;
 }
 
-.login-form button {
+.login-form button:not(.text-button) {
   margin-top: 12px;
   border: 1px solid var(--red);
   color: #fff;
   background: var(--red);
+}
+
+.text-button {
+  width: fit-content;
+  margin: 7px 0 0;
+  padding: 3px 0;
+  border: 0;
+  color: #b9c8c1;
+  background: transparent;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-align: left;
+}
+
+.text-button:hover,
+.text-button:focus-visible {
+  color: var(--red);
 }
 
 .login-form button:disabled,
