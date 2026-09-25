@@ -214,8 +214,35 @@ Acceptance checklist:
 Lock rule:
 Freeze the Phase 1D content-store schema. Extend it only through explicit later migrations when a later module has a demonstrated need.
 
-## Next module
+## Active module
 
-**Phase 1E — Foundation next layer**
+**Phase 1E — Automatic Revision History Foundation**
 
-Plan the exact scope before writing code. Continue the one-module-at-a-time rule and keep public portfolio content untouched.
+Purpose:
+Add automatic content snapshots before any real homepage editing begins, so future CMS changes have a recoverable history.
+
+Scope:
+- Add a private `cms_content_revisions` table
+- Automatically capture a snapshot when CMS content is created, updated or deleted
+- Store content key, event type, draft state, published state, timestamps and authenticated changer
+- Keep revision rows completely hidden from anonymous/public visitors
+- Allow only allowlisted admins to read revision history through RLS
+- Do not allow browser clients to directly insert, update or delete revision rows
+- Add a dashboard readiness check for the revision store
+- Do not add restore UI yet; restore remains part of the later backup/version-history requirement
+- Do not move or edit homepage content in this module
+- Preserve all locked Phase 1A–1D behavior
+
+Acceptance checklist:
+- [ ] Migration runs successfully in Supabase
+- [ ] `cms_content_revisions` exists with RLS enabled
+- [ ] Dashboard shows Revision History → Ready
+- [ ] Creating a temporary CMS entry automatically creates a revision
+- [ ] Updating it automatically creates another revision
+- [ ] Deleting it automatically creates a deleted-state revision
+- [ ] Anonymous/public access cannot read revision history
+- [ ] Temporary test data and test revisions are cleaned up
+- [ ] Public portfolio remains visually unchanged
+
+Lock rule:
+After owner approval, freeze the Phase 1E revision schema. Future restore UI may read these snapshots but should not rewrite this history model without an explicit migration.
