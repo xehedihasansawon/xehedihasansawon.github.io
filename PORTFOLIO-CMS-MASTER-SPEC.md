@@ -1154,6 +1154,37 @@ Freeze the Phase 3B media metadata/storage-path and optimization contract. Later
 
 **Phase 3C — Dynamic Project & Category Manager**
 
+### Phase 3C submodule checkpoints
+
+**Phase 3C-1 — Category Manager CRUD — LOCKED / DONE**
+
+Owner approval: 2026-09-26
+
+Delivered:
+- Load categories from the locked Phase 3A store
+- Create category
+- Edit category
+- Delete category
+- Name, slug, description and active/inactive state
+- Automatic slug generation with manual override
+- No homepage migration
+- No production `main` deployment
+
+Lock rule:
+Do not redesign or change the 3C-1 category workflow unless a verified bug/security issue requires it.
+
+**Phase 3C-2 — Project Draft Create/Edit — ACTIVE**
+
+Scope:
+- Create draft project records
+- Edit existing project records as drafts
+- Title, slug, summary, category, visibility, action label and safe action link
+- Every save writes `is_published = false`
+- Media cover attachment is deferred
+- Publish/Unpublish is deferred
+- Project delete is deferred
+- Existing Phase 2 project cards remain untouched
+
 Purpose:
 Turn the locked Phase 3A project/category data stores and Phase 3B Media Library into an admin CRUD workflow, without replacing the current public homepage project cards yet.
 
@@ -1187,10 +1218,10 @@ Scope:
 Acceptance checklist:
 - [ ] Phase 3C Projects navigation opens the manager
 - [ ] Existing category/project/media records load
-- [ ] Category can be created
-- [ ] Category can be edited
-- [ ] Category active/inactive state can be changed
-- [ ] Category can be deleted
+- [x] Category can be created
+- [x] Category can be edited
+- [x] Category active/inactive state can be changed
+- [x] Category can be deleted
 - [ ] Project draft can be created
 - [ ] Project slug validation works
 - [ ] Safe action-link validation works
