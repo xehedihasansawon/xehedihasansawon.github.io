@@ -618,46 +618,65 @@ Acceptance checklist:
 Lock rule:
 Freeze the Phase 2E four-card content contract and workflow-popup model. Only verified bugs/security issues may modify it before later structural CMS work.
 
-## Active module
+## Completed module
 
-**Phase 2F — Homepage About Me CMS**
+**Phase 2F — Homepage About Me CMS — LOCKED / DONE**
 
-Purpose:
-Connect the approved About Me section to the locked CMS foundation without redesigning the section or adding new profile structures.
+Owner approval: 2026-09-25
 
-Scope:
-- Keep Phase 2A–2E locked
-- Add a dedicated About Me admin view under Homepage CMS
-- Use content key `homepage.about`
-- Allow authenticated Save Draft to safely create the row if it does not exist
-- Edit section eyebrow plus the two-part ABOUT / ME heading
-- Edit the two-line positioning headline: DESIGNER FIRST. / PROBLEM SOLVER ALWAYS.
-- Edit the two existing About paragraphs
-- Edit the two existing profile-meta label/value pairs: Based in and Open to
-- No About photo is introduced; the approved no-photo layout remains
-- Save only to `draft_data`
-- Provide a private draft preview
-- Require Save Draft before Publish
-- Publish through the locked Phase 1F secure publish action
+Purpose delivered:
+Connected the approved About Me section to the locked CMS foundation while preserving the existing no-photo layout and profile-meta structure.
+
+Scope delivered:
+- Added a dedicated About Me admin editor under Homepage CMS
+- `homepage.about` is safely created on first authenticated Save Draft if missing
+- Section eyebrow and ABOUT / ME heading are editable
+- The two-line positioning headline is editable
+- Both existing About paragraphs are editable
+- Both existing profile-meta label/value pairs are editable
+- No About photo was introduced; the approved no-photo layout remains
+- Save Draft writes only to `draft_data`
+- Private draft preview is available
+- Publish uses the locked Phase 1F secure publish action
 - Public/local homepage reads only `published_data`
-- Keep existing static About markup as the fail-safe fallback
-- Do not touch Skills & Tools, Experience, Contact, Footer or section ordering
-- Keep `main` untouched until explicit live approval
+- Existing static About markup remains as fail-safe fallback
+- Production `main` branch remains untouched
+
+Verified during this checkpoint:
+- About Me admin editor loaded successfully
+- First Save Draft completed successfully and created the content row when needed
+- Private Preview was checked
+- Publish About completed successfully
+- Localhost About content was checked after publishing
+- Approved no-photo layout remained unchanged
+- Production remained unchanged because no live deployment was performed
+
+Not separately evidenced before owner lock:
+- Explicit unsaved-change publish-block result
+- Forced CMS-failure fallback test
+- Dedicated desktop visual comparison
+- Mobile visual verification
 
 Acceptance checklist:
-- [ ] Phase 2F content row exists via first authenticated Save Draft
-- [ ] About Me navigation opens only the Phase 2F editor
-- [ ] Current approved About copy loads into Admin
-- [ ] Save Draft changes draft data without changing published content
-- [ ] Private Preview reflects the current About fields
-- [ ] Publish is blocked while there are unsaved changes
-- [ ] Publish promotes the saved draft through the secure Phase 1F action
-- [ ] Localhost About section loads published CMS content
-- [ ] Approved no-photo About layout remains unchanged
-- [ ] Static fallback remains available if the CMS request fails
-- [ ] Desktop layout remains visually consistent
-- [ ] Mobile layout remains visually consistent
-- [ ] No other homepage section is changed
+- [x] Phase 2F content row exists via first authenticated Save Draft
+- [x] About Me navigation opens the Phase 2F editor
+- [x] Current approved About copy loads into Admin
+- [x] Save Draft writes successfully without publishing
+- [x] Private Preview reflects the current About fields
+- [ ] Unsaved-change publish block was not separately evidenced
+- [x] Publish promotes the saved draft through the secure Phase 1F action
+- [x] Localhost About section loads published CMS content
+- [x] Approved no-photo About layout remains unchanged
+- [ ] Static fallback was implemented but not force-tested
+- [ ] Dedicated desktop visual comparison was not separately evidenced
+- [ ] Mobile visual verification was not separately evidenced
+- [x] No other homepage CMS section was implemented in Phase 2F
 
 Lock rule:
-After owner approval, freeze the Phase 2F About content contract and preserve the no-photo layout until a later explicit redesign request.
+Freeze the Phase 2F About content contract and preserve the no-photo layout. Only verified bugs/security issues may modify it before a later explicit redesign request.
+
+## Next module
+
+**Phase 2G — Homepage Skills & Tools CMS**
+
+Plan the exact scope before coding. Keep Phase 2A–2F locked and touch only the Skills & Tools homepage section when Phase 2G starts.
