@@ -41,6 +41,10 @@ const heroSaveButton = document.querySelector("#heroSaveButton");
 const heroPublishButton = document.querySelector("#heroPublishButton");
 const heroDraftPreview = document.querySelector("#heroDraftPreview");
 const closeHeroPreviewButton = document.querySelector("#closeHeroPreviewButton");
+const heroImageUploadInput = document.querySelector("#heroImageUploadInput");
+const heroImageUploadButton = document.querySelector("#heroImageUploadButton");
+const heroImageUploadStatus = document.querySelector("#heroImageUploadStatus");
+const heroImageSelectionPreview = document.querySelector("#heroImageSelectionPreview");
 const contentStoreDot = document.querySelector("#contentStoreDot");
 const contentStoreStatus = document.querySelector("#contentStoreStatus");
 const revisionStoreDot = document.querySelector("#revisionStoreDot");
@@ -239,6 +243,13 @@ if (!hasValidConfig) {
   };
 
   const HERO_CONTENT_KEY = "homepage.hero";
+  const HERO_MEDIA_BUCKET = "portfolio-media";
+  const HERO_MAX_UPLOAD_BYTES = 8 * 1024 * 1024;
+  const HERO_ALLOWED_IMAGE_TYPES = Object.freeze({
+    "image/jpeg": "jpg",
+    "image/png": "png",
+    "image/webp": "webp"
+  });
 
   const heroDefaults = Object.freeze({
     statusText: "Available for freelance and remote projects",
@@ -272,6 +283,16 @@ if (!hasValidConfig) {
 
   const setHeroEditorState = (label) => {
     if (heroEditorState) heroEditorState.textContent = label;
+  };
+
+  const setHeroImageUploadStatus = (message = "") => {
+    if (heroImageUploadStatus) heroImageUploadStatus.textContent = message;
+  };
+
+  const setHeroImageUploadBusy = (busy) => {
+    if (!heroImageUploadButton) return;
+    heroImageUploadButton.disabled = busy;
+    heroImageUploadButton.textContent = busy ? "Uploading…" : "Upload image";
   };
 
   const setEditorBusy = (busy) => {
@@ -331,6 +352,27 @@ if (!hasValidConfig) {
     return data;
   };
 
+  const resolvePreviewImage = (src) => {
+    if (/^https:\/\//i.test(src)) return src;
+    try {
+      return new URL("../" + src.replace(/^\.\//, ""), window.location.href).href;
+    } catch {
+      return "";
+    }
+  };
+
+  const syncHeroImageSelectionPreview = (src) => {
+    if (!heroImageSelectionPreview) return;
+
+    const resolved = resolvePreviewImage(String(src || "").trim());
+    if (!resolved) {
+      heroImageSelectionPreview.removeAttribute("src");
+      return;
+    }
+
+    heroImageSelectionPreview.src = resolved;
+  };
+
   const populateHeroForm = (data = {}) => {
     const content = { ...heroDefaults, ...data };
 
@@ -339,17 +381,81 @@ if (!hasValidConfig) {
       if (field) field.value = value ?? "";
     });
 
+    syncHeroImageSelectionPreview(content.imageSrc);
+    setHeroImageUploadStatus("");
+    if (heroImageUploadInput) heroImageUploadInput.value = "";
+
     heroLastLoadedDraft = structuredClone(content);
     heroFormDirty = false;
     setHeroEditorState("Draft loaded");
   };
 
-  const resolvePreviewImage = (src) => {
-    if (/^https:\/\//i.test(src)) return src;
+  const uploadHeroImage = async () => {
+    const file = heroImageUploadInput?.files?.[0];
+
+    if (!file) {
+      setHeroImageUploadStatus("Choose an image first.");
+      return;
+    }
+
+    const extension = HERO_ALLOWED_IMAGE_TYPES[file.type];
+
+    if (!extension) {
+      setHeroImageUploadStatus("Use JPG, PNG or WebP.");
+      return;
+    }
+
+    if (file.size > HERO_MAX_UPLOAD_BYTES) {
+      setHeroImageUploadStatus("Image is larger than 8 MB.");
+      return;
+    }
+
+    setHeroImageUploadBusy(true);
+    setHeroImageUploadStatus("Uploading image…");
+
     try {
-      return new URL("../" + src.replace(/^\.\//, ""), window.location.href).href;
-    } catch {
-      return "";
+      const uniquePart =
+        globalThis.crypto?.randomUUID?.() ||
+        Math.random().toString(36).slice(2, 12);
+
+      const objectPath = `hero/${Date.now()}-${uniquePart}.${extension}`;
+
+      const { error: uploadError } = await supabaseClient.storage
+        .from(HERO_MEDIA_BUCKET)
+        .upload(objectPath, file, {
+          cacheControl: "31536000",
+          contentType: file.type,
+          upsert: false
+        });
+
+      if (uploadError) throw uploadError;
+
+      const { data: publicUrlData } = supabaseClient.storage
+        .from(HERO_MEDIA_BUCKET)
+        .getPublicUrl(objectPath);
+
+      const publicUrl = publicUrlData?.publicUrl;
+
+      if (!publicUrl) {
+        throw new Error("Storage did not return a public image URL.");
+      }
+
+      const imageSrcField = heroField("imageSrc");
+      if (imageSrcField) {
+        imageSrcField.value = publicUrl;
+      }
+
+      syncHeroImageSelectionPreview(publicUrl);
+      heroFormDirty = true;
+      setHeroEditorState("Unsaved changes");
+      setHeroImageUploadStatus("Image uploaded. Save draft to keep this selection.");
+    } catch (error) {
+      console.error("Hero image upload failed:", error);
+      setHeroImageUploadStatus(
+        error?.message || "Could not upload the Hero image."
+      );
+    } finally {
+      setHeroImageUploadBusy(false);
     }
   };
 
@@ -458,9 +564,24 @@ if (!hasValidConfig) {
     await loadHeroEditor();
   });
 
-  heroEditorForm?.addEventListener("input", () => {
+  heroEditorForm?.addEventListener("input", (event) => {
+    if (event.target === heroImageUploadInput) return;
+
     heroFormDirty = true;
     setHeroEditorState("Unsaved changes");
+
+    if (event.target === heroField("imageSrc")) {
+      syncHeroImageSelectionPreview(event.target.value);
+    }
+  });
+
+  heroImageUploadButton?.addEventListener("click", uploadHeroImage);
+
+  heroImageUploadInput?.addEventListener("change", () => {
+    const file = heroImageUploadInput.files?.[0];
+    setHeroImageUploadStatus(
+      file ? `Selected: ${file.name}` : ""
+    );
   });
 
   heroPreviewButton?.addEventListener("click", () => {
