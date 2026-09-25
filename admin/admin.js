@@ -888,7 +888,27 @@ if (!hasValidConfig) {
   };
 
   const readRealProjectsForm = () => {
-    if (!realProjectsEditorForm?.reportValidity()) return null;
+    if (!realProjectsEditorForm) return null;
+
+    const missingRequired = [...realProjectsEditorForm.querySelectorAll("[required]")].find(
+      (field) => !String(field.value || "").trim()
+    );
+
+    if (missingRequired) {
+      const projectCard = missingRequired.closest("[data-project-key]");
+      const projectTitle =
+        projectCard?.querySelector('[data-project-field="title"]')?.value?.trim() ||
+        projectCard?.dataset.projectKey ||
+        "section heading";
+      const fieldLabel =
+        missingRequired.closest("label")?.querySelector("span")?.textContent?.trim() ||
+        "required field";
+
+      setRealProjectsMessage(`Complete "${fieldLabel}" for ${projectTitle} before saving.`);
+      missingRequired.focus();
+      missingRequired.scrollIntoView({ behavior: "smooth", block: "center" });
+      return null;
+    }
 
     const projects = realProjectsDefaults.projects.map((project) => {
       const card = projectCardElement(project.key);
@@ -1109,12 +1129,11 @@ if (!hasValidConfig) {
     realProjectsDraftPreview.hidden = true;
   });
 
-  realProjectsEditorForm?.addEventListener("submit", async (event) => {
-    event.preventDefault();
+  const saveRealProjectsDraft = async () => {
     setRealProjectsMessage("");
 
     const draft = readRealProjectsForm();
-    if (!draft) return;
+    if (!draft) return false;
 
     setRealProjectsBusy(true);
     setRealProjectsState("Saving…");
@@ -1131,20 +1150,33 @@ if (!hasValidConfig) {
       if (!data) {
         setRealProjectsState("Setup required");
         setRealProjectsMessage("Real Life Projects row is missing. Run the Phase 2B seed migration first.");
-        return;
+        return false;
       }
 
       realProjectsLastLoadedDraft = structuredClone(draft);
       realProjectsDirty = false;
       setRealProjectsState("Draft saved");
       setRealProjectsMessage("Draft saved. Published project cards have not changed.");
+      return true;
     } catch (error) {
       console.error("Real Life Projects draft save failed:", error);
       setRealProjectsState("Save failed");
-      setRealProjectsMessage("Could not save the Real Life Projects draft.");
+      setRealProjectsMessage(
+        error?.message
+          ? `Could not save draft: ${error.message}`
+          : "Could not save the Real Life Projects draft."
+      );
+      return false;
     } finally {
       setRealProjectsBusy(false);
     }
+  };
+
+  realProjectsSaveButton?.addEventListener("click", saveRealProjectsDraft);
+
+  realProjectsEditorForm?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    await saveRealProjectsDraft();
   });
 
   realProjectsPublishButton?.addEventListener("click", async () => {
