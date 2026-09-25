@@ -6,7 +6,8 @@ begin;
 insert into public.cms_content_entries (
   content_key,
   draft_data,
-  published_data
+  published_data,
+  published_at
 )
 values (
   'homepage.hero',
@@ -49,7 +50,8 @@ values (
     "meta3": "AI & business workflows",
     "imageSrc": "assets/hero-visual.jpg",
     "imageAlt": "MD Mehedi Hasan Sawon portrait"
-  }'::jsonb
+  }'::jsonb,
+  timezone('utc'::text, now())
 )
 on conflict (content_key) do nothing;
 
