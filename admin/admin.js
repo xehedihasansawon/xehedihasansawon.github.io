@@ -30,10 +30,12 @@ const dashboardNavLink = document.querySelector("#dashboardNavLink");
 const homepageNavButton = document.querySelector("#homepageNavButton");
 const realProjectsNavButton = document.querySelector("#realProjectsNavButton");
 const designShowcaseNavButton = document.querySelector("#designShowcaseNavButton");
+const creativeServicesNavButton = document.querySelector("#creativeServicesNavButton");
 const dashboard = document.querySelector("#dashboard");
 const homepageEditor = document.querySelector("#homepageEditor");
 const realProjectsEditor = document.querySelector("#realProjectsEditor");
 const designShowcaseEditor = document.querySelector("#designShowcaseEditor");
+const creativeServicesEditor = document.querySelector("#creativeServicesEditor");
 const cmsPageEyebrow = document.querySelector("#cmsPageEyebrow");
 const cmsPageTitle = document.querySelector("#cmsPageTitle");
 
@@ -71,6 +73,17 @@ const designShowcasePublishButton = document.querySelector("#designShowcasePubli
 const designShowcaseDraftPreview = document.querySelector("#designShowcaseDraftPreview");
 const closeDesignShowcasePreviewButton = document.querySelector("#closeDesignShowcasePreviewButton");
 const designShowcasePreviewGrid = document.querySelector("#designShowcasePreviewGrid");
+
+const creativeServicesEditorForm = document.querySelector("#creativeServicesEditorForm");
+const creativeServicesEditorList = document.querySelector("#creativeServicesEditorList");
+const creativeServicesEditorState = document.querySelector("#creativeServicesEditorState");
+const creativeServicesEditorMessage = document.querySelector("#creativeServicesEditorMessage");
+const creativeServicesPreviewButton = document.querySelector("#creativeServicesPreviewButton");
+const creativeServicesSaveButton = document.querySelector("#creativeServicesSaveButton");
+const creativeServicesPublishButton = document.querySelector("#creativeServicesPublishButton");
+const creativeServicesDraftPreview = document.querySelector("#creativeServicesDraftPreview");
+const closeCreativeServicesPreviewButton = document.querySelector("#closeCreativeServicesPreviewButton");
+const creativeServicesPreviewGrid = document.querySelector("#creativeServicesPreviewGrid");
 const contentStoreDot = document.querySelector("#contentStoreDot");
 const contentStoreStatus = document.querySelector("#contentStoreStatus");
 const revisionStoreDot = document.querySelector("#revisionStoreDot");
@@ -544,18 +557,21 @@ if (!hasValidConfig) {
     const isHero = view === "hero";
     const isRealProjects = view === "real-projects";
     const isDesignShowcase = view === "design-showcase";
+    const isCreativeServices = view === "creative-services";
 
     dashboard.hidden = !isDashboard;
     homepageEditor.hidden = !isHero;
     realProjectsEditor.hidden = !isRealProjects;
     designShowcaseEditor.hidden = !isDesignShowcase;
+    creativeServicesEditor.hidden = !isCreativeServices;
 
     dashboardNavLink?.classList.toggle("active", isDashboard);
     homepageNavButton?.classList.toggle("active", isHero);
     realProjectsNavButton?.classList.toggle("active", isRealProjects);
     designShowcaseNavButton?.classList.toggle("active", isDesignShowcase);
+    creativeServicesNavButton?.classList.toggle("active", isCreativeServices);
 
-    [dashboardNavLink, homepageNavButton, realProjectsNavButton, designShowcaseNavButton].forEach((item) => {
+    [dashboardNavLink, homepageNavButton, realProjectsNavButton, designShowcaseNavButton, creativeServicesNavButton].forEach((item) => {
       item?.removeAttribute("aria-current");
     });
 
@@ -571,6 +587,10 @@ if (!hasValidConfig) {
       designShowcaseNavButton?.setAttribute("aria-current", "page");
       cmsPageEyebrow.textContent = "HOMEPAGE CMS";
       cmsPageTitle.textContent = "Design Showcase";
+    } else if (isCreativeServices) {
+      creativeServicesNavButton?.setAttribute("aria-current", "page");
+      cmsPageEyebrow.textContent = "HOMEPAGE CMS";
+      cmsPageTitle.textContent = "Creative Services";
     } else {
       dashboardNavLink?.setAttribute("aria-current", "page");
       cmsPageEyebrow.textContent = "HOMEPAGE CMS";
@@ -1787,6 +1807,519 @@ if (!hasValidConfig) {
       setDesignShowcaseMessage(error?.message || "Could not publish the Design Showcase.");
     } finally {
       setDesignShowcaseBusy(false);
+    }
+  });
+
+  const CREATIVE_SERVICES_CONTENT_KEY = "homepage.creative-services";
+
+  const creativeServicesDefaults = Object.freeze({
+    eyebrow: "What I can help with",
+    titleMain: "CREATIVE",
+    titleAccent: "SERVICES",
+    services: [
+      {
+        key: "brand",
+        number: "01",
+        cardTitle: "Brand Identity",
+        cardDescription: "Logo systems, visual direction and consistent brand assets.",
+        modalEyebrow: "Service workflow",
+        modalTitle: "Brand Identity",
+        modalSummary: "I build a practical visual identity system that can stay consistent across social media, print and everyday brand use.",
+        workflow: [
+          "Discovery and brief: understand the business, audience, goals, personality and where the identity will be used.",
+          "Research and direction: review competitors, references and visual opportunities before choosing a clear creative direction.",
+          "Concept development: create logo and identity concepts with typography, color and supporting visual elements.",
+          "Refinement: improve the selected direction through feedback, spacing, balance, color and real-use testing.",
+          "Brand system rollout: prepare the main logo, alternate marks and practical brand assets for common use cases.",
+          "Final handoff: organize master files, exports and a clear usage reference so the identity is easy to use consistently."
+        ],
+        deliverables: ["Primary and alternate logo files","Color and typography system","Brand marks / supporting assets","Social/profile assets as scoped","Basic brand usage reference"],
+        tools: ["Adobe Illustrator","Adobe Photoshop","Mockups and presentation boards"],
+        needs: ["Business/brand name and goals","Target audience","Competitors or references","Required applications","Deadline and key constraints"],
+        handoff: "Organized source and export files such as AI, SVG, PDF, PNG and JPG, plus color/font references based on the agreed scope."
+      },
+      {
+        key: "social",
+        number: "02",
+        cardTitle: "Social & Marketing Design",
+        cardDescription: "Campaign posts, ads and promotional social media visuals.",
+        modalEyebrow: "Service workflow",
+        modalTitle: "Social & Marketing Design",
+        modalSummary: "I turn a campaign, offer or content idea into a consistent set of platform-ready promotional visuals.",
+        workflow: [
+          "Campaign brief: define the goal, offer, audience, platform and required formats.",
+          "Content and asset check: collect copy, product photos, logos, brand rules and any required call-to-action.",
+          "Visual direction: establish hierarchy, layout, typography and a repeatable campaign look.",
+          "Design production: create the main design first, then build required post, story, ad or banner variations.",
+          "Review and revisions: refine messaging, visual balance and consistency based on feedback.",
+          "Export and delivery: prepare correctly sized files for each platform and organize the final campaign set."
+        ],
+        deliverables: ["Social media posts","Story / vertical formats","Ad and campaign visuals","Promotional banners","Editable template files when scoped"],
+        tools: ["Adobe Photoshop","Adobe Illustrator","Platform size and export standards"],
+        needs: ["Final or draft copy","Brand/logo assets","Product or campaign images","Target platform and sizes","Offer, CTA and deadline"],
+        handoff: "Platform-ready JPG/PNG files, plus editable source files when included in the project scope."
+      },
+      {
+        key: "sports",
+        number: "03",
+        cardTitle: "Sports & Jersey Design",
+        cardDescription: "Team identity, match graphics and apparel concepts.",
+        modalEyebrow: "Service workflow",
+        modalTitle: "Sports & Jersey Design",
+        modalSummary: "I create team-focused visual systems that connect identity, jerseys and tournament or match-day graphics.",
+        workflow: [
+          "Team brief: collect team identity, colors, tournament context, sponsors and practical requirements.",
+          "Visual direction: define a strong sports look that works across kit, social graphics and event communication.",
+          "Jersey or graphic concepts: develop front/back layouts, typography, numbers, sponsor placement and supporting visuals.",
+          "Mockup and review: show the design in realistic context and refine details with the team.",
+          "Production preparation: clean dimensions, placements and export formats for printing or digital use.",
+          "Final rollout: deliver the approved assets and any supporting match, tournament or team graphics included in scope."
+        ],
+        deliverables: ["Jersey concepts and mockups","Team identity graphics","Match / tournament visuals","Sponsor and number placement","Print-ready artwork when required"],
+        tools: ["Adobe Illustrator","Adobe Photoshop","Sportswear mockups and print templates"],
+        needs: ["Team logo and colors","Sponsor logos","Player/number requirements","Printer/manufacturer template if available","Tournament or campaign needs"],
+        handoff: "Approved digital artwork and production-ready files based on the printer or manufacturer requirements provided."
+      },
+      {
+        key: "video",
+        number: "04",
+        cardTitle: "Video & Motion Content",
+        cardDescription: "Short-form edits, reels and promotional motion content.",
+        modalEyebrow: "Service workflow",
+        modalTitle: "Video & Motion Content",
+        modalSummary: "I edit short-form promotional content with clear pacing, brand consistency and platform-focused delivery.",
+        workflow: [
+          "Brief and format: confirm objective, platform, duration, style and final aspect ratio.",
+          "Asset review: organize footage, images, logo, script, captions and other supplied material.",
+          "Rough cut: build the core sequence, pacing and story structure before detailed polish.",
+          "Motion and brand layer: add titles, transitions, graphic elements and brand styling where needed.",
+          "Review and refinement: adjust timing, text, sequence and visual details from feedback.",
+          "Final export: deliver optimized versions for the requested social or digital platforms."
+        ],
+        deliverables: ["Reels / short-form edits","Promotional videos","Branded text and motion graphics","Platform-specific versions","Thumbnail or cover support when scoped"],
+        tools: ["Adobe Premiere Pro","CapCut","Photoshop / Illustrator for supporting graphics"],
+        needs: ["Footage and source assets","Target platform","Desired duration","Script/copy if available","Brand assets and deadline"],
+        handoff: "Final MP4 exports in the agreed sizes and resolutions, with project/source files included only when part of the agreed scope."
+      },
+      {
+        key: "marketing",
+        number: "05",
+        cardTitle: "Digital Marketing Support",
+        cardDescription: "Campaign support, social sales flow and customer handling.",
+        modalEyebrow: "Service workflow",
+        modalTitle: "Digital Marketing Support",
+        modalSummary: "I connect campaign visuals with a practical content and customer-response flow so marketing is easier to run consistently.",
+        workflow: [
+          "Goal and offer review: define what the campaign needs to achieve and what action the audience should take.",
+          "Audience and channel planning: choose the platform, message angle and content types that fit the campaign.",
+          "Creative plan: map the required posts, ads, offers and supporting visuals.",
+          "Campaign support: prepare content assets and help structure the launch or boosting workflow as scoped.",
+          "Customer response flow: organize common replies, confirmation messages and follow-up steps where useful.",
+          "Review and improve: look at available campaign results and identify practical changes for the next round."
+        ],
+        deliverables: ["Campaign creative plan","Social content and ad variations","Offer / CTA structure","Customer response templates","Basic campaign review support"],
+        tools: ["Design tools","Social platform publishing / campaign tools as available","Simple tracking and reporting sheets"],
+        needs: ["Business goal and offer","Target customer","Budget or campaign limits when relevant","Existing page/account assets","Available performance data"],
+        handoff: "A clear set of campaign assets, content directions and operating notes based on the agreed level of marketing support."
+      },
+      {
+        key: "workflow",
+        number: "06",
+        cardTitle: "Business Workflow Design",
+        cardDescription: "Clear digital flows for inventory, orders and reporting.",
+        modalEyebrow: "Service workflow",
+        modalTitle: "Business Workflow Design",
+        modalSummary: "I map repeated business tasks into a clearer digital workflow so products, orders, delivery and reporting are easier to manage.",
+        workflow: [
+          "Process discovery: understand how the business currently handles products, customers, orders, payments and reporting.",
+          "Workflow mapping: define the stages, responsibilities, statuses and information that need to move between them.",
+          "Module and data design: structure areas such as sourcing, inventory, pricing, sales, courier, expenses and reports.",
+          "Interface / system planning: turn the workflow into practical screens, forms, tables and actions.",
+          "Testing with real scenarios: check the flow using realistic orders, stock changes and business exceptions.",
+          "Refinement and handoff: simplify confusing steps, document the final flow and prepare the agreed implementation or prototype."
+        ],
+        deliverables: ["Process and module map","Data / status structure","Forms, tables and dashboard flow","Operational templates","Prototype or implementation scope as agreed"],
+        tools: ["Workflow mapping","Spreadsheets / structured data","Web and database tools as required by the project"],
+        needs: ["Current business process","Existing records or sample data","Roles and responsibilities","Problems to solve first","Required reports and outputs"],
+        handoff: "A documented operating flow with the agreed templates, prototype or system structure, organized so future features can be added without rebuilding the process from zero."
+      }
+    ]
+  });
+
+  let creativeServicesDirty = false;
+  let creativeServicesLastLoadedDraft = null;
+
+  const cloneCreativeServicesDefaults = () => structuredClone(creativeServicesDefaults);
+
+  const listToText = (items) => (Array.isArray(items) ? items.join("\n") : "");
+  const textToList = (value) =>
+    String(value || "")
+      .split(/\r?\n/)
+      .map((item) => item.trim())
+      .filter(Boolean);
+
+  const setCreativeServicesMessage = (message = "") => {
+    if (creativeServicesEditorMessage) creativeServicesEditorMessage.textContent = message;
+  };
+
+  const setCreativeServicesState = (label) => {
+    if (creativeServicesEditorState) creativeServicesEditorState.textContent = label;
+  };
+
+  const setCreativeServicesBusy = (busy) => {
+    [creativeServicesPreviewButton, creativeServicesSaveButton, creativeServicesPublishButton].forEach((button) => {
+      if (button) button.disabled = busy;
+    });
+  };
+
+  const creativeServiceEditorCard = (service, index) => `
+    <article class="project-editor-card service-editor-card" data-service-key="${service.key}">
+      <header>
+        <div>
+          <small>SERVICE ${service.number}</small>
+          <h4>${service.cardTitle}</h4>
+        </div>
+        <b>WORKFLOW POPUP</b>
+      </header>
+
+      <div class="editor-grid two">
+        <label>
+          <span>Card title</span>
+          <input data-service-field="cardTitle" type="text" maxlength="100" required>
+        </label>
+        <label>
+          <span>Card description</span>
+          <input data-service-field="cardDescription" type="text" maxlength="180" required>
+        </label>
+      </div>
+
+      <div class="showcase-modal-fields">
+        <p class="eyebrow">POPUP CONTENT</p>
+        <div class="editor-grid two">
+          <label>
+            <span>Popup eyebrow</span>
+            <input data-service-field="modalEyebrow" type="text" maxlength="90" required>
+          </label>
+          <label>
+            <span>Popup title</span>
+            <input data-service-field="modalTitle" type="text" maxlength="120" required>
+          </label>
+          <label class="editor-grid-span">
+            <span>Popup summary</span>
+            <textarea data-service-field="modalSummary" rows="3" maxlength="500" required></textarea>
+          </label>
+          <label class="editor-grid-span">
+            <span>How I work — one step per line</span>
+            <textarea data-service-field="workflowText" rows="7" maxlength="2400" required></textarea>
+          </label>
+          <label>
+            <span>Deliverables — one item per line</span>
+            <textarea data-service-field="deliverablesText" rows="6" maxlength="1400" required></textarea>
+          </label>
+          <label>
+            <span>Tools & process — one item per line</span>
+            <textarea data-service-field="toolsText" rows="6" maxlength="1200" required></textarea>
+          </label>
+          <label class="editor-grid-span">
+            <span>What I need from you — one item per line</span>
+            <textarea data-service-field="needsText" rows="6" maxlength="1400" required></textarea>
+          </label>
+          <label class="editor-grid-span">
+            <span>Final handoff</span>
+            <textarea data-service-field="handoff" rows="3" maxlength="600" required></textarea>
+          </label>
+        </div>
+      </div>
+    </article>
+  `;
+
+  const renderCreativeServicesEditorCards = () => {
+    creativeServicesEditorList.innerHTML = creativeServicesDefaults.services
+      .map(creativeServiceEditorCard)
+      .join("");
+  };
+
+  const creativeServiceCardElement = (key) =>
+    creativeServicesEditorList?.querySelector(`[data-service-key="${key}"]`);
+
+  const fillCreativeServiceCard = (service) => {
+    const card = creativeServiceCardElement(service.key);
+    if (!card) return;
+
+    const simpleFields = ["cardTitle", "cardDescription", "modalEyebrow", "modalTitle", "modalSummary", "handoff"];
+    simpleFields.forEach((field) => {
+      const input = card.querySelector(`[data-service-field="${field}"]`);
+      if (input) input.value = service[field] ?? "";
+    });
+
+    const listFields = {
+      workflowText: service.workflow,
+      deliverablesText: service.deliverables,
+      toolsText: service.tools,
+      needsText: service.needs
+    };
+
+    Object.entries(listFields).forEach(([field, items]) => {
+      const input = card.querySelector(`[data-service-field="${field}"]`);
+      if (input) input.value = listToText(items);
+    });
+  };
+
+  const populateCreativeServicesForm = (data = {}) => {
+    const defaults = cloneCreativeServicesDefaults();
+    const incomingServices = Array.isArray(data.services) ? data.services : [];
+
+    const merged = {
+      ...defaults,
+      ...data,
+      services: defaults.services.map((service) => {
+        const incoming = incomingServices.find((candidate) => candidate?.key === service.key) || {};
+        return { ...service, ...incoming, key: service.key, number: service.number };
+      })
+    };
+
+    creativeServicesEditorForm.elements.namedItem("eyebrow").value = merged.eyebrow;
+    creativeServicesEditorForm.elements.namedItem("titleMain").value = merged.titleMain;
+    creativeServicesEditorForm.elements.namedItem("titleAccent").value = merged.titleAccent;
+    merged.services.forEach(fillCreativeServiceCard);
+
+    creativeServicesLastLoadedDraft = structuredClone(merged);
+    creativeServicesDirty = false;
+    setCreativeServicesState("Draft loaded");
+  };
+
+  const readCreativeServicesForm = () => {
+    if (!creativeServicesEditorForm) return null;
+
+    const missingRequired = [...creativeServicesEditorForm.querySelectorAll("[required]")].find(
+      (field) => !String(field.value || "").trim()
+    );
+
+    if (missingRequired) {
+      const serviceCard = missingRequired.closest("[data-service-key]");
+      const serviceTitle =
+        serviceCard?.querySelector('[data-service-field="cardTitle"]')?.value?.trim() ||
+        serviceCard?.dataset.serviceKey ||
+        "section heading";
+      const fieldLabel =
+        missingRequired.closest("label")?.querySelector("span")?.textContent?.trim() ||
+        "required field";
+
+      setCreativeServicesMessage(`Complete "${fieldLabel}" for ${serviceTitle} before saving.`);
+      missingRequired.focus();
+      missingRequired.scrollIntoView({ behavior: "smooth", block: "center" });
+      return null;
+    }
+
+    const services = creativeServicesDefaults.services.map((service) => {
+      const card = creativeServiceCardElement(service.key);
+      const get = (field) =>
+        String(card?.querySelector(`[data-service-field="${field}"]`)?.value || "").trim();
+
+      return {
+        key: service.key,
+        number: service.number,
+        cardTitle: get("cardTitle"),
+        cardDescription: get("cardDescription"),
+        modalEyebrow: get("modalEyebrow"),
+        modalTitle: get("modalTitle"),
+        modalSummary: get("modalSummary"),
+        workflow: textToList(get("workflowText")),
+        deliverables: textToList(get("deliverablesText")),
+        tools: textToList(get("toolsText")),
+        needs: textToList(get("needsText")),
+        handoff: get("handoff")
+      };
+    });
+
+    return {
+      eyebrow: String(creativeServicesEditorForm.elements.namedItem("eyebrow").value || "").trim(),
+      titleMain: String(creativeServicesEditorForm.elements.namedItem("titleMain").value || "").trim(),
+      titleAccent: String(creativeServicesEditorForm.elements.namedItem("titleAccent").value || "").trim(),
+      services
+    };
+  };
+
+  const renderCreativeServicesPreview = (data) => {
+    document.querySelector("#previewCreativeServicesEyebrow").textContent = data.eyebrow;
+    document.querySelector("#previewCreativeServicesTitleMain").textContent = data.titleMain;
+    document.querySelector("#previewCreativeServicesTitleAccent").textContent = data.titleAccent;
+    creativeServicesPreviewGrid.innerHTML = "";
+
+    data.services.forEach((service) => {
+      const card = document.createElement("article");
+      card.className = "creative-services-preview-card";
+
+      const number = document.createElement("span");
+      number.textContent = service.number;
+      const title = document.createElement("strong");
+      title.textContent = service.cardTitle;
+      const description = document.createElement("p");
+      description.textContent = service.cardDescription;
+      const detail = document.createElement("small");
+      detail.textContent = `${service.workflow.length} workflow steps · ${service.deliverables.length} deliverables`;
+
+      card.append(number, title, description, detail);
+      creativeServicesPreviewGrid.appendChild(card);
+    });
+
+    creativeServicesDraftPreview.hidden = false;
+    creativeServicesDraftPreview.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  const loadCreativeServicesEditor = async () => {
+    setCreativeServicesMessage("Loading Creative Services draft…");
+    setCreativeServicesState("Loading…");
+
+    const { data, error } = await supabaseClient
+      .from("cms_content_entries")
+      .select("content_key,draft_data,published_data,draft_updated_at,published_at")
+      .eq("content_key", CREATIVE_SERVICES_CONTENT_KEY)
+      .maybeSingle();
+
+    if (error) {
+      console.error("Creative Services CMS load failed:", error);
+      populateCreativeServicesForm(creativeServicesDefaults);
+      setCreativeServicesState("Load failed");
+      setCreativeServicesMessage("Could not load the Creative Services content store.");
+      return false;
+    }
+
+    if (!data) {
+      populateCreativeServicesForm(creativeServicesDefaults);
+      setCreativeServicesState("Setup required");
+      setCreativeServicesMessage("Run the Phase 2D seed migration or Save Draft to create the row.");
+      return false;
+    }
+
+    populateCreativeServicesForm(data.draft_data || creativeServicesDefaults);
+
+    const synced =
+      JSON.stringify(data.draft_data || {}) === JSON.stringify(data.published_data || {});
+
+    setCreativeServicesState(synced ? "Published · synced" : "Draft differs from live");
+    setCreativeServicesMessage(
+      data.published_at
+        ? "Services draft loaded. Preview or edit before publishing."
+        : "Services draft loaded. This content has not been published yet."
+    );
+
+    return true;
+  };
+
+  renderCreativeServicesEditorCards();
+  populateCreativeServicesForm(creativeServicesDefaults);
+
+  creativeServicesNavButton?.addEventListener("click", async () => {
+    showCmsView("creative-services");
+    await loadCreativeServicesEditor();
+  });
+
+  creativeServicesEditorForm?.addEventListener("input", () => {
+    creativeServicesDirty = true;
+    setCreativeServicesState("Unsaved changes");
+  });
+
+  creativeServicesPreviewButton?.addEventListener("click", () => {
+    setCreativeServicesMessage("");
+    const draft = readCreativeServicesForm();
+    if (!draft) return;
+    renderCreativeServicesPreview(draft);
+  });
+
+  closeCreativeServicesPreviewButton?.addEventListener("click", () => {
+    creativeServicesDraftPreview.hidden = true;
+  });
+
+  const saveCreativeServicesDraft = async () => {
+    setCreativeServicesMessage("");
+    const draft = readCreativeServicesForm();
+    if (!draft) return false;
+
+    setCreativeServicesBusy(true);
+    setCreativeServicesState("Saving…");
+
+    try {
+      const { data, error } = await supabaseClient
+        .from("cms_content_entries")
+        .upsert(
+          {
+            content_key: CREATIVE_SERVICES_CONTENT_KEY,
+            draft_data: draft
+          },
+          {
+            onConflict: "content_key"
+          }
+        )
+        .select("content_key,draft_updated_at")
+        .maybeSingle();
+
+      if (error) throw error;
+      if (!data) {
+        setCreativeServicesState("Save failed");
+        setCreativeServicesMessage("Could not create or update the Creative Services draft.");
+        return false;
+      }
+
+      creativeServicesLastLoadedDraft = structuredClone(draft);
+      creativeServicesDirty = false;
+      setCreativeServicesState("Draft saved");
+      setCreativeServicesMessage("Draft saved. Published service content has not changed.");
+      return true;
+    } catch (error) {
+      console.error("Creative Services draft save failed:", error);
+      setCreativeServicesState("Save failed");
+      setCreativeServicesMessage(
+        error?.message
+          ? `Could not save draft: ${error.message}`
+          : "Could not save the Creative Services draft."
+      );
+      return false;
+    } finally {
+      setCreativeServicesBusy(false);
+    }
+  };
+
+  creativeServicesSaveButton?.addEventListener("click", saveCreativeServicesDraft);
+
+  creativeServicesEditorForm?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    await saveCreativeServicesDraft();
+  });
+
+  creativeServicesPublishButton?.addEventListener("click", async () => {
+    setCreativeServicesMessage("");
+
+    if (creativeServicesDirty) {
+      setCreativeServicesState("Unsaved changes");
+      setCreativeServicesMessage("Save the draft first, then publish.");
+      return;
+    }
+
+    if (!creativeServicesLastLoadedDraft) {
+      setCreativeServicesMessage("Load or save the services draft before publishing.");
+      return;
+    }
+
+    setCreativeServicesBusy(true);
+    setCreativeServicesState("Publishing…");
+
+    try {
+      const { data, error } = await supabaseClient.rpc("cms_publish_content", {
+        p_content_key: CREATIVE_SERVICES_CONTENT_KEY
+      });
+
+      if (error) throw error;
+      if (!data?.length) throw new Error("Publish returned no Creative Services row.");
+
+      setCreativeServicesState("Published · synced");
+      setCreativeServicesMessage("Creative Services published to the CMS. Localhost reads this version now; production still waits for explicit live deployment.");
+    } catch (error) {
+      console.error("Creative Services publish failed:", error);
+      setCreativeServicesState("Publish failed");
+      setCreativeServicesMessage(error?.message || "Could not publish Creative Services.");
+    } finally {
+      setCreativeServicesBusy(false);
     }
   });
 
