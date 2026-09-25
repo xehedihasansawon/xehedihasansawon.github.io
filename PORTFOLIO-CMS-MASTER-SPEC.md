@@ -675,8 +675,52 @@ Acceptance checklist:
 Lock rule:
 Freeze the Phase 2F About content contract and preserve the no-photo layout. Only verified bugs/security issues may modify it before a later explicit redesign request.
 
-## Next module
+## Active module
 
 **Phase 2G — Homepage Skills & Tools CMS**
 
-Plan the exact scope before coding. Keep Phase 2A–2F locked and touch only the Skills & Tools homepage section when Phase 2G starts.
+Purpose:
+Connect the approved Skills & Tools section to the locked CMS foundation without redesigning it or changing the current capability/tool-card structure.
+
+Scope:
+- Keep Phase 2A–2F locked
+- Add a dedicated Skills & Tools admin view under Homepage CMS
+- Use content key `homepage.skills-tools`
+- Allow authenticated Save Draft to safely create the row if it does not exist
+- Edit section eyebrow plus the SKILLS / & TOOLS heading
+- Edit the existing Skills and Tools subsection kicker/title text
+- Keep four capability cards with fixed numbers/order
+- Edit each capability title, description and its two existing tags
+- Keep eight tool cards with fixed keys/order
+- Edit each tool name and logo source
+- Reuse the locked `portfolio-media` bucket for JPG/PNG/WebP/SVG tool-logo uploads up to 8 MB
+- Save only to `draft_data`
+- Provide a private draft preview for capability and tool cards
+- Require Save Draft before Publish
+- Publish through the locked Phase 1F secure publish action
+- Public/local homepage reads only `published_data`
+- Keep current static Skills & Tools markup as fail-safe fallback
+- Do not touch Experience, Contact, Footer or section ordering
+- Keep `main` untouched until explicit live approval
+
+Acceptance checklist:
+- [ ] Phase 2G content row exists via first authenticated Save Draft
+- [ ] Skills & Tools navigation opens only the Phase 2G editor
+- [ ] Current section heading/subheadings load into Admin
+- [ ] Four current capability cards load into Admin
+- [ ] Eight current tool cards and logos load into Admin
+- [ ] Tool-logo upload works through the existing secure storage bucket
+- [ ] Save Draft changes draft data without changing published content
+- [ ] Private Preview reflects current capability/tool values
+- [ ] Publish is blocked while there are unsaved changes
+- [ ] Publish promotes the saved draft through the secure Phase 1F action
+- [ ] Localhost Skills & Tools section loads published CMS content
+- [ ] Capability numbering/order remains unchanged
+- [ ] Tool order/layout remains unchanged
+- [ ] Static fallback remains available if the CMS request fails
+- [ ] Desktop layout remains visually consistent
+- [ ] Mobile layout remains visually consistent
+- [ ] No other homepage section is changed
+
+Lock rule:
+After owner approval, freeze the Phase 2G four-capability/eight-tool content contract. Dynamic skill/tool counts or ordering remain outside this module.
