@@ -194,7 +194,7 @@
 
         <div class="sidebar-bottom">
           <a class="view-site-link" href="../index.html" target="_blank" rel="noopener">View website ↗</a>
-          <span>Phase 1E · Revision History</span>
+          <span>Phase 1F · Secure Publish</span>
         </div>
       </aside>
 
@@ -240,18 +240,18 @@
         <div id="dashboard" class="dashboard-content">
           <section class="dashboard-hero">
             <div>
-              <p class="status-pill success">PHASE 1D LOCKED</p>
-              <h3>Revision history is the active foundation module.</h3>
+              <p class="status-pill success">PHASE 1E LOCKED</p>
+              <h3>Secure publishing is the active foundation module.</h3>
               <p>
-                The secure content store stays locked. Phase 1E adds automatic content snapshots
-                so future CMS edits have a recoverable history before editing goes live.
+                Draft storage and revision history stay locked. Phase 1F adds one controlled
+                server-side action that promotes an approved draft to the public published state.
               </p>
             </div>
 
             <div class="phase-card">
               <span>CURRENT MODULE</span>
-              <strong>Phase 1E</strong>
-              <p>Revision History</p>
+              <strong>Phase 1F</strong>
+              <p>Secure Publish</p>
 
               <div class="foundation-stack" aria-live="polite">
                 <div class="foundation-check">
@@ -267,6 +267,14 @@
                   <div>
                     <small>REVISION HISTORY</small>
                     <b id="revisionStoreStatus">Checking…</b>
+                  </div>
+                </div>
+
+                <div class="foundation-check">
+                  <i id="publishActionDot" class="foundation-dot checking"></i>
+                  <div>
+                    <small>PUBLISH ACTION</small>
+                    <b id="publishActionStatus">Checking…</b>
                   </div>
                 </div>
               </div>
@@ -356,12 +364,23 @@
                 <b>LOCKED</b>
               </article>
 
-              <article class="module-row active">
+              <article class="module-row done">
                 <div>
                   <span>1E</span>
                   <div>
                     <strong>Revision History</strong>
                     <p>Automatic snapshots for created, updated and deleted CMS content.</p>
+                  </div>
+                </div>
+                <b>LOCKED</b>
+              </article>
+
+              <article class="module-row active">
+                <div>
+                  <span>1F</span>
+                  <div>
+                    <strong>Secure Publish Action</strong>
+                    <p>Server-side draft-to-published promotion for allowlisted admins only.</p>
                   </div>
                 </div>
                 <b>ACTIVE</b>
@@ -376,7 +395,7 @@
 
     <footer id="publicAdminFooter" class="admin-footer">
       <span>MEHEDI PORTFOLIO</span>
-      <span>Secure Admin · Phase 1E</span>
+      <span>Secure Admin · Phase 1F</span>
     </footer>
   </main>
 
