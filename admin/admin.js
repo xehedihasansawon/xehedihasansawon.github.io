@@ -9,6 +9,9 @@ const logoutButton = document.querySelector("#logoutButton");
 const loginMessage = document.querySelector("#loginMessage");
 const adminMessage = document.querySelector("#adminMessage");
 const emailDisplay = document.querySelector("#adminEmailDisplay");
+const mobileMenuToggle = document.querySelector("#mobileMenuToggle");
+const sidebarBackdrop = document.querySelector("#sidebarBackdrop");
+const dashboardNavLink = document.querySelector(".cms-nav .nav-item.active");
 
 const isPlaceholder = (value) =>
   !value ||
@@ -37,6 +40,41 @@ const setLoginBusy = (busy) => {
   loginButton.disabled = busy;
   loginButton.textContent = busy ? "Checking access…" : "Sign in securely";
 };
+
+const setSidebarOpen = (open) => {
+  if (!adminPanel || !mobileMenuToggle) return;
+
+  adminPanel.classList.toggle("sidebar-open", open);
+  mobileMenuToggle.setAttribute("aria-expanded", String(open));
+  mobileMenuToggle.setAttribute(
+    "aria-label",
+    open ? "Close admin menu" : "Open admin menu"
+  );
+};
+
+mobileMenuToggle?.addEventListener("click", () => {
+  setSidebarOpen(!adminPanel.classList.contains("sidebar-open"));
+});
+
+sidebarBackdrop?.addEventListener("click", () => {
+  setSidebarOpen(false);
+});
+
+dashboardNavLink?.addEventListener("click", () => {
+  setSidebarOpen(false);
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && adminPanel?.classList.contains("sidebar-open")) {
+    setSidebarOpen(false);
+    mobileMenuToggle?.focus();
+  }
+});
+
+const desktopShellQuery = window.matchMedia("(min-width: 901px)");
+desktopShellQuery.addEventListener?.("change", (event) => {
+  if (event.matches) setSidebarOpen(false);
+});
 
 if (!hasValidConfig) {
   showOnly(configPanel);
@@ -86,10 +124,12 @@ if (!hasValidConfig) {
   const enterAdmin = (user) => {
     emailDisplay.textContent = user.email || "Authenticated admin";
     setAdminMessage("");
+    setSidebarOpen(false);
     showOnly(adminPanel);
   };
 
   const enterLogin = (message = "") => {
+    setSidebarOpen(false);
     setLoginMessage(message);
     showOnly(loginPanel);
   };
