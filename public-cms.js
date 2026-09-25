@@ -2,6 +2,7 @@ import { ADMIN_CONFIG } from "./admin/config.js";
 
 const HERO_CONTENT_KEY = "homepage.hero";
 const REAL_PROJECTS_CONTENT_KEY = "homepage.real-life-projects";
+const DESIGN_SHOWCASE_CONTENT_KEY = "homepage.design-showcase";
 
 const byId = (id) => document.getElementById(id);
 
@@ -211,3 +212,96 @@ const loadPublishedRealProjects = async () => {
 };
 
 loadPublishedRealProjects();
+
+
+const applyDesignShowcase = (data) => {
+  if (!data || typeof data !== "object") return;
+
+  applyText("designShowcaseEyebrow", data.eyebrow);
+  applyText("designShowcaseTitleMain", data.titleMain);
+  applyText("designShowcaseTitleAccent", data.titleAccent);
+
+  if (!Array.isArray(data.items)) return;
+
+  data.items.forEach((item) => {
+    if (!item?.key) return;
+
+    const card = document.querySelector(`[data-cms-showcase="${CSS.escape(item.key)}"]`);
+    if (!card) return;
+
+    const cardTitle = card.querySelector('[data-cms-field="cardTitle"]');
+    const cardSubtitle = card.querySelector('[data-cms-field="cardSubtitle"]');
+    const image = card.querySelector('[data-cms-field="image"]');
+
+    if (cardTitle && typeof item.cardTitle === "string" && item.cardTitle.trim()) {
+      cardTitle.textContent = item.cardTitle.trim();
+    }
+
+    if (cardSubtitle && typeof item.cardSubtitle === "string" && item.cardSubtitle.trim()) {
+      cardSubtitle.textContent = item.cardSubtitle.trim();
+    }
+
+    if (image && isSafeImageSource(item.imageSrc)) {
+      image.src = item.imageSrc.trim();
+    }
+
+    if (image && typeof item.imageAlt === "string" && item.imageAlt.trim()) {
+      image.alt = item.imageAlt.trim();
+    }
+
+    if (typeof item.modalTitle === "string" && item.modalTitle.trim()) {
+      card.dataset.title = item.modalTitle.trim();
+    }
+    if (typeof item.modalMeta === "string" && item.modalMeta.trim()) {
+      card.dataset.meta = item.modalMeta.trim();
+      card.dataset.dialogMeta = item.modalMeta.trim();
+    }
+    if (typeof item.modalEyebrow === "string" && item.modalEyebrow.trim()) {
+      card.dataset.dialogEyebrow = item.modalEyebrow.trim();
+    }
+    if (typeof item.modalSummary === "string" && item.modalSummary.trim()) {
+      card.dataset.dialogSummary = item.modalSummary.trim();
+    }
+
+    const points = Array.isArray(item.modalPoints) ? item.modalPoints : [];
+    ["dialogPoint1", "dialogPoint2", "dialogPoint3"].forEach((datasetKey, index) => {
+      const value = points[index];
+      if (typeof value === "string" && value.trim()) {
+        card.dataset[datasetKey] = value.trim();
+      } else {
+        delete card.dataset[datasetKey];
+      }
+    });
+  });
+
+  document.documentElement.dataset.designShowcaseCms = "loaded";
+};
+
+const loadPublishedDesignShowcase = async () => {
+  try {
+    const endpoint = new URL("/rest/v1/cms_content_entries", ADMIN_CONFIG.supabaseUrl);
+    endpoint.searchParams.set("select", "published_data");
+    endpoint.searchParams.set("content_key", `eq.${DESIGN_SHOWCASE_CONTENT_KEY}`);
+    endpoint.searchParams.set("limit", "1");
+
+    const response = await fetch(endpoint, {
+      headers: {
+        apikey: ADMIN_CONFIG.supabaseAnonKey,
+        Accept: "application/json"
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`Design Showcase CMS request failed with status ${response.status}`);
+    }
+
+    const rows = await response.json();
+    const published = rows?.[0]?.published_data;
+
+    if (published) applyDesignShowcase(published);
+  } catch (error) {
+    console.warn("Design Showcase CMS unavailable; using static fallback.", error);
+  }
+};
+
+loadPublishedDesignShowcase();
