@@ -1709,15 +1709,22 @@ if (!hasValidConfig) {
     try {
       const { data, error } = await supabaseClient
         .from("cms_content_entries")
-        .update({ draft_data: draft })
-        .eq("content_key", DESIGN_SHOWCASE_CONTENT_KEY)
+        .upsert(
+          {
+            content_key: DESIGN_SHOWCASE_CONTENT_KEY,
+            draft_data: draft
+          },
+          {
+            onConflict: "content_key"
+          }
+        )
         .select("content_key,draft_updated_at")
         .maybeSingle();
 
       if (error) throw error;
       if (!data) {
-        setDesignShowcaseState("Setup required");
-        setDesignShowcaseMessage("Design Showcase row is missing. Run the Phase 2C seed migration first.");
+        setDesignShowcaseState("Save failed");
+        setDesignShowcaseMessage("Could not create or update the Design Showcase draft.");
         return false;
       }
 
