@@ -861,3 +861,369 @@ button {
     transition: none !important;
   }
 }
+
+
+/* Phase 2A — Homepage Hero CMS */
+.editor-content {
+  padding: 24px;
+}
+
+.editor-heading-card,
+.editor-card,
+.editor-actions-bar,
+.hero-draft-preview {
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: rgba(8, 24, 19, 0.82);
+}
+
+.editor-heading-card {
+  padding: 24px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 220px;
+  gap: 24px;
+  align-items: center;
+}
+
+.editor-heading-card h3,
+.editor-card h3,
+.preview-heading h3 {
+  margin: 0;
+  letter-spacing: -0.035em;
+}
+
+.editor-heading-card > div:first-child > p:last-child {
+  max-width: 720px;
+  margin: 9px 0 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.editor-state {
+  min-width: 0;
+  padding: 16px;
+  display: grid;
+  gap: 5px;
+  border: 1px solid rgba(240, 74, 67, 0.2);
+  border-radius: 14px;
+  background: rgba(240, 74, 67, 0.045);
+}
+
+.editor-state span,
+.editor-state b {
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+
+.editor-state span {
+  color: var(--red);
+}
+
+.editor-state strong {
+  overflow: hidden;
+  font-size: 0.82rem;
+  text-overflow: ellipsis;
+}
+
+.editor-state b {
+  width: fit-content;
+  margin-top: 5px;
+  padding: 6px 8px;
+  border-radius: 999px;
+  color: var(--green);
+  background: rgba(88, 211, 155, 0.08);
+}
+
+.cms-editor-form {
+  margin-top: 14px;
+  display: grid;
+  gap: 14px;
+}
+
+.editor-card {
+  padding: 22px;
+}
+
+.editor-section-title,
+.preview-heading {
+  margin-bottom: 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 18px;
+}
+
+.editor-section-title > span {
+  color: var(--muted-2);
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.editor-grid {
+  display: grid;
+  gap: 14px;
+}
+
+.editor-grid.two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.editor-grid label {
+  min-width: 0;
+  display: grid;
+  gap: 7px;
+}
+
+.editor-grid label > span {
+  color: #dfe7e3;
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+
+.editor-grid label > small {
+  color: var(--muted-2);
+  font-size: 0.65rem;
+  line-height: 1.45;
+}
+
+.editor-grid input {
+  width: 100%;
+  min-height: 46px;
+  padding: 0 13px;
+  border: 1px solid var(--line);
+  border-radius: 11px;
+  outline: none;
+  color: #fff;
+  background: #071611;
+}
+
+.editor-grid input:focus {
+  border-color: rgba(240, 74, 67, 0.7);
+  box-shadow: 0 0 0 3px rgba(240, 74, 67, 0.08);
+}
+
+.editor-grid-span {
+  grid-column: 1 / -1;
+}
+
+.editor-actions-bar {
+  position: sticky;
+  z-index: 10;
+  bottom: 12px;
+  padding: 16px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  background: rgba(7, 22, 17, 0.96);
+  backdrop-filter: blur(12px);
+}
+
+.editor-actions-bar strong {
+  font-size: 0.82rem;
+}
+
+.editor-actions-bar p {
+  margin-top: 5px;
+}
+
+.editor-action-buttons {
+  display: flex;
+  gap: 9px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.editor-action-buttons button {
+  min-height: 42px;
+  padding: 0 15px;
+  border-radius: 11px;
+  font-weight: 800;
+}
+
+#heroSaveButton {
+  border: 1px solid var(--line-strong);
+  color: #fff;
+  background: #112c23;
+}
+
+.publish-button {
+  border: 1px solid var(--red);
+  color: #fff;
+  background: var(--red);
+}
+
+.editor-action-buttons button:disabled {
+  cursor: wait;
+  opacity: 0.58;
+}
+
+.hero-draft-preview {
+  margin-top: 14px;
+  padding: 22px;
+}
+
+.hero-preview-panel {
+  min-height: 360px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(260px, 0.8fr);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: #071b15;
+}
+
+.hero-preview-copy {
+  padding: clamp(24px, 4vw, 42px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hero-preview-status {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #b9c9c1;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.hero-preview-status i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 0 4px rgba(88, 211, 155, 0.08);
+}
+
+.hero-preview-eyebrow {
+  margin: 22px 0 10px;
+  color: #9fb0a8;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.hero-preview-copy h4 {
+  margin: 0;
+  color: #f4f6f5;
+  font-size: clamp(2.2rem, 5vw, 4.2rem);
+  line-height: 0.94;
+  letter-spacing: -0.05em;
+}
+
+.hero-preview-copy h4 b {
+  color: var(--red);
+  font-weight: 800;
+}
+
+.hero-preview-role {
+  max-width: 650px;
+  margin: 20px 0 0;
+  color: #d1dcd7;
+  line-height: 1.7;
+}
+
+.hero-preview-role em {
+  color: #fff;
+  font-style: normal;
+  font-weight: 800;
+}
+
+.hero-preview-actions {
+  margin-top: 22px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.hero-preview-actions span {
+  padding: 10px 13px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 800;
+}
+
+.hero-preview-actions span:first-child {
+  border-color: rgba(88, 211, 155, 0.3);
+  color: #071611;
+  background: var(--green);
+}
+
+.hero-preview-meta {
+  margin-top: 24px;
+  display: flex;
+  gap: 10px 18px;
+  flex-wrap: wrap;
+  color: #91a39a;
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.hero-preview-visual {
+  min-height: 360px;
+  background: #10251e;
+}
+
+.hero-preview-visual img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+@media (max-width: 900px) {
+  .editor-heading-card,
+  .hero-preview-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-preview-visual {
+    min-height: 300px;
+    order: -1;
+  }
+}
+
+@media (max-width: 720px) {
+  .editor-content {
+    padding: 16px;
+  }
+
+  .editor-heading-card,
+  .editor-card,
+  .hero-draft-preview {
+    padding: 18px;
+  }
+
+  .editor-grid.two {
+    grid-template-columns: 1fr;
+  }
+
+  .editor-grid-span {
+    grid-column: auto;
+  }
+
+  .editor-actions-bar,
+  .editor-section-title,
+  .preview-heading {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .editor-action-buttons {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .editor-action-buttons button {
+    width: 100%;
+  }
+
+  .hero-preview-visual {
+    min-height: 240px;
+  }
+}
