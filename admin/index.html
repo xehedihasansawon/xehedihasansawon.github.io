@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="theme-color" content="#071712">
+  <title>Portfolio CMS · Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./admin.css">
+</head>
+<body>
+  <main class="admin-shell">
+    <header class="admin-brand" aria-label="Portfolio CMS">
+      <a class="brand-mark" href="../index.html" aria-label="Back to portfolio">Mhs.</a>
+      <div>
+        <p class="eyebrow">PORTFOLIO CMS</p>
+        <h1>Admin Foundation</h1>
+      </div>
+    </header>
+
+    <section id="configPanel" class="panel notice-panel" hidden>
+      <p class="status-pill">SETUP REQUIRED</p>
+      <h2>Connect Supabase first.</h2>
+      <p>
+        Phase 1A is installed, but the public Supabase URL and anon key have not been configured yet.
+        Add them in <code>admin/config.js</code>.
+      </p>
+    </section>
+
+    <section id="loginPanel" class="panel auth-panel" hidden>
+      <div class="panel-heading">
+        <p class="status-pill">SECURE ADMIN</p>
+        <h2>Sign in</h2>
+        <p>Only an allowlisted administrator can enter the CMS.</p>
+      </div>
+
+      <form id="loginForm" class="login-form" novalidate>
+        <label for="adminEmail">Email</label>
+        <input
+          id="adminEmail"
+          name="email"
+          type="email"
+          autocomplete="username"
+          inputmode="email"
+          required
+          placeholder="you@example.com"
+        >
+
+        <label for="adminPassword">Password</label>
+        <input
+          id="adminPassword"
+          name="password"
+          type="password"
+          autocomplete="current-password"
+          required
+          minlength="6"
+          placeholder="••••••••"
+        >
+
+        <button id="loginButton" type="submit">Sign in securely</button>
+        <p id="loginMessage" class="form-message" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <section id="adminPanel" class="panel dashboard-panel" hidden>
+      <div class="dashboard-top">
+        <div>
+          <p class="status-pill success">PHASE 1A ACTIVE</p>
+          <h2>CMS Foundation</h2>
+          <p>
+            Authentication and the admin allowlist are working. Content editing stays disabled
+            until the next approved module.
+          </p>
+        </div>
+        <button id="logoutButton" class="secondary-button" type="button">Log out</button>
+      </div>
+
+      <div class="account-row">
+        <span>Authenticated as</span>
+        <strong id="adminEmailDisplay">—</strong>
+      </div>
+
+      <div class="security-grid" aria-label="Security status">
+        <article>
+          <span>01</span>
+          <h3>Supabase Auth</h3>
+          <p>Email/password session required.</p>
+        </article>
+        <article>
+          <span>02</span>
+          <h3>Admin Allowlist</h3>
+          <p>Authenticated users still need a database membership row.</p>
+        </article>
+        <article>
+          <span>03</span>
+          <h3>RLS First</h3>
+          <p>Future CMS data must stay protected by database policies.</p>
+        </article>
+      </div>
+
+      <p id="adminMessage" class="form-message" role="status" aria-live="polite"></p>
+    </section>
+
+    <footer class="admin-footer">
+      <span>MEHEDI PORTFOLIO</span>
+      <span>Phase 1A · Admin Authentication Foundation</span>
+    </footer>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script type="module" src="./admin.js"></script>
+</body>
+</html>
