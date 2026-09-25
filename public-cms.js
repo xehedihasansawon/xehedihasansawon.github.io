@@ -5,6 +5,7 @@ const REAL_PROJECTS_CONTENT_KEY = "homepage.real-life-projects";
 const DESIGN_SHOWCASE_CONTENT_KEY = "homepage.design-showcase";
 const CREATIVE_SERVICES_CONTENT_KEY = "homepage.creative-services";
 const DIGITAL_PROJECTS_CONTENT_KEY = "homepage.ai-digital-projects";
+const ABOUT_ME_CONTENT_KEY = "homepage.about";
 
 const byId = (id) => document.getElementById(id);
 
@@ -519,3 +520,51 @@ const loadPublishedDigitalProjects = async () => {
 };
 
 loadPublishedDigitalProjects();
+
+
+const applyAboutMe = (data) => {
+  if (!data || typeof data !== "object") return;
+
+  applyText("aboutEyebrow", data.eyebrow);
+  applyText("aboutTitleMain", data.titleMain);
+  applyText("aboutTitleAccent", data.titleAccent);
+  applyText("aboutHeadlineMain", data.headlineMain);
+  applyText("aboutHeadlineAccent", data.headlineAccent);
+  applyText("aboutParagraph1", data.paragraph1);
+  applyText("aboutParagraph2", data.paragraph2);
+  applyText("aboutMeta1Label", data.meta1Label);
+  applyText("aboutMeta1Value", data.meta1Value);
+  applyText("aboutMeta2Label", data.meta2Label);
+  applyText("aboutMeta2Value", data.meta2Value);
+
+  document.documentElement.dataset.aboutMeCms = "loaded";
+};
+
+const loadPublishedAboutMe = async () => {
+  try {
+    const endpoint = new URL("/rest/v1/cms_content_entries", ADMIN_CONFIG.supabaseUrl);
+    endpoint.searchParams.set("select", "published_data");
+    endpoint.searchParams.set("content_key", `eq.${ABOUT_ME_CONTENT_KEY}`);
+    endpoint.searchParams.set("limit", "1");
+
+    const response = await fetch(endpoint, {
+      headers: {
+        apikey: ADMIN_CONFIG.supabaseAnonKey,
+        Accept: "application/json"
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`About Me CMS request failed with status ${response.status}`);
+    }
+
+    const rows = await response.json();
+    const published = rows?.[0]?.published_data;
+
+    if (published) applyAboutMe(published);
+  } catch (error) {
+    console.warn("About Me CMS unavailable; using static fallback.", error);
+  }
+};
+
+loadPublishedAboutMe();
