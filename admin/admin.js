@@ -32,12 +32,14 @@ const realProjectsNavButton = document.querySelector("#realProjectsNavButton");
 const designShowcaseNavButton = document.querySelector("#designShowcaseNavButton");
 const creativeServicesNavButton = document.querySelector("#creativeServicesNavButton");
 const digitalProjectsNavButton = document.querySelector("#digitalProjectsNavButton");
+const aboutMeNavButton = document.querySelector("#aboutMeNavButton");
 const dashboard = document.querySelector("#dashboard");
 const homepageEditor = document.querySelector("#homepageEditor");
 const realProjectsEditor = document.querySelector("#realProjectsEditor");
 const designShowcaseEditor = document.querySelector("#designShowcaseEditor");
 const creativeServicesEditor = document.querySelector("#creativeServicesEditor");
 const digitalProjectsEditor = document.querySelector("#digitalProjectsEditor");
+const aboutMeEditor = document.querySelector("#aboutMeEditor");
 const cmsPageEyebrow = document.querySelector("#cmsPageEyebrow");
 const cmsPageTitle = document.querySelector("#cmsPageTitle");
 
@@ -97,6 +99,16 @@ const digitalProjectsPublishButton = document.querySelector("#digitalProjectsPub
 const digitalProjectsDraftPreview = document.querySelector("#digitalProjectsDraftPreview");
 const closeDigitalProjectsPreviewButton = document.querySelector("#closeDigitalProjectsPreviewButton");
 const digitalProjectsPreviewGrid = document.querySelector("#digitalProjectsPreviewGrid");
+
+const aboutMeEditorForm = document.querySelector("#aboutMeEditorForm");
+const aboutMeEditorState = document.querySelector("#aboutMeEditorState");
+const aboutMeEditorMessage = document.querySelector("#aboutMeEditorMessage");
+const aboutMePreviewButton = document.querySelector("#aboutMePreviewButton");
+const aboutMeSaveButton = document.querySelector("#aboutMeSaveButton");
+const aboutMePublishButton = document.querySelector("#aboutMePublishButton");
+const aboutMeDraftPreview = document.querySelector("#aboutMeDraftPreview");
+const closeAboutMePreviewButton = document.querySelector("#closeAboutMePreviewButton");
+
 const contentStoreDot = document.querySelector("#contentStoreDot");
 const contentStoreStatus = document.querySelector("#contentStoreStatus");
 const revisionStoreDot = document.querySelector("#revisionStoreDot");
@@ -572,6 +584,7 @@ if (!hasValidConfig) {
     const isDesignShowcase = view === "design-showcase";
     const isCreativeServices = view === "creative-services";
     const isDigitalProjects = view === "digital-projects";
+    const isAboutMe = view === "about-me";
 
     dashboard.hidden = !isDashboard;
     homepageEditor.hidden = !isHero;
@@ -579,6 +592,7 @@ if (!hasValidConfig) {
     designShowcaseEditor.hidden = !isDesignShowcase;
     creativeServicesEditor.hidden = !isCreativeServices;
     digitalProjectsEditor.hidden = !isDigitalProjects;
+    aboutMeEditor.hidden = !isAboutMe;
 
     dashboardNavLink?.classList.toggle("active", isDashboard);
     homepageNavButton?.classList.toggle("active", isHero);
@@ -586,8 +600,9 @@ if (!hasValidConfig) {
     designShowcaseNavButton?.classList.toggle("active", isDesignShowcase);
     creativeServicesNavButton?.classList.toggle("active", isCreativeServices);
     digitalProjectsNavButton?.classList.toggle("active", isDigitalProjects);
+    aboutMeNavButton?.classList.toggle("active", isAboutMe);
 
-    [dashboardNavLink, homepageNavButton, realProjectsNavButton, designShowcaseNavButton, creativeServicesNavButton, digitalProjectsNavButton].forEach((item) => {
+    [dashboardNavLink, homepageNavButton, realProjectsNavButton, designShowcaseNavButton, creativeServicesNavButton, digitalProjectsNavButton, aboutMeNavButton].forEach((item) => {
       item?.removeAttribute("aria-current");
     });
 
@@ -611,6 +626,10 @@ if (!hasValidConfig) {
       digitalProjectsNavButton?.setAttribute("aria-current", "page");
       cmsPageEyebrow.textContent = "HOMEPAGE CMS";
       cmsPageTitle.textContent = "AI & Digital Projects";
+    } else if (isAboutMe) {
+      aboutMeNavButton?.setAttribute("aria-current", "page");
+      cmsPageEyebrow.textContent = "HOMEPAGE CMS";
+      cmsPageTitle.textContent = "About Me";
     } else {
       dashboardNavLink?.setAttribute("aria-current", "page");
       cmsPageEyebrow.textContent = "HOMEPAGE CMS";
@@ -2846,6 +2865,267 @@ if (!hasValidConfig) {
       setDigitalProjectsMessage(error?.message || "Could not publish AI & Digital Projects.");
     } finally {
       setDigitalProjectsBusy(false);
+    }
+  });
+
+  const ABOUT_ME_CONTENT_KEY = "homepage.about";
+
+  const aboutMeDefaults = Object.freeze({
+    eyebrow: "The person behind the work",
+    titleMain: "ABOUT",
+    titleAccent: "ME",
+    headlineMain: "DESIGNER FIRST.",
+    headlineAccent: "PROBLEM SOLVER ALWAYS.",
+    paragraph1: "I’m Md Mehedi Hasan Sawon, a graphic designer focused on building bold, practical visual identities. My work goes beyond making things look good. I think about how a brand communicates, connects with people, and performs across digital platforms.",
+    paragraph2: "From branding and social media to video, web and business systems, I combine creative thinking with practical execution to turn ideas into clear, useful experiences.",
+    meta1Label: "Based in",
+    meta1Value: "Bangladesh",
+    meta2Label: "Open to",
+    meta2Value: "Remote & freelance work"
+  });
+
+  let aboutMeDirty = false;
+  let aboutMeLastLoadedDraft = null;
+
+  const setAboutMeMessage = (message = "") => {
+    if (aboutMeEditorMessage) aboutMeEditorMessage.textContent = message;
+  };
+
+  const setAboutMeState = (label) => {
+    if (aboutMeEditorState) aboutMeEditorState.textContent = label;
+  };
+
+  const setAboutMeBusy = (busy) => {
+    [aboutMePreviewButton, aboutMeSaveButton, aboutMePublishButton].forEach((button) => {
+      if (button) button.disabled = busy;
+    });
+  };
+
+  const populateAboutMeForm = (data = {}) => {
+    const merged = { ...aboutMeDefaults, ...data };
+
+    Object.entries(merged).forEach(([field, value]) => {
+      const input = aboutMeEditorForm?.elements.namedItem(field);
+      if (input) input.value = value ?? "";
+    });
+
+    aboutMeLastLoadedDraft = structuredClone(merged);
+    aboutMeDirty = false;
+    setAboutMeState("Draft loaded");
+  };
+
+  const readAboutMeForm = () => {
+    if (!aboutMeEditorForm) return null;
+
+    const missingRequired = [...aboutMeEditorForm.querySelectorAll("[required]")].find(
+      (field) => !String(field.value || "").trim()
+    );
+
+    if (missingRequired) {
+      const fieldLabel =
+        missingRequired.closest("label")?.querySelector("span")?.textContent?.trim() ||
+        "required field";
+
+      setAboutMeMessage(`Complete "${fieldLabel}" before saving.`);
+      missingRequired.focus();
+      missingRequired.scrollIntoView({ behavior: "smooth", block: "center" });
+      return null;
+    }
+
+    const get = (field) =>
+      String(aboutMeEditorForm.elements.namedItem(field)?.value || "").trim();
+
+    return {
+      eyebrow: get("eyebrow"),
+      titleMain: get("titleMain"),
+      titleAccent: get("titleAccent"),
+      headlineMain: get("headlineMain"),
+      headlineAccent: get("headlineAccent"),
+      paragraph1: get("paragraph1"),
+      paragraph2: get("paragraph2"),
+      meta1Label: get("meta1Label"),
+      meta1Value: get("meta1Value"),
+      meta2Label: get("meta2Label"),
+      meta2Value: get("meta2Value")
+    };
+  };
+
+  const renderAboutMePreview = (data) => {
+    const previewValues = {
+      previewAboutEyebrow: data.eyebrow,
+      previewAboutTitleMain: data.titleMain,
+      previewAboutTitleAccent: data.titleAccent,
+      previewAboutHeadlineMain: data.headlineMain,
+      previewAboutHeadlineAccent: data.headlineAccent,
+      previewAboutParagraph1: data.paragraph1,
+      previewAboutParagraph2: data.paragraph2,
+      previewAboutMeta1Label: data.meta1Label,
+      previewAboutMeta1Value: data.meta1Value,
+      previewAboutMeta2Label: data.meta2Label,
+      previewAboutMeta2Value: data.meta2Value
+    };
+
+    Object.entries(previewValues).forEach(([id, value]) => {
+      const element = document.getElementById(id);
+      if (element) element.textContent = value;
+    });
+
+    aboutMeDraftPreview.hidden = false;
+    aboutMeDraftPreview.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  const loadAboutMeEditor = async () => {
+    setAboutMeMessage("Loading About Me draft…");
+    setAboutMeState("Loading…");
+
+    const { data, error } = await supabaseClient
+      .from("cms_content_entries")
+      .select("content_key,draft_data,published_data,draft_updated_at,published_at")
+      .eq("content_key", ABOUT_ME_CONTENT_KEY)
+      .maybeSingle();
+
+    if (error) {
+      console.error("About Me CMS load failed:", error);
+      populateAboutMeForm(aboutMeDefaults);
+      setAboutMeState("Load failed");
+      setAboutMeMessage("Could not load the About Me content store.");
+      return false;
+    }
+
+    if (!data) {
+      populateAboutMeForm(aboutMeDefaults);
+      setAboutMeState("Setup required");
+      setAboutMeMessage("Save Draft to create the Phase 2F content row.");
+      return false;
+    }
+
+    populateAboutMeForm(data.draft_data || aboutMeDefaults);
+
+    const synced =
+      JSON.stringify(data.draft_data || {}) === JSON.stringify(data.published_data || {});
+
+    setAboutMeState(synced ? "Published · synced" : "Draft differs from live");
+    setAboutMeMessage(
+      data.published_at
+        ? "About Me draft loaded. Preview or edit before publishing."
+        : "About Me draft loaded. This content has not been published yet."
+    );
+
+    return true;
+  };
+
+  populateAboutMeForm(aboutMeDefaults);
+
+  aboutMeNavButton?.addEventListener("click", async () => {
+    showCmsView("about-me");
+    await loadAboutMeEditor();
+  });
+
+  aboutMeEditorForm?.addEventListener("input", () => {
+    aboutMeDirty = true;
+    setAboutMeState("Unsaved changes");
+  });
+
+  aboutMePreviewButton?.addEventListener("click", () => {
+    setAboutMeMessage("");
+    const draft = readAboutMeForm();
+    if (!draft) return;
+    renderAboutMePreview(draft);
+  });
+
+  closeAboutMePreviewButton?.addEventListener("click", () => {
+    aboutMeDraftPreview.hidden = true;
+  });
+
+  const saveAboutMeDraft = async () => {
+    setAboutMeMessage("");
+    const draft = readAboutMeForm();
+    if (!draft) return false;
+
+    setAboutMeBusy(true);
+    setAboutMeState("Saving…");
+
+    try {
+      const { data, error } = await supabaseClient
+        .from("cms_content_entries")
+        .upsert(
+          {
+            content_key: ABOUT_ME_CONTENT_KEY,
+            draft_data: draft
+          },
+          {
+            onConflict: "content_key"
+          }
+        )
+        .select("content_key,draft_updated_at")
+        .maybeSingle();
+
+      if (error) throw error;
+      if (!data) {
+        setAboutMeState("Save failed");
+        setAboutMeMessage("Could not create or update the About Me draft.");
+        return false;
+      }
+
+      aboutMeLastLoadedDraft = structuredClone(draft);
+      aboutMeDirty = false;
+      setAboutMeState("Draft saved");
+      setAboutMeMessage("Draft saved. Published About Me content has not changed.");
+      return true;
+    } catch (error) {
+      console.error("About Me draft save failed:", error);
+      setAboutMeState("Save failed");
+      setAboutMeMessage(
+        error?.message
+          ? `Could not save draft: ${error.message}`
+          : "Could not save the About Me draft."
+      );
+      return false;
+    } finally {
+      setAboutMeBusy(false);
+    }
+  };
+
+  aboutMeSaveButton?.addEventListener("click", saveAboutMeDraft);
+
+  aboutMeEditorForm?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    await saveAboutMeDraft();
+  });
+
+  aboutMePublishButton?.addEventListener("click", async () => {
+    setAboutMeMessage("");
+
+    if (aboutMeDirty) {
+      setAboutMeState("Unsaved changes");
+      setAboutMeMessage("Save the draft first, then publish.");
+      return;
+    }
+
+    if (!aboutMeLastLoadedDraft) {
+      setAboutMeMessage("Load or save the About Me draft before publishing.");
+      return;
+    }
+
+    setAboutMeBusy(true);
+    setAboutMeState("Publishing…");
+
+    try {
+      const { data, error } = await supabaseClient.rpc("cms_publish_content", {
+        p_content_key: ABOUT_ME_CONTENT_KEY
+      });
+
+      if (error) throw error;
+      if (!data?.length) throw new Error("Publish returned no About Me row.");
+
+      setAboutMeState("Published · synced");
+      setAboutMeMessage("About Me published to the CMS. Localhost reads this version now; production still waits for explicit live deployment.");
+    } catch (error) {
+      console.error("About Me publish failed:", error);
+      setAboutMeState("Publish failed");
+      setAboutMeMessage(error?.message || "Could not publish About Me.");
+    } finally {
+      setAboutMeBusy(false);
     }
   });
 
