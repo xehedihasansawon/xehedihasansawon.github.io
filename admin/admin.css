@@ -1667,3 +1667,61 @@ button {
     grid-template-columns: 1fr;
   }
 }
+
+
+/* Phase 2D — Creative Services CMS */
+.service-editor-card .showcase-modal-fields {
+  margin-top: 2px;
+}
+
+.creative-services-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.creative-services-preview-card {
+  min-width: 0;
+  padding: 16px;
+  display: grid;
+  gap: 7px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #071611;
+}
+
+.creative-services-preview-card > span {
+  color: var(--red);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+}
+
+.creative-services-preview-card > strong {
+  font-size: 0.9rem;
+}
+
+.creative-services-preview-card > p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.7rem;
+  line-height: 1.5;
+}
+
+.creative-services-preview-card > small {
+  margin-top: 4px;
+  color: var(--muted-2);
+  font-size: 0.62rem;
+}
+
+@media (max-width: 1000px) {
+  .creative-services-preview-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .creative-services-preview-grid {
+    grid-template-columns: 1fr;
+  }
+}
