@@ -8,12 +8,35 @@ const byId = (id) => document.getElementById(id);
 const isSafeHref = (value) => {
   const href = String(value || "").trim();
   if (!href) return false;
-  if (href.startsWith("#") || href.startsWith("/") || href.startsWith("./") || href.startsWith("../")) return true;
+
+  const lower = href.toLowerCase();
+  if (
+    lower.startsWith("javascript:") ||
+    lower.startsWith("data:") ||
+    lower.startsWith("vbscript:") ||
+    href.startsWith("//")
+  ) {
+    return false;
+  }
+
+  if (
+    href.startsWith("#") ||
+    href.startsWith("/") ||
+    href.startsWith("./") ||
+    href.startsWith("../")
+  ) {
+    return true;
+  }
 
   try {
     return ["https:", "http:", "mailto:", "tel:"].includes(new URL(href).protocol);
   } catch {
-    return false;
+    try {
+      const relative = new URL(href, window.location.origin + "/");
+      return relative.origin === window.location.origin;
+    } catch {
+      return false;
+    }
   }
 };
 
