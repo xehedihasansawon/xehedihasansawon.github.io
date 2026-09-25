@@ -214,35 +214,51 @@ Acceptance checklist:
 Lock rule:
 Freeze the Phase 1D content-store schema. Extend it only through explicit later migrations when a later module has a demonstrated need.
 
-## Active module
+## Completed module
 
-**Phase 1E — Automatic Revision History Foundation**
+**Phase 1E — Automatic Revision History Foundation — LOCKED / DONE**
 
-Purpose:
-Add automatic content snapshots before any real homepage editing begins, so future CMS changes have a recoverable history.
+Owner approval: 2026-09-25
 
-Scope:
-- Add a private `cms_content_revisions` table
-- Automatically capture a snapshot when CMS content is created, updated or deleted
-- Store content key, event type, draft state, published state, timestamps and authenticated changer
-- Keep revision rows completely hidden from anonymous/public visitors
-- Allow only allowlisted admins to read revision history through RLS
-- Do not allow browser clients to directly insert, update or delete revision rows
-- Add a dashboard readiness check for the revision store
-- Do not add restore UI yet; restore remains part of the later backup/version-history requirement
-- Do not move or edit homepage content in this module
-- Preserve all locked Phase 1A–1D behavior
+Purpose delivered:
+Added automatic content snapshots before any real homepage editing begins, giving future CMS changes a recoverable history foundation.
+
+Scope delivered:
+- Added private `cms_content_revisions` table
+- Automatic snapshots are captured when CMS content is created, updated or deleted
+- Revision rows store content key, event type, draft state, published state, timestamps and authenticated changer
+- Anonymous/public visitors receive no revision-table access
+- Only allowlisted admins can read revision history through RLS
+- Browser clients cannot directly insert, update or delete revision rows
+- Admin dashboard includes a Revision History readiness indicator
+- Restore UI was intentionally not implemented in this module
+- No homepage content was moved or edited
+- Locked Phase 1A–1D behavior remains preserved
+
+Verification:
+- Revision migration installed successfully
+- Dashboard showed both Content Store → Ready and Revision History → Ready
+- Owner completed the temporary create → update → delete revision test sequence
+- Owner completed the revision security-grant test
+- Cleanup query returned `Success. No rows returned`, confirming test revision cleanup
+- Detailed row/security results were user-confirmed as complete; only the cleanup result was separately screenshot-verified in this checkpoint
 
 Acceptance checklist:
-- [ ] Migration runs successfully in Supabase
-- [ ] `cms_content_revisions` exists with RLS enabled
-- [ ] Dashboard shows Revision History → Ready
-- [ ] Creating a temporary CMS entry automatically creates a revision
-- [ ] Updating it automatically creates another revision
-- [ ] Deleting it automatically creates a deleted-state revision
-- [ ] Anonymous/public access cannot read revision history
-- [ ] Temporary test data and test revisions are cleaned up
-- [ ] Public portfolio remains visually unchanged
+- [x] Migration runs successfully in Supabase
+- [x] `cms_content_revisions` exists with RLS enabled
+- [x] Dashboard shows Revision History → Ready
+- [x] Creating a temporary CMS entry automatically creates a revision
+- [x] Updating it automatically creates another revision
+- [x] Deleting it automatically creates a deleted-state revision
+- [x] Anonymous/public access cannot read revision history
+- [x] Temporary test data and test revisions are cleaned up
+- [x] Public portfolio remains visually unchanged
 
 Lock rule:
-After owner approval, freeze the Phase 1E revision schema. Future restore UI may read these snapshots but should not rewrite this history model without an explicit migration.
+Freeze the Phase 1E revision schema. Future restore UI may read these snapshots but should not rewrite this history model without an explicit migration.
+
+## Next module
+
+**Phase 1F — Foundation next layer**
+
+Plan the exact scope before writing code. Continue the one-module-at-a-time rule and keep public portfolio content untouched.
