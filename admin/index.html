@@ -191,6 +191,12 @@
             <small>Locked</small>
           </button>
 
+          <button id="contactCmsNavButton" class="nav-item nav-item-sub" type="button">
+            <span class="nav-index">02I</span>
+            <span>Contact</span>
+            <small>Active</small>
+          </button>
+
           <button class="nav-item" type="button" disabled>
             <span class="nav-index">03</span>
             <span>Projects</span>
@@ -236,7 +242,7 @@
 
         <div class="sidebar-bottom">
           <a class="view-site-link" href="../index.html" target="_blank" rel="noopener">View website ↗</a>
-          <span>Phase 2H · Experience / Community CMS · Locked</span>
+          <span>Phase 2I · Contact CMS</span>
         </div>
       </aside>
 
@@ -283,17 +289,17 @@
           <section class="dashboard-hero">
             <div>
               <p class="status-pill success">PHASE 2H LOCKED</p>
-              <h3>Experience / Community CMS is locked and ready.</h3>
+              <h3>Contact CMS is the active module.</h3>
               <p>
-                Phase 2A–2H are now frozen. The next planned module is Phase 2I for Contact CMS;
-                it has not started yet.
+                Phase 2A–2H stay locked. Phase 2I connects only the existing Contact section,
+                including its CTA copy, contact channels and profile links.
               </p>
             </div>
 
             <div class="phase-card">
-              <span>LATEST LOCKED MODULE</span>
-              <strong>Phase 2H</strong>
-              <p>Experience / Community CMS</p>
+              <span>CURRENT MODULE</span>
+              <strong>Phase 2I</strong>
+              <p>Contact CMS</p>
 
               <div class="foundation-stack" aria-live="polite">
                 <div class="foundation-check">
@@ -516,15 +522,15 @@
                 <b>LOCKED</b>
               </article>
 
-              <article class="module-row queued">
+              <article class="module-row active">
                 <div>
                   <span>2I</span>
                   <div>
                     <strong>Contact CMS</strong>
-                    <p>Planned next; scope will be defined before coding starts.</p>
+                    <p>Draft, preview and publish controls for the existing Contact CTA, channels and profile links.</p>
                   </div>
                 </div>
-                <b>NEXT</b>
+                <b>ACTIVE</b>
               </article>
             </div>
           </section>
@@ -1407,12 +1413,253 @@
             <div id="experienceCommunityPreviewGrid" class="experience-preview-grid"></div>
           </section>
         </div>
+
+        <div id="contactCmsEditor" class="editor-content" hidden>
+          <section class="editor-heading-card">
+            <div>
+              <p class="status-pill success">PHASE 2I</p>
+              <h3>Contact</h3>
+              <p>Edit the existing Contact CTA, WhatsApp/email channels and current social/profile links. The approved layout stays unchanged.</p>
+            </div>
+            <div class="editor-state">
+              <span>CONTENT KEY</span>
+              <strong>homepage.contact</strong>
+              <b id="contactCmsEditorState">Loading…</b>
+            </div>
+          </section>
+
+          <form id="contactCmsEditorForm" class="cms-editor-form" novalidate>
+            <section class="editor-card">
+              <div class="editor-section-title">
+                <div>
+                  <p class="eyebrow">CTA COPY</p>
+                  <h3>Contact headline</h3>
+                </div>
+                <span>Current layout</span>
+              </div>
+
+              <div class="editor-grid two">
+                <label class="editor-grid-span">
+                  <span>Availability status</span>
+                  <input name="statusText" type="text" maxlength="120" required>
+                </label>
+                <label class="editor-grid-span">
+                  <span>Kicker / question</span>
+                  <input name="kicker" type="text" maxlength="140" required>
+                </label>
+                <label>
+                  <span>Title — first part</span>
+                  <input name="titleMain" type="text" maxlength="100" required>
+                </label>
+                <label>
+                  <span>Title — accent part</span>
+                  <input name="titleAccent" type="text" maxlength="100" required>
+                </label>
+                <label class="editor-grid-span">
+                  <span>Description</span>
+                  <textarea name="description" rows="4" maxlength="650" required></textarea>
+                </label>
+              </div>
+            </section>
+
+            <section class="editor-card">
+              <div class="editor-section-title">
+                <div>
+                  <p class="eyebrow">PRIMARY CHANNELS</p>
+                  <h3>WhatsApp & Email</h3>
+                </div>
+                <span>Two existing cards</span>
+              </div>
+
+              <div class="editor-grid two">
+                <label>
+                  <span>WhatsApp label</span>
+                  <input name="whatsappLabel" type="text" maxlength="50" required>
+                </label>
+                <label>
+                  <span>WhatsApp display</span>
+                  <input name="whatsappDisplay" type="text" maxlength="80" required>
+                </label>
+                <label class="editor-grid-span">
+                  <span>WhatsApp description</span>
+                  <input name="whatsappDescription" type="text" maxlength="180" required>
+                </label>
+                <label>
+                  <span>WhatsApp action</span>
+                  <input name="whatsappAction" type="text" maxlength="50" required>
+                </label>
+                <label>
+                  <span>WhatsApp URL</span>
+                  <input name="whatsappHref" type="text" maxlength="500" required>
+                </label>
+
+                <label>
+                  <span>Email label</span>
+                  <input name="emailLabel" type="text" maxlength="50" required>
+                </label>
+                <label>
+                  <span>Email address</span>
+                  <input name="emailAddress" type="email" maxlength="180" required>
+                </label>
+                <label class="editor-grid-span">
+                  <span>Email description</span>
+                  <input name="emailDescription" type="text" maxlength="180" required>
+                </label>
+                <label class="editor-grid-span">
+                  <span>Email copy button text</span>
+                  <input name="emailAction" type="text" maxlength="50" required>
+                </label>
+              </div>
+            </section>
+
+            <section class="editor-card">
+              <div class="editor-section-title">
+                <div>
+                  <p class="eyebrow">SOCIAL & DIRECT</p>
+                  <h3>Phone and social links</h3>
+                </div>
+                <span>Three existing links</span>
+              </div>
+
+              <div class="editor-grid two">
+                <label class="editor-grid-span">
+                  <span>Group title</span>
+                  <input name="socialGroupTitle" type="text" maxlength="80" required>
+                </label>
+                <label>
+                  <span>Call label</span>
+                  <input name="callLabel" type="text" maxlength="100" required>
+                </label>
+                <label>
+                  <span>Call link</span>
+                  <input name="callHref" type="text" maxlength="500" required>
+                </label>
+                <label>
+                  <span>Facebook label</span>
+                  <input name="facebookLabel" type="text" maxlength="80" required>
+                </label>
+                <label>
+                  <span>Facebook URL</span>
+                  <input name="facebookHref" type="text" maxlength="500" required>
+                </label>
+                <label>
+                  <span>Instagram label</span>
+                  <input name="instagramLabel" type="text" maxlength="80" required>
+                </label>
+                <label>
+                  <span>Instagram URL</span>
+                  <input name="instagramHref" type="text" maxlength="500" required>
+                </label>
+              </div>
+            </section>
+
+            <section class="editor-card">
+              <div class="editor-section-title">
+                <div>
+                  <p class="eyebrow">PROFESSIONAL PROFILES</p>
+                  <h3>Portfolio profile links</h3>
+                </div>
+                <span>Three existing links</span>
+              </div>
+
+              <div class="editor-grid two">
+                <label class="editor-grid-span">
+                  <span>Group title</span>
+                  <input name="profilesGroupTitle" type="text" maxlength="80" required>
+                </label>
+                <label>
+                  <span>LinkedIn label</span>
+                  <input name="linkedinLabel" type="text" maxlength="80" required>
+                </label>
+                <label>
+                  <span>LinkedIn URL</span>
+                  <input name="linkedinHref" type="text" maxlength="500" required>
+                </label>
+                <label>
+                  <span>GitHub label</span>
+                  <input name="githubLabel" type="text" maxlength="80" required>
+                </label>
+                <label>
+                  <span>GitHub URL</span>
+                  <input name="githubHref" type="text" maxlength="500" required>
+                </label>
+                <label>
+                  <span>Behance label</span>
+                  <input name="behanceLabel" type="text" maxlength="80" required>
+                </label>
+                <label>
+                  <span>Behance URL</span>
+                  <input name="behanceHref" type="text" maxlength="500" required>
+                </label>
+              </div>
+            </section>
+
+            <section class="editor-actions-bar">
+              <div>
+                <strong>Draft → Preview → Publish</strong>
+                <p id="contactCmsEditorMessage" class="form-message" role="status" aria-live="polite"></p>
+              </div>
+              <div class="editor-action-buttons">
+                <button id="contactCmsPreviewButton" class="secondary-button" type="button">Preview draft</button>
+                <button id="contactCmsSaveButton" type="button">Save draft</button>
+                <button id="contactCmsPublishButton" class="publish-button" type="button">Publish Contact</button>
+              </div>
+            </section>
+          </form>
+
+          <section id="contactCmsDraftPreview" class="hero-draft-preview" hidden aria-label="Contact draft preview">
+            <div class="preview-heading">
+              <div>
+                <p class="eyebrow">PRIVATE PREVIEW</p>
+                <h3>Contact draft</h3>
+              </div>
+              <button id="closeContactCmsPreviewButton" class="text-button" type="button">Close preview</button>
+            </div>
+
+            <div class="contact-preview-card">
+              <div id="previewContactStatus" class="contact-preview-status"></div>
+              <p id="previewContactKicker" class="contact-preview-kicker"></p>
+              <h4><span id="previewContactTitleMain"></span> <b id="previewContactTitleAccent"></b></h4>
+              <p id="previewContactDescription" class="contact-preview-description"></p>
+
+              <div class="contact-preview-channels">
+                <article>
+                  <span id="previewWhatsappLabel"></span>
+                  <strong id="previewWhatsappDisplay"></strong>
+                  <p id="previewWhatsappDescription"></p>
+                  <small id="previewWhatsappAction"></small>
+                </article>
+                <article>
+                  <span id="previewEmailLabel"></span>
+                  <strong id="previewEmailAddress"></strong>
+                  <p id="previewEmailDescription"></p>
+                  <small id="previewEmailAction"></small>
+                </article>
+              </div>
+
+              <div class="contact-preview-groups">
+                <div>
+                  <strong id="previewSocialGroupTitle"></strong>
+                  <span id="previewCallLabel"></span>
+                  <span id="previewFacebookLabel"></span>
+                  <span id="previewInstagramLabel"></span>
+                </div>
+                <div>
+                  <strong id="previewProfilesGroupTitle"></strong>
+                  <span id="previewLinkedinLabel"></span>
+                  <span id="previewGithubLabel"></span>
+                  <span id="previewBehanceLabel"></span>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
       </div>
     </section>
 
     <footer id="publicAdminFooter" class="admin-footer">
       <span>MEHEDI PORTFOLIO</span>
-      <span>Secure Admin · Phase 2H · Locked</span>
+      <span>Secure Admin · Phase 2I</span>
     </footer>
   </main>
 
