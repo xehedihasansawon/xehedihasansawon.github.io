@@ -3,6 +3,7 @@ import { ADMIN_CONFIG } from "./admin/config.js";
 const HERO_CONTENT_KEY = "homepage.hero";
 const REAL_PROJECTS_CONTENT_KEY = "homepage.real-life-projects";
 const DESIGN_SHOWCASE_CONTENT_KEY = "homepage.design-showcase";
+const CREATIVE_SERVICES_CONTENT_KEY = "homepage.creative-services";
 
 const byId = (id) => document.getElementById(id);
 
@@ -305,3 +306,99 @@ const loadPublishedDesignShowcase = async () => {
 };
 
 loadPublishedDesignShowcase();
+
+
+const applyCreativeServices = (data) => {
+  if (!data || typeof data !== "object") return;
+
+  applyText("creativeServicesEyebrow", data.eyebrow);
+  applyText("creativeServicesTitleMain", data.titleMain);
+  applyText("creativeServicesTitleAccent", data.titleAccent);
+
+  if (!Array.isArray(data.services)) return;
+
+  data.services.forEach((service) => {
+    if (!service?.key) return;
+
+    const card = document.querySelector(`[data-cms-service="${CSS.escape(service.key)}"]`);
+    if (!card) return;
+
+    const number = card.querySelector('[data-cms-field="number"]');
+    const title = card.querySelector('[data-cms-field="cardTitle"]');
+    const description = card.querySelector('[data-cms-field="cardDescription"]');
+
+    if (number && typeof service.number === "string" && service.number.trim()) {
+      number.textContent = service.number.trim();
+    }
+
+    if (title && typeof service.cardTitle === "string" && service.cardTitle.trim()) {
+      title.textContent = service.cardTitle.trim();
+    }
+
+    if (description && typeof service.cardDescription === "string" && service.cardDescription.trim()) {
+      description.textContent = service.cardDescription.trim();
+    }
+
+    card.__cmsServiceDetail = {
+      eyebrow:
+        typeof service.modalEyebrow === "string" && service.modalEyebrow.trim()
+          ? service.modalEyebrow.trim()
+          : "Service workflow",
+      title:
+        typeof service.modalTitle === "string" && service.modalTitle.trim()
+          ? service.modalTitle.trim()
+          : service.cardTitle,
+      summary:
+        typeof service.modalSummary === "string"
+          ? service.modalSummary.trim()
+          : "",
+      workflow: Array.isArray(service.workflow)
+        ? service.workflow.filter((item) => typeof item === "string" && item.trim()).map((item) => item.trim())
+        : [],
+      deliverables: Array.isArray(service.deliverables)
+        ? service.deliverables.filter((item) => typeof item === "string" && item.trim()).map((item) => item.trim())
+        : [],
+      tools: Array.isArray(service.tools)
+        ? service.tools.filter((item) => typeof item === "string" && item.trim()).map((item) => item.trim())
+        : [],
+      needs: Array.isArray(service.needs)
+        ? service.needs.filter((item) => typeof item === "string" && item.trim()).map((item) => item.trim())
+        : [],
+      handoff:
+        typeof service.handoff === "string"
+          ? service.handoff.trim()
+          : ""
+    };
+  });
+
+  document.documentElement.dataset.creativeServicesCms = "loaded";
+};
+
+const loadPublishedCreativeServices = async () => {
+  try {
+    const endpoint = new URL("/rest/v1/cms_content_entries", ADMIN_CONFIG.supabaseUrl);
+    endpoint.searchParams.set("select", "published_data");
+    endpoint.searchParams.set("content_key", `eq.${CREATIVE_SERVICES_CONTENT_KEY}`);
+    endpoint.searchParams.set("limit", "1");
+
+    const response = await fetch(endpoint, {
+      headers: {
+        apikey: ADMIN_CONFIG.supabaseAnonKey,
+        Accept: "application/json"
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`Creative Services CMS request failed with status ${response.status}`);
+    }
+
+    const rows = await response.json();
+    const published = rows?.[0]?.published_data;
+
+    if (published) applyCreativeServices(published);
+  } catch (error) {
+    console.warn("Creative Services CMS unavailable; using static fallback.", error);
+  }
+};
+
+loadPublishedCreativeServices();
