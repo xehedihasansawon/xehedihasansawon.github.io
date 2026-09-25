@@ -428,8 +428,48 @@ Acceptance checklist:
 Lock rule:
 Freeze the Phase 2B four-card content contract and workflow. Only verified bugs/security issues may modify it before the later Phase 3 Portfolio Engine replaces the fixed-project limitations.
 
-## Next module
+## Active module
 
 **Phase 2C — Homepage Design Showcase CMS**
 
-Plan the exact scope before coding. Keep Phase 2A and 2B locked and touch only the Design Showcase homepage section when Phase 2C starts.
+Purpose:
+Connect the approved Design Showcase section to the locked CMS foundation while preserving its existing four-card layout and project-snapshot interaction.
+
+Scope:
+- Keep Phase 2A Hero and Phase 2B Real Life Projects locked
+- Add a dedicated Design Showcase admin view under Homepage CMS
+- Seed `homepage.design-showcase` with the current approved section heading and four fixed showcase cards
+- Edit section eyebrow plus the two-part DESIGN / SHOWCASE heading
+- Edit each card's visible title, visible subtitle, image source and image alt text
+- Edit each card's existing popup title, eyebrow, meta, summary and three proof points
+- Reuse the locked `portfolio-media` bucket for JPG/PNG/WebP uploads up to 8 MB
+- Save only to `draft_data`
+- Provide a private draft preview in Admin
+- Require Save Draft before Publish
+- Publish through the locked Phase 1F secure publish action
+- Public/local homepage reads only `published_data`
+- Keep static showcase markup and the existing script data as fail-safe fallback
+- Keep the current four-card count/order and tall-card styling fixed; dynamic categories/order remain for Phase 3
+- Do not touch Services, Digital, About, Skills, Experience, Contact, Footer or section ordering
+- Keep `main` untouched until explicit live approval
+
+Acceptance checklist:
+- [ ] Phase 2C seed migration runs successfully
+- [ ] Design Showcase navigation opens only the Phase 2C editor
+- [ ] Current approved heading and all four cards load into Admin
+- [ ] Current popup content loads for all four cards
+- [ ] Showcase image upload works through the existing secure storage bucket
+- [ ] Save Draft changes draft data without changing published content
+- [ ] Private Preview reflects current card values
+- [ ] Publish is blocked while there are unsaved changes
+- [ ] Publish promotes the saved draft through the secure Phase 1F action
+- [ ] Localhost Design Showcase loads published CMS content
+- [ ] Clicking each showcase card still opens the existing project-snapshot modal
+- [ ] Published popup title/meta/summary/points appear in the modal
+- [ ] Static fallback remains available if the CMS request fails
+- [ ] Desktop layout remains visually consistent
+- [ ] Mobile layout remains visually consistent
+- [ ] No other homepage section is changed
+
+Lock rule:
+After owner approval, freeze the Phase 2C four-card showcase contract and modal-content workflow. Dynamic showcase categories, counts and ordering remain reserved for the later Portfolio Engine.
