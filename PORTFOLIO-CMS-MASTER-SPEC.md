@@ -130,41 +130,49 @@ The owner locked Phase 1B before the mobile evidence was reviewed. The subsequen
 Lock rule:
 Do not redesign or restructure the Phase 1B shell during later feature work unless a verified usability, responsive, accessibility, or security issue requires it.
 
-## Active module
+## Completed module
 
-**Phase 1C — Password Recovery & Account Security**
+**Phase 1C — Password Recovery & Account Security — LOCKED / DONE**
 
-Scope:
-- Add a Forgot Password action to the admin sign-in screen
-- Send a Supabase password recovery email using the browser-safe client
-- Use a generic success message so the UI does not reveal whether an email exists
-- Accept only an authenticated PASSWORD_RECOVERY session for the password-update screen
-- Re-check the admin allowlist before permitting a recovered account to update its password
-- Require a new password of at least 10 characters and matching confirmation
-- Sign out after a successful password update and require a fresh login
-- Preserve Phase 1A login/allowlist behavior and the locked Phase 1B dashboard shell
-- Add no CMS content tables and no new database write permissions
+Owner approval: 2026-09-25
 
-Required Supabase dashboard setup before full testing:
-- Add `http://localhost:5173/admin/` to Authentication → URL Configuration → Redirect URLs
-- When this branch is eventually deployed, also add the final production admin URL before testing recovery there
+Scope delivered:
+- Forgot Password action on the admin sign-in screen
+- Supabase recovery email flow using the browser-safe client
+- Generic recovery-request response to avoid account enumeration
+- Verified recovery-session handling
+- Admin allowlist re-check before password update
+- Minimum 10-character password requirement with confirmation matching
+- Automatic sign-out after successful password change
+- Fresh login required with the new password
+- Phase 1A auth behavior and Phase 1B dashboard shell preserved
+- No CMS content tables or additional database write permissions introduced
+
+Supabase redirect configured for local testing:
+- `http://localhost:5173/admin/`
 
 Recovery redirect reliability note:
-- The admin script now captures a recovery marker from the incoming URL before Supabase can consume/clean the URL fragment.
+- The admin script captures recovery intent before Supabase can consume/clean the incoming URL fragment.
 - If the PASSWORD_RECOVERY event is missed during initialization, the authenticated recovery session is detected from getSession() and still opens the password-update screen.
 - Auth-state work is deferred outside the immediate onAuthStateChange callback to avoid callback timing issues.
 
 Acceptance checklist:
-- [ ] Existing admin login still works
-- [ ] Forgot Password screen opens and returns to Sign in
-- [ ] Recovery request uses a generic response
-- [ ] Recovery email redirects back to the admin route
-- [ ] PASSWORD_RECOVERY session opens the new-password screen
-- [ ] Non-allowlisted recovery session is rejected
-- [ ] Short or mismatched new passwords are rejected
-- [ ] Successful password update signs the user out
-- [ ] New password works on the next login
-- [ ] Public portfolio remains untouched
+- [x] Existing admin login still works
+- [x] Forgot Password screen opens and returns to Sign in
+- [x] Recovery request uses a generic response
+- [x] Recovery email redirects back to the admin route
+- [x] PASSWORD_RECOVERY session opens the new-password screen
+- [x] Short or mismatched new passwords are rejected
+- [x] Successful password update signs the user out
+- [x] New password works on the next login
+- [x] Public portfolio remains untouched
+- [ ] Non-allowlisted recovery rejection is implemented but was not separately manual-tested in this checkpoint
 
 Lock rule:
-After owner approval, freeze Phase 1C and move to the next single foundation module.
+Do not change Phase 1C behavior during later feature work unless a verified bug or security requirement makes it necessary.
+
+## Next module
+
+**Phase 1D — Foundation next layer**
+
+Plan the exact scope before writing code. Continue the one-module-at-a-time rule and keep public portfolio content untouched.
