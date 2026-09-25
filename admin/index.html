@@ -138,15 +138,15 @@
         </div>
 
         <nav class="cms-nav">
-          <a class="nav-item active" href="#dashboard" aria-current="page">
+          <a id="dashboardNavLink" class="nav-item active" href="#dashboard" aria-current="page">
             <span class="nav-index">01</span>
             <span>Dashboard</span>
           </a>
 
-          <button class="nav-item" type="button" disabled>
+          <button id="homepageNavButton" class="nav-item" type="button">
             <span class="nav-index">02</span>
             <span>Homepage</span>
-            <small>Later</small>
+            <small>Hero</small>
           </button>
 
           <button class="nav-item" type="button" disabled>
@@ -194,7 +194,7 @@
 
         <div class="sidebar-bottom">
           <a class="view-site-link" href="../index.html" target="_blank" rel="noopener">View website ↗</a>
-          <span>Phase 1F · Secure Publish</span>
+          <span>Phase 2A · Hero CMS</span>
         </div>
       </aside>
 
@@ -223,8 +223,8 @@
             </button>
 
             <div>
-              <p class="eyebrow">ADMIN FOUNDATION</p>
-              <h2>Dashboard</h2>
+              <p id="cmsPageEyebrow" class="eyebrow">HOMEPAGE CMS</p>
+              <h2 id="cmsPageTitle">Dashboard</h2>
             </div>
           </div>
 
@@ -240,18 +240,18 @@
         <div id="dashboard" class="dashboard-content">
           <section class="dashboard-hero">
             <div>
-              <p class="status-pill success">PHASE 1E LOCKED</p>
-              <h3>Secure publishing is the active foundation module.</h3>
+              <p class="status-pill success">PHASE 1 COMPLETE</p>
+              <h3>Homepage Hero CMS is the active module.</h3>
               <p>
-                Draft storage and revision history stay locked. Phase 1F adds one controlled
-                server-side action that promotes an approved draft to the public published state.
+                The admin foundation is locked. Phase 2A connects the existing Hero section to
+                draft, preview and secure publish controls without changing any other homepage section.
               </p>
             </div>
 
             <div class="phase-card">
               <span>CURRENT MODULE</span>
-              <strong>Phase 1F</strong>
-              <p>Secure Publish</p>
+              <strong>Phase 2A</strong>
+              <p>Homepage Hero CMS</p>
 
               <div class="foundation-stack" aria-live="polite">
                 <div class="foundation-check">
@@ -375,12 +375,23 @@
                 <b>LOCKED</b>
               </article>
 
-              <article class="module-row active">
+              <article class="module-row done">
                 <div>
                   <span>1F</span>
                   <div>
                     <strong>Secure Publish Action</strong>
                     <p>Server-side draft-to-published promotion for allowlisted admins only.</p>
+                  </div>
+                </div>
+                <b>LOCKED</b>
+              </article>
+
+              <article class="module-row active">
+                <div>
+                  <span>2A</span>
+                  <div>
+                    <strong>Homepage Hero CMS</strong>
+                    <p>Draft, preview and publish controls for the existing Hero section only.</p>
                   </div>
                 </div>
                 <b>ACTIVE</b>
@@ -390,12 +401,193 @@
 
           <p id="adminMessage" class="form-message" role="status" aria-live="polite"></p>
         </div>
+
+        <div id="homepageEditor" class="editor-content" hidden>
+          <section class="editor-heading-card">
+            <div>
+              <p class="status-pill success">PHASE 2A</p>
+              <h3>Homepage Hero</h3>
+              <p>Edit only the existing Hero content. Save creates a draft; Preview is private; Publish updates the public Hero.</p>
+            </div>
+            <div class="editor-state">
+              <span>CONTENT KEY</span>
+              <strong>homepage.hero</strong>
+              <b id="heroEditorState">Loading…</b>
+            </div>
+          </section>
+
+          <form id="heroEditorForm" class="cms-editor-form" novalidate>
+            <section class="editor-card">
+              <div class="editor-section-title">
+                <div>
+                  <p class="eyebrow">CONTENT</p>
+                  <h3>Hero copy</h3>
+                </div>
+                <span>Text only</span>
+              </div>
+
+              <div class="editor-grid two">
+                <label>
+                  <span>Availability text</span>
+                  <input id="heroStatusTextInput" name="statusText" type="text" maxlength="90" required>
+                </label>
+                <label>
+                  <span>Eyebrow</span>
+                  <input id="heroEyebrowInput" name="eyebrow" type="text" maxlength="100" required>
+                </label>
+                <label>
+                  <span>Name — first line</span>
+                  <input id="heroNameLine1Input" name="nameLine1" type="text" maxlength="60" required>
+                </label>
+                <label>
+                  <span>Name — accent line</span>
+                  <input id="heroNameLine2Input" name="nameLine2" type="text" maxlength="60" required>
+                </label>
+              </div>
+
+              <div class="editor-grid two">
+                <label>
+                  <span>Role prefix</span>
+                  <input id="heroRolePrefixInput" name="rolePrefix" type="text" maxlength="60" required>
+                </label>
+                <label>
+                  <span>Role suffix</span>
+                  <input id="heroRoleSuffixInput" name="roleSuffix" type="text" maxlength="120" required>
+                </label>
+                <label>
+                  <span>Highlight 1</span>
+                  <input id="heroHighlight1Input" name="highlight1" type="text" maxlength="100" required>
+                </label>
+                <label>
+                  <span>Highlight 2</span>
+                  <input id="heroHighlight2Input" name="highlight2" type="text" maxlength="100" required>
+                </label>
+                <label class="editor-grid-span">
+                  <span>Highlight 3</span>
+                  <input id="heroHighlight3Input" name="highlight3" type="text" maxlength="100" required>
+                </label>
+              </div>
+            </section>
+
+            <section class="editor-card">
+              <div class="editor-section-title">
+                <div>
+                  <p class="eyebrow">ACTIONS</p>
+                  <h3>Buttons & proof points</h3>
+                </div>
+                <span>Links + labels</span>
+              </div>
+
+              <div class="editor-grid two">
+                <label>
+                  <span>Primary button label</span>
+                  <input id="heroPrimaryLabelInput" name="primaryLabel" type="text" maxlength="50" required>
+                </label>
+                <label>
+                  <span>Primary button link</span>
+                  <input id="heroPrimaryHrefInput" name="primaryHref" type="text" maxlength="240" required>
+                </label>
+                <label>
+                  <span>Secondary button label</span>
+                  <input id="heroSecondaryLabelInput" name="secondaryLabel" type="text" maxlength="50" required>
+                </label>
+                <label>
+                  <span>Secondary button link</span>
+                  <input id="heroSecondaryHrefInput" name="secondaryHref" type="text" maxlength="240" required>
+                </label>
+                <label>
+                  <span>Proof point 1</span>
+                  <input id="heroMeta1Input" name="meta1" type="text" maxlength="70" required>
+                </label>
+                <label>
+                  <span>Proof point 2</span>
+                  <input id="heroMeta2Input" name="meta2" type="text" maxlength="70" required>
+                </label>
+                <label class="editor-grid-span">
+                  <span>Proof point 3</span>
+                  <input id="heroMeta3Input" name="meta3" type="text" maxlength="70" required>
+                </label>
+              </div>
+            </section>
+
+            <section class="editor-card">
+              <div class="editor-section-title">
+                <div>
+                  <p class="eyebrow">VISUAL</p>
+                  <h3>Current Hero image</h3>
+                </div>
+                <span>Upload system comes later</span>
+              </div>
+
+              <div class="editor-grid two">
+                <label>
+                  <span>Image path / URL</span>
+                  <input id="heroImageSrcInput" name="imageSrc" type="text" maxlength="500" required>
+                  <small>For now use an existing asset path or HTTPS image URL. Media upload is a later module.</small>
+                </label>
+                <label>
+                  <span>Image alt text</span>
+                  <input id="heroImageAltInput" name="imageAlt" type="text" maxlength="160" required>
+                </label>
+              </div>
+            </section>
+
+            <section class="editor-actions-bar">
+              <div>
+                <strong>Draft → Preview → Publish</strong>
+                <p id="heroEditorMessage" class="form-message" role="status" aria-live="polite"></p>
+              </div>
+              <div class="editor-action-buttons">
+                <button id="heroPreviewButton" class="secondary-button" type="button">Preview draft</button>
+                <button id="heroSaveButton" type="submit">Save draft</button>
+                <button id="heroPublishButton" class="publish-button" type="button">Publish Hero</button>
+              </div>
+            </section>
+          </form>
+
+          <section id="heroDraftPreview" class="hero-draft-preview" hidden aria-label="Hero draft preview">
+            <div class="preview-heading">
+              <div>
+                <p class="eyebrow">PRIVATE PREVIEW</p>
+                <h3>Hero draft</h3>
+              </div>
+              <button id="closeHeroPreviewButton" class="text-button" type="button">Close preview</button>
+            </div>
+
+            <div class="hero-preview-panel">
+              <div class="hero-preview-copy">
+                <div class="hero-preview-status"><i></i><span id="previewHeroStatus"></span></div>
+                <p id="previewHeroEyebrow" class="hero-preview-eyebrow"></p>
+                <h4><span id="previewHeroName1"></span><br><b id="previewHeroName2"></b></h4>
+                <p class="hero-preview-role">
+                  <span id="previewHeroRolePrefix"></span>
+                  <em id="previewHeroHighlight1"></em>,
+                  <em id="previewHeroHighlight2"></em>, and
+                  <em id="previewHeroHighlight3"></em>
+                  <span id="previewHeroRoleSuffix"></span>
+                </p>
+                <div class="hero-preview-actions">
+                  <span id="previewHeroPrimary"></span>
+                  <span id="previewHeroSecondary"></span>
+                </div>
+                <div class="hero-preview-meta">
+                  <span id="previewHeroMeta1"></span>
+                  <span id="previewHeroMeta2"></span>
+                  <span id="previewHeroMeta3"></span>
+                </div>
+              </div>
+              <div class="hero-preview-visual">
+                <img id="previewHeroImage" alt="">
+              </div>
+            </div>
+          </section>
+        </div>
       </div>
     </section>
 
     <footer id="publicAdminFooter" class="admin-footer">
       <span>MEHEDI PORTFOLIO</span>
-      <span>Secure Admin · Phase 1F</span>
+      <span>Secure Admin · Phase 2A</span>
     </footer>
   </main>
 
