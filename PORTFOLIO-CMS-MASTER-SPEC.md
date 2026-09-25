@@ -1190,18 +1190,34 @@ Delivered:
 Lock rule:
 Do not redesign or change the 3C-2 draft create/edit workflow unless a verified bug/security issue requires it.
 
-**Phase 3C-3 — Media Library Cover Attachment — ACTIVE**
+**Phase 3C-3 — Media Library Cover Attachment — LOCKED / DONE**
+
+Owner approval: 2026-09-26
+
+Delivered:
+- Reused locked Phase 3B `portfolio_media`
+- Loaded optimized media into the project draft form
+- Media selection copies optimized `display_url` and alt text into the project
+- Cover preview added
+- Cover alt text remains editable
+- Source originals are not served or uploaded by this workflow
+- Existing Phase 2 project cards remain untouched
+- No production `main` deployment
+
+Lock rule:
+Do not redesign or change the 3C-3 media attachment contract unless a verified bug/security issue requires it.
+
+**Phase 3C-4 — Publish / Unpublish Workflow — ACTIVE**
 
 Scope:
-- Reuse locked Phase 3B `portfolio_media`
-- Load optimized media into project draft form
-- Selecting media copies optimized `display_url` and media alt text into the project draft
-- Show cover preview
-- Allow cover alt text adjustment
-- No source-original serving/upload
-- Publish/Unpublish remains deferred
-- Project delete remains deferred
-- Existing Phase 2 project cards remain untouched
+- Saved draft can be published
+- Unsaved project changes block Publish
+- Published project can be unpublished back to Draft
+- Editing a published project and saving returns it to Draft
+- Private project may be published but remains anonymous-inaccessible through locked Phase 3A RLS
+- No project delete yet
+- No homepage migration or public rendering change
+- Keep production `main` untouched
 
 ### Previous 3C-2 scope reference
 
@@ -1256,8 +1272,8 @@ Acceptance checklist:
 - [x] Project slug validation works
 - [x] Safe action-link validation works
 - [x] Category can be assigned to a project
-- [ ] Phase 3B Media Library image can be attached as cover
-- [ ] Cover URL and alt text populate from selected media
+- [x] Phase 3B Media Library image can be attached as cover
+- [x] Cover URL and alt text populate from selected media
 - [x] Draft project can be edited
 - [ ] Unsaved project changes block Publish
 - [ ] Saved project can be published
