@@ -738,46 +738,65 @@ Acceptance checklist:
 Lock rule:
 Freeze the Phase 2G four-capability/eight-tool content contract. Only verified bugs/security issues may modify it before later structural CMS work.
 
-## Active module
+## Completed module
 
-**Phase 2H — Homepage Experience / Community CMS**
+**Phase 2H — Homepage Experience / Community CMS — LOCKED / DONE**
 
-Purpose:
-Connect the approved Experience & Community section to the locked CMS foundation without redesigning it or changing the existing four-card structure.
+Owner approval: 2026-09-25
 
-Scope:
-- Keep Phase 2A–2G locked
-- Add a dedicated Experience / Community admin view under Homepage CMS
-- Use content key `homepage.experience-community`
-- Allow authenticated Save Draft to safely create the row if it does not exist
-- Edit section eyebrow plus the EXPERIENCE & / COMMUNITY heading
-- Keep four fixed cards and current order: Square Fashion, Freelance Graphic Design, SSFC, Community & Volunteer Work
-- Keep card numbers/keys fixed
-- Edit each card type, period, title, role/subtitle, description and four tags
-- Save only to `draft_data`
-- Provide a private draft preview
-- Require Save Draft before Publish
-- Publish through the locked Phase 1F secure publish action
+Purpose delivered:
+Connected the approved Experience & Community section to the locked CMS foundation while preserving the existing four-card structure, numbering and order.
+
+Scope delivered:
+- Added a dedicated Experience / Community admin editor under Homepage CMS
+- `homepage.experience-community` is safely created on first authenticated Save Draft if missing
+- Section eyebrow and EXPERIENCE & / COMMUNITY heading are editable
+- Four fixed cards remain in the approved order: Square Fashion, Freelance Graphic Design, SSFC, Community & Volunteer Work
+- Card numbers and keys remain fixed
+- Each card can edit type, period, title, role/subtitle, description and four tags
+- Save Draft writes only to `draft_data`
+- Private draft preview is available
+- Publish uses the locked Phase 1F secure publish action
 - Public/local homepage reads only `published_data`
-- Keep current static Experience & Community markup as fail-safe fallback
-- Do not touch Contact, Footer or section ordering
-- Keep `main` untouched until explicit live approval
+- Existing static Experience & Community markup remains as fail-safe fallback
+- Production `main` branch remains untouched
+
+Verified during this checkpoint:
+- Experience / Community editor loaded successfully
+- First authenticated Save Draft completed and created the content row when needed
+- Private Preview was checked
+- Publish Experience completed successfully
+- Localhost Experience & Community section was checked after publishing
+- Four card numbering/order and approved layout remained unchanged
+- Production remained unchanged because no live deployment was performed
+
+Not separately evidenced before owner lock:
+- Explicit unsaved-change publish-block result
+- Forced CMS-failure fallback test
+- Dedicated desktop visual comparison
+- Mobile visual verification
 
 Acceptance checklist:
-- [ ] Phase 2H content row exists via first authenticated Save Draft
-- [ ] Experience / Community navigation opens only the Phase 2H editor
-- [ ] Current heading and four cards load into Admin
-- [ ] Card type, period, title, role, description and four tags are editable
-- [ ] Save Draft changes draft data without changing published content
-- [ ] Private Preview reflects current card values
-- [ ] Publish is blocked while there are unsaved changes
-- [ ] Publish promotes the saved draft through the secure Phase 1F action
-- [ ] Localhost Experience & Community section loads published CMS content
-- [ ] Card numbering/order remains unchanged
-- [ ] Static fallback remains available if the CMS request fails
-- [ ] Desktop layout remains visually consistent
-- [ ] Mobile layout remains visually consistent
-- [ ] No other homepage section is changed
+- [x] Phase 2H content row exists via first authenticated Save Draft
+- [x] Experience / Community navigation opens the Phase 2H editor
+- [x] Current heading and four cards load into Admin
+- [x] Card type, period, title, role, description and four tags are editable
+- [x] Save Draft writes successfully without publishing
+- [x] Private Preview reflects current card values
+- [ ] Unsaved-change publish block was not separately evidenced
+- [x] Publish promotes the saved draft through the secure Phase 1F action
+- [x] Localhost Experience & Community section loads published CMS content
+- [x] Card numbering/order remains unchanged
+- [ ] Static fallback was implemented but not force-tested
+- [ ] Dedicated desktop visual comparison was not separately evidenced
+- [ ] Mobile visual verification was not separately evidenced
+- [x] No other homepage CMS section was implemented in Phase 2H
 
 Lock rule:
-After owner approval, freeze the Phase 2H four-card content contract. Dynamic experience count/order remains outside this module.
+Freeze the Phase 2H four-card content contract. Only verified bugs/security issues may modify it before later structural CMS work.
+
+## Next module
+
+**Phase 2I — Homepage Contact CMS**
+
+Plan the exact scope before coding. Keep Phase 2A–2H locked and touch only the Contact homepage section when Phase 2I starts.
