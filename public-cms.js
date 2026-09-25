@@ -6,6 +6,7 @@ const DESIGN_SHOWCASE_CONTENT_KEY = "homepage.design-showcase";
 const CREATIVE_SERVICES_CONTENT_KEY = "homepage.creative-services";
 const DIGITAL_PROJECTS_CONTENT_KEY = "homepage.ai-digital-projects";
 const ABOUT_ME_CONTENT_KEY = "homepage.about";
+const SKILLS_TOOLS_CONTENT_KEY = "homepage.skills-tools";
 
 const byId = (id) => document.getElementById(id);
 
@@ -568,3 +569,95 @@ const loadPublishedAboutMe = async () => {
 };
 
 loadPublishedAboutMe();
+
+
+const applySkillsTools = (data) => {
+  if (!data || typeof data !== "object") return;
+
+  applyText("skillsToolsEyebrow", data.eyebrow);
+  applyText("skillsToolsTitleAccent", data.titleAccent);
+  applyText("skillsToolsTitleRest", data.titleRest);
+  applyText("skillsKicker", data.skillsKicker);
+  applyText("skillsTitle", data.skillsTitle);
+  applyText("toolsKicker", data.toolsKicker);
+  applyText("toolsTitle", data.toolsTitle);
+
+  if (Array.isArray(data.capabilities)) {
+    data.capabilities.forEach((capability) => {
+      if (!capability?.key) return;
+      const card = document.querySelector(`[data-cms-skill="${CSS.escape(capability.key)}"]`);
+      if (!card) return;
+
+      const title = card.querySelector('[data-cms-field="title"]');
+      const description = card.querySelector('[data-cms-field="description"]');
+      const tags = card.querySelector('[data-cms-field="tags"]');
+
+      if (title && typeof capability.title === "string" && capability.title.trim()) {
+        title.textContent = capability.title.trim();
+      }
+      if (description && typeof capability.description === "string" && capability.description.trim()) {
+        description.textContent = capability.description.trim();
+      }
+      if (tags && Array.isArray(capability.tags)) {
+        tags.innerHTML = "";
+        capability.tags
+          .filter((tag) => typeof tag === "string" && tag.trim())
+          .slice(0, 2)
+          .forEach((tag) => {
+            const span = document.createElement("span");
+            span.textContent = tag.trim();
+            tags.appendChild(span);
+          });
+      }
+    });
+  }
+
+  if (Array.isArray(data.tools)) {
+    data.tools.forEach((tool) => {
+      if (!tool?.key) return;
+      const card = document.querySelector(`[data-cms-tool="${CSS.escape(tool.key)}"]`);
+      if (!card) return;
+
+      const image = card.querySelector('[data-cms-field="image"]');
+      const name = card.querySelector('[data-cms-field="name"]');
+
+      if (image && isSafeImageSource(tool.imageSrc)) {
+        image.src = tool.imageSrc.trim();
+      }
+      if (name && typeof tool.name === "string" && tool.name.trim()) {
+        name.textContent = tool.name.trim();
+      }
+    });
+  }
+
+  document.documentElement.dataset.skillsToolsCms = "loaded";
+};
+
+const loadPublishedSkillsTools = async () => {
+  try {
+    const endpoint = new URL("/rest/v1/cms_content_entries", ADMIN_CONFIG.supabaseUrl);
+    endpoint.searchParams.set("select", "published_data");
+    endpoint.searchParams.set("content_key", `eq.${SKILLS_TOOLS_CONTENT_KEY}`);
+    endpoint.searchParams.set("limit", "1");
+
+    const response = await fetch(endpoint, {
+      headers: {
+        apikey: ADMIN_CONFIG.supabaseAnonKey,
+        Accept: "application/json"
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`Skills & Tools CMS request failed with status ${response.status}`);
+    }
+
+    const rows = await response.json();
+    const published = rows?.[0]?.published_data;
+
+    if (published) applySkillsTools(published);
+  } catch (error) {
+    console.warn("Skills & Tools CMS unavailable; using static fallback.", error);
+  }
+};
+
+loadPublishedSkillsTools();
