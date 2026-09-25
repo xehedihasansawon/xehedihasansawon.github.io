@@ -738,8 +738,46 @@ Acceptance checklist:
 Lock rule:
 Freeze the Phase 2G four-capability/eight-tool content contract. Only verified bugs/security issues may modify it before later structural CMS work.
 
-## Next module
+## Active module
 
 **Phase 2H — Homepage Experience / Community CMS**
 
-Plan the exact scope before coding. Keep Phase 2A–2G locked and touch only the Experience / Community homepage section when Phase 2H starts.
+Purpose:
+Connect the approved Experience & Community section to the locked CMS foundation without redesigning it or changing the existing four-card structure.
+
+Scope:
+- Keep Phase 2A–2G locked
+- Add a dedicated Experience / Community admin view under Homepage CMS
+- Use content key `homepage.experience-community`
+- Allow authenticated Save Draft to safely create the row if it does not exist
+- Edit section eyebrow plus the EXPERIENCE & / COMMUNITY heading
+- Keep four fixed cards and current order: Square Fashion, Freelance Graphic Design, SSFC, Community & Volunteer Work
+- Keep card numbers/keys fixed
+- Edit each card type, period, title, role/subtitle, description and four tags
+- Save only to `draft_data`
+- Provide a private draft preview
+- Require Save Draft before Publish
+- Publish through the locked Phase 1F secure publish action
+- Public/local homepage reads only `published_data`
+- Keep current static Experience & Community markup as fail-safe fallback
+- Do not touch Contact, Footer or section ordering
+- Keep `main` untouched until explicit live approval
+
+Acceptance checklist:
+- [ ] Phase 2H content row exists via first authenticated Save Draft
+- [ ] Experience / Community navigation opens only the Phase 2H editor
+- [ ] Current heading and four cards load into Admin
+- [ ] Card type, period, title, role, description and four tags are editable
+- [ ] Save Draft changes draft data without changing published content
+- [ ] Private Preview reflects current card values
+- [ ] Publish is blocked while there are unsaved changes
+- [ ] Publish promotes the saved draft through the secure Phase 1F action
+- [ ] Localhost Experience & Community section loads published CMS content
+- [ ] Card numbering/order remains unchanged
+- [ ] Static fallback remains available if the CMS request fails
+- [ ] Desktop layout remains visually consistent
+- [ ] Mobile layout remains visually consistent
+- [ ] No other homepage section is changed
+
+Lock rule:
+After owner approval, freeze the Phase 2H four-card content contract. Dynamic experience count/order remains outside this module.
