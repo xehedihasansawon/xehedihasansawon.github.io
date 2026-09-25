@@ -36,6 +36,7 @@ const aboutMeNavButton = document.querySelector("#aboutMeNavButton");
 const skillsToolsNavButton = document.querySelector("#skillsToolsNavButton");
 const experienceCommunityNavButton = document.querySelector("#experienceCommunityNavButton");
 const contactCmsNavButton = document.querySelector("#contactCmsNavButton");
+const footerCmsNavButton = document.querySelector("#footerCmsNavButton");
 const dashboard = document.querySelector("#dashboard");
 const homepageEditor = document.querySelector("#homepageEditor");
 const realProjectsEditor = document.querySelector("#realProjectsEditor");
@@ -46,6 +47,7 @@ const aboutMeEditor = document.querySelector("#aboutMeEditor");
 const skillsToolsEditor = document.querySelector("#skillsToolsEditor");
 const experienceCommunityEditor = document.querySelector("#experienceCommunityEditor");
 const contactCmsEditor = document.querySelector("#contactCmsEditor");
+const footerCmsEditor = document.querySelector("#footerCmsEditor");
 const cmsPageEyebrow = document.querySelector("#cmsPageEyebrow");
 const cmsPageTitle = document.querySelector("#cmsPageTitle");
 
@@ -147,6 +149,18 @@ const contactCmsSaveButton = document.querySelector("#contactCmsSaveButton");
 const contactCmsPublishButton = document.querySelector("#contactCmsPublishButton");
 const contactCmsDraftPreview = document.querySelector("#contactCmsDraftPreview");
 const closeContactCmsPreviewButton = document.querySelector("#closeContactCmsPreviewButton");
+
+const footerCmsEditorForm = document.querySelector("#footerCmsEditorForm");
+const footerNavEditorList = document.querySelector("#footerNavEditorList");
+const footerProfileEditorList = document.querySelector("#footerProfileEditorList");
+const footerBottomEditorList = document.querySelector("#footerBottomEditorList");
+const footerCmsEditorState = document.querySelector("#footerCmsEditorState");
+const footerCmsEditorMessage = document.querySelector("#footerCmsEditorMessage");
+const footerCmsPreviewButton = document.querySelector("#footerCmsPreviewButton");
+const footerCmsSaveButton = document.querySelector("#footerCmsSaveButton");
+const footerCmsPublishButton = document.querySelector("#footerCmsPublishButton");
+const footerCmsDraftPreview = document.querySelector("#footerCmsDraftPreview");
+const closeFooterCmsPreviewButton = document.querySelector("#closeFooterCmsPreviewButton");
 
 const contentStoreDot = document.querySelector("#contentStoreDot");
 const contentStoreStatus = document.querySelector("#contentStoreStatus");
@@ -627,6 +641,7 @@ if (!hasValidConfig) {
     const isSkillsTools = view === "skills-tools";
     const isExperienceCommunity = view === "experience-community";
     const isContact = view === "contact";
+    const isFooter = view === "footer";
 
     dashboard.hidden = !isDashboard;
     homepageEditor.hidden = !isHero;
@@ -638,6 +653,7 @@ if (!hasValidConfig) {
     skillsToolsEditor.hidden = !isSkillsTools;
     experienceCommunityEditor.hidden = !isExperienceCommunity;
     contactCmsEditor.hidden = !isContact;
+    footerCmsEditor.hidden = !isFooter;
 
     dashboardNavLink?.classList.toggle("active", isDashboard);
     homepageNavButton?.classList.toggle("active", isHero);
@@ -649,8 +665,9 @@ if (!hasValidConfig) {
     skillsToolsNavButton?.classList.toggle("active", isSkillsTools);
     experienceCommunityNavButton?.classList.toggle("active", isExperienceCommunity);
     contactCmsNavButton?.classList.toggle("active", isContact);
+    footerCmsNavButton?.classList.toggle("active", isFooter);
 
-    [dashboardNavLink, homepageNavButton, realProjectsNavButton, designShowcaseNavButton, creativeServicesNavButton, digitalProjectsNavButton, aboutMeNavButton, skillsToolsNavButton, experienceCommunityNavButton, contactCmsNavButton].forEach((item) => {
+    [dashboardNavLink, homepageNavButton, realProjectsNavButton, designShowcaseNavButton, creativeServicesNavButton, digitalProjectsNavButton, aboutMeNavButton, skillsToolsNavButton, experienceCommunityNavButton, contactCmsNavButton, footerCmsNavButton].forEach((item) => {
       item?.removeAttribute("aria-current");
     });
 
@@ -690,6 +707,10 @@ if (!hasValidConfig) {
       contactCmsNavButton?.setAttribute("aria-current", "page");
       cmsPageEyebrow.textContent = "HOMEPAGE CMS";
       cmsPageTitle.textContent = "Contact";
+    } else if (isFooter) {
+      footerCmsNavButton?.setAttribute("aria-current", "page");
+      cmsPageEyebrow.textContent = "HOMEPAGE CMS";
+      cmsPageTitle.textContent = "Footer";
     } else {
       dashboardNavLink?.setAttribute("aria-current", "page");
       cmsPageEyebrow.textContent = "HOMEPAGE CMS";
@@ -4485,6 +4506,378 @@ if (!hasValidConfig) {
       setContactCmsMessage(error?.message || "Could not publish Contact.");
     } finally {
       setContactCmsBusy(false);
+    }
+  });
+
+  const FOOTER_CONTENT_KEY = "homepage.footer";
+
+  const footerDefaults = Object.freeze({
+    brandName: "MD MEHEDI HASAN SAWON",
+    brandRole: "Graphic Designer · Brand & Digital Projects",
+    navLinks: [
+      { key: "home", label: "Home", href: "#home" },
+      { key: "work", label: "Work", href: "#work" },
+      { key: "services", label: "Services", href: "#services" },
+      { key: "digital", label: "Digital", href: "#digital" },
+      { key: "about", label: "About", href: "#about" },
+      { key: "contact", label: "Contact", href: "#contact" }
+    ],
+    profileLinks: [
+      { key: "linkedin", label: "LinkedIn", href: "https://www.linkedin.com/in/mdmehedihasansawon/" },
+      { key: "github", label: "GitHub", href: "https://github.com/xehedihasansawon" },
+      { key: "behance", label: "Behance", href: "https://www.behance.net/mehedihasan194" }
+    ],
+    copyrightText: "© 2026 Mehedi Hasan Sawon",
+    rightsText: "All Rights Reserved.",
+    bottomLinks: [
+      { key: "facebook", label: "Facebook", href: "https://www.facebook.com/mdmehedihasansawoon/" },
+      { key: "instagram", label: "Instagram", href: "https://www.instagram.com/honu______20" },
+      { key: "whatsapp", label: "WhatsApp", href: "https://wa.me/60174723951" }
+    ],
+    backToTopLabel: "Back to top ↑",
+    backToTopHref: "#home"
+  });
+
+  let footerCmsDirty = false;
+  let footerCmsLastLoadedDraft = null;
+
+  const cloneFooterDefaults = () => structuredClone(footerDefaults);
+
+  const setFooterCmsMessage = (message = "") => {
+    if (footerCmsEditorMessage) footerCmsEditorMessage.textContent = message;
+  };
+
+  const setFooterCmsState = (label) => {
+    if (footerCmsEditorState) footerCmsEditorState.textContent = label;
+  };
+
+  const setFooterCmsBusy = (busy) => {
+    [footerCmsPreviewButton, footerCmsSaveButton, footerCmsPublishButton].forEach((button) => {
+      if (button) button.disabled = busy;
+    });
+  };
+
+  const footerLinkEditorCard = (group, item, index) => `
+    <article class="project-editor-card footer-link-editor-card" data-footer-group="${group}" data-footer-key="${item.key}">
+      <header>
+        <div>
+          <small>${group.toUpperCase()} ${String(index + 1).padStart(2, "0")}</small>
+          <h4>${item.label}</h4>
+        </div>
+        <b>ORDER FIXED</b>
+      </header>
+      <div class="editor-grid two">
+        <label>
+          <span>Label</span>
+          <input data-footer-field="label" type="text" maxlength="80" required>
+        </label>
+        <label>
+          <span>Link</span>
+          <input data-footer-field="href" type="text" maxlength="500" required>
+        </label>
+      </div>
+    </article>
+  `;
+
+  const renderFooterEditorLists = () => {
+    footerNavEditorList.innerHTML = footerDefaults.navLinks
+      .map((item, index) => footerLinkEditorCard("nav", item, index))
+      .join("");
+    footerProfileEditorList.innerHTML = footerDefaults.profileLinks
+      .map((item, index) => footerLinkEditorCard("profile", item, index))
+      .join("");
+    footerBottomEditorList.innerHTML = footerDefaults.bottomLinks
+      .map((item, index) => footerLinkEditorCard("bottom", item, index))
+      .join("");
+  };
+
+  const footerLinkCard = (group, key) =>
+    document.querySelector(`[data-footer-group="${group}"][data-footer-key="${key}"]`);
+
+  const fillFooterLink = (group, item) => {
+    const card = footerLinkCard(group, item.key);
+    if (!card) return;
+    const label = card.querySelector('[data-footer-field="label"]');
+    const href = card.querySelector('[data-footer-field="href"]');
+    if (label) label.value = item.label || "";
+    if (href) href.value = item.href || "";
+  };
+
+  const mergeFooterLinks = (defaults, incoming) =>
+    defaults.map((item) => {
+      const match = Array.isArray(incoming)
+        ? incoming.find((candidate) => candidate?.key === item.key)
+        : null;
+      return { ...item, ...(match || {}), key: item.key };
+    });
+
+  const populateFooterCmsForm = (data = {}) => {
+    const defaults = cloneFooterDefaults();
+    const merged = {
+      ...defaults,
+      ...data,
+      navLinks: mergeFooterLinks(defaults.navLinks, data.navLinks),
+      profileLinks: mergeFooterLinks(defaults.profileLinks, data.profileLinks),
+      bottomLinks: mergeFooterLinks(defaults.bottomLinks, data.bottomLinks)
+    };
+
+    ["brandName","brandRole","copyrightText","rightsText","backToTopLabel","backToTopHref"].forEach((field) => {
+      const input = footerCmsEditorForm?.elements.namedItem(field);
+      if (input) input.value = merged[field] || "";
+    });
+
+    merged.navLinks.forEach((item) => fillFooterLink("nav", item));
+    merged.profileLinks.forEach((item) => fillFooterLink("profile", item));
+    merged.bottomLinks.forEach((item) => fillFooterLink("bottom", item));
+
+    footerCmsLastLoadedDraft = structuredClone(merged);
+    footerCmsDirty = false;
+    setFooterCmsState("Draft loaded");
+  };
+
+  const readFooterLinkGroup = (group, defaults) =>
+    defaults.map((item) => {
+      const card = footerLinkCard(group, item.key);
+      return {
+        key: item.key,
+        label: String(card?.querySelector('[data-footer-field="label"]')?.value || "").trim(),
+        href: String(card?.querySelector('[data-footer-field="href"]')?.value || "").trim()
+      };
+    });
+
+  const readFooterCmsForm = () => {
+    if (!footerCmsEditorForm) return null;
+
+    const missingRequired = [...footerCmsEditorForm.querySelectorAll("[required]")].find(
+      (field) => !String(field.value || "").trim()
+    );
+
+    if (missingRequired) {
+      const fieldLabel =
+        missingRequired.closest("label")?.querySelector("span")?.textContent?.trim() ||
+        "required field";
+      setFooterCmsMessage(`Complete "${fieldLabel}" before saving.`);
+      missingRequired.focus();
+      missingRequired.scrollIntoView({ behavior: "smooth", block: "center" });
+      return null;
+    }
+
+    const navLinks = readFooterLinkGroup("nav", footerDefaults.navLinks);
+    const profileLinks = readFooterLinkGroup("profile", footerDefaults.profileLinks);
+    const bottomLinks = readFooterLinkGroup("bottom", footerDefaults.bottomLinks);
+    const backToTopHref = String(
+      footerCmsEditorForm.elements.namedItem("backToTopHref")?.value || ""
+    ).trim();
+
+    const allLinks = [
+      ...navLinks.map((item) => [item.label, item.href]),
+      ...profileLinks.map((item) => [item.label, item.href]),
+      ...bottomLinks.map((item) => [item.label, item.href]),
+      ["Back to top", backToTopHref]
+    ];
+
+    const invalidLink = allLinks.find(([, href]) => !isSafeCmsHref(href));
+    if (invalidLink) {
+      setFooterCmsMessage(`Use a safe internal or http/https/tel/mailto link for ${invalidLink[0]}.`);
+      return null;
+    }
+
+    const get = (field) =>
+      String(footerCmsEditorForm.elements.namedItem(field)?.value || "").trim();
+
+    return {
+      brandName: get("brandName"),
+      brandRole: get("brandRole"),
+      navLinks,
+      profileLinks,
+      copyrightText: get("copyrightText"),
+      rightsText: get("rightsText"),
+      bottomLinks,
+      backToTopLabel: get("backToTopLabel"),
+      backToTopHref
+    };
+  };
+
+  const renderFooterPreviewLinks = (containerId, links) => {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    container.innerHTML = "";
+    links.forEach((item) => {
+      const span = document.createElement("span");
+      span.textContent = item.label;
+      container.appendChild(span);
+    });
+  };
+
+  const renderFooterCmsPreview = (data) => {
+    document.getElementById("previewFooterBrandName").textContent = data.brandName;
+    document.getElementById("previewFooterBrandRole").textContent = data.brandRole;
+    document.getElementById("previewFooterCopyright").textContent = data.copyrightText;
+    document.getElementById("previewFooterRights").textContent = data.rightsText;
+
+    renderFooterPreviewLinks("previewFooterNav", data.navLinks);
+    renderFooterPreviewLinks("previewFooterProfiles", data.profileLinks);
+    renderFooterPreviewLinks("previewFooterBottomLinks", [
+      ...data.bottomLinks,
+      { label: data.backToTopLabel }
+    ]);
+
+    footerCmsDraftPreview.hidden = false;
+    footerCmsDraftPreview.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  const loadFooterCmsEditor = async () => {
+    setFooterCmsMessage("Loading Footer draft…");
+    setFooterCmsState("Loading…");
+
+    const { data, error } = await supabaseClient
+      .from("cms_content_entries")
+      .select("content_key,draft_data,published_data,draft_updated_at,published_at")
+      .eq("content_key", FOOTER_CONTENT_KEY)
+      .maybeSingle();
+
+    if (error) {
+      console.error("Footer CMS load failed:", error);
+      populateFooterCmsForm(footerDefaults);
+      setFooterCmsState("Load failed");
+      setFooterCmsMessage("Could not load the Footer content store.");
+      return false;
+    }
+
+    if (!data) {
+      populateFooterCmsForm(footerDefaults);
+      setFooterCmsState("Setup required");
+      setFooterCmsMessage("Save Draft to create the Phase 2J content row.");
+      return false;
+    }
+
+    populateFooterCmsForm(data.draft_data || footerDefaults);
+
+    const synced =
+      JSON.stringify(data.draft_data || {}) === JSON.stringify(data.published_data || {});
+
+    setFooterCmsState(synced ? "Published · synced" : "Draft differs from live");
+    setFooterCmsMessage(
+      data.published_at
+        ? "Footer draft loaded. Preview or edit before publishing."
+        : "Footer draft loaded. This content has not been published yet."
+    );
+    return true;
+  };
+
+  renderFooterEditorLists();
+  populateFooterCmsForm(footerDefaults);
+
+  footerCmsNavButton?.addEventListener("click", async () => {
+    showCmsView("footer");
+    await loadFooterCmsEditor();
+  });
+
+  footerCmsEditorForm?.addEventListener("input", () => {
+    footerCmsDirty = true;
+    setFooterCmsState("Unsaved changes");
+  });
+
+  footerCmsPreviewButton?.addEventListener("click", () => {
+    setFooterCmsMessage("");
+    const draft = readFooterCmsForm();
+    if (!draft) return;
+    renderFooterCmsPreview(draft);
+  });
+
+  closeFooterCmsPreviewButton?.addEventListener("click", () => {
+    footerCmsDraftPreview.hidden = true;
+  });
+
+  const saveFooterCmsDraft = async () => {
+    setFooterCmsMessage("");
+    const draft = readFooterCmsForm();
+    if (!draft) return false;
+
+    setFooterCmsBusy(true);
+    setFooterCmsState("Saving…");
+
+    try {
+      const { data, error } = await supabaseClient
+        .from("cms_content_entries")
+        .upsert(
+          {
+            content_key: FOOTER_CONTENT_KEY,
+            draft_data: draft
+          },
+          {
+            onConflict: "content_key"
+          }
+        )
+        .select("content_key,draft_updated_at")
+        .maybeSingle();
+
+      if (error) throw error;
+      if (!data) {
+        setFooterCmsState("Save failed");
+        setFooterCmsMessage("Could not create or update the Footer draft.");
+        return false;
+      }
+
+      footerCmsLastLoadedDraft = structuredClone(draft);
+      footerCmsDirty = false;
+      setFooterCmsState("Draft saved");
+      setFooterCmsMessage("Draft saved. Published Footer content has not changed.");
+      return true;
+    } catch (error) {
+      console.error("Footer draft save failed:", error);
+      setFooterCmsState("Save failed");
+      setFooterCmsMessage(
+        error?.message
+          ? `Could not save draft: ${error.message}`
+          : "Could not save the Footer draft."
+      );
+      return false;
+    } finally {
+      setFooterCmsBusy(false);
+    }
+  };
+
+  footerCmsSaveButton?.addEventListener("click", saveFooterCmsDraft);
+
+  footerCmsEditorForm?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    await saveFooterCmsDraft();
+  });
+
+  footerCmsPublishButton?.addEventListener("click", async () => {
+    setFooterCmsMessage("");
+
+    if (footerCmsDirty) {
+      setFooterCmsState("Unsaved changes");
+      setFooterCmsMessage("Save the draft first, then publish.");
+      return;
+    }
+
+    if (!footerCmsLastLoadedDraft) {
+      setFooterCmsMessage("Load or save the Footer draft before publishing.");
+      return;
+    }
+
+    setFooterCmsBusy(true);
+    setFooterCmsState("Publishing…");
+
+    try {
+      const { data, error } = await supabaseClient.rpc("cms_publish_content", {
+        p_content_key: FOOTER_CONTENT_KEY
+      });
+
+      if (error) throw error;
+      if (!data?.length) throw new Error("Publish returned no Footer row.");
+
+      setFooterCmsState("Published · synced");
+      setFooterCmsMessage("Footer published to the CMS. Localhost reads this version now; production still waits for explicit live deployment.");
+    } catch (error) {
+      console.error("Footer publish failed:", error);
+      setFooterCmsState("Publish failed");
+      setFooterCmsMessage(error?.message || "Could not publish Footer.");
+    } finally {
+      setFooterCmsBusy(false);
     }
   });
 
