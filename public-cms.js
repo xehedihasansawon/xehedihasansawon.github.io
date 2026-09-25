@@ -1,6 +1,7 @@
 import { ADMIN_CONFIG } from "./admin/config.js";
 
 const HERO_CONTENT_KEY = "homepage.hero";
+const REAL_PROJECTS_CONTENT_KEY = "homepage.real-life-projects";
 
 const byId = (id) => document.getElementById(id);
 
@@ -105,3 +106,85 @@ const loadPublishedHero = async () => {
 };
 
 loadPublishedHero();
+
+
+const applyRealProjects = (data) => {
+  if (!data || typeof data !== "object") return;
+
+  applyText("realProjectsEyebrow", data.eyebrow);
+  applyText("realProjectsTitleMain", data.titleMain);
+  applyText("realProjectsTitleAccent", data.titleAccent);
+
+  if (!Array.isArray(data.projects)) return;
+
+  data.projects.forEach((project) => {
+    if (!project?.key) return;
+
+    const card = document.querySelector(`[data-cms-project="${CSS.escape(project.key)}"]`);
+    if (!card) return;
+
+    const setCardText = (field, value) => {
+      if (typeof value !== "string" || !value.trim()) return;
+      const element = card.querySelector(`[data-cms-field="${field}"]`);
+      if (element) element.textContent = value.trim();
+    };
+
+    setCardText("category", project.category);
+    setCardText("title", project.title);
+    setCardText("description", project.description);
+    setCardText("actionLabel", project.actionLabel);
+
+    const image = card.querySelector('[data-cms-field="image"]');
+    if (image && isSafeImageSource(project.imageSrc)) {
+      image.src = project.imageSrc.trim();
+    }
+    if (image && typeof project.imageAlt === "string" && project.imageAlt.trim()) {
+      image.alt = project.imageAlt.trim();
+    }
+
+    if (project.type === "link" && card.tagName === "A" && isSafeHref(project.href)) {
+      card.setAttribute("href", project.href.trim());
+    }
+
+    if (card.classList.contains("project-card")) {
+      if (typeof project.title === "string" && project.title.trim()) {
+        card.dataset.title = project.title.trim();
+      }
+      if (typeof project.category === "string" && project.category.trim()) {
+        card.dataset.meta = project.category.trim();
+      }
+    }
+  });
+
+  document.documentElement.dataset.realProjectsCms = "loaded";
+};
+
+const loadPublishedRealProjects = async () => {
+  try {
+    const endpoint = new URL("/rest/v1/cms_content_entries", ADMIN_CONFIG.supabaseUrl);
+    endpoint.searchParams.set("select", "published_data");
+    endpoint.searchParams.set("content_key", `eq.${REAL_PROJECTS_CONTENT_KEY}`);
+    endpoint.searchParams.set("limit", "1");
+
+    const response = await fetch(endpoint, {
+      headers: {
+        apikey: ADMIN_CONFIG.supabaseAnonKey,
+        Accept: "application/json"
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`Real Life Projects CMS request failed with status ${response.status}`);
+    }
+
+    const rows = await response.json();
+    const published = rows?.[0]?.published_data;
+
+    if (published) applyRealProjects(published);
+  } catch (error) {
+    // Static homepage cards remain the safe fallback.
+    console.warn("Real Life Projects CMS unavailable; using static fallback.", error);
+  }
+};
+
+loadPublishedRealProjects();
