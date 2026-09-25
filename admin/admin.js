@@ -628,7 +628,7 @@ if (!hasValidConfig) {
       heroLastLoadedDraft = structuredClone(draft);
       heroFormDirty = false;
       setHeroEditorState("Draft saved");
-      setHeroEditorMessage("Draft saved. The public Hero has not changed.");
+      setHeroEditorMessage("Draft saved. The published CMS Hero has not changed.");
     } catch (error) {
       console.error("Hero draft save failed:", error);
       setHeroEditorState("Save failed");
@@ -664,7 +664,7 @@ if (!hasValidConfig) {
       if (!data?.length) throw new Error("Publish returned no Hero row.");
 
       setHeroEditorState("Published · synced");
-      setHeroEditorMessage("Hero published successfully. Local/public pages now read this published version.");
+      setHeroEditorMessage("Hero published to the CMS. Localhost reads this version now; the production website will use it only after an explicit live deployment.");
     } catch (error) {
       console.error("Hero publish failed:", error);
       setHeroEditorState("Publish failed");
