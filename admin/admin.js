@@ -33,6 +33,7 @@ const designShowcaseNavButton = document.querySelector("#designShowcaseNavButton
 const creativeServicesNavButton = document.querySelector("#creativeServicesNavButton");
 const digitalProjectsNavButton = document.querySelector("#digitalProjectsNavButton");
 const aboutMeNavButton = document.querySelector("#aboutMeNavButton");
+const skillsToolsNavButton = document.querySelector("#skillsToolsNavButton");
 const dashboard = document.querySelector("#dashboard");
 const homepageEditor = document.querySelector("#homepageEditor");
 const realProjectsEditor = document.querySelector("#realProjectsEditor");
@@ -40,6 +41,7 @@ const designShowcaseEditor = document.querySelector("#designShowcaseEditor");
 const creativeServicesEditor = document.querySelector("#creativeServicesEditor");
 const digitalProjectsEditor = document.querySelector("#digitalProjectsEditor");
 const aboutMeEditor = document.querySelector("#aboutMeEditor");
+const skillsToolsEditor = document.querySelector("#skillsToolsEditor");
 const cmsPageEyebrow = document.querySelector("#cmsPageEyebrow");
 const cmsPageTitle = document.querySelector("#cmsPageTitle");
 
@@ -108,6 +110,19 @@ const aboutMeSaveButton = document.querySelector("#aboutMeSaveButton");
 const aboutMePublishButton = document.querySelector("#aboutMePublishButton");
 const aboutMeDraftPreview = document.querySelector("#aboutMeDraftPreview");
 const closeAboutMePreviewButton = document.querySelector("#closeAboutMePreviewButton");
+
+const skillsToolsEditorForm = document.querySelector("#skillsToolsEditorForm");
+const skillsToolsCapabilityList = document.querySelector("#skillsToolsCapabilityList");
+const skillsToolsToolList = document.querySelector("#skillsToolsToolList");
+const skillsToolsEditorState = document.querySelector("#skillsToolsEditorState");
+const skillsToolsEditorMessage = document.querySelector("#skillsToolsEditorMessage");
+const skillsToolsPreviewButton = document.querySelector("#skillsToolsPreviewButton");
+const skillsToolsSaveButton = document.querySelector("#skillsToolsSaveButton");
+const skillsToolsPublishButton = document.querySelector("#skillsToolsPublishButton");
+const skillsToolsDraftPreview = document.querySelector("#skillsToolsDraftPreview");
+const closeSkillsToolsPreviewButton = document.querySelector("#closeSkillsToolsPreviewButton");
+const skillsToolsCapabilityPreviewGrid = document.querySelector("#skillsToolsCapabilityPreviewGrid");
+const skillsToolsToolPreviewGrid = document.querySelector("#skillsToolsToolPreviewGrid");
 
 const contentStoreDot = document.querySelector("#contentStoreDot");
 const contentStoreStatus = document.querySelector("#contentStoreStatus");
@@ -585,6 +600,7 @@ if (!hasValidConfig) {
     const isCreativeServices = view === "creative-services";
     const isDigitalProjects = view === "digital-projects";
     const isAboutMe = view === "about-me";
+    const isSkillsTools = view === "skills-tools";
 
     dashboard.hidden = !isDashboard;
     homepageEditor.hidden = !isHero;
@@ -593,6 +609,7 @@ if (!hasValidConfig) {
     creativeServicesEditor.hidden = !isCreativeServices;
     digitalProjectsEditor.hidden = !isDigitalProjects;
     aboutMeEditor.hidden = !isAboutMe;
+    skillsToolsEditor.hidden = !isSkillsTools;
 
     dashboardNavLink?.classList.toggle("active", isDashboard);
     homepageNavButton?.classList.toggle("active", isHero);
@@ -601,8 +618,9 @@ if (!hasValidConfig) {
     creativeServicesNavButton?.classList.toggle("active", isCreativeServices);
     digitalProjectsNavButton?.classList.toggle("active", isDigitalProjects);
     aboutMeNavButton?.classList.toggle("active", isAboutMe);
+    skillsToolsNavButton?.classList.toggle("active", isSkillsTools);
 
-    [dashboardNavLink, homepageNavButton, realProjectsNavButton, designShowcaseNavButton, creativeServicesNavButton, digitalProjectsNavButton, aboutMeNavButton].forEach((item) => {
+    [dashboardNavLink, homepageNavButton, realProjectsNavButton, designShowcaseNavButton, creativeServicesNavButton, digitalProjectsNavButton, aboutMeNavButton, skillsToolsNavButton].forEach((item) => {
       item?.removeAttribute("aria-current");
     });
 
@@ -630,6 +648,10 @@ if (!hasValidConfig) {
       aboutMeNavButton?.setAttribute("aria-current", "page");
       cmsPageEyebrow.textContent = "HOMEPAGE CMS";
       cmsPageTitle.textContent = "About Me";
+    } else if (isSkillsTools) {
+      skillsToolsNavButton?.setAttribute("aria-current", "page");
+      cmsPageEyebrow.textContent = "HOMEPAGE CMS";
+      cmsPageTitle.textContent = "Skills & Tools";
     } else {
       dashboardNavLink?.setAttribute("aria-current", "page");
       cmsPageEyebrow.textContent = "HOMEPAGE CMS";
@@ -3126,6 +3148,582 @@ if (!hasValidConfig) {
       setAboutMeMessage(error?.message || "Could not publish About Me.");
     } finally {
       setAboutMeBusy(false);
+    }
+  });
+
+  const SKILLS_TOOLS_CONTENT_KEY = "homepage.skills-tools";
+
+  const skillsToolsDefaults = Object.freeze({
+    eyebrow: "Core capabilities & toolkit",
+    titleAccent: "SKILLS",
+    titleRest: "& TOOLS",
+    skillsKicker: "Core capabilities",
+    skillsTitle: "SKILLS",
+    toolsKicker: "Software & platforms",
+    toolsTitle: "TOOLS I USE",
+    capabilities: [
+      {
+        key: "brand-social",
+        number: "01",
+        title: "BRAND & SOCIAL",
+        description: "Visual identity and campaign-ready brand communication.",
+        tags: ["Brand Identity", "Social Media Design"]
+      },
+      {
+        key: "sports-design",
+        number: "02",
+        title: "SPORTS DESIGN",
+        description: "Team identity, match visuals and apparel-focused design.",
+        tags: ["Sports Graphics", "Jersey Design"]
+      },
+      {
+        key: "motion-content",
+        number: "03",
+        title: "MOTION & CONTENT",
+        description: "Short-form content, editing and AI-assisted creative workflows.",
+        tags: ["Video Editing", "AI Workflows"]
+      },
+      {
+        key: "digital-systems",
+        number: "04",
+        title: "DIGITAL SYSTEMS",
+        description: "Practical web experiences and connected business workflows.",
+        tags: ["Web Projects", "Business Systems"]
+      }
+    ],
+    tools: [
+      { key: "illustrator", name: "Illustrator", imageSrc: "assets/tool-illustrator.svg" },
+      { key: "photoshop", name: "Photoshop", imageSrc: "assets/tool-photoshop.svg" },
+      { key: "premiere-pro", name: "Premiere Pro", imageSrc: "assets/tool-premiere-pro.svg" },
+      { key: "capcut", name: "CapCut", imageSrc: "assets/tool-capcut.png" },
+      { key: "vscode", name: "VS Code", imageSrc: "assets/tool-vscode.png" },
+      { key: "word", name: "Word", imageSrc: "assets/tool-word.png" },
+      { key: "excel", name: "Excel", imageSrc: "assets/tool-excel.png" },
+      { key: "powerpoint", name: "PowerPoint", imageSrc: "assets/tool-powerpoint.png" }
+    ]
+  });
+
+  let skillsToolsDirty = false;
+  let skillsToolsLastLoadedDraft = null;
+
+  const cloneSkillsToolsDefaults = () => structuredClone(skillsToolsDefaults);
+
+  const setSkillsToolsMessage = (message = "") => {
+    if (skillsToolsEditorMessage) skillsToolsEditorMessage.textContent = message;
+  };
+
+  const setSkillsToolsState = (label) => {
+    if (skillsToolsEditorState) skillsToolsEditorState.textContent = label;
+  };
+
+  const setSkillsToolsBusy = (busy) => {
+    [skillsToolsPreviewButton, skillsToolsSaveButton, skillsToolsPublishButton].forEach((button) => {
+      if (button) button.disabled = busy;
+    });
+    skillsToolsToolList?.querySelectorAll("[data-tool-upload]").forEach((input) => {
+      input.disabled = busy;
+    });
+  };
+
+  const capabilityEditorCard = (capability) => `
+    <article class="project-editor-card skills-editor-card" data-skill-key="${capability.key}">
+      <header>
+        <div>
+          <small>SKILL ${capability.number}</small>
+          <h4>${capability.title}</h4>
+        </div>
+        <b>NUMBER FIXED</b>
+      </header>
+      <div class="editor-grid two">
+        <label>
+          <span>Skill title</span>
+          <input data-skill-field="title" type="text" maxlength="90" required>
+        </label>
+        <label>
+          <span>Description</span>
+          <input data-skill-field="description" type="text" maxlength="220" required>
+        </label>
+        <label>
+          <span>Tag 1</span>
+          <input data-skill-field="tag1" type="text" maxlength="80" required>
+        </label>
+        <label>
+          <span>Tag 2</span>
+          <input data-skill-field="tag2" type="text" maxlength="80" required>
+        </label>
+      </div>
+    </article>
+  `;
+
+  const toolEditorCard = (tool, index) => `
+    <article class="project-editor-card tool-editor-card" data-tool-key="${tool.key}">
+      <header>
+        <div>
+          <small>TOOL ${String(index + 1).padStart(2, "0")}</small>
+          <h4>${tool.name}</h4>
+        </div>
+        <b>ORDER FIXED</b>
+      </header>
+
+      <div class="project-image-editor">
+        <div class="project-upload-block">
+          <span>Tool logo</span>
+          <input data-tool-upload type="file" accept="image/jpeg,image/png,image/webp,image/svg+xml">
+          <small data-tool-upload-status>JPG, PNG, WebP or SVG · maximum 8 MB</small>
+        </div>
+        <div class="project-image-current tool-image-current">
+          <img data-tool-image-preview alt="">
+        </div>
+      </div>
+
+      <div class="editor-grid two">
+        <label>
+          <span>Tool name</span>
+          <input data-tool-field="name" type="text" maxlength="80" required>
+        </label>
+        <label>
+          <span>Logo path / URL</span>
+          <input data-tool-field="imageSrc" type="text" maxlength="500" required>
+        </label>
+      </div>
+    </article>
+  `;
+
+  const renderSkillsToolsEditorCards = () => {
+    skillsToolsCapabilityList.innerHTML = skillsToolsDefaults.capabilities
+      .map(capabilityEditorCard)
+      .join("");
+    skillsToolsToolList.innerHTML = skillsToolsDefaults.tools
+      .map(toolEditorCard)
+      .join("");
+  };
+
+  const skillCardElement = (key) =>
+    skillsToolsCapabilityList?.querySelector(`[data-skill-key="${key}"]`);
+
+  const toolCardElement = (key) =>
+    skillsToolsToolList?.querySelector(`[data-tool-key="${key}"]`);
+
+  const fillCapabilityCard = (capability) => {
+    const card = skillCardElement(capability.key);
+    if (!card) return;
+    const tags = Array.isArray(capability.tags) ? capability.tags : [];
+    const values = {
+      title: capability.title,
+      description: capability.description,
+      tag1: tags[0] || "",
+      tag2: tags[1] || ""
+    };
+    Object.entries(values).forEach(([field, value]) => {
+      const input = card.querySelector(`[data-skill-field="${field}"]`);
+      if (input) input.value = value;
+    });
+  };
+
+  const fillToolCard = (tool) => {
+    const card = toolCardElement(tool.key);
+    if (!card) return;
+
+    const name = card.querySelector('[data-tool-field="name"]');
+    const imageSrc = card.querySelector('[data-tool-field="imageSrc"]');
+    const preview = card.querySelector("[data-tool-image-preview]");
+
+    if (name) name.value = tool.name || "";
+    if (imageSrc) imageSrc.value = tool.imageSrc || "";
+    if (preview) {
+      preview.src = resolvePreviewImage(tool.imageSrc);
+      preview.alt = tool.name ? `${tool.name} logo preview` : "Tool logo preview";
+    }
+  };
+
+  const populateSkillsToolsForm = (data = {}) => {
+    const defaults = cloneSkillsToolsDefaults();
+    const incomingCapabilities = Array.isArray(data.capabilities) ? data.capabilities : [];
+    const incomingTools = Array.isArray(data.tools) ? data.tools : [];
+
+    const merged = {
+      ...defaults,
+      ...data,
+      capabilities: defaults.capabilities.map((item) => {
+        const incoming = incomingCapabilities.find((candidate) => candidate?.key === item.key) || {};
+        return { ...item, ...incoming, key: item.key, number: item.number };
+      }),
+      tools: defaults.tools.map((item) => {
+        const incoming = incomingTools.find((candidate) => candidate?.key === item.key) || {};
+        return { ...item, ...incoming, key: item.key };
+      })
+    };
+
+    ["eyebrow","titleAccent","titleRest","skillsKicker","skillsTitle","toolsKicker","toolsTitle"].forEach((field) => {
+      const input = skillsToolsEditorForm?.elements.namedItem(field);
+      if (input) input.value = merged[field] || "";
+    });
+
+    merged.capabilities.forEach(fillCapabilityCard);
+    merged.tools.forEach(fillToolCard);
+
+    skillsToolsLastLoadedDraft = structuredClone(merged);
+    skillsToolsDirty = false;
+    setSkillsToolsState("Draft loaded");
+  };
+
+  const readSkillsToolsForm = () => {
+    if (!skillsToolsEditorForm) return null;
+
+    const missingRequired = [...skillsToolsEditorForm.querySelectorAll("[required]")].find(
+      (field) => !String(field.value || "").trim()
+    );
+
+    if (missingRequired) {
+      const fieldLabel =
+        missingRequired.closest("label")?.querySelector("span")?.textContent?.trim() ||
+        "required field";
+      const skillCard = missingRequired.closest("[data-skill-key]");
+      const toolCard = missingRequired.closest("[data-tool-key]");
+      const context =
+        skillCard?.querySelector('[data-skill-field="title"]')?.value?.trim() ||
+        toolCard?.querySelector('[data-tool-field="name"]')?.value?.trim() ||
+        "Skills & Tools";
+
+      setSkillsToolsMessage(`Complete "${fieldLabel}" for ${context} before saving.`);
+      missingRequired.focus();
+      missingRequired.scrollIntoView({ behavior: "smooth", block: "center" });
+      return null;
+    }
+
+    const capabilities = skillsToolsDefaults.capabilities.map((item) => {
+      const card = skillCardElement(item.key);
+      const get = (field) =>
+        String(card?.querySelector(`[data-skill-field="${field}"]`)?.value || "").trim();
+
+      return {
+        key: item.key,
+        number: item.number,
+        title: get("title"),
+        description: get("description"),
+        tags: [get("tag1"), get("tag2")]
+      };
+    });
+
+    const tools = skillsToolsDefaults.tools.map((item) => {
+      const card = toolCardElement(item.key);
+      const get = (field) =>
+        String(card?.querySelector(`[data-tool-field="${field}"]`)?.value || "").trim();
+
+      return {
+        key: item.key,
+        name: get("name"),
+        imageSrc: get("imageSrc")
+      };
+    });
+
+    for (const tool of tools) {
+      if (!isSafeImageSource(tool.imageSrc)) {
+        setSkillsToolsMessage(`Use a safe logo path or HTTPS image URL for ${tool.name}.`);
+        return null;
+      }
+    }
+
+    const getHeader = (field) =>
+      String(skillsToolsEditorForm.elements.namedItem(field)?.value || "").trim();
+
+    return {
+      eyebrow: getHeader("eyebrow"),
+      titleAccent: getHeader("titleAccent"),
+      titleRest: getHeader("titleRest"),
+      skillsKicker: getHeader("skillsKicker"),
+      skillsTitle: getHeader("skillsTitle"),
+      toolsKicker: getHeader("toolsKicker"),
+      toolsTitle: getHeader("toolsTitle"),
+      capabilities,
+      tools
+    };
+  };
+
+  const renderSkillsToolsPreview = (data) => {
+    const textMap = {
+      previewSkillsToolsEyebrow: data.eyebrow,
+      previewSkillsToolsTitleAccent: data.titleAccent,
+      previewSkillsToolsTitleRest: data.titleRest,
+      previewSkillsKicker: data.skillsKicker,
+      previewSkillsTitle: data.skillsTitle,
+      previewToolsKicker: data.toolsKicker,
+      previewToolsTitle: data.toolsTitle
+    };
+    Object.entries(textMap).forEach(([id, value]) => {
+      const element = document.getElementById(id);
+      if (element) element.textContent = value;
+    });
+
+    skillsToolsCapabilityPreviewGrid.innerHTML = "";
+    data.capabilities.forEach((capability) => {
+      const card = document.createElement("article");
+      card.className = "skills-preview-card";
+      const number = document.createElement("span");
+      number.textContent = capability.number;
+      const title = document.createElement("strong");
+      title.textContent = capability.title;
+      const description = document.createElement("p");
+      description.textContent = capability.description;
+      const tags = document.createElement("div");
+      capability.tags.forEach((tag) => {
+        const item = document.createElement("i");
+        item.textContent = tag;
+        tags.appendChild(item);
+      });
+      card.append(number, title, description, tags);
+      skillsToolsCapabilityPreviewGrid.appendChild(card);
+    });
+
+    skillsToolsToolPreviewGrid.innerHTML = "";
+    data.tools.forEach((tool) => {
+      const card = document.createElement("article");
+      card.className = "tool-preview-card";
+      const image = document.createElement("img");
+      image.src = resolvePreviewImage(tool.imageSrc);
+      image.alt = "";
+      const name = document.createElement("strong");
+      name.textContent = tool.name;
+      card.append(image, name);
+      skillsToolsToolPreviewGrid.appendChild(card);
+    });
+
+    skillsToolsDraftPreview.hidden = false;
+    skillsToolsDraftPreview.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  const loadSkillsToolsEditor = async () => {
+    setSkillsToolsMessage("Loading Skills & Tools draft…");
+    setSkillsToolsState("Loading…");
+
+    const { data, error } = await supabaseClient
+      .from("cms_content_entries")
+      .select("content_key,draft_data,published_data,draft_updated_at,published_at")
+      .eq("content_key", SKILLS_TOOLS_CONTENT_KEY)
+      .maybeSingle();
+
+    if (error) {
+      console.error("Skills & Tools CMS load failed:", error);
+      populateSkillsToolsForm(skillsToolsDefaults);
+      setSkillsToolsState("Load failed");
+      setSkillsToolsMessage("Could not load the Skills & Tools content store.");
+      return false;
+    }
+
+    if (!data) {
+      populateSkillsToolsForm(skillsToolsDefaults);
+      setSkillsToolsState("Setup required");
+      setSkillsToolsMessage("Save Draft to create the Phase 2G content row.");
+      return false;
+    }
+
+    populateSkillsToolsForm(data.draft_data || skillsToolsDefaults);
+
+    const synced =
+      JSON.stringify(data.draft_data || {}) === JSON.stringify(data.published_data || {});
+
+    setSkillsToolsState(synced ? "Published · synced" : "Draft differs from live");
+    setSkillsToolsMessage(
+      data.published_at
+        ? "Skills & Tools draft loaded. Preview or edit before publishing."
+        : "Skills & Tools draft loaded. This content has not been published yet."
+    );
+    return true;
+  };
+
+  const uploadToolLogo = async (input) => {
+    const file = input?.files?.[0];
+    const card = input?.closest("[data-tool-key]");
+    const key = card?.dataset.toolKey;
+    const status = card?.querySelector("[data-tool-upload-status]");
+
+    const setStatus = (message) => {
+      if (status) status.textContent = message;
+    };
+
+    if (!file || !card || !key) return;
+
+    const allowedTypes = {
+      ...HERO_ALLOWED_IMAGE_TYPES,
+      "image/svg+xml": "svg"
+    };
+    const extension = allowedTypes[file.type];
+
+    if (!extension) {
+      setStatus("Use JPG, PNG, WebP or SVG.");
+      return;
+    }
+
+    if (file.size > HERO_MAX_UPLOAD_BYTES) {
+      setStatus("Logo is larger than 8 MB.");
+      return;
+    }
+
+    setStatus("Uploading…");
+
+    try {
+      const uniquePart =
+        globalThis.crypto?.randomUUID?.() ||
+        Math.random().toString(36).slice(2, 12);
+      const objectPath = `skills-tools/${key}/${Date.now()}-${uniquePart}.${extension}`;
+
+      const { error: uploadError } = await supabaseClient.storage
+        .from(HERO_MEDIA_BUCKET)
+        .upload(objectPath, file, {
+          cacheControl: "31536000",
+          contentType: file.type,
+          upsert: false
+        });
+
+      if (uploadError) throw uploadError;
+
+      const { data: publicUrlData } = supabaseClient.storage
+        .from(HERO_MEDIA_BUCKET)
+        .getPublicUrl(objectPath);
+
+      const publicUrl = publicUrlData?.publicUrl;
+      if (!publicUrl) throw new Error("Storage did not return a public logo URL.");
+
+      const srcInput = card.querySelector('[data-tool-field="imageSrc"]');
+      const preview = card.querySelector("[data-tool-image-preview]");
+      if (srcInput) srcInput.value = publicUrl;
+      if (preview) preview.src = publicUrl;
+
+      skillsToolsDirty = true;
+      setSkillsToolsState("Unsaved changes");
+      setStatus("Uploaded. Save draft to keep this logo.");
+    } catch (error) {
+      console.error("Tool logo upload failed:", error);
+      setStatus(error?.message || "Could not upload tool logo.");
+    }
+  };
+
+  renderSkillsToolsEditorCards();
+  populateSkillsToolsForm(skillsToolsDefaults);
+
+  skillsToolsNavButton?.addEventListener("click", async () => {
+    showCmsView("skills-tools");
+    await loadSkillsToolsEditor();
+  });
+
+  skillsToolsEditorForm?.addEventListener("input", (event) => {
+    if (event.target.matches("[data-tool-upload]")) return;
+
+    skillsToolsDirty = true;
+    setSkillsToolsState("Unsaved changes");
+
+    if (event.target.matches('[data-tool-field="imageSrc"]')) {
+      const card = event.target.closest("[data-tool-key]");
+      const preview = card?.querySelector("[data-tool-image-preview]");
+      if (preview) preview.src = resolvePreviewImage(event.target.value);
+    }
+  });
+
+  skillsToolsEditorForm?.addEventListener("change", async (event) => {
+    if (!event.target.matches("[data-tool-upload]")) return;
+    await uploadToolLogo(event.target);
+  });
+
+  skillsToolsPreviewButton?.addEventListener("click", () => {
+    setSkillsToolsMessage("");
+    const draft = readSkillsToolsForm();
+    if (!draft) return;
+    renderSkillsToolsPreview(draft);
+  });
+
+  closeSkillsToolsPreviewButton?.addEventListener("click", () => {
+    skillsToolsDraftPreview.hidden = true;
+  });
+
+  const saveSkillsToolsDraft = async () => {
+    setSkillsToolsMessage("");
+    const draft = readSkillsToolsForm();
+    if (!draft) return false;
+
+    setSkillsToolsBusy(true);
+    setSkillsToolsState("Saving…");
+
+    try {
+      const { data, error } = await supabaseClient
+        .from("cms_content_entries")
+        .upsert(
+          {
+            content_key: SKILLS_TOOLS_CONTENT_KEY,
+            draft_data: draft
+          },
+          {
+            onConflict: "content_key"
+          }
+        )
+        .select("content_key,draft_updated_at")
+        .maybeSingle();
+
+      if (error) throw error;
+      if (!data) {
+        setSkillsToolsState("Save failed");
+        setSkillsToolsMessage("Could not create or update the Skills & Tools draft.");
+        return false;
+      }
+
+      skillsToolsLastLoadedDraft = structuredClone(draft);
+      skillsToolsDirty = false;
+      setSkillsToolsState("Draft saved");
+      setSkillsToolsMessage("Draft saved. Published Skills & Tools content has not changed.");
+      return true;
+    } catch (error) {
+      console.error("Skills & Tools draft save failed:", error);
+      setSkillsToolsState("Save failed");
+      setSkillsToolsMessage(
+        error?.message
+          ? `Could not save draft: ${error.message}`
+          : "Could not save the Skills & Tools draft."
+      );
+      return false;
+    } finally {
+      setSkillsToolsBusy(false);
+    }
+  };
+
+  skillsToolsSaveButton?.addEventListener("click", saveSkillsToolsDraft);
+
+  skillsToolsEditorForm?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    await saveSkillsToolsDraft();
+  });
+
+  skillsToolsPublishButton?.addEventListener("click", async () => {
+    setSkillsToolsMessage("");
+
+    if (skillsToolsDirty) {
+      setSkillsToolsState("Unsaved changes");
+      setSkillsToolsMessage("Save the draft first, then publish.");
+      return;
+    }
+
+    if (!skillsToolsLastLoadedDraft) {
+      setSkillsToolsMessage("Load or save the Skills & Tools draft before publishing.");
+      return;
+    }
+
+    setSkillsToolsBusy(true);
+    setSkillsToolsState("Publishing…");
+
+    try {
+      const { data, error } = await supabaseClient.rpc("cms_publish_content", {
+        p_content_key: SKILLS_TOOLS_CONTENT_KEY
+      });
+
+      if (error) throw error;
+      if (!data?.length) throw new Error("Publish returned no Skills & Tools row.");
+
+      setSkillsToolsState("Published · synced");
+      setSkillsToolsMessage("Skills & Tools published to the CMS. Localhost reads this version now; production still waits for explicit live deployment.");
+    } catch (error) {
+      console.error("Skills & Tools publish failed:", error);
+      setSkillsToolsState("Publish failed");
+      setSkillsToolsMessage(error?.message || "Could not publish Skills & Tools.");
+    } finally {
+      setSkillsToolsBusy(false);
     }
   });
 
