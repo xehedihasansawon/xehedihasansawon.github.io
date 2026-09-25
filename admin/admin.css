@@ -2074,3 +2074,99 @@ button {
     grid-template-columns: 1fr;
   }
 }
+
+
+/* Phase 2I — Contact CMS */
+.contact-preview-card {
+  padding: clamp(18px, 3vw, 28px);
+  display: grid;
+  gap: 12px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #071611;
+}
+
+.contact-preview-status {
+  width: fit-content;
+  padding: 7px 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: #d9e5df;
+  font-size: 0.66rem;
+  font-weight: 800;
+}
+
+.contact-preview-kicker,
+.contact-preview-description {
+  margin: 0;
+  color: var(--muted);
+}
+
+.contact-preview-kicker {
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.contact-preview-card > h4 {
+  margin: 0;
+  font-size: clamp(1.45rem, 3vw, 2.25rem);
+  letter-spacing: -0.04em;
+}
+
+.contact-preview-card > h4 b {
+  color: var(--red);
+}
+
+.contact-preview-description {
+  max-width: 850px;
+  font-size: 0.72rem;
+  line-height: 1.65;
+}
+
+.contact-preview-channels,
+.contact-preview-groups {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.contact-preview-channels article,
+.contact-preview-groups > div {
+  min-width: 0;
+  padding: 14px;
+  display: grid;
+  gap: 5px;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+}
+
+.contact-preview-channels span,
+.contact-preview-groups strong {
+  color: var(--red);
+  font-size: 0.64rem;
+  font-weight: 900;
+}
+
+.contact-preview-channels strong {
+  font-size: 0.82rem;
+}
+
+.contact-preview-channels p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.66rem;
+  line-height: 1.5;
+}
+
+.contact-preview-channels small,
+.contact-preview-groups span {
+  color: #cbd8d2;
+  font-size: 0.62rem;
+}
+
+@media (max-width: 700px) {
+  .contact-preview-channels,
+  .contact-preview-groups {
+    grid-template-columns: 1fr;
+  }
+}
