@@ -197,6 +197,12 @@
             <small>Locked</small>
           </button>
 
+          <button id="footerCmsNavButton" class="nav-item nav-item-sub" type="button">
+            <span class="nav-index">02J</span>
+            <span>Footer</span>
+            <small>Active</small>
+          </button>
+
           <button class="nav-item" type="button" disabled>
             <span class="nav-index">03</span>
             <span>Projects</span>
@@ -242,7 +248,7 @@
 
         <div class="sidebar-bottom">
           <a class="view-site-link" href="../index.html" target="_blank" rel="noopener">View website ↗</a>
-          <span>Phase 2I · Contact CMS · Locked</span>
+          <span>Phase 2J · Footer CMS</span>
         </div>
       </aside>
 
@@ -289,17 +295,17 @@
           <section class="dashboard-hero">
             <div>
               <p class="status-pill success">PHASE 2I LOCKED</p>
-              <h3>Contact CMS is locked and ready.</h3>
+              <h3>Footer CMS is the active module.</h3>
               <p>
-                Phase 2A–2I are now frozen. The next planned module is Phase 2J for Footer CMS;
-                it has not started yet.
+                Phase 2A–2I stay locked. Phase 2J connects only the existing Footer brand,
+                navigation, profile links and bottom-row links.
               </p>
             </div>
 
             <div class="phase-card">
-              <span>LATEST LOCKED MODULE</span>
-              <strong>Phase 2I</strong>
-              <p>Contact CMS</p>
+              <span>CURRENT MODULE</span>
+              <strong>Phase 2J</strong>
+              <p>Footer CMS</p>
 
               <div class="foundation-stack" aria-live="polite">
                 <div class="foundation-check">
@@ -533,15 +539,15 @@
                 <b>LOCKED</b>
               </article>
 
-              <article class="module-row queued">
+              <article class="module-row active">
                 <div>
                   <span>2J</span>
                   <div>
                     <strong>Footer CMS</strong>
-                    <p>Planned next; scope will be defined before coding starts.</p>
+                    <p>Draft, preview and publish controls for the existing footer brand, navigation and links.</p>
                   </div>
                 </div>
-                <b>NEXT</b>
+                <b>ACTIVE</b>
               </article>
             </div>
           </section>
@@ -1665,12 +1671,147 @@
             </div>
           </section>
         </div>
+
+        <div id="footerCmsEditor" class="editor-content" hidden>
+          <section class="editor-heading-card">
+            <div>
+              <p class="status-pill success">PHASE 2J</p>
+              <h3>Footer</h3>
+              <p>Edit only the approved footer content. Navigation/social counts and order stay fixed in this phase.</p>
+            </div>
+            <div class="editor-state">
+              <span>CONTENT KEY</span>
+              <strong>homepage.footer</strong>
+              <b id="footerCmsEditorState">Loading…</b>
+            </div>
+          </section>
+
+          <form id="footerCmsEditorForm" class="cms-editor-form" novalidate>
+            <section class="editor-card">
+              <div class="editor-section-title">
+                <div>
+                  <p class="eyebrow">FOOTER BRAND</p>
+                  <h3>Name & positioning</h3>
+                </div>
+                <span>Current layout</span>
+              </div>
+
+              <div class="editor-grid two">
+                <label>
+                  <span>Brand name</span>
+                  <input name="brandName" type="text" maxlength="120" required>
+                </label>
+                <label>
+                  <span>Brand role</span>
+                  <input name="brandRole" type="text" maxlength="160" required>
+                </label>
+              </div>
+            </section>
+
+            <section class="editor-card">
+              <div class="editor-section-title">
+                <div>
+                  <p class="eyebrow">FOOTER NAVIGATION</p>
+                  <h3>Current six links</h3>
+                </div>
+                <span>Count/order fixed</span>
+              </div>
+              <div id="footerNavEditorList" class="project-editor-list"></div>
+            </section>
+
+            <section class="editor-card">
+              <div class="editor-section-title">
+                <div>
+                  <p class="eyebrow">PROFESSIONAL LINKS</p>
+                  <h3>LinkedIn · GitHub · Behance</h3>
+                </div>
+                <span>Count/order fixed</span>
+              </div>
+              <div id="footerProfileEditorList" class="project-editor-list"></div>
+            </section>
+
+            <section class="editor-card">
+              <div class="editor-section-title">
+                <div>
+                  <p class="eyebrow">BOTTOM ROW</p>
+                  <h3>Legal text & direct links</h3>
+                </div>
+                <span>Current structure</span>
+              </div>
+
+              <div class="editor-grid two">
+                <label>
+                  <span>Copyright text</span>
+                  <input name="copyrightText" type="text" maxlength="120" required>
+                </label>
+                <label>
+                  <span>Rights text</span>
+                  <input name="rightsText" type="text" maxlength="100" required>
+                </label>
+              </div>
+
+              <div id="footerBottomEditorList" class="project-editor-list"></div>
+
+              <div class="editor-grid two">
+                <label>
+                  <span>Back to top label</span>
+                  <input name="backToTopLabel" type="text" maxlength="80" required>
+                </label>
+                <label>
+                  <span>Back to top link</span>
+                  <input name="backToTopHref" type="text" maxlength="500" required>
+                </label>
+              </div>
+            </section>
+
+            <section class="editor-actions-bar">
+              <div>
+                <strong>Draft → Preview → Publish</strong>
+                <p id="footerCmsEditorMessage" class="form-message" role="status" aria-live="polite"></p>
+              </div>
+              <div class="editor-action-buttons">
+                <button id="footerCmsPreviewButton" class="secondary-button" type="button">Preview draft</button>
+                <button id="footerCmsSaveButton" type="button">Save draft</button>
+                <button id="footerCmsPublishButton" class="publish-button" type="button">Publish Footer</button>
+              </div>
+            </section>
+          </form>
+
+          <section id="footerCmsDraftPreview" class="hero-draft-preview" hidden aria-label="Footer draft preview">
+            <div class="preview-heading">
+              <div>
+                <p class="eyebrow">PRIVATE PREVIEW</p>
+                <h3>Footer draft</h3>
+              </div>
+              <button id="closeFooterCmsPreviewButton" class="text-button" type="button">Close preview</button>
+            </div>
+
+            <div class="footer-preview-card">
+              <div class="footer-preview-main">
+                <div>
+                  <strong id="previewFooterBrandName"></strong>
+                  <span id="previewFooterBrandRole"></span>
+                </div>
+                <div id="previewFooterNav" class="footer-preview-links"></div>
+                <div id="previewFooterProfiles" class="footer-preview-links"></div>
+              </div>
+              <div class="footer-preview-bottom">
+                <div>
+                  <span id="previewFooterCopyright"></span>
+                  <i>•</i>
+                  <span id="previewFooterRights"></span>
+                </div>
+                <div id="previewFooterBottomLinks" class="footer-preview-links"></div>
+              </div>
+            </div>
+          </section>
+        </div>
       </div>
     </section>
 
     <footer id="publicAdminFooter" class="admin-footer">
       <span>MEHEDI PORTFOLIO</span>
-      <span>Secure Admin · Phase 2I · Locked</span>
+      <span>Secure Admin · Phase 2J</span>
     </footer>
   </main>
 
