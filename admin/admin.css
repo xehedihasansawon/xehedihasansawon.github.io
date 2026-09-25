@@ -1887,3 +1887,110 @@ button {
     grid-template-columns: 1fr;
   }
 }
+
+
+/* Phase 2G — Skills & Tools CMS */
+.tool-image-current {
+  min-height: 88px;
+  display: grid;
+  place-items: center;
+}
+
+.tool-image-current img {
+  width: 54px;
+  height: 54px;
+  object-fit: contain;
+}
+
+.skills-tools-preview-layout {
+  display: grid;
+  gap: 24px;
+}
+
+.skills-tools-preview-layout > section > h4 {
+  margin: 4px 0 12px;
+  font-size: 1rem;
+}
+
+.skills-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.skills-preview-card {
+  padding: 14px;
+  display: grid;
+  gap: 7px;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  background: #071611;
+}
+
+.skills-preview-card > span {
+  color: var(--red);
+  font-size: 0.65rem;
+  font-weight: 900;
+}
+
+.skills-preview-card > strong {
+  font-size: 0.78rem;
+}
+
+.skills-preview-card > p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.68rem;
+  line-height: 1.5;
+}
+
+.skills-preview-card > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.skills-preview-card i {
+  padding: 4px 7px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: #cbd8d2;
+  font-size: 0.58rem;
+  font-style: normal;
+}
+
+.tools-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.tool-preview-card {
+  min-width: 0;
+  min-height: 92px;
+  padding: 12px;
+  display: grid;
+  place-items: center;
+  gap: 8px;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  background: #071611;
+  text-align: center;
+}
+
+.tool-preview-card img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.tool-preview-card strong {
+  font-size: 0.66rem;
+}
+
+@media (max-width: 700px) {
+  .skills-preview-grid,
+  .tools-preview-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
