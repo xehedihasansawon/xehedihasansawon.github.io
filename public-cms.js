@@ -7,6 +7,7 @@ const CREATIVE_SERVICES_CONTENT_KEY = "homepage.creative-services";
 const DIGITAL_PROJECTS_CONTENT_KEY = "homepage.ai-digital-projects";
 const ABOUT_ME_CONTENT_KEY = "homepage.about";
 const SKILLS_TOOLS_CONTENT_KEY = "homepage.skills-tools";
+const EXPERIENCE_COMMUNITY_CONTENT_KEY = "homepage.experience-community";
 
 const byId = (id) => document.getElementById(id);
 
@@ -661,3 +662,77 @@ const loadPublishedSkillsTools = async () => {
 };
 
 loadPublishedSkillsTools();
+
+
+const applyExperienceCommunity = (data) => {
+  if (!data || typeof data !== "object") return;
+
+  applyText("experienceEyebrow", data.eyebrow);
+  applyText("experienceTitleMain", data.titleMain);
+  applyText("experienceTitleAccent", data.titleAccent);
+
+  if (!Array.isArray(data.items)) return;
+
+  data.items.forEach((item) => {
+    if (!item?.key) return;
+    const card = document.querySelector(`[data-cms-experience="${CSS.escape(item.key)}"]`);
+    if (!card) return;
+
+    const applyCardText = (field, value) => {
+      if (typeof value !== "string" || !value.trim()) return;
+      const element = card.querySelector(`[data-cms-field="${field}"]`);
+      if (element) element.textContent = value.trim();
+    };
+
+    applyCardText("number", item.number);
+    applyCardText("type", item.type);
+    applyCardText("period", item.period);
+    applyCardText("title", item.title);
+    applyCardText("role", item.role);
+    applyCardText("description", item.description);
+
+    const tags = card.querySelector('[data-cms-field="tags"]');
+    if (tags && Array.isArray(item.tags)) {
+      tags.innerHTML = "";
+      item.tags
+        .filter((tag) => typeof tag === "string" && tag.trim())
+        .slice(0, 4)
+        .forEach((tag) => {
+          const span = document.createElement("span");
+          span.textContent = tag.trim();
+          tags.appendChild(span);
+        });
+    }
+  });
+
+  document.documentElement.dataset.experienceCommunityCms = "loaded";
+};
+
+const loadPublishedExperienceCommunity = async () => {
+  try {
+    const endpoint = new URL("/rest/v1/cms_content_entries", ADMIN_CONFIG.supabaseUrl);
+    endpoint.searchParams.set("select", "published_data");
+    endpoint.searchParams.set("content_key", `eq.${EXPERIENCE_COMMUNITY_CONTENT_KEY}`);
+    endpoint.searchParams.set("limit", "1");
+
+    const response = await fetch(endpoint, {
+      headers: {
+        apikey: ADMIN_CONFIG.supabaseAnonKey,
+        Accept: "application/json"
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`Experience / Community CMS request failed with status ${response.status}`);
+    }
+
+    const rows = await response.json();
+    const published = rows?.[0]?.published_data;
+
+    if (published) applyExperienceCommunity(published);
+  } catch (error) {
+    console.warn("Experience / Community CMS unavailable; using static fallback.", error);
+  }
+};
+
+loadPublishedExperienceCommunity();
