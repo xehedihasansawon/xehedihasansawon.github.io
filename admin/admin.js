@@ -35,6 +35,7 @@ const digitalProjectsNavButton = document.querySelector("#digitalProjectsNavButt
 const aboutMeNavButton = document.querySelector("#aboutMeNavButton");
 const skillsToolsNavButton = document.querySelector("#skillsToolsNavButton");
 const experienceCommunityNavButton = document.querySelector("#experienceCommunityNavButton");
+const contactCmsNavButton = document.querySelector("#contactCmsNavButton");
 const dashboard = document.querySelector("#dashboard");
 const homepageEditor = document.querySelector("#homepageEditor");
 const realProjectsEditor = document.querySelector("#realProjectsEditor");
@@ -44,6 +45,7 @@ const digitalProjectsEditor = document.querySelector("#digitalProjectsEditor");
 const aboutMeEditor = document.querySelector("#aboutMeEditor");
 const skillsToolsEditor = document.querySelector("#skillsToolsEditor");
 const experienceCommunityEditor = document.querySelector("#experienceCommunityEditor");
+const contactCmsEditor = document.querySelector("#contactCmsEditor");
 const cmsPageEyebrow = document.querySelector("#cmsPageEyebrow");
 const cmsPageTitle = document.querySelector("#cmsPageTitle");
 
@@ -136,6 +138,15 @@ const experienceCommunityPublishButton = document.querySelector("#experienceComm
 const experienceCommunityDraftPreview = document.querySelector("#experienceCommunityDraftPreview");
 const closeExperienceCommunityPreviewButton = document.querySelector("#closeExperienceCommunityPreviewButton");
 const experienceCommunityPreviewGrid = document.querySelector("#experienceCommunityPreviewGrid");
+
+const contactCmsEditorForm = document.querySelector("#contactCmsEditorForm");
+const contactCmsEditorState = document.querySelector("#contactCmsEditorState");
+const contactCmsEditorMessage = document.querySelector("#contactCmsEditorMessage");
+const contactCmsPreviewButton = document.querySelector("#contactCmsPreviewButton");
+const contactCmsSaveButton = document.querySelector("#contactCmsSaveButton");
+const contactCmsPublishButton = document.querySelector("#contactCmsPublishButton");
+const contactCmsDraftPreview = document.querySelector("#contactCmsDraftPreview");
+const closeContactCmsPreviewButton = document.querySelector("#closeContactCmsPreviewButton");
 
 const contentStoreDot = document.querySelector("#contentStoreDot");
 const contentStoreStatus = document.querySelector("#contentStoreStatus");
@@ -615,6 +626,7 @@ if (!hasValidConfig) {
     const isAboutMe = view === "about-me";
     const isSkillsTools = view === "skills-tools";
     const isExperienceCommunity = view === "experience-community";
+    const isContact = view === "contact";
 
     dashboard.hidden = !isDashboard;
     homepageEditor.hidden = !isHero;
@@ -625,6 +637,7 @@ if (!hasValidConfig) {
     aboutMeEditor.hidden = !isAboutMe;
     skillsToolsEditor.hidden = !isSkillsTools;
     experienceCommunityEditor.hidden = !isExperienceCommunity;
+    contactCmsEditor.hidden = !isContact;
 
     dashboardNavLink?.classList.toggle("active", isDashboard);
     homepageNavButton?.classList.toggle("active", isHero);
@@ -635,8 +648,9 @@ if (!hasValidConfig) {
     aboutMeNavButton?.classList.toggle("active", isAboutMe);
     skillsToolsNavButton?.classList.toggle("active", isSkillsTools);
     experienceCommunityNavButton?.classList.toggle("active", isExperienceCommunity);
+    contactCmsNavButton?.classList.toggle("active", isContact);
 
-    [dashboardNavLink, homepageNavButton, realProjectsNavButton, designShowcaseNavButton, creativeServicesNavButton, digitalProjectsNavButton, aboutMeNavButton, skillsToolsNavButton, experienceCommunityNavButton].forEach((item) => {
+    [dashboardNavLink, homepageNavButton, realProjectsNavButton, designShowcaseNavButton, creativeServicesNavButton, digitalProjectsNavButton, aboutMeNavButton, skillsToolsNavButton, experienceCommunityNavButton, contactCmsNavButton].forEach((item) => {
       item?.removeAttribute("aria-current");
     });
 
@@ -672,6 +686,10 @@ if (!hasValidConfig) {
       experienceCommunityNavButton?.setAttribute("aria-current", "page");
       cmsPageEyebrow.textContent = "HOMEPAGE CMS";
       cmsPageTitle.textContent = "Experience / Community";
+    } else if (isContact) {
+      contactCmsNavButton?.setAttribute("aria-current", "page");
+      cmsPageEyebrow.textContent = "HOMEPAGE CMS";
+      cmsPageTitle.textContent = "Contact";
     } else {
       dashboardNavLink?.setAttribute("aria-current", "page");
       cmsPageEyebrow.textContent = "HOMEPAGE CMS";
@@ -4169,6 +4187,304 @@ if (!hasValidConfig) {
       setExperienceCommunityMessage(error?.message || "Could not publish Experience / Community.");
     } finally {
       setExperienceCommunityBusy(false);
+    }
+  });
+
+  const CONTACT_CONTENT_KEY = "homepage.contact";
+
+  const contactDefaults = Object.freeze({
+    statusText: "Available for freelance & remote projects",
+    kicker: "Have a project, brand or system idea?",
+    titleMain: "Let's Build Something",
+    titleAccent: "Useful & Memorable.",
+    description: "Need a brand identity, campaign design, sports creative, video content or a practical digital workflow? Tell me what you're building.",
+    whatsappLabel: "WhatsApp",
+    whatsappDisplay: "+60 17-472 3951",
+    whatsappDescription: "Malaysia WhatsApp · Preferred for quick project conversations",
+    whatsappAction: "Message ↗",
+    whatsappHref: "https://wa.me/60174723951",
+    emailLabel: "Email",
+    emailAddress: "xehedi@gmail.com",
+    emailDescription: "Best for briefs, files and detailed project info",
+    emailAction: "Copy",
+    socialGroupTitle: "Social & direct",
+    callLabel: "Call · +880 17-8978 7218",
+    callHref: "tel:+8801789787218",
+    facebookLabel: "Facebook",
+    facebookHref: "https://www.facebook.com/mdmehedihasansawoon/",
+    instagramLabel: "Instagram",
+    instagramHref: "https://www.instagram.com/honu______20",
+    profilesGroupTitle: "Professional profiles",
+    linkedinLabel: "LinkedIn",
+    linkedinHref: "https://www.linkedin.com/in/mdmehedihasansawon/",
+    githubLabel: "GitHub",
+    githubHref: "https://github.com/xehedihasansawon",
+    behanceLabel: "Behance",
+    behanceHref: "https://www.behance.net/mehedihasan194"
+  });
+
+  let contactCmsDirty = false;
+  let contactCmsLastLoadedDraft = null;
+
+  const setContactCmsMessage = (message = "") => {
+    if (contactCmsEditorMessage) contactCmsEditorMessage.textContent = message;
+  };
+
+  const setContactCmsState = (label) => {
+    if (contactCmsEditorState) contactCmsEditorState.textContent = label;
+  };
+
+  const setContactCmsBusy = (busy) => {
+    [contactCmsPreviewButton, contactCmsSaveButton, contactCmsPublishButton].forEach((button) => {
+      if (button) button.disabled = busy;
+    });
+  };
+
+  const populateContactCmsForm = (data = {}) => {
+    const merged = { ...contactDefaults, ...data };
+
+    Object.keys(contactDefaults).forEach((field) => {
+      const input = contactCmsEditorForm?.elements.namedItem(field);
+      if (input) input.value = merged[field] ?? "";
+    });
+
+    contactCmsLastLoadedDraft = structuredClone(merged);
+    contactCmsDirty = false;
+    setContactCmsState("Draft loaded");
+  };
+
+  const readContactCmsForm = () => {
+    if (!contactCmsEditorForm) return null;
+
+    const missingRequired = [...contactCmsEditorForm.querySelectorAll("[required]")].find(
+      (field) => !String(field.value || "").trim()
+    );
+
+    if (missingRequired) {
+      const fieldLabel =
+        missingRequired.closest("label")?.querySelector("span")?.textContent?.trim() ||
+        "required field";
+      setContactCmsMessage(`Complete "${fieldLabel}" before saving.`);
+      missingRequired.focus();
+      missingRequired.scrollIntoView({ behavior: "smooth", block: "center" });
+      return null;
+    }
+
+    const data = {};
+    Object.keys(contactDefaults).forEach((field) => {
+      data[field] = String(contactCmsEditorForm.elements.namedItem(field)?.value || "").trim();
+    });
+
+    const linkFields = [
+      ["WhatsApp URL", data.whatsappHref],
+      ["Call link", data.callHref],
+      ["Facebook URL", data.facebookHref],
+      ["Instagram URL", data.instagramHref],
+      ["LinkedIn URL", data.linkedinHref],
+      ["GitHub URL", data.githubHref],
+      ["Behance URL", data.behanceHref]
+    ];
+
+    const invalidLink = linkFields.find(([, href]) => !isSafeCmsHref(href));
+    if (invalidLink) {
+      setContactCmsMessage(`Use a safe http/https/tel link for ${invalidLink[0]}.`);
+      return null;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.emailAddress)) {
+      setContactCmsMessage("Enter a valid email address.");
+      return null;
+    }
+
+    return data;
+  };
+
+  const renderContactCmsPreview = (data) => {
+    const previewValues = {
+      previewContactStatus: data.statusText,
+      previewContactKicker: data.kicker,
+      previewContactTitleMain: data.titleMain,
+      previewContactTitleAccent: data.titleAccent,
+      previewContactDescription: data.description,
+      previewWhatsappLabel: data.whatsappLabel,
+      previewWhatsappDisplay: data.whatsappDisplay,
+      previewWhatsappDescription: data.whatsappDescription,
+      previewWhatsappAction: data.whatsappAction,
+      previewEmailLabel: data.emailLabel,
+      previewEmailAddress: data.emailAddress,
+      previewEmailDescription: data.emailDescription,
+      previewEmailAction: data.emailAction,
+      previewSocialGroupTitle: data.socialGroupTitle,
+      previewCallLabel: data.callLabel,
+      previewFacebookLabel: data.facebookLabel,
+      previewInstagramLabel: data.instagramLabel,
+      previewProfilesGroupTitle: data.profilesGroupTitle,
+      previewLinkedinLabel: data.linkedinLabel,
+      previewGithubLabel: data.githubLabel,
+      previewBehanceLabel: data.behanceLabel
+    };
+
+    Object.entries(previewValues).forEach(([id, value]) => {
+      const element = document.getElementById(id);
+      if (element) element.textContent = value;
+    });
+
+    contactCmsDraftPreview.hidden = false;
+    contactCmsDraftPreview.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  const loadContactCmsEditor = async () => {
+    setContactCmsMessage("Loading Contact draft…");
+    setContactCmsState("Loading…");
+
+    const { data, error } = await supabaseClient
+      .from("cms_content_entries")
+      .select("content_key,draft_data,published_data,draft_updated_at,published_at")
+      .eq("content_key", CONTACT_CONTENT_KEY)
+      .maybeSingle();
+
+    if (error) {
+      console.error("Contact CMS load failed:", error);
+      populateContactCmsForm(contactDefaults);
+      setContactCmsState("Load failed");
+      setContactCmsMessage("Could not load the Contact content store.");
+      return false;
+    }
+
+    if (!data) {
+      populateContactCmsForm(contactDefaults);
+      setContactCmsState("Setup required");
+      setContactCmsMessage("Save Draft to create the Phase 2I content row.");
+      return false;
+    }
+
+    populateContactCmsForm(data.draft_data || contactDefaults);
+
+    const synced =
+      JSON.stringify(data.draft_data || {}) === JSON.stringify(data.published_data || {});
+
+    setContactCmsState(synced ? "Published · synced" : "Draft differs from live");
+    setContactCmsMessage(
+      data.published_at
+        ? "Contact draft loaded. Preview or edit before publishing."
+        : "Contact draft loaded. This content has not been published yet."
+    );
+
+    return true;
+  };
+
+  populateContactCmsForm(contactDefaults);
+
+  contactCmsNavButton?.addEventListener("click", async () => {
+    showCmsView("contact");
+    await loadContactCmsEditor();
+  });
+
+  contactCmsEditorForm?.addEventListener("input", () => {
+    contactCmsDirty = true;
+    setContactCmsState("Unsaved changes");
+  });
+
+  contactCmsPreviewButton?.addEventListener("click", () => {
+    setContactCmsMessage("");
+    const draft = readContactCmsForm();
+    if (!draft) return;
+    renderContactCmsPreview(draft);
+  });
+
+  closeContactCmsPreviewButton?.addEventListener("click", () => {
+    contactCmsDraftPreview.hidden = true;
+  });
+
+  const saveContactCmsDraft = async () => {
+    setContactCmsMessage("");
+    const draft = readContactCmsForm();
+    if (!draft) return false;
+
+    setContactCmsBusy(true);
+    setContactCmsState("Saving…");
+
+    try {
+      const { data, error } = await supabaseClient
+        .from("cms_content_entries")
+        .upsert(
+          {
+            content_key: CONTACT_CONTENT_KEY,
+            draft_data: draft
+          },
+          {
+            onConflict: "content_key"
+          }
+        )
+        .select("content_key,draft_updated_at")
+        .maybeSingle();
+
+      if (error) throw error;
+      if (!data) {
+        setContactCmsState("Save failed");
+        setContactCmsMessage("Could not create or update the Contact draft.");
+        return false;
+      }
+
+      contactCmsLastLoadedDraft = structuredClone(draft);
+      contactCmsDirty = false;
+      setContactCmsState("Draft saved");
+      setContactCmsMessage("Draft saved. Published Contact content has not changed.");
+      return true;
+    } catch (error) {
+      console.error("Contact draft save failed:", error);
+      setContactCmsState("Save failed");
+      setContactCmsMessage(
+        error?.message
+          ? `Could not save draft: ${error.message}`
+          : "Could not save the Contact draft."
+      );
+      return false;
+    } finally {
+      setContactCmsBusy(false);
+    }
+  };
+
+  contactCmsSaveButton?.addEventListener("click", saveContactCmsDraft);
+
+  contactCmsEditorForm?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    await saveContactCmsDraft();
+  });
+
+  contactCmsPublishButton?.addEventListener("click", async () => {
+    setContactCmsMessage("");
+
+    if (contactCmsDirty) {
+      setContactCmsState("Unsaved changes");
+      setContactCmsMessage("Save the draft first, then publish.");
+      return;
+    }
+
+    if (!contactCmsLastLoadedDraft) {
+      setContactCmsMessage("Load or save the Contact draft before publishing.");
+      return;
+    }
+
+    setContactCmsBusy(true);
+    setContactCmsState("Publishing…");
+
+    try {
+      const { data, error } = await supabaseClient.rpc("cms_publish_content", {
+        p_content_key: CONTACT_CONTENT_KEY
+      });
+
+      if (error) throw error;
+      if (!data?.length) throw new Error("Publish returned no Contact row.");
+
+      setContactCmsState("Published · synced");
+      setContactCmsMessage("Contact published to the CMS. Localhost reads this version now; production still waits for explicit live deployment.");
+    } catch (error) {
+      console.error("Contact publish failed:", error);
+      setContactCmsState("Publish failed");
+      setContactCmsMessage(error?.message || "Could not publish Contact.");
+    } finally {
+      setContactCmsBusy(false);
     }
   });
 
