@@ -802,6 +802,7 @@ export const initProjectManager = ({ supabaseClient, showCmsView }) => {
     } finally {
       setBusy(false);
       projectPublishButton.textContent = "Publish project";
+      projectPublishButton.disabled = projectPublishedAtLoad && !projectDirty;
     }
   });
 
