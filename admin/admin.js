@@ -29,9 +29,11 @@ const sidebarBackdrop = document.querySelector("#sidebarBackdrop");
 const dashboardNavLink = document.querySelector("#dashboardNavLink");
 const homepageNavButton = document.querySelector("#homepageNavButton");
 const realProjectsNavButton = document.querySelector("#realProjectsNavButton");
+const designShowcaseNavButton = document.querySelector("#designShowcaseNavButton");
 const dashboard = document.querySelector("#dashboard");
 const homepageEditor = document.querySelector("#homepageEditor");
 const realProjectsEditor = document.querySelector("#realProjectsEditor");
+const designShowcaseEditor = document.querySelector("#designShowcaseEditor");
 const cmsPageEyebrow = document.querySelector("#cmsPageEyebrow");
 const cmsPageTitle = document.querySelector("#cmsPageTitle");
 
@@ -58,6 +60,17 @@ const realProjectsPublishButton = document.querySelector("#realProjectsPublishBu
 const realProjectsDraftPreview = document.querySelector("#realProjectsDraftPreview");
 const closeRealProjectsPreviewButton = document.querySelector("#closeRealProjectsPreviewButton");
 const realProjectsPreviewGrid = document.querySelector("#realProjectsPreviewGrid");
+
+const designShowcaseEditorForm = document.querySelector("#designShowcaseEditorForm");
+const designShowcaseEditorList = document.querySelector("#designShowcaseEditorList");
+const designShowcaseEditorState = document.querySelector("#designShowcaseEditorState");
+const designShowcaseEditorMessage = document.querySelector("#designShowcaseEditorMessage");
+const designShowcasePreviewButton = document.querySelector("#designShowcasePreviewButton");
+const designShowcaseSaveButton = document.querySelector("#designShowcaseSaveButton");
+const designShowcasePublishButton = document.querySelector("#designShowcasePublishButton");
+const designShowcaseDraftPreview = document.querySelector("#designShowcaseDraftPreview");
+const closeDesignShowcasePreviewButton = document.querySelector("#closeDesignShowcasePreviewButton");
+const designShowcasePreviewGrid = document.querySelector("#designShowcasePreviewGrid");
 const contentStoreDot = document.querySelector("#contentStoreDot");
 const contentStoreStatus = document.querySelector("#contentStoreStatus");
 const revisionStoreDot = document.querySelector("#revisionStoreDot");
@@ -530,16 +543,19 @@ if (!hasValidConfig) {
     const isDashboard = view === "dashboard";
     const isHero = view === "hero";
     const isRealProjects = view === "real-projects";
+    const isDesignShowcase = view === "design-showcase";
 
     dashboard.hidden = !isDashboard;
     homepageEditor.hidden = !isHero;
     realProjectsEditor.hidden = !isRealProjects;
+    designShowcaseEditor.hidden = !isDesignShowcase;
 
     dashboardNavLink?.classList.toggle("active", isDashboard);
     homepageNavButton?.classList.toggle("active", isHero);
     realProjectsNavButton?.classList.toggle("active", isRealProjects);
+    designShowcaseNavButton?.classList.toggle("active", isDesignShowcase);
 
-    [dashboardNavLink, homepageNavButton, realProjectsNavButton].forEach((item) => {
+    [dashboardNavLink, homepageNavButton, realProjectsNavButton, designShowcaseNavButton].forEach((item) => {
       item?.removeAttribute("aria-current");
     });
 
@@ -551,6 +567,10 @@ if (!hasValidConfig) {
       realProjectsNavButton?.setAttribute("aria-current", "page");
       cmsPageEyebrow.textContent = "HOMEPAGE CMS";
       cmsPageTitle.textContent = "Real Life Projects";
+    } else if (isDesignShowcase) {
+      designShowcaseNavButton?.setAttribute("aria-current", "page");
+      cmsPageEyebrow.textContent = "HOMEPAGE CMS";
+      cmsPageTitle.textContent = "Design Showcase";
     } else {
       dashboardNavLink?.setAttribute("aria-current", "page");
       cmsPageEyebrow.textContent = "HOMEPAGE CMS";
@@ -1235,6 +1255,531 @@ if (!hasValidConfig) {
       setRealProjectsMessage(error?.message || "Could not publish the project cards.");
     } finally {
       setRealProjectsBusy(false);
+    }
+  });
+
+  const DESIGN_SHOWCASE_CONTENT_KEY = "homepage.design-showcase";
+
+  const designShowcaseDefaults = Object.freeze({
+    eyebrow: "Selected design work",
+    titleMain: "DESIGN",
+    titleAccent: "SHOWCASE",
+    items: [
+      {
+        key: "sports-kit",
+        cardTitle: "Custom Sports Kit",
+        cardSubtitle: "Sportswear concept and jersey design.",
+        modalTitle: "CUSTOM SPORTS KIT",
+        modalEyebrow: "Design showcase",
+        modalMeta: "Sportswear · Apparel Design",
+        modalSummary: "A custom football kit concept focused on clear team identity, strong contrast and a presentation that works for both design review and sports promotion.",
+        modalPoints: ["Jersey visual direction", "Front-and-back sportswear presentation", "Team-focused color and graphic treatment"],
+        imageSrc: "assets/project-sportskit.jpg",
+        imageAlt: "Custom sports kit design"
+      },
+      {
+        key: "kings-kitchen",
+        cardTitle: "King's Kitchen",
+        cardSubtitle: "Restaurant menu and promotional design.",
+        modalTitle: "KING'S KITCHEN",
+        modalEyebrow: "Design showcase",
+        modalMeta: "Menu Design · Restaurant Branding",
+        modalSummary: "A restaurant-focused visual piece built around clear food presentation, readable hierarchy and a branded promotional look.",
+        modalPoints: ["Menu-led information hierarchy", "Food and promotional visual balance", "Restaurant brand presentation"],
+        imageSrc: "assets/project-kings.jpg",
+        imageAlt: "King's Kitchen menu design"
+      },
+      {
+        key: "long-lounge",
+        cardTitle: "Long Lounge",
+        cardSubtitle: "Hospitality social media promotional creative.",
+        modalTitle: "LONG LOUNGE",
+        modalEyebrow: "Design showcase",
+        modalMeta: "Social Media Design · Hospitality",
+        modalSummary: "A hospitality promotional creative designed to communicate the offer quickly while keeping the visual direction polished and social-media ready.",
+        modalPoints: ["Promotional content hierarchy", "Hospitality-focused visual direction", "Social-media-ready composition"],
+        imageSrc: "assets/project-lounge.jpg",
+        imageAlt: "Long Lounge social media design"
+      },
+      {
+        key: "cp-five-star",
+        cardTitle: "CP Five Star",
+        cardSubtitle: "Food promotion and social campaign creative.",
+        modalTitle: "CP FIVE STAR",
+        modalEyebrow: "Design showcase",
+        modalMeta: "Social Media Design · Food Promotion",
+        modalSummary: "A food-promotion creative that combines product focus, offer visibility and compact social advertising hierarchy.",
+        modalPoints: ["Product-first composition", "Offer and callout hierarchy", "Platform-ready promotional design"],
+        imageSrc: "assets/project-cp.jpg",
+        imageAlt: "CP Five Star promotional design"
+      }
+    ]
+  });
+
+  let designShowcaseDirty = false;
+  let designShowcaseLastLoadedDraft = null;
+
+  const cloneDesignShowcaseDefaults = () => structuredClone(designShowcaseDefaults);
+
+  const setDesignShowcaseMessage = (message = "") => {
+    if (designShowcaseEditorMessage) designShowcaseEditorMessage.textContent = message;
+  };
+
+  const setDesignShowcaseState = (label) => {
+    if (designShowcaseEditorState) designShowcaseEditorState.textContent = label;
+  };
+
+  const setDesignShowcaseBusy = (busy) => {
+    [designShowcasePreviewButton, designShowcaseSaveButton, designShowcasePublishButton].forEach((button) => {
+      if (button) button.disabled = busy;
+    });
+  };
+
+  const designShowcaseEditorCard = (item, index) => `
+    <article class="project-editor-card showcase-editor-card" data-showcase-key="${item.key}">
+      <header>
+        <div>
+          <small>SHOWCASE ${index + 1}</small>
+          <h4>${item.cardTitle}</h4>
+        </div>
+        <b>PROJECT SNAPSHOT</b>
+      </header>
+
+      <div class="editor-grid two">
+        <label>
+          <span>Card title</span>
+          <input data-showcase-field="cardTitle" type="text" maxlength="80" required>
+        </label>
+        <label>
+          <span>Card subtitle</span>
+          <input data-showcase-field="cardSubtitle" type="text" maxlength="140" required>
+        </label>
+      </div>
+
+      <div class="project-image-editor">
+        <div class="project-upload-block">
+          <span>Showcase image</span>
+          <input data-showcase-upload type="file" accept="image/jpeg,image/png,image/webp">
+          <small data-showcase-upload-status>JPG, PNG or WebP · maximum 8 MB</small>
+        </div>
+        <div class="project-image-current">
+          <img data-showcase-image-preview alt="">
+        </div>
+      </div>
+
+      <div class="editor-grid two">
+        <label>
+          <span>Image path / URL</span>
+          <input data-showcase-field="imageSrc" type="text" maxlength="500" required>
+        </label>
+        <label>
+          <span>Image alt text</span>
+          <input data-showcase-field="imageAlt" type="text" maxlength="160" required>
+        </label>
+      </div>
+
+      <div class="showcase-modal-fields">
+        <p class="eyebrow">POPUP CONTENT</p>
+        <div class="editor-grid two">
+          <label>
+            <span>Popup title</span>
+            <input data-showcase-field="modalTitle" type="text" maxlength="100" required>
+          </label>
+          <label>
+            <span>Popup eyebrow</span>
+            <input data-showcase-field="modalEyebrow" type="text" maxlength="90" required>
+          </label>
+          <label class="editor-grid-span">
+            <span>Popup meta</span>
+            <input data-showcase-field="modalMeta" type="text" maxlength="140" required>
+          </label>
+          <label class="editor-grid-span">
+            <span>Popup summary</span>
+            <textarea data-showcase-field="modalSummary" rows="4" maxlength="500" required></textarea>
+          </label>
+          <label>
+            <span>Point 1</span>
+            <input data-showcase-field="modalPoint1" type="text" maxlength="160" required>
+          </label>
+          <label>
+            <span>Point 2</span>
+            <input data-showcase-field="modalPoint2" type="text" maxlength="160" required>
+          </label>
+          <label class="editor-grid-span">
+            <span>Point 3</span>
+            <input data-showcase-field="modalPoint3" type="text" maxlength="160" required>
+          </label>
+        </div>
+      </div>
+    </article>
+  `;
+
+  const renderDesignShowcaseEditorCards = () => {
+    designShowcaseEditorList.innerHTML = designShowcaseDefaults.items
+      .map(designShowcaseEditorCard)
+      .join("");
+  };
+
+  const showcaseCardElement = (key) =>
+    designShowcaseEditorList?.querySelector(`[data-showcase-key="${key}"]`);
+
+  const fillDesignShowcaseCard = (item) => {
+    const card = showcaseCardElement(item.key);
+    if (!card) return;
+
+    const simpleFields = ["cardTitle", "cardSubtitle", "modalTitle", "modalEyebrow", "modalMeta", "modalSummary", "imageSrc", "imageAlt"];
+    simpleFields.forEach((field) => {
+      const input = card.querySelector(`[data-showcase-field="${field}"]`);
+      if (input) input.value = item[field] ?? "";
+    });
+
+    const points = Array.isArray(item.modalPoints) ? item.modalPoints : [];
+    ["modalPoint1", "modalPoint2", "modalPoint3"].forEach((field, pointIndex) => {
+      const input = card.querySelector(`[data-showcase-field="${field}"]`);
+      if (input) input.value = points[pointIndex] ?? "";
+    });
+
+    const preview = card.querySelector("[data-showcase-image-preview]");
+    if (preview) {
+      preview.src = resolvePreviewImage(item.imageSrc);
+      preview.alt = item.imageAlt || item.cardTitle || "Showcase preview";
+    }
+  };
+
+  const populateDesignShowcaseForm = (data = {}) => {
+    const defaults = cloneDesignShowcaseDefaults();
+    const incomingItems = Array.isArray(data.items) ? data.items : [];
+
+    const merged = {
+      ...defaults,
+      ...data,
+      items: defaults.items.map((item) => {
+        const incoming = incomingItems.find((candidate) => candidate?.key === item.key) || {};
+        return { ...item, ...incoming, key: item.key };
+      })
+    };
+
+    designShowcaseEditorForm.elements.namedItem("eyebrow").value = merged.eyebrow;
+    designShowcaseEditorForm.elements.namedItem("titleMain").value = merged.titleMain;
+    designShowcaseEditorForm.elements.namedItem("titleAccent").value = merged.titleAccent;
+    merged.items.forEach(fillDesignShowcaseCard);
+
+    designShowcaseLastLoadedDraft = structuredClone(merged);
+    designShowcaseDirty = false;
+    setDesignShowcaseState("Draft loaded");
+  };
+
+  const readDesignShowcaseForm = () => {
+    if (!designShowcaseEditorForm) return null;
+
+    const missingRequired = [...designShowcaseEditorForm.querySelectorAll("[required]")].find(
+      (field) => !String(field.value || "").trim()
+    );
+
+    if (missingRequired) {
+      const showcaseCard = missingRequired.closest("[data-showcase-key]");
+      const showcaseTitle =
+        showcaseCard?.querySelector('[data-showcase-field="cardTitle"]')?.value?.trim() ||
+        showcaseCard?.dataset.showcaseKey ||
+        "section heading";
+      const fieldLabel =
+        missingRequired.closest("label")?.querySelector("span")?.textContent?.trim() ||
+        "required field";
+
+      setDesignShowcaseMessage(`Complete "${fieldLabel}" for ${showcaseTitle} before saving.`);
+      missingRequired.focus();
+      missingRequired.scrollIntoView({ behavior: "smooth", block: "center" });
+      return null;
+    }
+
+    const items = designShowcaseDefaults.items.map((item) => {
+      const card = showcaseCardElement(item.key);
+      const get = (field) =>
+        String(card?.querySelector(`[data-showcase-field="${field}"]`)?.value || "").trim();
+
+      return {
+        key: item.key,
+        cardTitle: get("cardTitle"),
+        cardSubtitle: get("cardSubtitle"),
+        modalTitle: get("modalTitle"),
+        modalEyebrow: get("modalEyebrow"),
+        modalMeta: get("modalMeta"),
+        modalSummary: get("modalSummary"),
+        modalPoints: [get("modalPoint1"), get("modalPoint2"), get("modalPoint3")],
+        imageSrc: get("imageSrc"),
+        imageAlt: get("imageAlt")
+      };
+    });
+
+    for (const item of items) {
+      if (!isSafeImageSource(item.imageSrc)) {
+        setDesignShowcaseMessage(`Use a safe image path or HTTPS image URL for ${item.cardTitle}.`);
+        return null;
+      }
+    }
+
+    return {
+      eyebrow: String(designShowcaseEditorForm.elements.namedItem("eyebrow").value || "").trim(),
+      titleMain: String(designShowcaseEditorForm.elements.namedItem("titleMain").value || "").trim(),
+      titleAccent: String(designShowcaseEditorForm.elements.namedItem("titleAccent").value || "").trim(),
+      items
+    };
+  };
+
+  const renderDesignShowcasePreview = (data) => {
+    document.querySelector("#previewDesignShowcaseEyebrow").textContent = data.eyebrow;
+    document.querySelector("#previewDesignShowcaseTitleMain").textContent = data.titleMain;
+    document.querySelector("#previewDesignShowcaseTitleAccent").textContent = data.titleAccent;
+    designShowcasePreviewGrid.innerHTML = "";
+
+    data.items.forEach((item) => {
+      const card = document.createElement("article");
+      card.className = "design-showcase-preview-card";
+
+      const image = document.createElement("img");
+      image.src = resolvePreviewImage(item.imageSrc);
+      image.alt = item.imageAlt || item.cardTitle;
+
+      const body = document.createElement("div");
+      const title = document.createElement("strong");
+      title.textContent = item.cardTitle;
+      const subtitle = document.createElement("small");
+      subtitle.textContent = item.cardSubtitle;
+      const modalMeta = document.createElement("span");
+      modalMeta.textContent = item.modalMeta;
+
+      body.append(title, subtitle, modalMeta);
+      card.append(image, body);
+      designShowcasePreviewGrid.appendChild(card);
+    });
+
+    designShowcaseDraftPreview.hidden = false;
+    designShowcaseDraftPreview.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  const loadDesignShowcaseEditor = async () => {
+    setDesignShowcaseMessage("Loading Design Showcase draft…");
+    setDesignShowcaseState("Loading…");
+
+    const { data, error } = await supabaseClient
+      .from("cms_content_entries")
+      .select("content_key,draft_data,published_data,draft_updated_at,published_at")
+      .eq("content_key", DESIGN_SHOWCASE_CONTENT_KEY)
+      .maybeSingle();
+
+    if (error) {
+      console.error("Design Showcase CMS load failed:", error);
+      populateDesignShowcaseForm(designShowcaseDefaults);
+      setDesignShowcaseState("Load failed");
+      setDesignShowcaseMessage("Could not load the Design Showcase content store.");
+      return false;
+    }
+
+    if (!data) {
+      populateDesignShowcaseForm(designShowcaseDefaults);
+      setDesignShowcaseState("Setup required");
+      setDesignShowcaseMessage("Run the Phase 2C seed migration before saving.");
+      return false;
+    }
+
+    populateDesignShowcaseForm(data.draft_data || designShowcaseDefaults);
+
+    const synced =
+      JSON.stringify(data.draft_data || {}) === JSON.stringify(data.published_data || {});
+
+    setDesignShowcaseState(synced ? "Published · synced" : "Draft differs from live");
+    setDesignShowcaseMessage(
+      data.published_at
+        ? "Showcase draft loaded. Preview or edit before publishing."
+        : "Showcase draft loaded. This content has not been published yet."
+    );
+
+    return true;
+  };
+
+  const uploadDesignShowcaseImage = async (input) => {
+    const file = input?.files?.[0];
+    const card = input?.closest("[data-showcase-key]");
+    const key = card?.dataset.showcaseKey;
+    const status = card?.querySelector("[data-showcase-upload-status]");
+
+    const setStatus = (message) => {
+      if (status) status.textContent = message;
+    };
+
+    if (!file || !card || !key) return;
+
+    const extension = HERO_ALLOWED_IMAGE_TYPES[file.type];
+
+    if (!extension) {
+      setStatus("Use JPG, PNG or WebP.");
+      return;
+    }
+
+    if (file.size > HERO_MAX_UPLOAD_BYTES) {
+      setStatus("Image is larger than 8 MB.");
+      return;
+    }
+
+    setStatus("Uploading…");
+
+    try {
+      const uniquePart =
+        globalThis.crypto?.randomUUID?.() ||
+        Math.random().toString(36).slice(2, 12);
+
+      const objectPath = `design-showcase/${key}/${Date.now()}-${uniquePart}.${extension}`;
+
+      const { error: uploadError } = await supabaseClient.storage
+        .from(HERO_MEDIA_BUCKET)
+        .upload(objectPath, file, {
+          cacheControl: "31536000",
+          contentType: file.type,
+          upsert: false
+        });
+
+      if (uploadError) throw uploadError;
+
+      const { data: publicUrlData } = supabaseClient.storage
+        .from(HERO_MEDIA_BUCKET)
+        .getPublicUrl(objectPath);
+
+      const publicUrl = publicUrlData?.publicUrl;
+      if (!publicUrl) throw new Error("Storage did not return a public image URL.");
+
+      const srcInput = card.querySelector('[data-showcase-field="imageSrc"]');
+      const preview = card.querySelector("[data-showcase-image-preview]");
+      if (srcInput) srcInput.value = publicUrl;
+      if (preview) preview.src = publicUrl;
+
+      designShowcaseDirty = true;
+      setDesignShowcaseState("Unsaved changes");
+      setStatus("Uploaded. Save draft to keep this image.");
+    } catch (error) {
+      console.error("Design Showcase image upload failed:", error);
+      setStatus(error?.message || "Could not upload image.");
+    }
+  };
+
+  renderDesignShowcaseEditorCards();
+  populateDesignShowcaseForm(designShowcaseDefaults);
+
+  designShowcaseNavButton?.addEventListener("click", async () => {
+    showCmsView("design-showcase");
+    await loadDesignShowcaseEditor();
+  });
+
+  designShowcaseEditorForm?.addEventListener("input", (event) => {
+    if (event.target.matches("[data-showcase-upload]")) return;
+
+    designShowcaseDirty = true;
+    setDesignShowcaseState("Unsaved changes");
+
+    if (event.target.matches('[data-showcase-field="imageSrc"]')) {
+      const card = event.target.closest("[data-showcase-key]");
+      const preview = card?.querySelector("[data-showcase-image-preview]");
+      if (preview) preview.src = resolvePreviewImage(event.target.value);
+    }
+  });
+
+  designShowcaseEditorForm?.addEventListener("change", async (event) => {
+    if (!event.target.matches("[data-showcase-upload]")) return;
+    await uploadDesignShowcaseImage(event.target);
+  });
+
+  designShowcasePreviewButton?.addEventListener("click", () => {
+    setDesignShowcaseMessage("");
+    const draft = readDesignShowcaseForm();
+    if (!draft) return;
+    renderDesignShowcasePreview(draft);
+  });
+
+  closeDesignShowcasePreviewButton?.addEventListener("click", () => {
+    designShowcaseDraftPreview.hidden = true;
+  });
+
+  const saveDesignShowcaseDraft = async () => {
+    setDesignShowcaseMessage("");
+    const draft = readDesignShowcaseForm();
+    if (!draft) return false;
+
+    setDesignShowcaseBusy(true);
+    setDesignShowcaseState("Saving…");
+
+    try {
+      const { data, error } = await supabaseClient
+        .from("cms_content_entries")
+        .update({ draft_data: draft })
+        .eq("content_key", DESIGN_SHOWCASE_CONTENT_KEY)
+        .select("content_key,draft_updated_at")
+        .maybeSingle();
+
+      if (error) throw error;
+      if (!data) {
+        setDesignShowcaseState("Setup required");
+        setDesignShowcaseMessage("Design Showcase row is missing. Run the Phase 2C seed migration first.");
+        return false;
+      }
+
+      designShowcaseLastLoadedDraft = structuredClone(draft);
+      designShowcaseDirty = false;
+      setDesignShowcaseState("Draft saved");
+      setDesignShowcaseMessage("Draft saved. Published showcase content has not changed.");
+      return true;
+    } catch (error) {
+      console.error("Design Showcase draft save failed:", error);
+      setDesignShowcaseState("Save failed");
+      setDesignShowcaseMessage(
+        error?.message
+          ? `Could not save draft: ${error.message}`
+          : "Could not save the Design Showcase draft."
+      );
+      return false;
+    } finally {
+      setDesignShowcaseBusy(false);
+    }
+  };
+
+  designShowcaseSaveButton?.addEventListener("click", saveDesignShowcaseDraft);
+
+  designShowcaseEditorForm?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    await saveDesignShowcaseDraft();
+  });
+
+  designShowcasePublishButton?.addEventListener("click", async () => {
+    setDesignShowcaseMessage("");
+
+    if (designShowcaseDirty) {
+      setDesignShowcaseState("Unsaved changes");
+      setDesignShowcaseMessage("Save the draft first, then publish.");
+      return;
+    }
+
+    if (!designShowcaseLastLoadedDraft) {
+      setDesignShowcaseMessage("Load or save the showcase draft before publishing.");
+      return;
+    }
+
+    setDesignShowcaseBusy(true);
+    setDesignShowcaseState("Publishing…");
+
+    try {
+      const { data, error } = await supabaseClient.rpc("cms_publish_content", {
+        p_content_key: DESIGN_SHOWCASE_CONTENT_KEY
+      });
+
+      if (error) throw error;
+      if (!data?.length) throw new Error("Publish returned no Design Showcase row.");
+
+      setDesignShowcaseState("Published · synced");
+      setDesignShowcaseMessage("Design Showcase published to the CMS. Localhost reads this version now; production still waits for explicit live deployment.");
+    } catch (error) {
+      console.error("Design Showcase publish failed:", error);
+      setDesignShowcaseState("Publish failed");
+      setDesignShowcaseMessage(error?.message || "Could not publish the Design Showcase.");
+    } finally {
+      setDesignShowcaseBusy(false);
     }
   });
 
