@@ -328,8 +328,11 @@ Connect the already-approved public Hero section to the locked CMS foundation wi
 Scope:
 - Enable only the Homepage → Hero admin navigation
 - Seed `homepage.hero` with the current approved Hero content as both draft and published data
-- Edit Hero availability text, eyebrow, two name lines, role/highlight copy, button labels/links, proof points, image path and image alt text
-- Keep media upload out of scope; Phase 2A may reference an existing relative asset path or HTTPS image URL
+- Edit Hero availability text, eyebrow, two name lines, role/highlight copy, button labels/links, proof points, image source and image alt text
+- Basic Hero image upload is included by owner request using a dedicated Supabase Storage bucket
+- Accept JPG, PNG and WebP up to 8 MB; upload fills the Hero image URL automatically
+- Keep the manual relative-path / HTTPS URL field as a fallback
+- Advanced image optimization, resizing, WebP conversion, thumbnails and media-library management remain in the later Portfolio Engine requirement
 - Save changes to `draft_data` only
 - Provide a private draft preview inside Admin
 - Require a saved draft before Publish
@@ -344,6 +347,8 @@ Acceptance checklist:
 - [ ] Phase 2A seed migration runs successfully
 - [ ] Homepage navigation opens only the Hero editor
 - [ ] Existing approved Hero content loads into the editor
+- [ ] Hero image can be uploaded securely from Admin
+- [ ] Uploaded Hero image fills the image URL and can be previewed before draft save
 - [ ] Save Draft changes draft data without changing published data
 - [ ] Private Preview reflects current form values
 - [ ] Publish is blocked while the form has unsaved changes
@@ -355,4 +360,4 @@ Acceptance checklist:
 - [ ] No other homepage section is changed
 
 Lock rule:
-After owner approval, freeze the Phase 2A Hero field contract and move to the next Homepage CMS mini-module. Later media-upload work may replace the image-path field without redesigning the Hero content model.
+After owner approval, freeze the Phase 2A Hero field contract and move to the next Homepage CMS mini-module. The basic upload control may later be upgraded by the full media optimization/library system without redesigning the Hero content model.
