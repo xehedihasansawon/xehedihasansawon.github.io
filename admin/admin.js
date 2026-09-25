@@ -2,16 +2,41 @@ import { ADMIN_CONFIG } from "./config.js";
 
 const configPanel = document.querySelector("#configPanel");
 const loginPanel = document.querySelector("#loginPanel");
+const recoveryRequestPanel = document.querySelector("#recoveryRequestPanel");
+const passwordUpdatePanel = document.querySelector("#passwordUpdatePanel");
 const adminPanel = document.querySelector("#adminPanel");
+
 const loginForm = document.querySelector("#loginForm");
 const loginButton = document.querySelector("#loginButton");
-const logoutButton = document.querySelector("#logoutButton");
+const forgotPasswordButton = document.querySelector("#forgotPasswordButton");
 const loginMessage = document.querySelector("#loginMessage");
+
+const recoveryRequestForm = document.querySelector("#recoveryRequestForm");
+const recoveryRequestButton = document.querySelector("#recoveryRequestButton");
+const recoveryRequestMessage = document.querySelector("#recoveryRequestMessage");
+const backToLoginButton = document.querySelector("#backToLoginButton");
+
+const passwordUpdateForm = document.querySelector("#passwordUpdateForm");
+const passwordUpdateButton = document.querySelector("#passwordUpdateButton");
+const passwordUpdateMessage = document.querySelector("#passwordUpdateMessage");
+const cancelRecoveryButton = document.querySelector("#cancelRecoveryButton");
+
+const logoutButton = document.querySelector("#logoutButton");
 const adminMessage = document.querySelector("#adminMessage");
 const emailDisplay = document.querySelector("#adminEmailDisplay");
 const mobileMenuToggle = document.querySelector("#mobileMenuToggle");
 const sidebarBackdrop = document.querySelector("#sidebarBackdrop");
 const dashboardNavLink = document.querySelector(".cms-nav .nav-item.active");
+
+const allPanels = [
+  configPanel,
+  loginPanel,
+  recoveryRequestPanel,
+  passwordUpdatePanel,
+  adminPanel
+];
+
+let recoveryMode = false;
 
 const isPlaceholder = (value) =>
   !value ||
@@ -23,22 +48,32 @@ const hasValidConfig =
   !isPlaceholder(ADMIN_CONFIG.supabaseAnonKey);
 
 const showOnly = (panel) => {
-  [configPanel, loginPanel, adminPanel].forEach((item) => {
+  allPanels.forEach((item) => {
     item.hidden = item !== panel;
   });
 };
 
-const setLoginMessage = (message = "") => {
-  loginMessage.textContent = message;
-};
-
-const setAdminMessage = (message = "") => {
-  adminMessage.textContent = message;
+const setMessage = (element, message = "") => {
+  element.textContent = message;
 };
 
 const setLoginBusy = (busy) => {
   loginButton.disabled = busy;
   loginButton.textContent = busy ? "Checking access…" : "Sign in securely";
+};
+
+const setRecoveryRequestBusy = (busy) => {
+  recoveryRequestButton.disabled = busy;
+  recoveryRequestButton.textContent = busy
+    ? "Sending recovery email…"
+    : "Send recovery email";
+};
+
+const setPasswordUpdateBusy = (busy) => {
+  passwordUpdateButton.disabled = busy;
+  passwordUpdateButton.textContent = busy
+    ? "Saving new password…"
+    : "Save new password";
 };
 
 const setSidebarOpen = (open) => {
@@ -96,6 +131,10 @@ if (!hasValidConfig) {
     }
   );
 
+  const recoveryRedirectUrl = new URL("./", window.location.href);
+  recoveryRedirectUrl.search = "";
+  recoveryRedirectUrl.hash = "";
+
   const checkAdminMembership = async (user) => {
     if (!user?.id) {
       return { allowed: false, reason: "No authenticated user." };
@@ -122,19 +161,31 @@ if (!hasValidConfig) {
   };
 
   const enterAdmin = (user) => {
+    recoveryMode = false;
     emailDisplay.textContent = user.email || "Authenticated admin";
-    setAdminMessage("");
+    setMessage(adminMessage, "");
     setSidebarOpen(false);
     showOnly(adminPanel);
   };
 
   const enterLogin = (message = "") => {
+    recoveryMode = false;
     setSidebarOpen(false);
-    setLoginMessage(message);
+    setMessage(loginMessage, message);
     showOnly(loginPanel);
   };
 
+  const enterPasswordUpdate = () => {
+    recoveryMode = true;
+    passwordUpdateForm.reset();
+    setMessage(passwordUpdateMessage, "");
+    showOnly(passwordUpdatePanel);
+    document.querySelector("#newPassword")?.focus();
+  };
+
   const guardSession = async (session) => {
+    if (recoveryMode) return;
+
     if (!session?.user) {
       enterLogin();
       return;
@@ -151,16 +202,123 @@ if (!hasValidConfig) {
     enterAdmin(session.user);
   };
 
+  forgotPasswordButton.addEventListener("click", () => {
+    recoveryRequestForm.reset();
+    setMessage(recoveryRequestMessage, "");
+    showOnly(recoveryRequestPanel);
+    document.querySelector("#recoveryEmail")?.focus();
+  });
+
+  backToLoginButton.addEventListener("click", () => {
+    enterLogin();
+  });
+
+  recoveryRequestForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    setMessage(recoveryRequestMessage, "");
+
+    const formData = new FormData(recoveryRequestForm);
+    const email = String(formData.get("email") || "").trim();
+
+    if (!email) {
+      setMessage(recoveryRequestMessage, "Enter the admin email.");
+      return;
+    }
+
+    setRecoveryRequestBusy(true);
+
+    try {
+      const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+        redirectTo: recoveryRedirectUrl.href
+      });
+
+      if (error) {
+        setMessage(
+          recoveryRequestMessage,
+          "Could not send the recovery email. Check the redirect URL setup and try again."
+        );
+        return;
+      }
+
+      setMessage(
+        recoveryRequestMessage,
+        "If this email belongs to an account, a recovery link has been sent."
+      );
+    } catch (error) {
+      console.error("Password recovery request failed:", error);
+      setMessage(
+        recoveryRequestMessage,
+        "Could not reach the authentication service."
+      );
+    } finally {
+      setRecoveryRequestBusy(false);
+    }
+  });
+
+  passwordUpdateForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    setMessage(passwordUpdateMessage, "");
+
+    const formData = new FormData(passwordUpdateForm);
+    const newPassword = String(formData.get("newPassword") || "");
+    const confirmNewPassword = String(formData.get("confirmNewPassword") || "");
+
+    if (newPassword.length < 10) {
+      setMessage(passwordUpdateMessage, "Use at least 10 characters.");
+      return;
+    }
+
+    if (newPassword !== confirmNewPassword) {
+      setMessage(passwordUpdateMessage, "The two passwords do not match.");
+      return;
+    }
+
+    setPasswordUpdateBusy(true);
+
+    try {
+      const { error } = await supabaseClient.auth.updateUser({
+        password: newPassword
+      });
+
+      if (error) {
+        setMessage(
+          passwordUpdateMessage,
+          error.message || "Could not update the password."
+        );
+        return;
+      }
+
+      await supabaseClient.auth.signOut();
+      enterLogin("Password updated. Sign in with your new password.");
+    } catch (error) {
+      console.error("Password update failed:", error);
+      setMessage(
+        passwordUpdateMessage,
+        "Could not reach the authentication service."
+      );
+    } finally {
+      setPasswordUpdateBusy(false);
+    }
+  });
+
+  cancelRecoveryButton.addEventListener("click", async () => {
+    try {
+      await supabaseClient.auth.signOut();
+    } finally {
+      enterLogin("Recovery cancelled.");
+    }
+  });
+
   loginForm.addEventListener("submit", async (event) => {
     event.preventDefault();
-    setLoginMessage("");
+    setMessage(loginMessage, "");
 
     const formData = new FormData(loginForm);
     const email = String(formData.get("email") || "").trim();
     const password = String(formData.get("password") || "");
 
     if (!email || !password) {
-      setLoginMessage("Enter both email and password.");
+      setMessage(loginMessage, "Enter both email and password.");
       return;
     }
 
@@ -173,7 +331,7 @@ if (!hasValidConfig) {
       });
 
       if (error || !data.session?.user) {
-        setLoginMessage(error?.message || "Sign in failed.");
+        setMessage(loginMessage, error?.message || "Sign in failed.");
         return;
       }
 
@@ -181,7 +339,7 @@ if (!hasValidConfig) {
 
       if (!membership.allowed) {
         await supabaseClient.auth.signOut();
-        setLoginMessage(membership.reason);
+        setMessage(loginMessage, membership.reason);
         return;
       }
 
@@ -189,7 +347,7 @@ if (!hasValidConfig) {
       enterAdmin(data.session.user);
     } catch (error) {
       console.error("Admin sign-in failed:", error);
-      setLoginMessage("Could not reach the authentication service.");
+      setMessage(loginMessage, "Could not reach the authentication service.");
     } finally {
       setLoginBusy(false);
     }
@@ -197,16 +355,47 @@ if (!hasValidConfig) {
 
   logoutButton.addEventListener("click", async () => {
     logoutButton.disabled = true;
-    setAdminMessage("Signing out…");
+    setMessage(adminMessage, "Signing out…");
 
     try {
       await supabaseClient.auth.signOut();
       enterLogin("Signed out securely.");
     } catch (error) {
       console.error("Admin sign-out failed:", error);
-      setAdminMessage("Could not sign out. Please try again.");
+      setMessage(adminMessage, "Could not sign out. Please try again.");
     } finally {
       logoutButton.disabled = false;
+    }
+  });
+
+  supabaseClient.auth.onAuthStateChange(async (event, session) => {
+    if (event === "PASSWORD_RECOVERY") {
+      recoveryMode = true;
+
+      const membership = await checkAdminMembership(session?.user);
+
+      if (!membership.allowed) {
+        await supabaseClient.auth.signOut();
+        enterLogin("This recovery account is not authorized for the CMS.");
+        return;
+      }
+
+      enterPasswordUpdate();
+      return;
+    }
+
+    if (event === "SIGNED_OUT") {
+      if (!recoveryMode) enterLogin();
+      return;
+    }
+
+    if (
+      event === "SIGNED_IN" &&
+      session?.user &&
+      adminPanel.hidden &&
+      !recoveryMode
+    ) {
+      await guardSession(session);
     }
   });
 
@@ -216,18 +405,7 @@ if (!hasValidConfig) {
   if (sessionError) {
     console.error("Session check failed:", sessionError);
     enterLogin("Could not verify the current session.");
-  } else {
+  } else if (!recoveryMode) {
     await guardSession(sessionData.session);
   }
-
-  supabaseClient.auth.onAuthStateChange((event, session) => {
-    if (event === "SIGNED_OUT") {
-      enterLogin();
-      return;
-    }
-
-    if (event === "SIGNED_IN" && session?.user && adminPanel.hidden) {
-      guardSession(session);
-    }
-  });
 }
