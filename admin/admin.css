@@ -2170,3 +2170,74 @@ button {
     grid-template-columns: 1fr;
   }
 }
+
+
+/* Phase 2J — Footer CMS */
+.footer-preview-card {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #071611;
+}
+
+.footer-preview-main,
+.footer-preview-bottom {
+  padding: 18px;
+  display: grid;
+  gap: 14px;
+}
+
+.footer-preview-main {
+  grid-template-columns: 1.4fr 1fr 1fr;
+}
+
+.footer-preview-main > div:first-child {
+  display: grid;
+  gap: 5px;
+}
+
+.footer-preview-main strong {
+  font-size: 0.82rem;
+}
+
+.footer-preview-main > div:first-child span {
+  color: var(--muted);
+  font-size: 0.66rem;
+}
+
+.footer-preview-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: start;
+  gap: 7px 10px;
+}
+
+.footer-preview-links span {
+  color: #cbd8d2;
+  font-size: 0.64rem;
+}
+
+.footer-preview-bottom {
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  border-top: 1px solid var(--line);
+}
+
+.footer-preview-bottom > div:first-child {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  color: var(--muted);
+  font-size: 0.62rem;
+}
+
+.footer-preview-bottom i {
+  font-style: normal;
+}
+
+@media (max-width: 760px) {
+  .footer-preview-main,
+  .footer-preview-bottom {
+    grid-template-columns: 1fr;
+  }
+}
