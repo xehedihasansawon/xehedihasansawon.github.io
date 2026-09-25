@@ -2159,12 +2159,12 @@
           <section class="editor-heading-card">
             <div>
               <p class="status-pill success">PHASE 3C</p>
-              <h3>Category Manager</h3>
-              <p>Create, edit and delete Portfolio Engine categories using the locked Phase 3A category store.</p>
+              <h3>Categories & Project Drafts</h3>
+              <p>Manage Portfolio Engine categories and create/edit draft project records using the locked Phase 3A stores.</p>
             </div>
             <div class="editor-state">
               <span>DATABASE</span>
-              <strong>Phase 3A category store</strong>
+              <strong>Phase 3A category + project stores</strong>
               <b id="projectManagerState">Loading…</b>
             </div>
           </section>
@@ -2179,8 +2179,8 @@
             </div>
             <p id="projectManagerMessage" class="form-message" role="status" aria-live="polite"></p>
             <div class="portfolio-manager-note">
-              <strong>No SQL required for this checkpoint.</strong>
-              <span>This first Phase 3C slice uses only the locked Phase 3A category table. Project CRUD, Phase 3B media attachment and publishing are intentionally deferred until this category manager is tested and approved.</span>
+              <strong>Phase 3C-2 · Project Draft Create/Edit</strong>
+              <span>Categories stay available from the approved 3C-1 slice. This checkpoint adds draft project create/edit only. Media Library cover attachment, delete and Publish/Unpublish remain deferred.</span>
             </div>
           </section>
 
@@ -2225,6 +2225,73 @@
             </form>
 
             <div id="projectCategoryList" class="manager-list"></div>
+          </section>
+
+
+          <section class="editor-card">
+            <div class="editor-section-title">
+              <div>
+                <p class="eyebrow">PROJECT DRAFT MANAGER</p>
+                <h3>Create & edit project drafts</h3>
+              </div>
+              <span id="portfolioProjectCount">0 projects</span>
+            </div>
+
+            <form id="portfolioProjectForm" class="cms-editor-form manager-form" novalidate>
+              <input id="portfolioProjectId" type="hidden">
+
+              <div class="editor-grid two">
+                <label>
+                  <span>Project title</span>
+                  <input id="portfolioProjectTitle" type="text" maxlength="160" required placeholder="SSFC Season 4">
+                </label>
+
+                <label>
+                  <span>Slug</span>
+                  <input id="portfolioProjectSlug" type="text" maxlength="120" required placeholder="ssfc-season-4">
+                </label>
+
+                <label class="editor-grid-span">
+                  <span>Summary</span>
+                  <textarea id="portfolioProjectSummary" rows="4" maxlength="900" placeholder="Short project summary"></textarea>
+                </label>
+
+                <label>
+                  <span>Category</span>
+                  <select id="portfolioProjectCategory">
+                    <option value="">No category</option>
+                  </select>
+                </label>
+
+                <label>
+                  <span>Visibility</span>
+                  <select id="portfolioProjectVisibility">
+                    <option value="public">Public</option>
+                    <option value="private">Private</option>
+                  </select>
+                </label>
+
+                <label>
+                  <span>Action label</span>
+                  <input id="portfolioProjectActionLabel" type="text" maxlength="80" value="View project" required>
+                </label>
+
+                <label>
+                  <span>Action link</span>
+                  <input id="portfolioProjectActionHref" type="text" maxlength="500" placeholder="project.html or https://...">
+                  <small>Safe relative links, http/https, mailto and tel are allowed.</small>
+                </label>
+              </div>
+
+              <div class="manager-form-actions">
+                <button id="portfolioProjectSaveButton" type="submit">Save draft</button>
+                <button id="portfolioProjectCancelButton" class="secondary-button" type="button" hidden>Cancel edit</button>
+              </div>
+
+              <p id="portfolioProjectFormMessage" class="form-message" role="status" aria-live="polite"></p>
+            </form>
+
+            <div id="portfolioProjectList" class="project-manager-list"></div>
           </section>
 
         </div>
