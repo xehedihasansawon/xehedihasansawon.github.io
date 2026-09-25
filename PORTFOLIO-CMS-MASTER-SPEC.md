@@ -937,54 +937,80 @@ Acceptance checklist:
 Lock rule:
 Freeze the Phase 2J Footer content contract and fixed link structure. Only verified bugs/security issues may modify it before later structural CMS work.
 
-## Active module
+## Completed module
 
-**Phase 2K — Homepage Section Visibility / Order CMS**
+**Phase 2K — Homepage Section Visibility / Order CMS — LOCKED / DONE**
 
-Purpose:
-Add structural homepage control for the nine existing main sections while keeping all Phase 2A–2J content contracts and visual designs locked.
+Owner approval: 2026-09-26
 
-Scope:
-- Keep Phase 2A–2J locked
-- Add a dedicated Section Visibility / Order admin view
-- Use content key `homepage.section-layout`
-- Allow authenticated Save Draft to safely create the row if it does not exist
-- Manage exactly nine existing homepage sections: Hero, Real Life Projects, Design Showcase, Creative Services, AI & Digital Projects, About Me, Skills & Tools, Experience / Community, Contact
-- Keep section keys/count fixed in Phase 2K
-- Allow drag-and-drop reordering
-- Provide Up / Down controls as a non-drag alternative
-- Allow each section to be visible or hidden
-- Provide Reset approved order, restoring the current approved nine-section sequence with all sections visible
-- Save only to `draft_data`
-- Provide a private structural preview showing order and visibility
-- Require Save Draft before Publish
-- Publish through the locked Phase 1F secure publish action
-- Public/local homepage reads only `published_data`
-- Public runtime reorders existing DOM sections and applies visibility without rewriting their locked content
-- Keep current static homepage order/visibility as fail-safe fallback if the layout CMS request fails
-- Footer stays outside the reorderable list and remains Phase 2J locked
-- Do not change individual section content, card counts, design or animation
-- Keep `main` untouched until explicit live approval
+Purpose delivered:
+Added structural CMS control for the nine existing homepage sections while preserving all locked Phase 2A–2J content contracts and keeping Footer outside the reorderable structure.
+
+Scope delivered:
+- Added a dedicated Section Visibility / Order admin editor
+- `homepage.section-layout` is safely created on first authenticated Save Draft if missing
+- Exactly nine existing homepage sections are managed: Hero, Real Life Projects, Design Showcase, Creative Services, AI & Digital Projects, About Me, Skills & Tools, Experience / Community, Contact
+- Section keys/count remain fixed
+- Drag-and-drop ordering is implemented
+- Up / Down ordering controls are implemented
+- Per-section Visible / Hidden controls are implemented
+- Reset approved order restores the current nine-section sequence with all sections visible
+- Save Draft writes only to `draft_data`
+- Private structural preview shows order and visibility
+- Publish uses the locked Phase 1F secure publish action
+- Public/local runtime can reorder existing DOM sections and apply visibility from `published_data`
+- Existing static homepage order/visibility remains the fail-safe fallback
+- Footer remains outside Phase 2K and stays Phase 2J locked
+- No individual section content/card contract was redesigned
+- Production `main` branch remains untouched
+
+Explicitly evidenced in chat:
+- Section Order editor was opened
+- First authenticated Save Draft completed successfully
+
+Owner lock note:
+- Owner gave explicit **Phase 2K LOCKED** approval after the final drag/drop, Up/Down, visibility, Preview, Reset, Publish and localhost verification checklist was provided.
+- Individual results/screenshots for those final checks were not separately posted in chat, so they are not recorded below as independently evidenced test outputs.
 
 Acceptance checklist:
-- [ ] Phase 2K content row exists via first authenticated Save Draft
-- [ ] Section Order navigation opens only the Phase 2K editor
-- [ ] All nine existing sections load in approved order
-- [ ] Drag/drop reordering works
-- [ ] Up/Down controls reorder sections
-- [ ] Visibility toggle works for each section
-- [ ] Reset approved order restores all nine sections and visibility
-- [ ] Save Draft changes draft data without changing published structure
-- [ ] Private Preview reflects current order and visibility
-- [ ] Publish is blocked while there are unsaved changes
-- [ ] Publish promotes the saved draft through the secure Phase 1F action
-- [ ] Localhost homepage applies published section order
-- [ ] Localhost homepage applies published section visibility
-- [ ] Footer remains outside Phase 2K ordering
-- [ ] Static fallback keeps approved homepage order if the CMS request fails
-- [ ] Locked Phase 2A–2J section content remains unchanged
-- [ ] Desktop layout remains visually consistent
-- [ ] Mobile layout remains visually consistent
+- [x] Phase 2K content row exists via first authenticated Save Draft
+- [x] Section Order navigation opens the Phase 2K editor
+- [ ] All nine sections in approved order were not separately evidenced after final test
+- [ ] Drag/drop result was not separately evidenced
+- [ ] Up/Down result was not separately evidenced
+- [ ] Visibility-toggle result was not separately evidenced
+- [ ] Reset approved order result was not separately evidenced
+- [x] Save Draft writes successfully without publishing
+- [ ] Private Preview result was not separately evidenced
+- [ ] Unsaved-change publish block was not separately evidenced
+- [ ] Publish result was not separately evidenced
+- [ ] Localhost published order was not separately evidenced
+- [ ] Localhost published visibility was not separately evidenced
+- [x] Footer is structurally excluded from the Phase 2K list by implementation
+- [ ] Forced static-fallback test was not separately evidenced
+- [x] Phase 2A–2J content contracts were not edited by the Phase 2K implementation
+- [ ] Dedicated desktop visual comparison was not separately evidenced
+- [ ] Mobile visual verification was not separately evidenced
 
 Lock rule:
-After owner approval, freeze the Phase 2K nine-section structural contract. Adding/removing section types remains outside this module.
+Freeze the Phase 2K nine-section structural contract. Only verified bugs/security issues may modify it before later structural work. Adding/removing section types remains outside this module.
+
+## Phase 2 status
+
+**Homepage CMS — COMPLETE / LOCKED**
+
+Phase 2A through Phase 2K are now owner-locked. Homepage content editing, Footer editing, and the nine-section visibility/order layer are connected to the secured CMS foundation. Production `main` remains unchanged until explicit live approval.
+
+## Next phase
+
+**Phase 3 — Portfolio Engine**
+
+Requirements from the master roadmap:
+- Media/image workflow
+- Dynamic project/category system
+- Tags and smart filters
+- Project badges
+- Drag-and-drop project ordering
+- Project search
+
+Plan the first small Phase 3 module before coding. Do not alter locked Phase 2 modules unless a verified bug/security issue requires it.
