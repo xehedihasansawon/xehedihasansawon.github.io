@@ -257,8 +257,36 @@ Acceptance checklist:
 Lock rule:
 Freeze the Phase 1E revision schema. Future restore UI may read these snapshots but should not rewrite this history model without an explicit migration.
 
-## Next module
+## Active module
 
-**Phase 1F — Foundation next layer**
+**Phase 1F — Secure Draft-to-Publish Action Foundation**
 
-Plan the exact scope before writing code. Continue the one-module-at-a-time rule and keep public portfolio content untouched.
+Purpose:
+Finish the core Phase 1 publishing foundation with one controlled server-side action that promotes an approved draft to public published content.
+
+Scope:
+- Add an admin-only `cms_publish_content(content_key)` database function
+- Copy the current `draft_data` into `published_data` atomically
+- Reuse the locked Phase 1D timestamp/update trigger and Phase 1E automatic revision history
+- Reject unauthenticated and non-allowlisted callers inside the database function
+- Reject missing content keys instead of silently creating content
+- Add a read-only `cms_publish_foundation_ready()` check for the admin dashboard
+- Grant function execution only to authenticated users; admin allowlist is still enforced inside the functions
+- Do not add a Publish button or editable Homepage UI yet
+- Do not implement Preview yet; Preview belongs with the actual content editor in Phase 2
+- Do not move existing homepage content into Supabase
+- Preserve all locked Phase 1A–1E behavior and public portfolio files
+
+Acceptance checklist:
+- [ ] Migration runs successfully in Supabase
+- [ ] Dashboard shows Publish Action → Ready
+- [ ] Temporary draft-only content can be published through `cms_publish_content`
+- [ ] Published JSON exactly matches the draft JSON after publish
+- [ ] Publish creates an automatic revision snapshot
+- [ ] Anonymous caller cannot execute the publish function
+- [ ] Missing content key is rejected
+- [ ] Temporary test content/revisions are cleaned up
+- [ ] Public portfolio remains visually unchanged
+
+Phase 1 completion rule:
+After owner approval and lock of Phase 1F, the Admin Foundation is complete enough to begin Phase 2 — Homepage CMS. Preview UI, real content fields and section editors start in Phase 2 rather than expanding Phase 1 further.
