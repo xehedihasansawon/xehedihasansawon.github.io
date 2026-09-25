@@ -149,6 +149,11 @@ Required Supabase dashboard setup before full testing:
 - Add `http://localhost:5173/admin/` to Authentication → URL Configuration → Redirect URLs
 - When this branch is eventually deployed, also add the final production admin URL before testing recovery there
 
+Recovery redirect reliability note:
+- The admin script now captures a recovery marker from the incoming URL before Supabase can consume/clean the URL fragment.
+- If the PASSWORD_RECOVERY event is missed during initialization, the authenticated recovery session is detected from getSession() and still opens the password-update screen.
+- Auth-state work is deferred outside the immediate onAuthStateChange callback to avoid callback timing issues.
+
 Acceptance checklist:
 - [ ] Existing admin login still works
 - [ ] Forgot Password screen opens and returns to Sign in
