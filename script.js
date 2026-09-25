@@ -407,7 +407,7 @@ document.querySelectorAll('.digital-detail-card').forEach(card => {
 
   const openDigital = () => {
     lastWorkflowTrigger = card;
-    openWorkflowDialog(digitalProjectDetails[card.dataset.digital]);
+    openWorkflowDialog(card.__cmsDigitalDetail || digitalProjectDetails[card.dataset.digital]);
   };
 
   card.addEventListener('click', openDigital);
