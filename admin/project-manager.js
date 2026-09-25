@@ -23,6 +23,11 @@ export const initProjectManager = ({ supabaseClient, showCmsView }) => {
   const projectSummaryInput = document.querySelector("#portfolioProjectSummary");
   const projectCategoryInput = document.querySelector("#portfolioProjectCategory");
   const projectVisibilityInput = document.querySelector("#portfolioProjectVisibility");
+  const projectMediaInput = document.querySelector("#portfolioProjectMedia");
+  const projectCoverUrlInput = document.querySelector("#portfolioProjectCoverUrl");
+  const projectCoverAltInput = document.querySelector("#portfolioProjectCoverAlt");
+  const projectCoverPreview = document.querySelector("#portfolioProjectCoverPreview");
+  const projectCoverPreviewEmpty = document.querySelector("#portfolioProjectCoverPreviewEmpty");
   const projectActionLabelInput = document.querySelector("#portfolioProjectActionLabel");
   const projectActionHrefInput = document.querySelector("#portfolioProjectActionHref");
   const projectSaveButton = document.querySelector("#portfolioProjectSaveButton");
@@ -34,6 +39,7 @@ export const initProjectManager = ({ supabaseClient, showCmsView }) => {
   if (!navButton || !categoryForm || !projectForm) return;
 
   let categories = [];
+  let mediaItems = [];
   let projects = [];
 
   const slugify = (value, max = 120) =>
@@ -129,14 +135,36 @@ export const initProjectManager = ({ supabaseClient, showCmsView }) => {
     if (clearMessage) setCategoryMessage("");
   };
 
+  const syncProjectCoverPreview = () => {
+    const src = projectCoverUrlInput.value.trim();
+
+    if (!src) {
+      projectCoverPreview.hidden = true;
+      projectCoverPreview.removeAttribute("src");
+      projectCoverPreview.alt = "";
+      projectCoverPreviewEmpty.hidden = false;
+      return;
+    }
+
+    projectCoverPreview.src = src;
+    projectCoverPreview.alt =
+      projectCoverAltInput.value.trim() || "Project cover preview";
+    projectCoverPreview.hidden = false;
+    projectCoverPreviewEmpty.hidden = true;
+  };
+
   const resetProjectForm = ({ clearMessage = true } = {}) => {
     projectForm.reset();
     delete projectSlugInput.dataset.manual;
     projectIdInput.value = "";
     projectVisibilityInput.value = "public";
+    projectMediaInput.value = "";
+    projectCoverUrlInput.value = "";
+    projectCoverAltInput.value = "";
     projectActionLabelInput.value = "View project";
     projectSaveButton.textContent = "Save draft";
     projectCancelButton.hidden = true;
+    syncProjectCoverPreview();
 
     if (clearMessage) setProjectMessage("");
   };
@@ -171,6 +199,31 @@ export const initProjectManager = ({ supabaseClient, showCmsView }) => {
       )
     ) {
       projectCategoryInput.value = currentValue;
+    }
+  };
+
+  const renderMediaSelect = () => {
+    const currentValue = projectMediaInput.value;
+    projectMediaInput.innerHTML = "";
+
+    const emptyOption = document.createElement("option");
+    emptyOption.value = "";
+    emptyOption.textContent = "No Media Library image";
+    projectMediaInput.appendChild(emptyOption);
+
+    mediaItems.forEach((item) => {
+      const option = document.createElement("option");
+      option.value = item.id;
+      option.textContent = item.original_filename;
+      projectMediaInput.appendChild(option);
+    });
+
+    if (
+      [...projectMediaInput.options].some(
+        (option) => option.value === currentValue
+      )
+    ) {
+      projectMediaInput.value = currentValue;
     }
   };
 
@@ -329,6 +382,14 @@ export const initProjectManager = ({ supabaseClient, showCmsView }) => {
         projectSummaryInput.value = item.summary || "";
         projectCategoryInput.value = item.category_id || "";
         projectVisibilityInput.value = item.visibility || "public";
+        projectCoverUrlInput.value = item.cover_image_url || "";
+        projectCoverAltInput.value = item.cover_image_alt || "";
+
+        const matchingMedia = mediaItems.find(
+          (media) => media.display_url === item.cover_image_url
+        );
+        projectMediaInput.value = matchingMedia?.id || "";
+
         projectActionLabelInput.value = item.action_label || "View project";
         projectActionHrefInput.value = item.action_href || "";
         projectSaveButton.textContent = item.is_published
@@ -340,6 +401,7 @@ export const initProjectManager = ({ supabaseClient, showCmsView }) => {
             ? "Published record loaded. Saving changes will return it to draft."
             : "Draft project loaded."
         );
+        syncProjectCoverPreview();
         projectTitleInput.focus();
       });
 
@@ -352,30 +414,38 @@ export const initProjectManager = ({ supabaseClient, showCmsView }) => {
   const loadManagerData = async () => {
     setBusy(true);
     setState("Loading…");
-    setMessage("Loading portfolio categories and project drafts…");
+    setMessage("Loading categories, Media Library covers and project drafts…");
 
     try {
-      const [categoryResult, projectResult] = await Promise.all([
+      const [categoryResult, mediaResult, projectResult] = await Promise.all([
         supabaseClient
           .from("portfolio_categories")
           .select("id,slug,name,description,sort_order,is_active,created_at,updated_at")
           .order("sort_order", { ascending: true })
           .order("name", { ascending: true }),
         supabaseClient
+          .from("portfolio_media")
+          .select("id,original_filename,alt_text,display_url,thumbnail_url,created_at")
+          .order("created_at", { ascending: false })
+          .limit(200),
+        supabaseClient
           .from("portfolio_projects")
           .select(
-            "id,slug,title,summary,category_id,action_label,action_href,visibility,is_published,published_at,created_at,updated_at"
+            "id,slug,title,summary,category_id,cover_image_url,cover_image_alt,action_label,action_href,visibility,is_published,published_at,created_at,updated_at"
           )
           .order("created_at", { ascending: false })
       ]);
 
       if (categoryResult.error) throw categoryResult.error;
+      if (mediaResult.error) throw mediaResult.error;
       if (projectResult.error) throw projectResult.error;
 
       categories = categoryResult.data || [];
+      mediaItems = mediaResult.data || [];
       projects = projectResult.data || [];
 
       renderCategorySelect();
+      renderMediaSelect();
       renderCategories();
       renderProjects();
 
@@ -385,7 +455,10 @@ export const initProjectManager = ({ supabaseClient, showCmsView }) => {
           (categories.length === 1 ? " category" : " categories") +
           " · " +
           projects.length +
-          (projects.length === 1 ? " project" : " projects")
+          (projects.length === 1 ? " project" : " projects") +
+          " · " +
+          mediaItems.length +
+          (mediaItems.length === 1 ? " media item" : " media items")
       );
 
       return true;
@@ -478,6 +551,22 @@ export const initProjectManager = ({ supabaseClient, showCmsView }) => {
     projectSlugInput.dataset.manual = "true";
   });
 
+  projectMediaInput.addEventListener("change", () => {
+    const media = mediaItems.find((item) => item.id === projectMediaInput.value);
+
+    if (media) {
+      projectCoverUrlInput.value = media.display_url;
+      projectCoverAltInput.value = media.alt_text || "";
+    } else {
+      projectCoverUrlInput.value = "";
+      projectCoverAltInput.value = "";
+    }
+
+    syncProjectCoverPreview();
+  });
+
+  projectCoverAltInput.addEventListener("input", syncProjectCoverPreview);
+
   projectCancelButton.addEventListener("click", () => {
     resetProjectForm();
   });
@@ -490,6 +579,8 @@ export const initProjectManager = ({ supabaseClient, showCmsView }) => {
     const title = projectTitleInput.value.trim();
     const slug = projectSlugInput.value.trim();
     const summary = projectSummaryInput.value.trim();
+    const coverUrl = projectCoverUrlInput.value.trim();
+    const coverAlt = projectCoverAltInput.value.trim();
     const actionLabel = projectActionLabelInput.value.trim();
     const actionHref = projectActionHrefInput.value.trim();
 
@@ -502,6 +593,16 @@ export const initProjectManager = ({ supabaseClient, showCmsView }) => {
       setProjectMessage(
         "Project slug must be 2–120 characters using lowercase letters, numbers and hyphens."
       );
+      return;
+    }
+
+    if (coverUrl && !/^https:\/\//i.test(coverUrl)) {
+      setProjectMessage("Choose an optimized HTTPS image from the Media Library.");
+      return;
+    }
+
+    if (coverUrl && !coverAlt) {
+      setProjectMessage("Add cover alt text for the selected project image.");
       return;
     }
 
@@ -522,6 +623,8 @@ export const initProjectManager = ({ supabaseClient, showCmsView }) => {
       slug,
       summary,
       category_id: projectCategoryInput.value || null,
+      cover_image_url: coverUrl || null,
+      cover_image_alt: coverAlt,
       action_label: actionLabel,
       action_href: actionHref || null,
       visibility:
@@ -566,10 +669,19 @@ export const initProjectManager = ({ supabaseClient, showCmsView }) => {
         projectSummaryInput.value = saved.summary || "";
         projectCategoryInput.value = saved.category_id || "";
         projectVisibilityInput.value = saved.visibility || "public";
+        projectCoverUrlInput.value = saved.cover_image_url || "";
+        projectCoverAltInput.value = saved.cover_image_alt || "";
+
+        const matchingMedia = mediaItems.find(
+          (media) => media.display_url === saved.cover_image_url
+        );
+        projectMediaInput.value = matchingMedia?.id || "";
+
         projectActionLabelInput.value = saved.action_label || "View project";
         projectActionHrefInput.value = saved.action_href || "";
         projectSaveButton.textContent = "Update draft";
         projectCancelButton.hidden = false;
+        syncProjectCoverPreview();
       }
     } catch (error) {
       console.error("Project draft save failed:", error);
