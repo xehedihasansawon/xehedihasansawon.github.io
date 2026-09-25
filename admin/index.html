@@ -61,7 +61,69 @@
         >
 
         <button id="loginButton" type="submit">Sign in securely</button>
+        <button id="forgotPasswordButton" class="text-button" type="button">Forgot password?</button>
         <p id="loginMessage" class="form-message" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <section id="recoveryRequestPanel" class="panel auth-panel" hidden>
+      <div class="panel-heading">
+        <p class="status-pill">ACCOUNT RECOVERY</p>
+        <h2>Reset password</h2>
+        <p>Enter the admin email. If the account exists, Supabase will send a secure recovery link.</p>
+      </div>
+
+      <form id="recoveryRequestForm" class="login-form" novalidate>
+        <label for="recoveryEmail">Admin email</label>
+        <input
+          id="recoveryEmail"
+          name="email"
+          type="email"
+          autocomplete="email"
+          inputmode="email"
+          required
+          placeholder="you@example.com"
+        >
+
+        <button id="recoveryRequestButton" type="submit">Send recovery email</button>
+        <button id="backToLoginButton" class="text-button" type="button">Back to sign in</button>
+        <p id="recoveryRequestMessage" class="form-message" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <section id="passwordUpdatePanel" class="panel auth-panel" hidden>
+      <div class="panel-heading">
+        <p class="status-pill success">RECOVERY LINK VERIFIED</p>
+        <h2>Create a new password</h2>
+        <p>Use a new password with at least 10 characters. After saving, you will sign in again.</p>
+      </div>
+
+      <form id="passwordUpdateForm" class="login-form" novalidate>
+        <label for="newPassword">New password</label>
+        <input
+          id="newPassword"
+          name="newPassword"
+          type="password"
+          autocomplete="new-password"
+          required
+          minlength="10"
+          placeholder="At least 10 characters"
+        >
+
+        <label for="confirmNewPassword">Confirm new password</label>
+        <input
+          id="confirmNewPassword"
+          name="confirmNewPassword"
+          type="password"
+          autocomplete="new-password"
+          required
+          minlength="10"
+          placeholder="Repeat new password"
+        >
+
+        <button id="passwordUpdateButton" type="submit">Save new password</button>
+        <button id="cancelRecoveryButton" class="text-button" type="button">Cancel and sign out</button>
+        <p id="passwordUpdateMessage" class="form-message" role="status" aria-live="polite"></p>
       </form>
     </section>
 
@@ -132,7 +194,7 @@
 
         <div class="sidebar-bottom">
           <a class="view-site-link" href="../index.html" target="_blank" rel="noopener">View website ↗</a>
-          <span>Phase 1B · Dashboard Shell</span>
+          <span>Phase 1C · Password Recovery</span>
         </div>
       </aside>
 
@@ -178,18 +240,18 @@
         <div id="dashboard" class="dashboard-content">
           <section class="dashboard-hero">
             <div>
-              <p class="status-pill success">PHASE 1A LOCKED</p>
-              <h3>Admin foundation is secure and ready.</h3>
+              <p class="status-pill success">PHASE 1B LOCKED</p>
+              <h3>Account recovery is the active foundation module.</h3>
               <p>
-                The reusable CMS dashboard shell is now in place. Editing modules stay disabled
-                until each one is built, tested and approved separately.
+                Login and the dashboard shell stay locked. Phase 1C adds a controlled password
+                recovery flow without opening any content editing permissions.
               </p>
             </div>
 
             <div class="phase-card">
               <span>CURRENT MODULE</span>
-              <strong>Phase 1B</strong>
-              <p>Admin Dashboard Shell</p>
+              <strong>Phase 1C</strong>
+              <p>Password Recovery</p>
             </div>
           </section>
 
@@ -243,26 +305,26 @@
                 <b>LOCKED</b>
               </article>
 
-              <article class="module-row active">
+              <article class="module-row done">
                 <div>
                   <span>1B</span>
                   <div>
                     <strong>Admin Dashboard Shell</strong>
-                    <p>Stable navigation and workspace for future CMS modules.</p>
+                    <p>Stable navigation and responsive workspace for future CMS modules.</p>
+                  </div>
+                </div>
+                <b>LOCKED</b>
+              </article>
+
+              <article class="module-row active">
+                <div>
+                  <span>1C</span>
+                  <div>
+                    <strong>Password Recovery</strong>
+                    <p>Forgot-password email, verified recovery session and secure password update.</p>
                   </div>
                 </div>
                 <b>ACTIVE</b>
-              </article>
-
-              <article class="module-row queued">
-                <div>
-                  <span>NEXT</span>
-                  <div>
-                    <strong>Next foundation module</strong>
-                    <p>Will be planned only after Phase 1B is tested and locked.</p>
-                  </div>
-                </div>
-                <b>QUEUED</b>
               </article>
             </div>
           </section>
@@ -274,7 +336,7 @@
 
     <footer id="publicAdminFooter" class="admin-footer">
       <span>MEHEDI PORTFOLIO</span>
-      <span>Secure Admin · Phase 1B</span>
+      <span>Secure Admin · Phase 1C</span>
     </footer>
   </main>
 
