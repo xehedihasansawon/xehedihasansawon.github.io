@@ -31,6 +31,8 @@ export const initProjectManager = ({ supabaseClient, showCmsView }) => {
   const projectActionLabelInput = document.querySelector("#portfolioProjectActionLabel");
   const projectActionHrefInput = document.querySelector("#portfolioProjectActionHref");
   const projectSaveButton = document.querySelector("#portfolioProjectSaveButton");
+  const projectPublishButton = document.querySelector("#portfolioProjectPublishButton");
+  const projectUnpublishButton = document.querySelector("#portfolioProjectUnpublishButton");
   const projectCancelButton = document.querySelector("#portfolioProjectCancelButton");
   const projectFormMessage = document.querySelector("#portfolioProjectFormMessage");
   const projectList = document.querySelector("#portfolioProjectList");
@@ -41,6 +43,8 @@ export const initProjectManager = ({ supabaseClient, showCmsView }) => {
   let categories = [];
   let mediaItems = [];
   let projects = [];
+  let projectDirty = false;
+  let projectPublishedAtLoad = false;
 
   const slugify = (value, max = 120) =>
     String(value || "")
@@ -118,6 +122,8 @@ export const initProjectManager = ({ supabaseClient, showCmsView }) => {
       categorySaveButton,
       categoryCancelButton,
       projectSaveButton,
+      projectPublishButton,
+      projectUnpublishButton,
       projectCancelButton
     ].forEach((button) => {
       if (button) button.disabled = busy;
@@ -162,7 +168,12 @@ export const initProjectManager = ({ supabaseClient, showCmsView }) => {
     projectCoverUrlInput.value = "";
     projectCoverAltInput.value = "";
     projectActionLabelInput.value = "View project";
+    projectDirty = false;
+    projectPublishedAtLoad = false;
     projectSaveButton.textContent = "Save draft";
+    projectPublishButton.hidden = true;
+    projectPublishButton.disabled = false;
+    projectUnpublishButton.hidden = true;
     projectCancelButton.hidden = true;
     syncProjectCoverPreview();
 
@@ -392,14 +403,19 @@ export const initProjectManager = ({ supabaseClient, showCmsView }) => {
 
         projectActionLabelInput.value = item.action_label || "View project";
         projectActionHrefInput.value = item.action_href || "";
+        projectDirty = false;
+        projectPublishedAtLoad = Boolean(item.is_published);
         projectSaveButton.textContent = item.is_published
           ? "Save as draft"
           : "Update draft";
+        projectPublishButton.hidden = false;
+        projectPublishButton.disabled = Boolean(item.is_published);
+        projectUnpublishButton.hidden = !item.is_published;
         projectCancelButton.hidden = false;
         setProjectMessage(
           item.is_published
-            ? "Published record loaded. Saving changes will return it to draft."
-            : "Draft project loaded."
+            ? "Published project loaded. Edit + Save as draft before publishing new changes."
+            : "Draft project loaded. It can be published after saved changes are complete."
         );
         syncProjectCoverPreview();
         projectTitleInput.focus();
@@ -551,6 +567,20 @@ export const initProjectManager = ({ supabaseClient, showCmsView }) => {
     projectSlugInput.dataset.manual = "true";
   });
 
+  projectForm.addEventListener("input", () => {
+    if (!projectIdInput.value) return;
+    projectDirty = true;
+    projectPublishButton.hidden = false;
+    projectPublishButton.disabled = false;
+  });
+
+  projectForm.addEventListener("change", () => {
+    if (!projectIdInput.value) return;
+    projectDirty = true;
+    projectPublishButton.hidden = false;
+    projectPublishButton.disabled = false;
+  });
+
   projectMediaInput.addEventListener("change", () => {
     const media = mediaItems.find((item) => item.id === projectMediaInput.value);
 
@@ -652,14 +682,17 @@ export const initProjectManager = ({ supabaseClient, showCmsView }) => {
       if (result.error) throw result.error;
 
       const savedId = result.data.id;
+      const wasPublished = projectPublishedAtLoad;
       resetProjectForm({ clearMessage: false });
       await loadManagerData();
 
       const saved = projects.find((item) => item.id === savedId);
       setProjectMessage(
-        id
-          ? "Project draft updated. It remains unpublished."
-          : "Project draft created. It is not public yet."
+        wasPublished
+          ? "Saved as draft and unpublished. Review the saved draft, then publish when ready."
+          : id
+            ? "Project draft updated. Review the saved draft, then publish when ready."
+            : "Project draft created. Review it, then publish when ready."
       );
 
       if (saved) {
@@ -679,7 +712,12 @@ export const initProjectManager = ({ supabaseClient, showCmsView }) => {
 
         projectActionLabelInput.value = saved.action_label || "View project";
         projectActionHrefInput.value = saved.action_href || "";
+        projectDirty = false;
+        projectPublishedAtLoad = false;
         projectSaveButton.textContent = "Update draft";
+        projectPublishButton.hidden = false;
+        projectPublishButton.disabled = false;
+        projectUnpublishButton.hidden = true;
         projectCancelButton.hidden = false;
         syncProjectCoverPreview();
       }
@@ -687,6 +725,141 @@ export const initProjectManager = ({ supabaseClient, showCmsView }) => {
       console.error("Project draft save failed:", error);
       setProjectMessage(formatUniqueError(error, "project"));
       projectSaveButton.textContent = id ? "Update draft" : "Save draft";
+    } finally {
+      setBusy(false);
+    }
+  });
+
+  projectPublishButton.addEventListener("click", async () => {
+    const id = projectIdInput.value.trim();
+
+    if (!id) {
+      setProjectMessage("Save the project draft first.");
+      return;
+    }
+
+    if (projectDirty) {
+      setProjectMessage("Save the latest draft changes before publishing.");
+      return;
+    }
+
+    if (projectPublishedAtLoad) {
+      setProjectMessage("This project is already published.");
+      return;
+    }
+
+    setBusy(true);
+    projectPublishButton.textContent = "Publishing…";
+
+    try {
+      const result = await supabaseClient
+        .from("portfolio_projects")
+        .update({ is_published: true })
+        .eq("id", id)
+        .select("id,is_published,published_at,visibility")
+        .single();
+
+      if (result.error) throw result.error;
+
+      projectDirty = false;
+      projectPublishedAtLoad = true;
+      await loadManagerData();
+
+      const saved = projects.find((item) => item.id === id);
+      if (saved) {
+        projectIdInput.value = saved.id;
+        projectTitleInput.value = saved.title || "";
+        projectSlugInput.value = saved.slug || "";
+        projectSummaryInput.value = saved.summary || "";
+        projectCategoryInput.value = saved.category_id || "";
+        projectVisibilityInput.value = saved.visibility || "public";
+        projectCoverUrlInput.value = saved.cover_image_url || "";
+        projectCoverAltInput.value = saved.cover_image_alt || "";
+
+        const matchingMedia = mediaItems.find(
+          (media) => media.display_url === saved.cover_image_url
+        );
+        projectMediaInput.value = matchingMedia?.id || "";
+
+        projectActionLabelInput.value = saved.action_label || "View project";
+        projectActionHrefInput.value = saved.action_href || "";
+        projectSaveButton.textContent = "Save as draft";
+        projectPublishButton.hidden = false;
+        projectPublishButton.disabled = true;
+        projectUnpublishButton.hidden = false;
+        projectCancelButton.hidden = false;
+        syncProjectCoverPreview();
+      }
+
+      setProjectMessage(
+        result.data.visibility === "private"
+          ? "Published as PRIVATE. Anonymous visitors still cannot read this project."
+          : "Project published in the Portfolio Engine data store. Homepage rendering is still unchanged."
+      );
+    } catch (error) {
+      console.error("Project publish failed:", error);
+      setProjectMessage(error?.message || "Could not publish project.");
+    } finally {
+      setBusy(false);
+      projectPublishButton.textContent = "Publish project";
+    }
+  });
+
+  projectUnpublishButton.addEventListener("click", async () => {
+    const id = projectIdInput.value.trim();
+    if (!id) return;
+
+    const confirmed = window.confirm(
+      "Unpublish this project and return it to draft state?"
+    );
+    if (!confirmed) return;
+
+    setBusy(true);
+
+    try {
+      const result = await supabaseClient
+        .from("portfolio_projects")
+        .update({ is_published: false })
+        .eq("id", id)
+        .select("id,is_published")
+        .single();
+
+      if (result.error) throw result.error;
+
+      projectDirty = false;
+      projectPublishedAtLoad = false;
+      await loadManagerData();
+
+      const saved = projects.find((item) => item.id === id);
+      if (saved) {
+        projectIdInput.value = saved.id;
+        projectTitleInput.value = saved.title || "";
+        projectSlugInput.value = saved.slug || "";
+        projectSummaryInput.value = saved.summary || "";
+        projectCategoryInput.value = saved.category_id || "";
+        projectVisibilityInput.value = saved.visibility || "public";
+        projectCoverUrlInput.value = saved.cover_image_url || "";
+        projectCoverAltInput.value = saved.cover_image_alt || "";
+
+        const matchingMedia = mediaItems.find(
+          (media) => media.display_url === saved.cover_image_url
+        );
+        projectMediaInput.value = matchingMedia?.id || "";
+
+        projectActionLabelInput.value = saved.action_label || "View project";
+        projectActionHrefInput.value = saved.action_href || "";
+        projectSaveButton.textContent = "Update draft";
+        projectPublishButton.hidden = false;
+        projectPublishButton.disabled = false;
+        projectUnpublishButton.hidden = true;
+        projectCancelButton.hidden = false;
+        syncProjectCoverPreview();
+      }
+
+      setProjectMessage("Project unpublished and returned to draft.");
+    } catch (error) {
+      console.error("Project unpublish failed:", error);
+      setProjectMessage(error?.message || "Could not unpublish project.");
     } finally {
       setBusy(false);
     }
