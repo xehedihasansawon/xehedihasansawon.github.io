@@ -1001,49 +1001,70 @@ Freeze the Phase 2K nine-section structural contract. Only verified bugs/securit
 
 Phase 2A through Phase 2K are now owner-locked. Homepage content editing, Footer editing, and the nine-section visibility/order layer are connected to the secured CMS foundation. Production `main` remains unchanged until explicit live approval.
 
-## Active module
+## Completed module
 
-**Phase 3A — Portfolio Data Foundation**
+**Phase 3A — Portfolio Data Foundation — LOCKED / DONE**
 
-Purpose:
-Create the secure normalized database foundation needed by the Portfolio Engine before any dynamic project UI or public migration begins.
+Owner approval: 2026-09-26
 
-Scope:
-- Keep all Phase 2A–2K modules locked
-- Create `public.portfolio_categories`
-- Create `public.portfolio_projects`
-- Use UUID primary keys and validated unique slugs
-- Support future project cover image URL/alt fields
-- Support future tags and badges arrays
-- Support featured and homepage-selection flags
-- Support global and category ordering fields
-- Support public/private project visibility
-- Support draft-vs-published state through `is_published` / `published_at`
-- Add indexes for public ordering, category ordering, homepage featured selection, tags and badges
-- Enforce RLS: anonymous users may read only active categories and published public projects
-- Enforce allowlisted-admin CRUD using the existing `admin_users` foundation
-- Add automatic update/publish timestamps
-- Add an Admin Projects foundation screen that verifies both stores
-- Do not create categories/projects yet; zero rows is the expected initial state
-- Do not migrate the four Phase 2 Real Life Projects yet
-- Do not modify public project rendering in Phase 3A
-- Keep production `main` untouched
+Purpose delivered:
+Created the secure normalized data foundation for the Portfolio Engine without migrating or changing the existing Phase 2 public project output.
+
+Scope delivered:
+- Added `public.portfolio_categories`
+- Added `public.portfolio_projects`
+- UUID primary keys and validated unique slugs
+- Future-ready cover image URL/alt fields
+- Tags and badges arrays
+- Featured and homepage-selection flags
+- Global and category ordering fields
+- Public/private visibility
+- Publish state via `is_published` / `published_at`
+- Ordering/category/featured/tags/badges indexes
+- RLS policies defined for public reads and allowlisted-admin CRUD
+- Automatic update/publish timestamps
+- Added Admin Projects foundation screen with readiness checks
+- No categories or projects were seeded in Phase 3A
+- Existing Phase 2 public project cards were not migrated or replaced
+- Production `main` branch remained untouched
+
+Verified during this checkpoint:
+- Migration 010 was run in Supabase
+- Admin Projects foundation screen loaded
+- Categories Store reported **Ready**
+- Projects Store reported **Ready**
+- Empty foundation reported **0 categories / 0 projects**
+- Foundation state reported **Foundation ready**
+- No production deployment was performed
+
+Implemented but not separately runtime-tested in chat:
+- Anonymous category read policy
+- Anonymous project visibility policy limiting reads to published + public rows
+- Authenticated CRUD rejection for non-allowlisted users
+- Direct inspection of RLS enablement in the Supabase dashboard
+- Public homepage visual regression comparison
 
 Acceptance checklist:
-- [ ] Migration 010 runs successfully in Supabase
-- [ ] `portfolio_categories` exists with RLS enabled
-- [ ] `portfolio_projects` exists with RLS enabled
-- [ ] Anonymous project policy is limited to published + public rows
-- [ ] Authenticated CRUD is restricted to allowlisted admins
-- [ ] Admin Projects navigation opens the Phase 3A foundation screen
-- [ ] Categories Store reports Ready
-- [ ] Projects Store reports Ready
-- [ ] Empty foundation correctly reports 0 categories / 0 projects
-- [ ] Existing Phase 2 homepage/project output remains unchanged
-- [ ] No production `main` deployment occurs
+- [x] Migration 010 runs successfully in Supabase
+- [ ] `portfolio_categories` RLS is implemented but was not separately inspected in the Supabase dashboard
+- [ ] `portfolio_projects` RLS is implemented but was not separately inspected in the Supabase dashboard
+- [ ] Anonymous project policy is implemented but was not separately runtime-tested
+- [ ] Authenticated CRUD allowlist restriction is implemented but was not separately runtime-tested
+- [x] Admin Projects navigation opens the Phase 3A foundation screen
+- [x] Categories Store reports Ready
+- [x] Projects Store reports Ready
+- [x] Empty foundation correctly reports 0 categories / 0 projects
+- [x] Existing Phase 2 public project rendering was not changed by Phase 3A code
+- [x] No production `main` deployment occurred
 
 Lock rule:
-After owner verification, freeze the Phase 3A schema/security contract. Subsequent Portfolio Engine modules may add compatible columns/tables when required, but should not weaken RLS or expose drafts/private projects.
+Freeze the Phase 3A schema/security contract. Later Phase 3 modules may extend it compatibly when required, but must not weaken RLS or expose draft/private projects.
+
+## Next module
+
+**Phase 3B — Media / Image Workflow**
+
+Plan the exact upload, optimization, storage-path, metadata and cleanup contract before coding. Keep Phase 3A and all Phase 2 modules locked.
 
 ## Planned Phase 3 sequence
 
