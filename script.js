@@ -452,7 +452,7 @@ const copyTextToClipboard = async text => {
 };
 
 copyEmailButtons.forEach(button => {
-  const originalText = button.textContent.trim();
+  button.dataset.copyDefaultLabel = button.textContent.trim();
   button.setAttribute('aria-live', 'polite');
 
   button.addEventListener('click', async () => {
@@ -465,7 +465,7 @@ copyEmailButtons.forEach(button => {
     button.classList.toggle('is-copied', copied);
 
     window.setTimeout(() => {
-      button.textContent = originalText;
+      button.textContent = button.dataset.copyDefaultLabel || 'Copy';
       button.classList.remove('is-copied');
     }, 1800);
   });
