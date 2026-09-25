@@ -77,7 +77,19 @@ const dialogPoints = document.getElementById('dialogPoints');
 
 const openProjectDialog = card => {
   const img = card.querySelector('img');
-  const detail = projectDetails[card.dataset.project] || {};
+  const fallback = projectDetails[card.dataset.project] || {};
+  const cmsPoints = [
+    card.dataset.dialogPoint1,
+    card.dataset.dialogPoint2,
+    card.dataset.dialogPoint3
+  ].filter(Boolean);
+
+  const detail = {
+    eyebrow: card.dataset.dialogEyebrow || fallback.eyebrow,
+    meta: card.dataset.dialogMeta || fallback.meta,
+    summary: card.dataset.dialogSummary || fallback.summary,
+    points: cmsPoints.length ? cmsPoints : (fallback.points || [])
+  };
 
   dialogImage.src = img?.src || '';
   dialogImage.alt = img?.alt || card.dataset.title || 'Project preview';
@@ -87,7 +99,7 @@ const openProjectDialog = card => {
   dialogSummary.textContent = detail.summary || 'Selected project work from my portfolio.';
 
   dialogPoints.innerHTML = '';
-  (detail.points || []).forEach(point => {
+  detail.points.forEach(point => {
     const li = document.createElement('li');
     li.textContent = point;
     dialogPoints.appendChild(li);
