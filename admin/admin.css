@@ -1811,3 +1811,79 @@ button {
     grid-column: auto;
   }
 }
+
+
+/* Phase 2F — About Me CMS */
+.about-preview-card {
+  padding: clamp(18px, 3vw, 28px);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #071611;
+}
+
+.about-preview-eyebrow {
+  margin: 0 0 6px;
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.about-preview-card h4,
+.about-preview-card h5 {
+  margin: 0;
+  letter-spacing: -0.035em;
+}
+
+.about-preview-card h4 {
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+}
+
+.about-preview-card h4 b,
+.about-preview-card h5 b {
+  color: var(--red);
+}
+
+.about-preview-card h5 {
+  margin-top: 22px;
+  font-size: clamp(1.25rem, 2.5vw, 1.9rem);
+  line-height: 1.05;
+}
+
+.about-preview-card > p:not(.about-preview-eyebrow) {
+  max-width: 850px;
+  margin: 16px 0 0;
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.7;
+}
+
+.about-preview-meta {
+  margin-top: 22px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.about-preview-meta > div {
+  padding: 13px;
+  display: grid;
+  gap: 5px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+
+.about-preview-meta strong {
+  color: #fff;
+  font-size: 0.7rem;
+}
+
+.about-preview-meta span {
+  color: var(--muted);
+  font-size: 0.7rem;
+}
+
+@media (max-width: 600px) {
+  .about-preview-meta {
+    grid-template-columns: 1fr;
+  }
+}
