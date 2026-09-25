@@ -1,5 +1,6 @@
 import { ADMIN_CONFIG } from "./config.js";
 import { initMediaWorkflow } from "./media-workflow.js";
+import { initProjectManager } from "./project-manager.js";
 
 const configPanel = document.querySelector("#configPanel");
 const loginPanel = document.querySelector("#loginPanel");
@@ -41,6 +42,7 @@ const footerCmsNavButton = document.querySelector("#footerCmsNavButton");
 const sectionLayoutNavButton = document.querySelector("#sectionLayoutNavButton");
 const projectsNavButton = document.querySelector("#projectsNavButton");
 const mediaWorkflowNavButton = document.querySelector("#mediaWorkflowNavButton");
+const projectManagerNavButton = document.querySelector("#projectManagerNavButton");
 const dashboard = document.querySelector("#dashboard");
 const homepageEditor = document.querySelector("#homepageEditor");
 const realProjectsEditor = document.querySelector("#realProjectsEditor");
@@ -55,6 +57,7 @@ const footerCmsEditor = document.querySelector("#footerCmsEditor");
 const sectionLayoutEditor = document.querySelector("#sectionLayoutEditor");
 const portfolioFoundationEditor = document.querySelector("#portfolioFoundationEditor");
 const mediaWorkflowEditor = document.querySelector("#mediaWorkflowEditor");
+const projectManagerEditor = document.querySelector("#projectManagerEditor");
 const cmsPageEyebrow = document.querySelector("#cmsPageEyebrow");
 const cmsPageTitle = document.querySelector("#cmsPageTitle");
 
@@ -674,6 +677,7 @@ if (!hasValidConfig) {
     const isSectionLayout = view === "section-layout";
     const isPortfolioFoundation = view === "portfolio-foundation";
     const isMediaWorkflow = view === "media-workflow";
+    const isProjectManager = view === "project-manager";
 
     dashboard.hidden = !isDashboard;
     homepageEditor.hidden = !isHero;
@@ -689,6 +693,7 @@ if (!hasValidConfig) {
     sectionLayoutEditor.hidden = !isSectionLayout;
     portfolioFoundationEditor.hidden = !isPortfolioFoundation;
     mediaWorkflowEditor.hidden = !isMediaWorkflow;
+    projectManagerEditor.hidden = !isProjectManager;
 
     dashboardNavLink?.classList.toggle("active", isDashboard);
     homepageNavButton?.classList.toggle("active", isHero);
@@ -704,8 +709,9 @@ if (!hasValidConfig) {
     sectionLayoutNavButton?.classList.toggle("active", isSectionLayout);
     projectsNavButton?.classList.toggle("active", isPortfolioFoundation);
     mediaWorkflowNavButton?.classList.toggle("active", isMediaWorkflow);
+    projectManagerNavButton?.classList.toggle("active", isProjectManager);
 
-    [dashboardNavLink, homepageNavButton, realProjectsNavButton, designShowcaseNavButton, creativeServicesNavButton, digitalProjectsNavButton, aboutMeNavButton, skillsToolsNavButton, experienceCommunityNavButton, contactCmsNavButton, footerCmsNavButton, sectionLayoutNavButton, projectsNavButton, mediaWorkflowNavButton].forEach((item) => {
+    [dashboardNavLink, homepageNavButton, realProjectsNavButton, designShowcaseNavButton, creativeServicesNavButton, digitalProjectsNavButton, aboutMeNavButton, skillsToolsNavButton, experienceCommunityNavButton, contactCmsNavButton, footerCmsNavButton, sectionLayoutNavButton, projectsNavButton, mediaWorkflowNavButton, projectManagerNavButton].forEach((item) => {
       item?.removeAttribute("aria-current");
     });
 
@@ -761,6 +767,10 @@ if (!hasValidConfig) {
       mediaWorkflowNavButton?.setAttribute("aria-current", "page");
       cmsPageEyebrow.textContent = "PORTFOLIO ENGINE";
       cmsPageTitle.textContent = "Media";
+    } else if (isProjectManager) {
+      projectManagerNavButton?.setAttribute("aria-current", "page");
+      cmsPageEyebrow.textContent = "PORTFOLIO ENGINE";
+      cmsPageTitle.textContent = "Projects";
     } else {
       dashboardNavLink?.setAttribute("aria-current", "page");
       cmsPageEyebrow.textContent = "HOMEPAGE CMS";
@@ -5377,6 +5387,7 @@ if (!hasValidConfig) {
   portfolioFoundationRefreshButton?.addEventListener("click", checkPortfolioFoundation);
 
   initMediaWorkflow({ supabaseClient, showCmsView });
+  initProjectManager({ supabaseClient, showCmsView });
 
   const checkAdminMembership = async (user) => {
     if (!user?.id) {
