@@ -203,6 +203,12 @@
             <small>Locked</small>
           </button>
 
+          <button id="sectionLayoutNavButton" class="nav-item nav-item-sub" type="button">
+            <span class="nav-index">02K</span>
+            <span>Section Order</span>
+            <small>Active</small>
+          </button>
+
           <button class="nav-item" type="button" disabled>
             <span class="nav-index">03</span>
             <span>Projects</span>
@@ -248,7 +254,7 @@
 
         <div class="sidebar-bottom">
           <a class="view-site-link" href="../index.html" target="_blank" rel="noopener">View website ↗</a>
-          <span>Phase 2J · Footer CMS · Locked</span>
+          <span>Phase 2K · Section Visibility / Order CMS</span>
         </div>
       </aside>
 
@@ -295,17 +301,17 @@
           <section class="dashboard-hero">
             <div>
               <p class="status-pill success">PHASE 2J LOCKED</p>
-              <h3>Footer CMS is locked and ready.</h3>
+              <h3>Section Visibility / Order CMS is the active module.</h3>
               <p>
-                Phase 2A–2J are now frozen. The next planned module is Phase 2K for homepage
-                section visibility and ordering; it has not started yet.
+                Phase 2A–2J stay locked. Phase 2K controls only the nine existing homepage
+                sections: visibility and display order, without changing their locked content.
               </p>
             </div>
 
             <div class="phase-card">
-              <span>LATEST LOCKED MODULE</span>
-              <strong>Phase 2J</strong>
-              <p>Footer CMS</p>
+              <span>CURRENT MODULE</span>
+              <strong>Phase 2K</strong>
+              <p>Section Visibility / Order CMS</p>
 
               <div class="foundation-stack" aria-live="polite">
                 <div class="foundation-check">
@@ -550,15 +556,15 @@
                 <b>LOCKED</b>
               </article>
 
-              <article class="module-row queued">
+              <article class="module-row active">
                 <div>
                   <span>2K</span>
                   <div>
                     <strong>Section Visibility / Order CMS</strong>
-                    <p>Planned next; manage homepage section visibility and ordering without redesigning locked sections.</p>
+                    <p>Drag/drop ordering, visibility controls and reset for the nine existing homepage sections.</p>
                   </div>
                 </div>
-                <b>NEXT</b>
+                <b>ACTIVE</b>
               </article>
             </div>
           </section>
@@ -1817,12 +1823,74 @@
             </div>
           </section>
         </div>
+
+        <div id="sectionLayoutEditor" class="editor-content" hidden>
+          <section class="editor-heading-card">
+            <div>
+              <p class="status-pill success">PHASE 2K</p>
+              <h3>Section Visibility / Order</h3>
+              <p>Drag the nine existing homepage sections into order and choose which ones are visible. Locked section content is not edited here.</p>
+            </div>
+            <div class="editor-state">
+              <span>CONTENT KEY</span>
+              <strong>homepage.section-layout</strong>
+              <b id="sectionLayoutEditorState">Loading…</b>
+            </div>
+          </section>
+
+          <form id="sectionLayoutEditorForm" class="cms-editor-form" novalidate>
+            <section class="editor-card">
+              <div class="editor-section-title">
+                <div>
+                  <p class="eyebrow">HOMEPAGE STRUCTURE</p>
+                  <h3>Visibility & order</h3>
+                </div>
+                <span>9 fixed sections</span>
+              </div>
+
+              <div class="section-layout-note">
+                <strong>Drag & drop</strong>
+                <span>or use ↑ / ↓. Turning a section off hides it only after Publish.</span>
+              </div>
+
+              <div id="sectionLayoutList" class="section-layout-list" aria-label="Homepage section order"></div>
+
+              <div class="section-layout-reset-row">
+                <button id="sectionLayoutResetButton" class="secondary-button" type="button">Reset approved order</button>
+              </div>
+            </section>
+
+            <section class="editor-actions-bar">
+              <div>
+                <strong>Draft → Preview → Publish</strong>
+                <p id="sectionLayoutEditorMessage" class="form-message" role="status" aria-live="polite"></p>
+              </div>
+              <div class="editor-action-buttons">
+                <button id="sectionLayoutPreviewButton" class="secondary-button" type="button">Preview draft</button>
+                <button id="sectionLayoutSaveButton" type="button">Save draft</button>
+                <button id="sectionLayoutPublishButton" class="publish-button" type="button">Publish Layout</button>
+              </div>
+            </section>
+          </form>
+
+          <section id="sectionLayoutDraftPreview" class="hero-draft-preview" hidden aria-label="Homepage section layout draft preview">
+            <div class="preview-heading">
+              <div>
+                <p class="eyebrow">PRIVATE PREVIEW</p>
+                <h3>Homepage section order</h3>
+              </div>
+              <button id="closeSectionLayoutPreviewButton" class="text-button" type="button">Close preview</button>
+            </div>
+
+            <div id="sectionLayoutPreviewList" class="section-layout-preview-list"></div>
+          </section>
+        </div>
       </div>
     </section>
 
     <footer id="publicAdminFooter" class="admin-footer">
       <span>MEHEDI PORTFOLIO</span>
-      <span>Secure Admin · Phase 2J · Locked</span>
+      <span>Secure Admin · Phase 2K</span>
     </footer>
   </main>
 
