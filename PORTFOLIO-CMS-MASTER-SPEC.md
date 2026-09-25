@@ -121,7 +121,11 @@ Acceptance checklist:
 - [x] Future module navigation is visible but disabled
 - [x] Public homepage remains untouched by Phase 1B
 - [x] No new CMS write permissions introduced
-- [ ] Mobile dashboard layout was not separately evidenced before owner lock
+- [x] Mobile dashboard layout verified after owner lock
+- [x] Verified mobile UX issue fixed: sidebar collapses into an accessible menu drawer
+
+Responsive maintenance note:
+The owner locked Phase 1B before the mobile evidence was reviewed. The subsequent mobile test exposed an oversized stacked sidebar. A narrow responsive fix was allowed under the lock rule: desktop structure remains unchanged, while screens up to 900px use a menu button, off-canvas sidebar, backdrop and Escape-to-close behavior.
 
 Lock rule:
 Do not redesign or restructure the Phase 1B shell during later feature work unless a verified usability, responsive, accessibility, or security issue requires it.
