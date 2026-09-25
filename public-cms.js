@@ -8,6 +8,7 @@ const DIGITAL_PROJECTS_CONTENT_KEY = "homepage.ai-digital-projects";
 const ABOUT_ME_CONTENT_KEY = "homepage.about";
 const SKILLS_TOOLS_CONTENT_KEY = "homepage.skills-tools";
 const EXPERIENCE_COMMUNITY_CONTENT_KEY = "homepage.experience-community";
+const CONTACT_CONTENT_KEY = "homepage.contact";
 
 const byId = (id) => document.getElementById(id);
 
@@ -736,3 +737,84 @@ const loadPublishedExperienceCommunity = async () => {
 };
 
 loadPublishedExperienceCommunity();
+
+
+const applyContact = (data) => {
+  if (!data || typeof data !== "object") return;
+
+  applyText("contactStatusText", data.statusText);
+  applyText("contactKicker", data.kicker);
+  applyText("contactTitleMain", data.titleMain);
+  applyText("contactTitleAccent", data.titleAccent);
+  applyText("contactDescription", data.description);
+
+  applyText("contactWhatsappLabel", data.whatsappLabel);
+  applyText("contactWhatsappDisplay", data.whatsappDisplay);
+  applyText("contactWhatsappDescription", data.whatsappDescription);
+  applyText("contactWhatsappAction", data.whatsappAction);
+
+  const whatsappLink = byId("contactWhatsappLink");
+  if (whatsappLink && isSafeHref(data.whatsappHref)) {
+    whatsappLink.href = data.whatsappHref.trim();
+  }
+
+  applyText("contactEmailLabel", data.emailLabel);
+  applyText("contactEmailAddress", data.emailAddress);
+  applyText("contactEmailDescription", data.emailDescription);
+  applyText("contactEmailAction", data.emailAction);
+
+  const copyButton = byId("contactEmailAction");
+  if (copyButton && typeof data.emailAddress === "string" && data.emailAddress.trim()) {
+    copyButton.dataset.copyEmail = data.emailAddress.trim();
+  }
+
+  applyText("contactSocialGroupTitle", data.socialGroupTitle);
+  applyText("contactProfilesGroupTitle", data.profilesGroupTitle);
+
+  const links = [
+    ["contactCallLink", data.callLabel, data.callHref],
+    ["contactFacebookLink", data.facebookLabel, data.facebookHref],
+    ["contactInstagramLink", data.instagramLabel, data.instagramHref],
+    ["contactLinkedinLink", data.linkedinLabel, data.linkedinHref],
+    ["contactGithubLink", data.githubLabel, data.githubHref],
+    ["contactBehanceLink", data.behanceLabel, data.behanceHref]
+  ];
+
+  links.forEach(([id, label, href]) => {
+    const link = byId(id);
+    if (!link) return;
+    if (typeof label === "string" && label.trim()) link.textContent = label.trim();
+    if (isSafeHref(href)) link.href = href.trim();
+  });
+
+  document.documentElement.dataset.contactCms = "loaded";
+};
+
+const loadPublishedContact = async () => {
+  try {
+    const endpoint = new URL("/rest/v1/cms_content_entries", ADMIN_CONFIG.supabaseUrl);
+    endpoint.searchParams.set("select", "published_data");
+    endpoint.searchParams.set("content_key", `eq.${CONTACT_CONTENT_KEY}`);
+    endpoint.searchParams.set("limit", "1");
+
+    const response = await fetch(endpoint, {
+      headers: {
+        apikey: ADMIN_CONFIG.supabaseAnonKey,
+        Accept: "application/json"
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`Contact CMS request failed with status ${response.status}`);
+    }
+
+    const rows = await response.json();
+    const published = rows?.[0]?.published_data;
+
+    if (published) applyContact(published);
+  } catch (error) {
+    console.warn("Contact CMS unavailable; using static fallback.", error);
+  }
+};
+
+loadPublishedContact();
