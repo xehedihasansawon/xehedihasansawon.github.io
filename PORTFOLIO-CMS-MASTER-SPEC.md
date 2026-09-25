@@ -69,26 +69,37 @@ Requirements #8, #9, #10, #16, #17, #18, #19 and #21.
 ### Phase 6 — Motion & Final Polish
 Requirement #14 plus final performance, accessibility and mobile testing.
 
-## Active module
+## Completed module
 
-**Phase 1A — Admin Authentication Foundation**
+**Phase 1A — Admin Authentication Foundation — LOCKED / DONE**
 
-Scope:
+Owner approval: 2026-09-25
+
+Scope delivered:
 - Admin login screen
 - Supabase Auth sign-in
 - Database-backed admin allowlist check
 - Secure sign-out
 - No signup route
 - No CMS editing features yet
-- Existing public portfolio frontend must remain visually unchanged
+- Existing public portfolio frontend remains visually unchanged
 
 Acceptance checklist:
-- [ ] Public homepage unchanged
-- [ ] Admin route exists
-- [ ] Missing config fails safely
-- [ ] Invalid credentials are rejected
-- [ ] Authenticated non-admin account is rejected
-- [ ] Allowlisted admin account can enter admin shell
-- [ ] Logout clears the session
-- [ ] Admin membership cannot be self-created from the browser
-- [ ] Supabase service-role key is never exposed in frontend code
+- [x] Public homepage unchanged
+- [x] Admin route exists
+- [x] Missing config fails safely
+- [x] Allowlisted admin account can enter admin shell
+- [x] Logout clears the session
+- [x] Admin membership cannot be self-created from the browser
+- [x] Supabase secret/service-role key is not exposed in frontend code
+- [ ] Invalid-credentials path — implemented, not separately manual-tested in this checkpoint
+- [ ] Authenticated non-admin rejection — implemented via allowlist/RLS, not separately manual-tested in this checkpoint
+
+Lock rule:
+Do not modify Phase 1A behavior while building later modules unless a verified bug or required security change makes it necessary.
+
+## Next module
+
+**Phase 1B — Admin Foundation next layer**
+
+Plan this module before writing code. Keep the public homepage untouched.
