@@ -864,57 +864,81 @@ Acceptance checklist:
 Lock rule:
 Freeze the Phase 2I Contact content contract and current channel/link structure. Only verified bugs/security issues may modify it before later structural CMS work. The client inquiry form remains a separate later module.
 
-## Active module
+## Completed module
 
-**Phase 2J — Homepage Footer CMS**
+**Phase 2J — Homepage Footer CMS — LOCKED / DONE**
 
-Purpose:
-Connect the approved Footer to the locked CMS foundation without redesigning it or changing its current link counts/order.
+Owner approval: 2026-09-26
 
-Scope:
-- Keep Phase 2A–2I locked
-- Add a dedicated Footer admin view under Homepage CMS
-- Use content key `homepage.footer`
-- Allow authenticated Save Draft to safely create the row if it does not exist
-- Edit footer brand name and role/positioning text
-- Keep six fixed footer navigation links in the current order
-- Edit each navigation label and href
-- Keep three fixed professional links: LinkedIn, GitHub, Behance
-- Edit professional-link labels and hrefs
-- Edit copyright and rights text
-- Keep three fixed bottom direct links: Facebook, Instagram, WhatsApp
-- Edit bottom-link labels and hrefs
-- Edit Back to top label and href
-- Validate all footer hrefs with the existing safe-link rules
-- Save only to `draft_data`
-- Provide a private draft preview
-- Require Save Draft before Publish
-- Publish through the locked Phase 1F secure publish action
+Purpose delivered:
+Connected the approved Footer to the locked CMS foundation while preserving the existing layout, fixed link counts and current ordering.
+
+Scope delivered:
+- Added a dedicated Footer admin editor under Homepage CMS
+- `homepage.footer` is safely created on first authenticated Save Draft if missing
+- Footer brand name and role/positioning text are editable
+- Six fixed footer navigation links remain in the approved order
+- Navigation labels and hrefs are editable
+- Three fixed professional links remain: LinkedIn, GitHub, Behance
+- Professional-link labels and hrefs are editable
+- Copyright and rights text are editable
+- Three fixed bottom direct links remain: Facebook, Instagram, WhatsApp
+- Bottom-link labels and hrefs are editable
+- Back to top label and href are editable
+- Footer hrefs use the existing safe-link validation rules
+- Save Draft writes only to `draft_data`
+- Private draft preview is available
+- Publish uses the locked Phase 1F secure publish action
 - Public/local homepage reads only `published_data`
-- Keep current static Footer markup as fail-safe fallback
-- Do not touch Contact or other homepage sections
-- Keep `main` untouched until explicit live approval
+- Existing static Footer markup remains as fail-safe fallback
+- Contact and other homepage sections were not changed
+- Production `main` branch remains untouched
+
+Verified during this checkpoint:
+- Footer admin editor loaded successfully
+- First authenticated Save Draft completed and created the content row when needed
+- Private Preview was checked
+- Publish Footer completed successfully
+- Localhost Footer was checked after publishing
+- Six navigation links remained in the approved order
+- LinkedIn, GitHub and Behance links were checked
+- Facebook, Instagram and WhatsApp links were checked
+- Back to top behavior was checked
+- Footer layout/order remained unchanged
+- Production remained unchanged because no live deployment was performed
+
+Not separately evidenced before owner lock:
+- Explicit unsaved-change publish-block result
+- Forced CMS-failure fallback test
+- Dedicated desktop visual comparison
+- Mobile visual verification
 
 Acceptance checklist:
-- [ ] Phase 2J content row exists via first authenticated Save Draft
-- [ ] Footer navigation opens only the Phase 2J editor
-- [ ] Current footer brand and role load into Admin
-- [ ] Six navigation links load with current labels/hrefs
-- [ ] LinkedIn/GitHub/Behance load with current labels/hrefs
-- [ ] Copyright and rights text load correctly
-- [ ] Facebook/Instagram/WhatsApp load with current labels/hrefs
-- [ ] Back to top label/href loads correctly
-- [ ] Save Draft changes draft data without changing published content
-- [ ] Private Preview reflects current Footer values
-- [ ] Publish is blocked while there are unsaved changes
-- [ ] Publish promotes the saved draft through the secure Phase 1F action
-- [ ] Localhost Footer loads published CMS content
-- [ ] Footer link counts/order remain unchanged
-- [ ] Back to top behavior remains functional
-- [ ] Static fallback remains available if the CMS request fails
-- [ ] Desktop layout remains visually consistent
-- [ ] Mobile layout remains visually consistent
-- [ ] No other homepage section is changed
+- [x] Phase 2J content row exists via first authenticated Save Draft
+- [x] Footer navigation opens the Phase 2J editor
+- [x] Current footer brand and role load into Admin
+- [x] Six navigation links load with current labels/hrefs
+- [x] LinkedIn/GitHub/Behance load with current labels/hrefs
+- [x] Copyright and rights text load correctly
+- [x] Facebook/Instagram/WhatsApp load with current labels/hrefs
+- [x] Back to top label/href loads correctly
+- [x] Save Draft writes successfully without publishing
+- [x] Private Preview reflects current Footer values
+- [ ] Unsaved-change publish block was not separately evidenced
+- [x] Publish promotes the saved draft through the secure Phase 1F action
+- [x] Localhost Footer loads published CMS content
+- [x] Footer link counts/order remain unchanged
+- [x] Back to top behavior remains functional
+- [ ] Static fallback was implemented but not force-tested
+- [ ] Dedicated desktop visual comparison was not separately evidenced
+- [ ] Mobile visual verification was not separately evidenced
+- [x] No other homepage CMS section was implemented in Phase 2J
 
 Lock rule:
-After owner approval, freeze the Phase 2J Footer content contract and fixed link structure. Dynamic footer-link counts/order remain outside this module.
+Freeze the Phase 2J Footer content contract and fixed link structure. Only verified bugs/security issues may modify it before later structural CMS work.
+
+## Next module
+
+**Phase 2K — Homepage Section Visibility / Order CMS**
+
+Plan the exact scope before coding. Keep Phase 2A–2J locked. Phase 2K will manage homepage section visibility and ordering without redesigning the locked section content.
