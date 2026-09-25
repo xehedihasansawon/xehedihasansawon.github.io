@@ -795,8 +795,55 @@ Acceptance checklist:
 Lock rule:
 Freeze the Phase 2H four-card content contract. Only verified bugs/security issues may modify it before later structural CMS work.
 
-## Next module
+## Active module
 
 **Phase 2I — Homepage Contact CMS**
 
-Plan the exact scope before coding. Keep Phase 2A–2H locked and touch only the Contact homepage section when Phase 2I starts.
+Purpose:
+Connect the approved Contact section to the locked CMS foundation without redesigning it or adding the future client-inquiry form in this module.
+
+Scope:
+- Keep Phase 2A–2H locked
+- Add a dedicated Contact admin view under Homepage CMS
+- Use content key `homepage.contact`
+- Allow authenticated Save Draft to safely create the row if it does not exist
+- Edit availability/status text, kicker, two-part CTA heading and description
+- Keep the existing WhatsApp and Email primary contact cards
+- Edit WhatsApp label, display text, description, action text and URL
+- Edit Email label, address, description and copy-button text
+- Keep the existing Social & direct and Professional profiles groups
+- Edit group titles, visible link labels and URLs for Call, Facebook, Instagram, LinkedIn, GitHub and Behance
+- Validate URLs against the existing safe-link rules
+- Keep Email copy behavior working with the published email address
+- Save only to `draft_data`
+- Provide a private draft preview
+- Require Save Draft before Publish
+- Publish through the locked Phase 1F secure publish action
+- Public/local homepage reads only `published_data`
+- Keep current static Contact markup as fail-safe fallback
+- Do not implement the future client inquiry form in Phase 2I
+- Do not change Footer content in Phase 2I
+- Keep `main` untouched until explicit live approval
+
+Acceptance checklist:
+- [ ] Phase 2I content row exists via first authenticated Save Draft
+- [ ] Contact navigation opens only the Phase 2I editor
+- [ ] Current CTA copy and contact details load into Admin
+- [ ] WhatsApp URL and action remain functional
+- [ ] Email copy button uses the CMS-published address
+- [ ] Call/Facebook/Instagram links remain functional
+- [ ] LinkedIn/GitHub/Behance links remain functional
+- [ ] Save Draft changes draft data without changing published content
+- [ ] Private Preview reflects current Contact values
+- [ ] Publish is blocked while there are unsaved changes
+- [ ] Publish promotes the saved draft through the secure Phase 1F action
+- [ ] Localhost Contact section loads published CMS content
+- [ ] Existing Contact layout remains unchanged
+- [ ] Static fallback remains available if the CMS request fails
+- [ ] Desktop layout remains visually consistent
+- [ ] Mobile layout remains visually consistent
+- [ ] Footer remains untouched
+- [ ] No other homepage section is changed
+
+Lock rule:
+After owner approval, freeze the Phase 2I Contact content contract and current channel/link structure. Client inquiry form work remains a separate later module.
