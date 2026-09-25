@@ -4,6 +4,7 @@ const HERO_CONTENT_KEY = "homepage.hero";
 const REAL_PROJECTS_CONTENT_KEY = "homepage.real-life-projects";
 const DESIGN_SHOWCASE_CONTENT_KEY = "homepage.design-showcase";
 const CREATIVE_SERVICES_CONTENT_KEY = "homepage.creative-services";
+const DIGITAL_PROJECTS_CONTENT_KEY = "homepage.ai-digital-projects";
 
 const byId = (id) => document.getElementById(id);
 
@@ -402,3 +403,119 @@ const loadPublishedCreativeServices = async () => {
 };
 
 loadPublishedCreativeServices();
+
+
+const applyDigitalProjects = (data) => {
+  if (!data || typeof data !== "object") return;
+
+  applyText("digitalProjectsEyebrow", data.eyebrow);
+  applyText("digitalProjectsTitleMain", data.titleMain);
+  applyText("digitalProjectsTitleAccent", data.titleAccent);
+
+  if (!Array.isArray(data.projects)) return;
+
+  data.projects.forEach((project) => {
+    if (!project?.key) return;
+
+    const card = document.querySelector(`[data-cms-digital="${CSS.escape(project.key)}"]`);
+    if (!card) return;
+
+    const marker = card.querySelector('[data-cms-field="marker"]');
+    const title = card.querySelector('[data-cms-field="cardTitle"]');
+    const description = card.querySelector('[data-cms-field="cardDescription"]');
+    const action = card.querySelector('[data-cms-field="actionLabel"]');
+
+    if (marker && typeof project.marker === "string" && project.marker.trim()) {
+      marker.textContent = project.marker.trim();
+    }
+    if (title && typeof project.cardTitle === "string" && project.cardTitle.trim()) {
+      title.textContent = project.cardTitle.trim();
+    }
+    if (description && typeof project.cardDescription === "string" && project.cardDescription.trim()) {
+      description.textContent = project.cardDescription.trim();
+    }
+    if (action && typeof project.actionLabel === "string" && project.actionLabel.trim()) {
+      action.textContent = project.actionLabel.trim();
+    }
+
+    if (project.type === "main") {
+      const chipsContainer = card.querySelector('[data-cms-field="chips"]');
+      if (chipsContainer && Array.isArray(project.chips)) {
+        chipsContainer.innerHTML = "";
+        project.chips
+          .filter((chip) => typeof chip === "string" && chip.trim())
+          .forEach((chip) => {
+            const span = document.createElement("span");
+            span.textContent = chip.trim();
+            chipsContainer.appendChild(span);
+          });
+      }
+    }
+
+    if (typeof project.cardTitle === "string" && project.cardTitle.trim()) {
+      card.setAttribute("aria-label", `View ${project.cardTitle.trim()} workflow`);
+    }
+
+    card.__cmsDigitalDetail = {
+      eyebrow:
+        typeof project.modalEyebrow === "string" && project.modalEyebrow.trim()
+          ? project.modalEyebrow.trim()
+          : "Digital project workflow",
+      title:
+        typeof project.modalTitle === "string" && project.modalTitle.trim()
+          ? project.modalTitle.trim()
+          : project.cardTitle,
+      summary:
+        typeof project.modalSummary === "string"
+          ? project.modalSummary.trim()
+          : "",
+      workflow: Array.isArray(project.workflow)
+        ? project.workflow.filter((item) => typeof item === "string" && item.trim()).map((item) => item.trim())
+        : [],
+      deliverables: Array.isArray(project.deliverables)
+        ? project.deliverables.filter((item) => typeof item === "string" && item.trim()).map((item) => item.trim())
+        : [],
+      tools: Array.isArray(project.tools)
+        ? project.tools.filter((item) => typeof item === "string" && item.trim()).map((item) => item.trim())
+        : [],
+      needs: Array.isArray(project.needs)
+        ? project.needs.filter((item) => typeof item === "string" && item.trim()).map((item) => item.trim())
+        : [],
+      handoff:
+        typeof project.handoff === "string"
+          ? project.handoff.trim()
+          : ""
+    };
+  });
+
+  document.documentElement.dataset.digitalProjectsCms = "loaded";
+};
+
+const loadPublishedDigitalProjects = async () => {
+  try {
+    const endpoint = new URL("/rest/v1/cms_content_entries", ADMIN_CONFIG.supabaseUrl);
+    endpoint.searchParams.set("select", "published_data");
+    endpoint.searchParams.set("content_key", `eq.${DIGITAL_PROJECTS_CONTENT_KEY}`);
+    endpoint.searchParams.set("limit", "1");
+
+    const response = await fetch(endpoint, {
+      headers: {
+        apikey: ADMIN_CONFIG.supabaseAnonKey,
+        Accept: "application/json"
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`AI & Digital Projects CMS request failed with status ${response.status}`);
+    }
+
+    const rows = await response.json();
+    const published = rows?.[0]?.published_data;
+
+    if (published) applyDigitalProjects(published);
+  } catch (error) {
+    console.warn("AI & Digital Projects CMS unavailable; using static fallback.", error);
+  }
+};
+
+loadPublishedDigitalProjects();
