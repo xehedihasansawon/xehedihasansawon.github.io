@@ -553,50 +553,73 @@ Acceptance checklist:
 Lock rule:
 Freeze the Phase 2D six-service contract and workflow-popup model. Only verified bugs/security issues may modify it before later structural CMS work.
 
-## Active module
+## Completed module
 
-**Phase 2E — Homepage AI & Digital Projects CMS**
+**Phase 2E — Homepage AI & Digital Projects CMS — LOCKED / DONE**
 
-Purpose:
-Connect the approved AI & Digital Projects section and its existing workflow-popup content to the locked CMS foundation without redesigning the section or changing the current four-card structure.
+Owner approval: 2026-09-25
 
-Scope:
-- Keep Phase 2A–2D locked
-- Add a dedicated AI & Digital Projects admin view under Homepage CMS
-- Use content key `homepage.ai-digital-projects`
-- Allow authenticated Save Draft to safely create the row if it does not exist
-- Edit section eyebrow plus the two-part AI & / DIGITAL PROJECTS heading
-- Keep the four fixed cards and current order: ERP, AI, Web, Business Documents
-- ERP remains the featured/main card; AI, Web and Docs remain compact cards
-- Edit card marker/badge/icon text, visible title, description and action label
-- Edit ERP featured chips as one item per line
-- Edit each popup eyebrow, title, summary, workflow steps, deliverables, tools, client requirements and final handoff
-- Save only to `draft_data`
-- Provide a private draft preview
-- Require Save Draft before Publish
-- Publish through the locked Phase 1F secure publish action
+Purpose delivered:
+Connected the approved AI & Digital Projects section and its workflow-popup content to the locked CMS foundation while preserving the existing four-card structure.
+
+Scope delivered:
+- Added a dedicated AI & Digital Projects admin editor under Homepage CMS
+- `homepage.ai-digital-projects` is safely created on first authenticated Save Draft if missing
+- Section eyebrow and AI & / DIGITAL PROJECTS heading are editable
+- ERP remains the featured/main card; AI, Web and Business Documents remain compact cards
+- Card marker/badge/icon text, visible title, description and action label are editable
+- ERP featured chips are editable as one-item-per-line content
+- Each popup can edit eyebrow, title, summary, workflow steps, deliverables, tools, client requirements and final handoff
+- Save Draft writes only to `draft_data`
+- Private draft preview UI is included
+- Publish uses the locked Phase 1F secure publish action
 - Public/local homepage reads only `published_data`
-- Existing static card markup and `digitalProjectDetails` remain as fail-safe fallback
-- Do not touch About, Skills, Experience, Contact, Footer or section ordering
-- Keep `main` untouched until explicit live approval
+- Existing static digital-card markup and `digitalProjectDetails` remain as fail-safe fallback
+- Existing card types, keys, count and order remain fixed
+- Production `main` branch remains untouched
+
+Verified during this checkpoint:
+- AI & Digital Projects admin editor loaded successfully
+- Missing content row was shown as Setup required
+- First authenticated Save Draft created the row successfully
+- Save Draft completed with published content unchanged
+- Publish Digital completed successfully
+- Production remained unchanged because no live deployment was performed
+
+Not separately evidenced before owner lock:
+- Dedicated private-preview screenshot/result
+- Explicit unsaved-change publish-block result
+- Final localhost screenshot proving published AI & Digital Projects content
+- ERP chip visual verification after final publish
+- Card-by-card workflow-dialog verification after final publish
+- Published popup workflow/deliverables/tools/needs/handoff verification
+- Forced CMS-failure fallback test
+- Dedicated desktop visual comparison
+- Mobile visual verification
 
 Acceptance checklist:
-- [ ] Phase 2E content row exists via first authenticated Save Draft
-- [ ] AI & Digital Projects navigation opens only the Phase 2E editor
-- [ ] Current heading and four cards load into Admin
-- [ ] Existing workflow popup fields load for all four digital projects
-- [ ] Save Draft changes draft data without changing published content
-- [ ] Private Preview reflects current visible card values
-- [ ] Publish is blocked while there are unsaved changes
-- [ ] Publish promotes the saved draft through the secure Phase 1F action
-- [ ] Localhost AI & Digital Projects section loads published CMS content
-- [ ] ERP badge/chips remain functional and visually consistent
-- [ ] Clicking each digital project still opens the existing workflow dialog
-- [ ] Published popup workflow/deliverables/tools/needs/handoff appear in the dialog
-- [ ] Static fallback remains available if the CMS request fails
-- [ ] Desktop layout remains visually consistent
-- [ ] Mobile layout remains visually consistent
-- [ ] No other homepage section is changed
+- [x] Phase 2E content row exists via first authenticated Save Draft
+- [x] AI & Digital Projects navigation opens the Phase 2E editor
+- [x] Current heading and four cards load into Admin
+- [x] Existing workflow popup fields are present in the editor
+- [x] Save Draft writes successfully without publishing
+- [ ] Private Preview was implemented but not separately evidenced
+- [ ] Unsaved-change publish block was not separately evidenced
+- [x] Publish promotes the saved draft through the secure Phase 1F action
+- [ ] Final localhost published result was not separately evidenced
+- [ ] ERP badge/chips were not separately re-verified after final publish
+- [ ] Card-by-card workflow dialog behavior was not separately re-verified
+- [ ] Published popup detail content was not separately re-verified
+- [ ] Static fallback was implemented but not force-tested
+- [ ] Desktop visual comparison was not separately evidenced
+- [ ] Mobile visual verification was not separately evidenced
+- [x] No other homepage CMS section was implemented in Phase 2E
 
 Lock rule:
-After owner approval, freeze the Phase 2E four-card content contract and workflow-popup model. Card types, count and order remain fixed until later structural CMS work.
+Freeze the Phase 2E four-card content contract and workflow-popup model. Only verified bugs/security issues may modify it before later structural CMS work.
+
+## Next module
+
+**Phase 2F — Homepage About Me CMS**
+
+Plan the exact scope before coding. Keep Phase 2A–2E locked and touch only the About Me homepage section when Phase 2F starts.
