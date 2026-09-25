@@ -618,8 +618,46 @@ Acceptance checklist:
 Lock rule:
 Freeze the Phase 2E four-card content contract and workflow-popup model. Only verified bugs/security issues may modify it before later structural CMS work.
 
-## Next module
+## Active module
 
 **Phase 2F — Homepage About Me CMS**
 
-Plan the exact scope before coding. Keep Phase 2A–2E locked and touch only the About Me homepage section when Phase 2F starts.
+Purpose:
+Connect the approved About Me section to the locked CMS foundation without redesigning the section or adding new profile structures.
+
+Scope:
+- Keep Phase 2A–2E locked
+- Add a dedicated About Me admin view under Homepage CMS
+- Use content key `homepage.about`
+- Allow authenticated Save Draft to safely create the row if it does not exist
+- Edit section eyebrow plus the two-part ABOUT / ME heading
+- Edit the two-line positioning headline: DESIGNER FIRST. / PROBLEM SOLVER ALWAYS.
+- Edit the two existing About paragraphs
+- Edit the two existing profile-meta label/value pairs: Based in and Open to
+- No About photo is introduced; the approved no-photo layout remains
+- Save only to `draft_data`
+- Provide a private draft preview
+- Require Save Draft before Publish
+- Publish through the locked Phase 1F secure publish action
+- Public/local homepage reads only `published_data`
+- Keep existing static About markup as the fail-safe fallback
+- Do not touch Skills & Tools, Experience, Contact, Footer or section ordering
+- Keep `main` untouched until explicit live approval
+
+Acceptance checklist:
+- [ ] Phase 2F content row exists via first authenticated Save Draft
+- [ ] About Me navigation opens only the Phase 2F editor
+- [ ] Current approved About copy loads into Admin
+- [ ] Save Draft changes draft data without changing published content
+- [ ] Private Preview reflects the current About fields
+- [ ] Publish is blocked while there are unsaved changes
+- [ ] Publish promotes the saved draft through the secure Phase 1F action
+- [ ] Localhost About section loads published CMS content
+- [ ] Approved no-photo About layout remains unchanged
+- [ ] Static fallback remains available if the CMS request fails
+- [ ] Desktop layout remains visually consistent
+- [ ] Mobile layout remains visually consistent
+- [ ] No other homepage section is changed
+
+Lock rule:
+After owner approval, freeze the Phase 2F About content contract and preserve the no-photo layout until a later explicit redesign request.
