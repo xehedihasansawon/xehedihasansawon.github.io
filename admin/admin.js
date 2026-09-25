@@ -317,13 +317,36 @@ if (!hasValidConfig) {
   const isSafeCmsHref = (value) => {
     const href = String(value || "").trim();
     if (!href) return false;
-    if (href.startsWith("#") || href.startsWith("/") || href.startsWith("./") || href.startsWith("../")) return true;
+
+    const lower = href.toLowerCase();
+    if (
+      lower.startsWith("javascript:") ||
+      lower.startsWith("data:") ||
+      lower.startsWith("vbscript:") ||
+      href.startsWith("//")
+    ) {
+      return false;
+    }
+
+    if (
+      href.startsWith("#") ||
+      href.startsWith("/") ||
+      href.startsWith("./") ||
+      href.startsWith("../")
+    ) {
+      return true;
+    }
 
     try {
-      const url = new URL(href);
-      return ["https:", "http:", "mailto:", "tel:"].includes(url.protocol);
+      const absolute = new URL(href);
+      return ["https:", "http:", "mailto:", "tel:"].includes(absolute.protocol);
     } catch {
-      return false;
+      try {
+        const relative = new URL(href, window.location.origin + "/");
+        return relative.origin === window.location.origin;
+      } catch {
+        return false;
+      }
     }
   };
 
