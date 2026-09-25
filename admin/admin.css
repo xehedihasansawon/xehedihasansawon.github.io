@@ -1600,3 +1600,70 @@ button {
     margin-left: 0;
   }
 }
+
+
+/* Phase 2C — Design Showcase CMS */
+.showcase-modal-fields {
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+.showcase-modal-fields > .eyebrow {
+  margin-bottom: 12px;
+}
+
+.design-showcase-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.design-showcase-preview-card {
+  overflow: hidden;
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #071611;
+}
+
+.design-showcase-preview-card img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  display: block;
+  object-fit: cover;
+}
+
+.design-showcase-preview-card > div {
+  padding: 13px;
+  display: grid;
+  gap: 5px;
+}
+
+.design-showcase-preview-card strong {
+  font-size: 0.82rem;
+}
+
+.design-showcase-preview-card small {
+  color: var(--muted);
+  font-size: 0.67rem;
+  line-height: 1.45;
+}
+
+.design-showcase-preview-card span {
+  margin-top: 5px;
+  color: var(--red);
+  font-size: 0.62rem;
+  font-weight: 800;
+}
+
+@media (max-width: 1000px) {
+  .design-showcase-preview-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .design-showcase-preview-grid {
+    grid-template-columns: 1fr;
+  }
+}
