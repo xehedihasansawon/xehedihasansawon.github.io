@@ -359,5 +359,9 @@ Acceptance checklist:
 - [ ] Hero layout remains visually consistent on mobile
 - [ ] No other homepage section is changed
 
+Deferred Hero visual polish note:
+- Replace the current Hero image gradient/fade treatment with a cleaner border/frame system.
+- Keep this as a visual-polish task; do not change it during the current CMS functionality test unless the owner explicitly asks to implement it now.
+
 Lock rule:
 After owner approval, freeze the Phase 2A Hero field contract and move to the next Homepage CMS mini-module. The basic upload control may later be upgraded by the full media optimization/library system without redesigning the Hero content model.
