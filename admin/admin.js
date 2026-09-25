@@ -37,6 +37,7 @@ const skillsToolsNavButton = document.querySelector("#skillsToolsNavButton");
 const experienceCommunityNavButton = document.querySelector("#experienceCommunityNavButton");
 const contactCmsNavButton = document.querySelector("#contactCmsNavButton");
 const footerCmsNavButton = document.querySelector("#footerCmsNavButton");
+const sectionLayoutNavButton = document.querySelector("#sectionLayoutNavButton");
 const dashboard = document.querySelector("#dashboard");
 const homepageEditor = document.querySelector("#homepageEditor");
 const realProjectsEditor = document.querySelector("#realProjectsEditor");
@@ -48,6 +49,7 @@ const skillsToolsEditor = document.querySelector("#skillsToolsEditor");
 const experienceCommunityEditor = document.querySelector("#experienceCommunityEditor");
 const contactCmsEditor = document.querySelector("#contactCmsEditor");
 const footerCmsEditor = document.querySelector("#footerCmsEditor");
+const sectionLayoutEditor = document.querySelector("#sectionLayoutEditor");
 const cmsPageEyebrow = document.querySelector("#cmsPageEyebrow");
 const cmsPageTitle = document.querySelector("#cmsPageTitle");
 
@@ -161,6 +163,18 @@ const footerCmsSaveButton = document.querySelector("#footerCmsSaveButton");
 const footerCmsPublishButton = document.querySelector("#footerCmsPublishButton");
 const footerCmsDraftPreview = document.querySelector("#footerCmsDraftPreview");
 const closeFooterCmsPreviewButton = document.querySelector("#closeFooterCmsPreviewButton");
+
+const sectionLayoutEditorForm = document.querySelector("#sectionLayoutEditorForm");
+const sectionLayoutList = document.querySelector("#sectionLayoutList");
+const sectionLayoutEditorState = document.querySelector("#sectionLayoutEditorState");
+const sectionLayoutEditorMessage = document.querySelector("#sectionLayoutEditorMessage");
+const sectionLayoutPreviewButton = document.querySelector("#sectionLayoutPreviewButton");
+const sectionLayoutSaveButton = document.querySelector("#sectionLayoutSaveButton");
+const sectionLayoutPublishButton = document.querySelector("#sectionLayoutPublishButton");
+const sectionLayoutResetButton = document.querySelector("#sectionLayoutResetButton");
+const sectionLayoutDraftPreview = document.querySelector("#sectionLayoutDraftPreview");
+const sectionLayoutPreviewList = document.querySelector("#sectionLayoutPreviewList");
+const closeSectionLayoutPreviewButton = document.querySelector("#closeSectionLayoutPreviewButton");
 
 const contentStoreDot = document.querySelector("#contentStoreDot");
 const contentStoreStatus = document.querySelector("#contentStoreStatus");
@@ -642,6 +656,7 @@ if (!hasValidConfig) {
     const isExperienceCommunity = view === "experience-community";
     const isContact = view === "contact";
     const isFooter = view === "footer";
+    const isSectionLayout = view === "section-layout";
 
     dashboard.hidden = !isDashboard;
     homepageEditor.hidden = !isHero;
@@ -654,6 +669,7 @@ if (!hasValidConfig) {
     experienceCommunityEditor.hidden = !isExperienceCommunity;
     contactCmsEditor.hidden = !isContact;
     footerCmsEditor.hidden = !isFooter;
+    sectionLayoutEditor.hidden = !isSectionLayout;
 
     dashboardNavLink?.classList.toggle("active", isDashboard);
     homepageNavButton?.classList.toggle("active", isHero);
@@ -666,8 +682,9 @@ if (!hasValidConfig) {
     experienceCommunityNavButton?.classList.toggle("active", isExperienceCommunity);
     contactCmsNavButton?.classList.toggle("active", isContact);
     footerCmsNavButton?.classList.toggle("active", isFooter);
+    sectionLayoutNavButton?.classList.toggle("active", isSectionLayout);
 
-    [dashboardNavLink, homepageNavButton, realProjectsNavButton, designShowcaseNavButton, creativeServicesNavButton, digitalProjectsNavButton, aboutMeNavButton, skillsToolsNavButton, experienceCommunityNavButton, contactCmsNavButton, footerCmsNavButton].forEach((item) => {
+    [dashboardNavLink, homepageNavButton, realProjectsNavButton, designShowcaseNavButton, creativeServicesNavButton, digitalProjectsNavButton, aboutMeNavButton, skillsToolsNavButton, experienceCommunityNavButton, contactCmsNavButton, footerCmsNavButton, sectionLayoutNavButton].forEach((item) => {
       item?.removeAttribute("aria-current");
     });
 
@@ -711,6 +728,10 @@ if (!hasValidConfig) {
       footerCmsNavButton?.setAttribute("aria-current", "page");
       cmsPageEyebrow.textContent = "HOMEPAGE CMS";
       cmsPageTitle.textContent = "Footer";
+    } else if (isSectionLayout) {
+      sectionLayoutNavButton?.setAttribute("aria-current", "page");
+      cmsPageEyebrow.textContent = "HOMEPAGE CMS";
+      cmsPageTitle.textContent = "Section Order";
     } else {
       dashboardNavLink?.setAttribute("aria-current", "page");
       cmsPageEyebrow.textContent = "HOMEPAGE CMS";
@@ -4878,6 +4899,373 @@ if (!hasValidConfig) {
       setFooterCmsMessage(error?.message || "Could not publish Footer.");
     } finally {
       setFooterCmsBusy(false);
+    }
+  });
+
+  const SECTION_LAYOUT_CONTENT_KEY = "homepage.section-layout";
+
+  const sectionLayoutDefaults = Object.freeze({
+    sections: [
+      { key: "home", label: "Hero", visible: true },
+      { key: "work", label: "Real Life Projects", visible: true },
+      { key: "design-showcase", label: "Design Showcase", visible: true },
+      { key: "services", label: "Creative Services", visible: true },
+      { key: "digital", label: "AI & Digital Projects", visible: true },
+      { key: "about", label: "About Me", visible: true },
+      { key: "skills", label: "Skills & Tools", visible: true },
+      { key: "experience", label: "Experience / Community", visible: true },
+      { key: "contact", label: "Contact", visible: true }
+    ]
+  });
+
+  let sectionLayoutDirty = false;
+  let sectionLayoutLastLoadedDraft = null;
+  let draggedSectionKey = null;
+
+  const cloneSectionLayoutDefaults = () => structuredClone(sectionLayoutDefaults);
+
+  const setSectionLayoutMessage = (message = "") => {
+    if (sectionLayoutEditorMessage) sectionLayoutEditorMessage.textContent = message;
+  };
+
+  const setSectionLayoutState = (label) => {
+    if (sectionLayoutEditorState) sectionLayoutEditorState.textContent = label;
+  };
+
+  const setSectionLayoutBusy = (busy) => {
+    [sectionLayoutPreviewButton, sectionLayoutSaveButton, sectionLayoutPublishButton, sectionLayoutResetButton].forEach((button) => {
+      if (button) button.disabled = busy;
+    });
+  };
+
+  const normalizeSectionLayout = (data = {}) => {
+    const defaults = cloneSectionLayoutDefaults();
+    const incoming = Array.isArray(data.sections) ? data.sections : [];
+    const used = new Set();
+    const sections = [];
+
+    incoming.forEach((item) => {
+      const fallback = defaults.sections.find((candidate) => candidate.key === item?.key);
+      if (!fallback || used.has(fallback.key)) return;
+      used.add(fallback.key);
+      sections.push({
+        key: fallback.key,
+        label: fallback.label,
+        visible: item.visible !== false
+      });
+    });
+
+    defaults.sections.forEach((item) => {
+      if (!used.has(item.key)) sections.push(item);
+    });
+
+    return { sections };
+  };
+
+  const sectionLayoutRow = (item, index) => `
+    <article class="section-layout-row" draggable="true" data-section-key="${item.key}">
+      <div class="section-layout-drag" aria-hidden="true">⋮⋮</div>
+      <div class="section-layout-order">${String(index + 1).padStart(2, "0")}</div>
+      <div class="section-layout-copy">
+        <strong>${item.label}</strong>
+        <small>#${item.key}</small>
+      </div>
+      <label class="section-layout-toggle">
+        <input type="checkbox" data-section-visible ${item.visible !== false ? "checked" : ""}>
+        <span>Visible</span>
+      </label>
+      <div class="section-layout-controls">
+        <button type="button" data-section-move="up" aria-label="Move ${item.label} up">↑</button>
+        <button type="button" data-section-move="down" aria-label="Move ${item.label} down">↓</button>
+      </div>
+    </article>
+  `;
+
+  const refreshSectionLayoutOrderNumbers = () => {
+    [...sectionLayoutList.querySelectorAll(".section-layout-row")].forEach((row, index) => {
+      const order = row.querySelector(".section-layout-order");
+      if (order) order.textContent = String(index + 1).padStart(2, "0");
+    });
+  };
+
+  const renderSectionLayoutList = (data) => {
+    const normalized = normalizeSectionLayout(data);
+    sectionLayoutList.innerHTML = normalized.sections.map(sectionLayoutRow).join("");
+    refreshSectionLayoutOrderNumbers();
+  };
+
+  const readSectionLayoutForm = () => {
+    const rows = [...sectionLayoutList.querySelectorAll(".section-layout-row")];
+    if (rows.length !== sectionLayoutDefaults.sections.length) {
+      setSectionLayoutMessage("All nine homepage sections are required.");
+      return null;
+    }
+
+    const sections = rows.map((row) => {
+      const key = row.dataset.sectionKey;
+      const fallback = sectionLayoutDefaults.sections.find((item) => item.key === key);
+      return {
+        key,
+        label: fallback?.label || key,
+        visible: row.querySelector("[data-section-visible]")?.checked !== false
+      };
+    });
+
+    if (new Set(sections.map((item) => item.key)).size !== sectionLayoutDefaults.sections.length) {
+      setSectionLayoutMessage("Section order contains a duplicate or missing section.");
+      return null;
+    }
+
+    return { sections };
+  };
+
+  const markSectionLayoutDirty = (message = "Unsaved changes") => {
+    sectionLayoutDirty = true;
+    setSectionLayoutState(message);
+  };
+
+  const renderSectionLayoutPreview = (data) => {
+    sectionLayoutPreviewList.innerHTML = "";
+
+    data.sections.forEach((item, index) => {
+      const row = document.createElement("div");
+      row.className = "section-layout-preview-row";
+      row.innerHTML = `
+        <span>${String(index + 1).padStart(2, "0")}</span>
+        <strong></strong>
+        <b class="${item.visible ? "visible" : "hidden"}">${item.visible ? "VISIBLE" : "HIDDEN"}</b>
+      `;
+      row.querySelector("strong").textContent = item.label;
+      sectionLayoutPreviewList.appendChild(row);
+    });
+
+    sectionLayoutDraftPreview.hidden = false;
+    sectionLayoutDraftPreview.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  const loadSectionLayoutEditor = async () => {
+    setSectionLayoutMessage("Loading section layout draft…");
+    setSectionLayoutState("Loading…");
+
+    const { data, error } = await supabaseClient
+      .from("cms_content_entries")
+      .select("content_key,draft_data,published_data,draft_updated_at,published_at")
+      .eq("content_key", SECTION_LAYOUT_CONTENT_KEY)
+      .maybeSingle();
+
+    if (error) {
+      console.error("Section layout CMS load failed:", error);
+      renderSectionLayoutList(sectionLayoutDefaults);
+      setSectionLayoutState("Load failed");
+      setSectionLayoutMessage("Could not load the section layout content store.");
+      return false;
+    }
+
+    if (!data) {
+      renderSectionLayoutList(sectionLayoutDefaults);
+      sectionLayoutLastLoadedDraft = cloneSectionLayoutDefaults();
+      sectionLayoutDirty = false;
+      setSectionLayoutState("Setup required");
+      setSectionLayoutMessage("Save Draft to create the Phase 2K content row.");
+      return false;
+    }
+
+    const draft = normalizeSectionLayout(data.draft_data || sectionLayoutDefaults);
+    renderSectionLayoutList(draft);
+    sectionLayoutLastLoadedDraft = structuredClone(draft);
+    sectionLayoutDirty = false;
+
+    const synced =
+      JSON.stringify(draft) === JSON.stringify(normalizeSectionLayout(data.published_data || {}));
+
+    setSectionLayoutState(synced ? "Published · synced" : "Draft differs from live");
+    setSectionLayoutMessage(
+      data.published_at
+        ? "Section layout draft loaded. Reorder, preview or publish when ready."
+        : "Section layout draft loaded. This structure has not been published yet."
+    );
+    return true;
+  };
+
+  renderSectionLayoutList(sectionLayoutDefaults);
+
+  sectionLayoutNavButton?.addEventListener("click", async () => {
+    showCmsView("section-layout");
+    await loadSectionLayoutEditor();
+  });
+
+  sectionLayoutList?.addEventListener("change", (event) => {
+    if (!event.target.matches("[data-section-visible]")) return;
+    markSectionLayoutDirty();
+  });
+
+  sectionLayoutList?.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-section-move]");
+    if (!button) return;
+
+    const row = button.closest(".section-layout-row");
+    if (!row) return;
+
+    if (button.dataset.sectionMove === "up") {
+      const previous = row.previousElementSibling;
+      if (previous) sectionLayoutList.insertBefore(row, previous);
+    } else {
+      const next = row.nextElementSibling;
+      if (next) sectionLayoutList.insertBefore(next, row);
+    }
+
+    refreshSectionLayoutOrderNumbers();
+    markSectionLayoutDirty();
+  });
+
+  sectionLayoutList?.addEventListener("dragstart", (event) => {
+    const row = event.target.closest(".section-layout-row");
+    if (!row) return;
+    draggedSectionKey = row.dataset.sectionKey;
+    row.classList.add("is-dragging");
+    event.dataTransfer.effectAllowed = "move";
+    event.dataTransfer.setData("text/plain", draggedSectionKey);
+  });
+
+  sectionLayoutList?.addEventListener("dragend", (event) => {
+    event.target.closest(".section-layout-row")?.classList.remove("is-dragging");
+    draggedSectionKey = null;
+    sectionLayoutList.querySelectorAll(".drag-target").forEach((row) => row.classList.remove("drag-target"));
+  });
+
+  sectionLayoutList?.addEventListener("dragover", (event) => {
+    event.preventDefault();
+    const row = event.target.closest(".section-layout-row");
+    if (!row || row.dataset.sectionKey === draggedSectionKey) return;
+    sectionLayoutList.querySelectorAll(".drag-target").forEach((item) => item.classList.remove("drag-target"));
+    row.classList.add("drag-target");
+    event.dataTransfer.dropEffect = "move";
+  });
+
+  sectionLayoutList?.addEventListener("drop", (event) => {
+    event.preventDefault();
+    const targetRow = event.target.closest(".section-layout-row");
+    const draggedRow = sectionLayoutList.querySelector(`[data-section-key="${CSS.escape(draggedSectionKey || "")}"]`);
+    if (!targetRow || !draggedRow || targetRow === draggedRow) return;
+
+    const box = targetRow.getBoundingClientRect();
+    const insertAfter = event.clientY > box.top + box.height / 2;
+    sectionLayoutList.insertBefore(
+      draggedRow,
+      insertAfter ? targetRow.nextElementSibling : targetRow
+    );
+
+    sectionLayoutList.querySelectorAll(".drag-target").forEach((row) => row.classList.remove("drag-target"));
+    refreshSectionLayoutOrderNumbers();
+    markSectionLayoutDirty();
+  });
+
+  sectionLayoutResetButton?.addEventListener("click", () => {
+    renderSectionLayoutList(sectionLayoutDefaults);
+    markSectionLayoutDirty("Reset pending");
+    setSectionLayoutMessage("Approved homepage order restored in the draft editor. Save Draft to keep it.");
+  });
+
+  sectionLayoutPreviewButton?.addEventListener("click", () => {
+    setSectionLayoutMessage("");
+    const draft = readSectionLayoutForm();
+    if (!draft) return;
+    renderSectionLayoutPreview(draft);
+  });
+
+  closeSectionLayoutPreviewButton?.addEventListener("click", () => {
+    sectionLayoutDraftPreview.hidden = true;
+  });
+
+  const saveSectionLayoutDraft = async () => {
+    setSectionLayoutMessage("");
+    const draft = readSectionLayoutForm();
+    if (!draft) return false;
+
+    setSectionLayoutBusy(true);
+    setSectionLayoutState("Saving…");
+
+    try {
+      const { data, error } = await supabaseClient
+        .from("cms_content_entries")
+        .upsert(
+          {
+            content_key: SECTION_LAYOUT_CONTENT_KEY,
+            draft_data: draft
+          },
+          {
+            onConflict: "content_key"
+          }
+        )
+        .select("content_key,draft_updated_at")
+        .maybeSingle();
+
+      if (error) throw error;
+      if (!data) {
+        setSectionLayoutState("Save failed");
+        setSectionLayoutMessage("Could not create or update the section layout draft.");
+        return false;
+      }
+
+      sectionLayoutLastLoadedDraft = structuredClone(draft);
+      sectionLayoutDirty = false;
+      setSectionLayoutState("Draft saved");
+      setSectionLayoutMessage("Draft saved. Published homepage section layout has not changed.");
+      return true;
+    } catch (error) {
+      console.error("Section layout draft save failed:", error);
+      setSectionLayoutState("Save failed");
+      setSectionLayoutMessage(
+        error?.message
+          ? `Could not save draft: ${error.message}`
+          : "Could not save the homepage section layout draft."
+      );
+      return false;
+    } finally {
+      setSectionLayoutBusy(false);
+    }
+  };
+
+  sectionLayoutSaveButton?.addEventListener("click", saveSectionLayoutDraft);
+
+  sectionLayoutEditorForm?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    await saveSectionLayoutDraft();
+  });
+
+  sectionLayoutPublishButton?.addEventListener("click", async () => {
+    setSectionLayoutMessage("");
+
+    if (sectionLayoutDirty) {
+      setSectionLayoutState("Unsaved changes");
+      setSectionLayoutMessage("Save the draft first, then publish.");
+      return;
+    }
+
+    if (!sectionLayoutLastLoadedDraft) {
+      setSectionLayoutMessage("Load or save the section layout draft before publishing.");
+      return;
+    }
+
+    setSectionLayoutBusy(true);
+    setSectionLayoutState("Publishing…");
+
+    try {
+      const { data, error } = await supabaseClient.rpc("cms_publish_content", {
+        p_content_key: SECTION_LAYOUT_CONTENT_KEY
+      });
+
+      if (error) throw error;
+      if (!data?.length) throw new Error("Publish returned no section layout row.");
+
+      setSectionLayoutState("Published · synced");
+      setSectionLayoutMessage("Homepage section layout published to the CMS. Localhost reads this version now; production still waits for explicit live deployment.");
+    } catch (error) {
+      console.error("Section layout publish failed:", error);
+      setSectionLayoutState("Publish failed");
+      setSectionLayoutMessage(error?.message || "Could not publish the homepage section layout.");
+    } finally {
+      setSectionLayoutBusy(false);
     }
   });
 
