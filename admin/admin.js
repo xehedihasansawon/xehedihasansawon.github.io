@@ -34,6 +34,7 @@ const creativeServicesNavButton = document.querySelector("#creativeServicesNavBu
 const digitalProjectsNavButton = document.querySelector("#digitalProjectsNavButton");
 const aboutMeNavButton = document.querySelector("#aboutMeNavButton");
 const skillsToolsNavButton = document.querySelector("#skillsToolsNavButton");
+const experienceCommunityNavButton = document.querySelector("#experienceCommunityNavButton");
 const dashboard = document.querySelector("#dashboard");
 const homepageEditor = document.querySelector("#homepageEditor");
 const realProjectsEditor = document.querySelector("#realProjectsEditor");
@@ -42,6 +43,7 @@ const creativeServicesEditor = document.querySelector("#creativeServicesEditor")
 const digitalProjectsEditor = document.querySelector("#digitalProjectsEditor");
 const aboutMeEditor = document.querySelector("#aboutMeEditor");
 const skillsToolsEditor = document.querySelector("#skillsToolsEditor");
+const experienceCommunityEditor = document.querySelector("#experienceCommunityEditor");
 const cmsPageEyebrow = document.querySelector("#cmsPageEyebrow");
 const cmsPageTitle = document.querySelector("#cmsPageTitle");
 
@@ -123,6 +125,17 @@ const skillsToolsDraftPreview = document.querySelector("#skillsToolsDraftPreview
 const closeSkillsToolsPreviewButton = document.querySelector("#closeSkillsToolsPreviewButton");
 const skillsToolsCapabilityPreviewGrid = document.querySelector("#skillsToolsCapabilityPreviewGrid");
 const skillsToolsToolPreviewGrid = document.querySelector("#skillsToolsToolPreviewGrid");
+
+const experienceCommunityEditorForm = document.querySelector("#experienceCommunityEditorForm");
+const experienceCommunityEditorList = document.querySelector("#experienceCommunityEditorList");
+const experienceCommunityEditorState = document.querySelector("#experienceCommunityEditorState");
+const experienceCommunityEditorMessage = document.querySelector("#experienceCommunityEditorMessage");
+const experienceCommunityPreviewButton = document.querySelector("#experienceCommunityPreviewButton");
+const experienceCommunitySaveButton = document.querySelector("#experienceCommunitySaveButton");
+const experienceCommunityPublishButton = document.querySelector("#experienceCommunityPublishButton");
+const experienceCommunityDraftPreview = document.querySelector("#experienceCommunityDraftPreview");
+const closeExperienceCommunityPreviewButton = document.querySelector("#closeExperienceCommunityPreviewButton");
+const experienceCommunityPreviewGrid = document.querySelector("#experienceCommunityPreviewGrid");
 
 const contentStoreDot = document.querySelector("#contentStoreDot");
 const contentStoreStatus = document.querySelector("#contentStoreStatus");
@@ -601,6 +614,7 @@ if (!hasValidConfig) {
     const isDigitalProjects = view === "digital-projects";
     const isAboutMe = view === "about-me";
     const isSkillsTools = view === "skills-tools";
+    const isExperienceCommunity = view === "experience-community";
 
     dashboard.hidden = !isDashboard;
     homepageEditor.hidden = !isHero;
@@ -610,6 +624,7 @@ if (!hasValidConfig) {
     digitalProjectsEditor.hidden = !isDigitalProjects;
     aboutMeEditor.hidden = !isAboutMe;
     skillsToolsEditor.hidden = !isSkillsTools;
+    experienceCommunityEditor.hidden = !isExperienceCommunity;
 
     dashboardNavLink?.classList.toggle("active", isDashboard);
     homepageNavButton?.classList.toggle("active", isHero);
@@ -619,8 +634,9 @@ if (!hasValidConfig) {
     digitalProjectsNavButton?.classList.toggle("active", isDigitalProjects);
     aboutMeNavButton?.classList.toggle("active", isAboutMe);
     skillsToolsNavButton?.classList.toggle("active", isSkillsTools);
+    experienceCommunityNavButton?.classList.toggle("active", isExperienceCommunity);
 
-    [dashboardNavLink, homepageNavButton, realProjectsNavButton, designShowcaseNavButton, creativeServicesNavButton, digitalProjectsNavButton, aboutMeNavButton, skillsToolsNavButton].forEach((item) => {
+    [dashboardNavLink, homepageNavButton, realProjectsNavButton, designShowcaseNavButton, creativeServicesNavButton, digitalProjectsNavButton, aboutMeNavButton, skillsToolsNavButton, experienceCommunityNavButton].forEach((item) => {
       item?.removeAttribute("aria-current");
     });
 
@@ -652,6 +668,10 @@ if (!hasValidConfig) {
       skillsToolsNavButton?.setAttribute("aria-current", "page");
       cmsPageEyebrow.textContent = "HOMEPAGE CMS";
       cmsPageTitle.textContent = "Skills & Tools";
+    } else if (isExperienceCommunity) {
+      experienceCommunityNavButton?.setAttribute("aria-current", "page");
+      cmsPageEyebrow.textContent = "HOMEPAGE CMS";
+      cmsPageTitle.textContent = "Experience / Community";
     } else {
       dashboardNavLink?.setAttribute("aria-current", "page");
       cmsPageEyebrow.textContent = "HOMEPAGE CMS";
@@ -3724,6 +3744,431 @@ if (!hasValidConfig) {
       setSkillsToolsMessage(error?.message || "Could not publish Skills & Tools.");
     } finally {
       setSkillsToolsBusy(false);
+    }
+  });
+
+  const EXPERIENCE_COMMUNITY_CONTENT_KEY = "homepage.experience-community";
+
+  const experienceCommunityDefaults = Object.freeze({
+    eyebrow: "Work, responsibility & contribution",
+    titleMain: "EXPERIENCE &",
+    titleAccent: "COMMUNITY",
+    items: [
+      {
+        key: "square-fashion",
+        number: "01",
+        type: "Professional",
+        period: "2021–2025",
+        title: "Square Fashion Limited",
+        role: "Production Assistant → Computer Operator",
+        description: "Managed production data, daily reporting, documentation and computer-based records while supporting coordination across factory operations.",
+        tags: ["Production Reporting", "SAP / ETS", "Documentation", "Operations"]
+      },
+      {
+        key: "freelance-design",
+        number: "02",
+        type: "Creative",
+        period: "Ongoing",
+        title: "Freelance Graphic Design",
+        role: "Branding · Social Media · Sports Design",
+        description: "Creating practical visual identities, campaign graphics and promotional content for brands, social platforms and sports projects.",
+        tags: ["Brand Identity", "Social Campaigns", "Sports Design", "Client Projects"]
+      },
+      {
+        key: "ssfc",
+        number: "03",
+        type: "Leadership",
+        period: "Ongoing",
+        title: "SSFC",
+        role: "Technical Committee · Lead Graphic Designer",
+        description: "Leading tournament visuals and communication across branding, match graphics, promotional materials and ongoing event operations.",
+        tags: ["Creative Direction", "Tournament Branding", "Match Graphics", "Organizing"]
+      },
+      {
+        key: "community-volunteer",
+        number: "04",
+        type: "Community",
+        period: "Selected involvement",
+        title: "Community & Volunteer Work",
+        role: "Leo Club International · Great Wall Foundation",
+        description: "Contributing to community programs, awareness campaigns and volunteer initiatives through teamwork and practical on-ground support.",
+        tags: ["Volunteering", "Awareness Campaigns", "Teamwork", "Community Service"]
+      }
+    ]
+  });
+
+  let experienceCommunityDirty = false;
+  let experienceCommunityLastLoadedDraft = null;
+
+  const cloneExperienceCommunityDefaults = () => structuredClone(experienceCommunityDefaults);
+
+  const setExperienceCommunityMessage = (message = "") => {
+    if (experienceCommunityEditorMessage) experienceCommunityEditorMessage.textContent = message;
+  };
+
+  const setExperienceCommunityState = (label) => {
+    if (experienceCommunityEditorState) experienceCommunityEditorState.textContent = label;
+  };
+
+  const setExperienceCommunityBusy = (busy) => {
+    [experienceCommunityPreviewButton, experienceCommunitySaveButton, experienceCommunityPublishButton].forEach((button) => {
+      if (button) button.disabled = busy;
+    });
+  };
+
+  const experienceEditorCard = (item) => `
+    <article class="project-editor-card experience-editor-card" data-experience-key="${item.key}">
+      <header>
+        <div>
+          <small>EXPERIENCE ${item.number}</small>
+          <h4>${item.title}</h4>
+        </div>
+        <b>NUMBER / ORDER FIXED</b>
+      </header>
+
+      <div class="editor-grid two">
+        <label>
+          <span>Type</span>
+          <input data-experience-field="type" type="text" maxlength="60" required>
+        </label>
+        <label>
+          <span>Period</span>
+          <input data-experience-field="period" type="text" maxlength="80" required>
+        </label>
+        <label class="editor-grid-span">
+          <span>Title</span>
+          <input data-experience-field="title" type="text" maxlength="120" required>
+        </label>
+        <label class="editor-grid-span">
+          <span>Role / subtitle</span>
+          <input data-experience-field="role" type="text" maxlength="180" required>
+        </label>
+        <label class="editor-grid-span">
+          <span>Description</span>
+          <textarea data-experience-field="description" rows="4" maxlength="650" required></textarea>
+        </label>
+        <label>
+          <span>Tag 1</span>
+          <input data-experience-field="tag1" type="text" maxlength="70" required>
+        </label>
+        <label>
+          <span>Tag 2</span>
+          <input data-experience-field="tag2" type="text" maxlength="70" required>
+        </label>
+        <label>
+          <span>Tag 3</span>
+          <input data-experience-field="tag3" type="text" maxlength="70" required>
+        </label>
+        <label>
+          <span>Tag 4</span>
+          <input data-experience-field="tag4" type="text" maxlength="70" required>
+        </label>
+      </div>
+    </article>
+  `;
+
+  const renderExperienceCommunityEditorCards = () => {
+    experienceCommunityEditorList.innerHTML = experienceCommunityDefaults.items
+      .map(experienceEditorCard)
+      .join("");
+  };
+
+  const experienceCardElement = (key) =>
+    experienceCommunityEditorList?.querySelector(`[data-experience-key="${key}"]`);
+
+  const fillExperienceCard = (item) => {
+    const card = experienceCardElement(item.key);
+    if (!card) return;
+
+    const tags = Array.isArray(item.tags) ? item.tags : [];
+    const values = {
+      type: item.type,
+      period: item.period,
+      title: item.title,
+      role: item.role,
+      description: item.description,
+      tag1: tags[0] || "",
+      tag2: tags[1] || "",
+      tag3: tags[2] || "",
+      tag4: tags[3] || ""
+    };
+
+    Object.entries(values).forEach(([field, value]) => {
+      const input = card.querySelector(`[data-experience-field="${field}"]`);
+      if (input) input.value = value;
+    });
+  };
+
+  const populateExperienceCommunityForm = (data = {}) => {
+    const defaults = cloneExperienceCommunityDefaults();
+    const incomingItems = Array.isArray(data.items) ? data.items : [];
+
+    const merged = {
+      ...defaults,
+      ...data,
+      items: defaults.items.map((item) => {
+        const incoming = incomingItems.find((candidate) => candidate?.key === item.key) || {};
+        return { ...item, ...incoming, key: item.key, number: item.number };
+      })
+    };
+
+    ["eyebrow", "titleMain", "titleAccent"].forEach((field) => {
+      const input = experienceCommunityEditorForm?.elements.namedItem(field);
+      if (input) input.value = merged[field] || "";
+    });
+
+    merged.items.forEach(fillExperienceCard);
+
+    experienceCommunityLastLoadedDraft = structuredClone(merged);
+    experienceCommunityDirty = false;
+    setExperienceCommunityState("Draft loaded");
+  };
+
+  const readExperienceCommunityForm = () => {
+    if (!experienceCommunityEditorForm) return null;
+
+    const missingRequired = [...experienceCommunityEditorForm.querySelectorAll("[required]")].find(
+      (field) => !String(field.value || "").trim()
+    );
+
+    if (missingRequired) {
+      const fieldLabel =
+        missingRequired.closest("label")?.querySelector("span")?.textContent?.trim() ||
+        "required field";
+      const card = missingRequired.closest("[data-experience-key]");
+      const context =
+        card?.querySelector('[data-experience-field="title"]')?.value?.trim() ||
+        "Experience / Community";
+
+      setExperienceCommunityMessage(`Complete "${fieldLabel}" for ${context} before saving.`);
+      missingRequired.focus();
+      missingRequired.scrollIntoView({ behavior: "smooth", block: "center" });
+      return null;
+    }
+
+    const items = experienceCommunityDefaults.items.map((item) => {
+      const card = experienceCardElement(item.key);
+      const get = (field) =>
+        String(card?.querySelector(`[data-experience-field="${field}"]`)?.value || "").trim();
+
+      return {
+        key: item.key,
+        number: item.number,
+        type: get("type"),
+        period: get("period"),
+        title: get("title"),
+        role: get("role"),
+        description: get("description"),
+        tags: [get("tag1"), get("tag2"), get("tag3"), get("tag4")]
+      };
+    });
+
+    const getHeader = (field) =>
+      String(experienceCommunityEditorForm.elements.namedItem(field)?.value || "").trim();
+
+    return {
+      eyebrow: getHeader("eyebrow"),
+      titleMain: getHeader("titleMain"),
+      titleAccent: getHeader("titleAccent"),
+      items
+    };
+  };
+
+  const renderExperienceCommunityPreview = (data) => {
+    document.getElementById("previewExperienceEyebrow").textContent = data.eyebrow;
+    document.getElementById("previewExperienceTitleMain").textContent = data.titleMain;
+    document.getElementById("previewExperienceTitleAccent").textContent = data.titleAccent;
+    experienceCommunityPreviewGrid.innerHTML = "";
+
+    data.items.forEach((item) => {
+      const card = document.createElement("article");
+      card.className = "experience-preview-card";
+
+      const top = document.createElement("div");
+      top.className = "experience-preview-top";
+      const number = document.createElement("span");
+      number.textContent = item.number;
+      const type = document.createElement("b");
+      type.textContent = item.type;
+      const period = document.createElement("small");
+      period.textContent = item.period;
+      top.append(number, type, period);
+
+      const title = document.createElement("strong");
+      title.textContent = item.title;
+      const role = document.createElement("em");
+      role.textContent = item.role;
+      const description = document.createElement("p");
+      description.textContent = item.description;
+
+      const tags = document.createElement("div");
+      tags.className = "experience-preview-tags";
+      item.tags.forEach((tag) => {
+        const chip = document.createElement("i");
+        chip.textContent = tag;
+        tags.appendChild(chip);
+      });
+
+      card.append(top, title, role, description, tags);
+      experienceCommunityPreviewGrid.appendChild(card);
+    });
+
+    experienceCommunityDraftPreview.hidden = false;
+    experienceCommunityDraftPreview.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  const loadExperienceCommunityEditor = async () => {
+    setExperienceCommunityMessage("Loading Experience / Community draft…");
+    setExperienceCommunityState("Loading…");
+
+    const { data, error } = await supabaseClient
+      .from("cms_content_entries")
+      .select("content_key,draft_data,published_data,draft_updated_at,published_at")
+      .eq("content_key", EXPERIENCE_COMMUNITY_CONTENT_KEY)
+      .maybeSingle();
+
+    if (error) {
+      console.error("Experience / Community CMS load failed:", error);
+      populateExperienceCommunityForm(experienceCommunityDefaults);
+      setExperienceCommunityState("Load failed");
+      setExperienceCommunityMessage("Could not load the Experience / Community content store.");
+      return false;
+    }
+
+    if (!data) {
+      populateExperienceCommunityForm(experienceCommunityDefaults);
+      setExperienceCommunityState("Setup required");
+      setExperienceCommunityMessage("Save Draft to create the Phase 2H content row.");
+      return false;
+    }
+
+    populateExperienceCommunityForm(data.draft_data || experienceCommunityDefaults);
+
+    const synced =
+      JSON.stringify(data.draft_data || {}) === JSON.stringify(data.published_data || {});
+
+    setExperienceCommunityState(synced ? "Published · synced" : "Draft differs from live");
+    setExperienceCommunityMessage(
+      data.published_at
+        ? "Experience / Community draft loaded. Preview or edit before publishing."
+        : "Experience / Community draft loaded. This content has not been published yet."
+    );
+    return true;
+  };
+
+  renderExperienceCommunityEditorCards();
+  populateExperienceCommunityForm(experienceCommunityDefaults);
+
+  experienceCommunityNavButton?.addEventListener("click", async () => {
+    showCmsView("experience-community");
+    await loadExperienceCommunityEditor();
+  });
+
+  experienceCommunityEditorForm?.addEventListener("input", () => {
+    experienceCommunityDirty = true;
+    setExperienceCommunityState("Unsaved changes");
+  });
+
+  experienceCommunityPreviewButton?.addEventListener("click", () => {
+    setExperienceCommunityMessage("");
+    const draft = readExperienceCommunityForm();
+    if (!draft) return;
+    renderExperienceCommunityPreview(draft);
+  });
+
+  closeExperienceCommunityPreviewButton?.addEventListener("click", () => {
+    experienceCommunityDraftPreview.hidden = true;
+  });
+
+  const saveExperienceCommunityDraft = async () => {
+    setExperienceCommunityMessage("");
+    const draft = readExperienceCommunityForm();
+    if (!draft) return false;
+
+    setExperienceCommunityBusy(true);
+    setExperienceCommunityState("Saving…");
+
+    try {
+      const { data, error } = await supabaseClient
+        .from("cms_content_entries")
+        .upsert(
+          {
+            content_key: EXPERIENCE_COMMUNITY_CONTENT_KEY,
+            draft_data: draft
+          },
+          {
+            onConflict: "content_key"
+          }
+        )
+        .select("content_key,draft_updated_at")
+        .maybeSingle();
+
+      if (error) throw error;
+      if (!data) {
+        setExperienceCommunityState("Save failed");
+        setExperienceCommunityMessage("Could not create or update the Experience / Community draft.");
+        return false;
+      }
+
+      experienceCommunityLastLoadedDraft = structuredClone(draft);
+      experienceCommunityDirty = false;
+      setExperienceCommunityState("Draft saved");
+      setExperienceCommunityMessage("Draft saved. Published Experience / Community content has not changed.");
+      return true;
+    } catch (error) {
+      console.error("Experience / Community draft save failed:", error);
+      setExperienceCommunityState("Save failed");
+      setExperienceCommunityMessage(
+        error?.message
+          ? `Could not save draft: ${error.message}`
+          : "Could not save the Experience / Community draft."
+      );
+      return false;
+    } finally {
+      setExperienceCommunityBusy(false);
+    }
+  };
+
+  experienceCommunitySaveButton?.addEventListener("click", saveExperienceCommunityDraft);
+
+  experienceCommunityEditorForm?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    await saveExperienceCommunityDraft();
+  });
+
+  experienceCommunityPublishButton?.addEventListener("click", async () => {
+    setExperienceCommunityMessage("");
+
+    if (experienceCommunityDirty) {
+      setExperienceCommunityState("Unsaved changes");
+      setExperienceCommunityMessage("Save the draft first, then publish.");
+      return;
+    }
+
+    if (!experienceCommunityLastLoadedDraft) {
+      setExperienceCommunityMessage("Load or save the Experience / Community draft before publishing.");
+      return;
+    }
+
+    setExperienceCommunityBusy(true);
+    setExperienceCommunityState("Publishing…");
+
+    try {
+      const { data, error } = await supabaseClient.rpc("cms_publish_content", {
+        p_content_key: EXPERIENCE_COMMUNITY_CONTENT_KEY
+      });
+
+      if (error) throw error;
+      if (!data?.length) throw new Error("Publish returned no Experience / Community row.");
+
+      setExperienceCommunityState("Published · synced");
+      setExperienceCommunityMessage("Experience / Community published to the CMS. Localhost reads this version now; production still waits for explicit live deployment.");
+    } catch (error) {
+      console.error("Experience / Community publish failed:", error);
+      setExperienceCommunityState("Publish failed");
+      setExperienceCommunityMessage(error?.message || "Could not publish Experience / Community.");
+    } finally {
+      setExperienceCommunityBusy(false);
     }
   });
 
