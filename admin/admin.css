@@ -469,9 +469,14 @@ button {
   font-size: 0.76rem;
 }
 
-.foundation-check {
+.foundation-stack {
   margin-top: 16px;
   padding-top: 13px;
+  display: grid;
+  gap: 10px;
+}
+
+.foundation-check {
   display: flex;
   align-items: center;
   gap: 10px;
