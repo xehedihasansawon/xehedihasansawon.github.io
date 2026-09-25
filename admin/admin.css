@@ -1994,3 +1994,83 @@ button {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
+
+/* Phase 2H — Experience / Community CMS */
+.experience-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.experience-preview-card {
+  min-width: 0;
+  padding: 16px;
+  display: grid;
+  gap: 8px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #071611;
+}
+
+.experience-preview-top {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 8px;
+  align-items: center;
+}
+
+.experience-preview-top span {
+  color: var(--red);
+  font-size: 0.66rem;
+  font-weight: 900;
+}
+
+.experience-preview-top b,
+.experience-preview-top small {
+  color: var(--muted);
+  font-size: 0.62rem;
+}
+
+.experience-preview-top small {
+  text-align: right;
+}
+
+.experience-preview-card > strong {
+  font-size: 0.9rem;
+}
+
+.experience-preview-card > em {
+  color: #d7e2dd;
+  font-size: 0.7rem;
+  font-style: normal;
+  font-weight: 700;
+}
+
+.experience-preview-card > p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.68rem;
+  line-height: 1.55;
+}
+
+.experience-preview-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.experience-preview-tags i {
+  padding: 4px 7px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: #cbd8d2;
+  font-size: 0.57rem;
+  font-style: normal;
+}
+
+@media (max-width: 700px) {
+  .experience-preview-grid {
+    grid-template-columns: 1fr;
+  }
+}
