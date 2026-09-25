@@ -10,6 +10,7 @@ const SKILLS_TOOLS_CONTENT_KEY = "homepage.skills-tools";
 const EXPERIENCE_COMMUNITY_CONTENT_KEY = "homepage.experience-community";
 const CONTACT_CONTENT_KEY = "homepage.contact";
 const FOOTER_CONTENT_KEY = "homepage.footer";
+const SECTION_LAYOUT_CONTENT_KEY = "homepage.section-layout";
 
 const byId = (id) => document.getElementById(id);
 
@@ -896,3 +897,88 @@ const loadPublishedFooter = async () => {
 };
 
 loadPublishedFooter();
+
+
+const HOME_SECTION_DEFAULTS = Object.freeze([
+  "home",
+  "work",
+  "design-showcase",
+  "services",
+  "digital",
+  "about",
+  "skills",
+  "experience",
+  "contact"
+]);
+
+const normalizePublishedSectionLayout = (data) => {
+  if (!data || !Array.isArray(data.sections)) return null;
+
+  const known = new Set(HOME_SECTION_DEFAULTS);
+  const used = new Set();
+  const normalized = [];
+
+  data.sections.forEach((item) => {
+    if (!item || !known.has(item.key) || used.has(item.key)) return;
+    used.add(item.key);
+    normalized.push({
+      key: item.key,
+      visible: item.visible !== false
+    });
+  });
+
+  HOME_SECTION_DEFAULTS.forEach((key) => {
+    if (!used.has(key)) normalized.push({ key, visible: true });
+  });
+
+  return normalized;
+};
+
+const applySectionLayout = (data) => {
+  const sections = normalizePublishedSectionLayout(data);
+  if (!sections) return;
+
+  const main = document.querySelector("main");
+  if (!main) return;
+
+  sections.forEach((item) => {
+    const section = document.querySelector(
+      `[data-cms-home-section="${CSS.escape(item.key)}"]`
+    );
+    if (!section) return;
+
+    section.hidden = item.visible === false;
+    main.appendChild(section);
+  });
+
+  document.documentElement.dataset.sectionLayoutCms = "loaded";
+};
+
+const loadPublishedSectionLayout = async () => {
+  try {
+    const endpoint = new URL("/rest/v1/cms_content_entries", ADMIN_CONFIG.supabaseUrl);
+    endpoint.searchParams.set("select", "published_data");
+    endpoint.searchParams.set("content_key", `eq.${SECTION_LAYOUT_CONTENT_KEY}`);
+    endpoint.searchParams.set("limit", "1");
+
+    const response = await fetch(endpoint, {
+      headers: {
+        apikey: ADMIN_CONFIG.supabaseAnonKey,
+        Accept: "application/json"
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`Section Layout CMS request failed with status ${response.status}`);
+    }
+
+    const rows = await response.json();
+    const published = rows?.[0]?.published_data;
+
+    if (published) applySectionLayout(published);
+  } catch (error) {
+    console.warn("Section Layout CMS unavailable; using static homepage order.", error);
+  }
+};
+
+loadPublishedSectionLayout();
