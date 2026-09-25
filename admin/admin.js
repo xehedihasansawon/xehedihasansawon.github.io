@@ -28,8 +28,10 @@ const mobileMenuToggle = document.querySelector("#mobileMenuToggle");
 const sidebarBackdrop = document.querySelector("#sidebarBackdrop");
 const dashboardNavLink = document.querySelector("#dashboardNavLink");
 const homepageNavButton = document.querySelector("#homepageNavButton");
+const realProjectsNavButton = document.querySelector("#realProjectsNavButton");
 const dashboard = document.querySelector("#dashboard");
 const homepageEditor = document.querySelector("#homepageEditor");
+const realProjectsEditor = document.querySelector("#realProjectsEditor");
 const cmsPageEyebrow = document.querySelector("#cmsPageEyebrow");
 const cmsPageTitle = document.querySelector("#cmsPageTitle");
 
@@ -45,6 +47,17 @@ const heroImageUploadInput = document.querySelector("#heroImageUploadInput");
 const heroImageUploadButton = document.querySelector("#heroImageUploadButton");
 const heroImageUploadStatus = document.querySelector("#heroImageUploadStatus");
 const heroImageSelectionPreview = document.querySelector("#heroImageSelectionPreview");
+
+const realProjectsEditorForm = document.querySelector("#realProjectsEditorForm");
+const realProjectsEditorList = document.querySelector("#realProjectsEditorList");
+const realProjectsEditorState = document.querySelector("#realProjectsEditorState");
+const realProjectsEditorMessage = document.querySelector("#realProjectsEditorMessage");
+const realProjectsPreviewButton = document.querySelector("#realProjectsPreviewButton");
+const realProjectsSaveButton = document.querySelector("#realProjectsSaveButton");
+const realProjectsPublishButton = document.querySelector("#realProjectsPublishButton");
+const realProjectsDraftPreview = document.querySelector("#realProjectsDraftPreview");
+const closeRealProjectsPreviewButton = document.querySelector("#closeRealProjectsPreviewButton");
+const realProjectsPreviewGrid = document.querySelector("#realProjectsPreviewGrid");
 const contentStoreDot = document.querySelector("#contentStoreDot");
 const contentStoreStatus = document.querySelector("#contentStoreStatus");
 const revisionStoreDot = document.querySelector("#revisionStoreDot");
@@ -491,21 +504,31 @@ if (!hasValidConfig) {
   };
 
   const showCmsView = (view) => {
+    const isDashboard = view === "dashboard";
     const isHero = view === "hero";
+    const isRealProjects = view === "real-projects";
 
-    dashboard.hidden = isHero;
+    dashboard.hidden = !isDashboard;
     homepageEditor.hidden = !isHero;
+    realProjectsEditor.hidden = !isRealProjects;
 
-    dashboardNavLink?.classList.toggle("active", !isHero);
+    dashboardNavLink?.classList.toggle("active", isDashboard);
     homepageNavButton?.classList.toggle("active", isHero);
+    realProjectsNavButton?.classList.toggle("active", isRealProjects);
+
+    [dashboardNavLink, homepageNavButton, realProjectsNavButton].forEach((item) => {
+      item?.removeAttribute("aria-current");
+    });
 
     if (isHero) {
-      dashboardNavLink?.removeAttribute("aria-current");
       homepageNavButton?.setAttribute("aria-current", "page");
       cmsPageEyebrow.textContent = "HOMEPAGE CMS";
       cmsPageTitle.textContent = "Hero";
+    } else if (isRealProjects) {
+      realProjectsNavButton?.setAttribute("aria-current", "page");
+      cmsPageEyebrow.textContent = "HOMEPAGE CMS";
+      cmsPageTitle.textContent = "Real Life Projects";
     } else {
-      homepageNavButton?.removeAttribute("aria-current");
       dashboardNavLink?.setAttribute("aria-current", "page");
       cmsPageEyebrow.textContent = "HOMEPAGE CMS";
       cmsPageTitle.textContent = "Dashboard";
@@ -671,6 +694,492 @@ if (!hasValidConfig) {
       setHeroEditorMessage(error?.message || "Could not publish the Hero.");
     } finally {
       setEditorBusy(false);
+    }
+  });
+
+  const REAL_PROJECTS_CONTENT_KEY = "homepage.real-life-projects";
+
+  const realProjectsDefaults = Object.freeze({
+    eyebrow: "Selected real-world work",
+    titleMain: "REAL LIFE",
+    titleAccent: "PROJECTS",
+    projects: [
+      {
+        key: "ssfc",
+        type: "link",
+        category: "Sports Branding · Event Creative",
+        title: "SSFC",
+        description: "Tournament identity, event visuals, social graphics and organizing support.",
+        actionLabel: "View case ↗",
+        href: "ssfc.html",
+        imageSrc: "assets/case-ssfc-final.jpg",
+        imageAlt: "Shaheen School Football Championship case study cover"
+      },
+      {
+        key: "biporjoy",
+        type: "link",
+        category: "Team Identity · Sports Design",
+        title: "Biporjoy 18",
+        description: "Football team identity, jersey direction and tournament-ready sports graphics.",
+        actionLabel: "View project ↗",
+        href: "biporjoy.html",
+        imageSrc: "assets/case-biporjoy18-final.jpg",
+        imageAlt: "Biporjoy 18 football team identity cover"
+      },
+      {
+        key: "miuw",
+        type: "preview",
+        category: "ERP Workflow · Business System",
+        title: "MIUW ERP",
+        description: "Orders, inventory, sourcing, delivery, finance and reporting in one workflow.",
+        actionLabel: "Preview ↗",
+        imageSrc: "assets/case-miuw-final.jpg",
+        imageAlt: "MIUW ERP business system cover"
+      },
+      {
+        key: "portfolio",
+        type: "preview",
+        category: "Personal Brand · UI · Front-End",
+        title: "PORTFOLIO",
+        description: "Personal brand, selected work and digital systems presented in one experience.",
+        actionLabel: "View build ↗",
+        imageSrc: "assets/case-portfolio-final.jpg",
+        imageAlt: "Mehedi Portfolio website cover"
+      }
+    ]
+  });
+
+  let realProjectsDirty = false;
+  let realProjectsLastLoadedDraft = null;
+
+  const cloneRealProjectsDefaults = () => structuredClone(realProjectsDefaults);
+
+  const setRealProjectsMessage = (message = "") => {
+    if (realProjectsEditorMessage) realProjectsEditorMessage.textContent = message;
+  };
+
+  const setRealProjectsState = (label) => {
+    if (realProjectsEditorState) realProjectsEditorState.textContent = label;
+  };
+
+  const setRealProjectsBusy = (busy) => {
+    [realProjectsPreviewButton, realProjectsSaveButton, realProjectsPublishButton].forEach((button) => {
+      if (button) button.disabled = busy;
+    });
+  };
+
+  const projectEditorCard = (project, index) => {
+    const typeLabel = project.type === "link" ? "LINK CARD" : "PREVIEW CARD";
+
+    return `
+      <article class="project-editor-card" data-project-key="${project.key}" data-project-type="${project.type}">
+        <header>
+          <div>
+            <small>PROJECT ${index + 1}</small>
+            <h4>${project.title}</h4>
+          </div>
+          <b>${typeLabel}</b>
+        </header>
+
+        <div class="editor-grid two">
+          <label>
+            <span>Category / meta</span>
+            <input data-project-field="category" type="text" maxlength="100" required>
+          </label>
+          <label>
+            <span>Project title</span>
+            <input data-project-field="title" type="text" maxlength="80" required>
+          </label>
+          <label class="editor-grid-span">
+            <span>Description</span>
+            <textarea data-project-field="description" rows="3" maxlength="220" required></textarea>
+          </label>
+          <label>
+            <span>Action label</span>
+            <input data-project-field="actionLabel" type="text" maxlength="50" required>
+          </label>
+          ${project.type === "link" ? `
+          <label>
+            <span>Project link</span>
+            <input data-project-field="href" type="text" maxlength="240" required>
+          </label>` : `
+          <div class="project-fixed-note">
+            <span>Card action</span>
+            <strong>Existing private preview modal</strong>
+          </div>`}
+        </div>
+
+        <div class="project-image-editor">
+          <div class="project-upload-block">
+            <span>Project image</span>
+            <input data-project-upload type="file" accept="image/jpeg,image/png,image/webp">
+            <small data-project-upload-status>JPG, PNG or WebP · maximum 8 MB</small>
+          </div>
+
+          <div class="project-image-current">
+            <img data-project-image-preview alt="">
+          </div>
+        </div>
+
+        <div class="editor-grid two">
+          <label>
+            <span>Image path / URL</span>
+            <input data-project-field="imageSrc" type="text" maxlength="500" required>
+          </label>
+          <label>
+            <span>Image alt text</span>
+            <input data-project-field="imageAlt" type="text" maxlength="160" required>
+          </label>
+        </div>
+      </article>
+    `;
+  };
+
+  const renderRealProjectsEditorCards = () => {
+    if (!realProjectsEditorList) return;
+
+    realProjectsEditorList.innerHTML = realProjectsDefaults.projects
+      .map(projectEditorCard)
+      .join("");
+  };
+
+  const projectCardElement = (key) =>
+    realProjectsEditorList?.querySelector(`[data-project-key="${key}"]`);
+
+  const fillProjectEditorCard = (project) => {
+    const card = projectCardElement(project.key);
+    if (!card) return;
+
+    Object.entries(project).forEach(([field, value]) => {
+      if (["key", "type"].includes(field)) return;
+      const input = card.querySelector(`[data-project-field="${field}"]`);
+      if (input) input.value = value ?? "";
+    });
+
+    const preview = card.querySelector("[data-project-image-preview]");
+    if (preview) {
+      preview.src = resolvePreviewImage(project.imageSrc);
+      preview.alt = project.imageAlt || project.title || "Project preview";
+    }
+  };
+
+  const populateRealProjectsForm = (data = {}) => {
+    const defaults = cloneRealProjectsDefaults();
+    const incomingProjects = Array.isArray(data.projects) ? data.projects : [];
+
+    const merged = {
+      ...defaults,
+      ...data,
+      projects: defaults.projects.map((project) => {
+        const incoming = incomingProjects.find((item) => item?.key === project.key) || {};
+        return { ...project, ...incoming, key: project.key, type: project.type };
+      })
+    };
+
+    realProjectsEditorForm.elements.namedItem("eyebrow").value = merged.eyebrow;
+    realProjectsEditorForm.elements.namedItem("titleMain").value = merged.titleMain;
+    realProjectsEditorForm.elements.namedItem("titleAccent").value = merged.titleAccent;
+
+    merged.projects.forEach(fillProjectEditorCard);
+
+    realProjectsLastLoadedDraft = structuredClone(merged);
+    realProjectsDirty = false;
+    setRealProjectsState("Draft loaded");
+  };
+
+  const readRealProjectsForm = () => {
+    if (!realProjectsEditorForm?.reportValidity()) return null;
+
+    const projects = realProjectsDefaults.projects.map((project) => {
+      const card = projectCardElement(project.key);
+      const get = (field) =>
+        String(card?.querySelector(`[data-project-field="${field}"]`)?.value || "").trim();
+
+      const result = {
+        key: project.key,
+        type: project.type,
+        category: get("category"),
+        title: get("title"),
+        description: get("description"),
+        actionLabel: get("actionLabel"),
+        imageSrc: get("imageSrc"),
+        imageAlt: get("imageAlt")
+      };
+
+      if (project.type === "link") {
+        result.href = get("href");
+      }
+
+      return result;
+    });
+
+    for (const project of projects) {
+      if (!isSafeImageSource(project.imageSrc)) {
+        setRealProjectsMessage(`Use a safe image path or HTTPS image URL for ${project.title}.`);
+        return null;
+      }
+
+      if (project.type === "link" && !isSafeCmsHref(project.href)) {
+        setRealProjectsMessage(`Use a safe project link for ${project.title}.`);
+        return null;
+      }
+    }
+
+    return {
+      eyebrow: String(realProjectsEditorForm.elements.namedItem("eyebrow").value || "").trim(),
+      titleMain: String(realProjectsEditorForm.elements.namedItem("titleMain").value || "").trim(),
+      titleAccent: String(realProjectsEditorForm.elements.namedItem("titleAccent").value || "").trim(),
+      projects
+    };
+  };
+
+  const renderRealProjectsPreview = (data) => {
+    document.querySelector("#previewRealProjectsEyebrow").textContent = data.eyebrow;
+    document.querySelector("#previewRealProjectsTitleMain").textContent = data.titleMain;
+    document.querySelector("#previewRealProjectsTitleAccent").textContent = data.titleAccent;
+
+    realProjectsPreviewGrid.innerHTML = "";
+
+    data.projects.forEach((project) => {
+      const card = document.createElement("article");
+      card.className = "real-projects-preview-card";
+
+      const image = document.createElement("img");
+      image.src = resolvePreviewImage(project.imageSrc);
+      image.alt = project.imageAlt || project.title;
+
+      const body = document.createElement("div");
+      const category = document.createElement("small");
+      category.textContent = project.category;
+      const title = document.createElement("strong");
+      title.textContent = project.title;
+      const description = document.createElement("p");
+      description.textContent = project.description;
+      const action = document.createElement("span");
+      action.textContent = project.actionLabel;
+
+      body.append(category, title, description, action);
+      card.append(image, body);
+      realProjectsPreviewGrid.appendChild(card);
+    });
+
+    realProjectsDraftPreview.hidden = false;
+    realProjectsDraftPreview.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  const loadRealProjectsEditor = async () => {
+    setRealProjectsMessage("Loading Real Life Projects draft…");
+    setRealProjectsState("Loading…");
+
+    const { data, error } = await supabaseClient
+      .from("cms_content_entries")
+      .select("content_key,draft_data,published_data,draft_updated_at,published_at")
+      .eq("content_key", REAL_PROJECTS_CONTENT_KEY)
+      .maybeSingle();
+
+    if (error) {
+      console.error("Real Life Projects CMS load failed:", error);
+      populateRealProjectsForm(realProjectsDefaults);
+      setRealProjectsState("Load failed");
+      setRealProjectsMessage("Could not load the Real Life Projects content store.");
+      return false;
+    }
+
+    if (!data) {
+      populateRealProjectsForm(realProjectsDefaults);
+      setRealProjectsState("Setup required");
+      setRealProjectsMessage("Run the Phase 2B seed migration before saving.");
+      return false;
+    }
+
+    populateRealProjectsForm(data.draft_data || realProjectsDefaults);
+
+    const synced =
+      JSON.stringify(data.draft_data || {}) === JSON.stringify(data.published_data || {});
+
+    setRealProjectsState(synced ? "Published · synced" : "Draft differs from live");
+    setRealProjectsMessage(
+      data.published_at
+        ? "Projects draft loaded. Preview or edit before publishing."
+        : "Projects draft loaded. This content has not been published yet."
+    );
+
+    return true;
+  };
+
+  const uploadRealProjectImage = async (input) => {
+    const file = input?.files?.[0];
+    const card = input?.closest("[data-project-key]");
+    const key = card?.dataset.projectKey;
+    const status = card?.querySelector("[data-project-upload-status]");
+
+    const setStatus = (message) => {
+      if (status) status.textContent = message;
+    };
+
+    if (!file || !card || !key) return;
+
+    const extension = HERO_ALLOWED_IMAGE_TYPES[file.type];
+
+    if (!extension) {
+      setStatus("Use JPG, PNG or WebP.");
+      return;
+    }
+
+    if (file.size > HERO_MAX_UPLOAD_BYTES) {
+      setStatus("Image is larger than 8 MB.");
+      return;
+    }
+
+    setStatus("Uploading…");
+
+    try {
+      const uniquePart =
+        globalThis.crypto?.randomUUID?.() ||
+        Math.random().toString(36).slice(2, 12);
+
+      const objectPath = `homepage-projects/${key}/${Date.now()}-${uniquePart}.${extension}`;
+
+      const { error: uploadError } = await supabaseClient.storage
+        .from(HERO_MEDIA_BUCKET)
+        .upload(objectPath, file, {
+          cacheControl: "31536000",
+          contentType: file.type,
+          upsert: false
+        });
+
+      if (uploadError) throw uploadError;
+
+      const { data: publicUrlData } = supabaseClient.storage
+        .from(HERO_MEDIA_BUCKET)
+        .getPublicUrl(objectPath);
+
+      const publicUrl = publicUrlData?.publicUrl;
+      if (!publicUrl) throw new Error("Storage did not return a public image URL.");
+
+      const srcInput = card.querySelector('[data-project-field="imageSrc"]');
+      const preview = card.querySelector("[data-project-image-preview]");
+
+      if (srcInput) srcInput.value = publicUrl;
+      if (preview) preview.src = publicUrl;
+
+      realProjectsDirty = true;
+      setRealProjectsState("Unsaved changes");
+      setStatus("Uploaded. Save draft to keep this image.");
+    } catch (error) {
+      console.error("Project image upload failed:", error);
+      setStatus(error?.message || "Could not upload image.");
+    }
+  };
+
+  renderRealProjectsEditorCards();
+  populateRealProjectsForm(realProjectsDefaults);
+
+  realProjectsNavButton?.addEventListener("click", async () => {
+    showCmsView("real-projects");
+    await loadRealProjectsEditor();
+  });
+
+  realProjectsEditorForm?.addEventListener("input", (event) => {
+    if (event.target.matches("[data-project-upload]")) return;
+
+    realProjectsDirty = true;
+    setRealProjectsState("Unsaved changes");
+
+    if (event.target.matches('[data-project-field="imageSrc"]')) {
+      const card = event.target.closest("[data-project-key]");
+      const preview = card?.querySelector("[data-project-image-preview]");
+      if (preview) preview.src = resolvePreviewImage(event.target.value);
+    }
+  });
+
+  realProjectsEditorForm?.addEventListener("change", async (event) => {
+    if (!event.target.matches("[data-project-upload]")) return;
+    await uploadRealProjectImage(event.target);
+  });
+
+  realProjectsPreviewButton?.addEventListener("click", () => {
+    setRealProjectsMessage("");
+    const draft = readRealProjectsForm();
+    if (!draft) return;
+    renderRealProjectsPreview(draft);
+  });
+
+  closeRealProjectsPreviewButton?.addEventListener("click", () => {
+    realProjectsDraftPreview.hidden = true;
+  });
+
+  realProjectsEditorForm?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    setRealProjectsMessage("");
+
+    const draft = readRealProjectsForm();
+    if (!draft) return;
+
+    setRealProjectsBusy(true);
+    setRealProjectsState("Saving…");
+
+    try {
+      const { data, error } = await supabaseClient
+        .from("cms_content_entries")
+        .update({ draft_data: draft })
+        .eq("content_key", REAL_PROJECTS_CONTENT_KEY)
+        .select("content_key,draft_updated_at")
+        .maybeSingle();
+
+      if (error) throw error;
+      if (!data) {
+        setRealProjectsState("Setup required");
+        setRealProjectsMessage("Real Life Projects row is missing. Run the Phase 2B seed migration first.");
+        return;
+      }
+
+      realProjectsLastLoadedDraft = structuredClone(draft);
+      realProjectsDirty = false;
+      setRealProjectsState("Draft saved");
+      setRealProjectsMessage("Draft saved. Published project cards have not changed.");
+    } catch (error) {
+      console.error("Real Life Projects draft save failed:", error);
+      setRealProjectsState("Save failed");
+      setRealProjectsMessage("Could not save the Real Life Projects draft.");
+    } finally {
+      setRealProjectsBusy(false);
+    }
+  });
+
+  realProjectsPublishButton?.addEventListener("click", async () => {
+    setRealProjectsMessage("");
+
+    if (realProjectsDirty) {
+      setRealProjectsState("Unsaved changes");
+      setRealProjectsMessage("Save the draft first, then publish.");
+      return;
+    }
+
+    if (!realProjectsLastLoadedDraft) {
+      setRealProjectsMessage("Load or save the project draft before publishing.");
+      return;
+    }
+
+    setRealProjectsBusy(true);
+    setRealProjectsState("Publishing…");
+
+    try {
+      const { data, error } = await supabaseClient.rpc("cms_publish_content", {
+        p_content_key: REAL_PROJECTS_CONTENT_KEY
+      });
+
+      if (error) throw error;
+      if (!data?.length) throw new Error("Publish returned no project row.");
+
+      setRealProjectsState("Published · synced");
+      setRealProjectsMessage("Projects published to the CMS. Localhost reads this version now; production still waits for explicit live deployment.");
+    } catch (error) {
+      console.error("Real Life Projects publish failed:", error);
+      setRealProjectsState("Publish failed");
+      setRealProjectsMessage(error?.message || "Could not publish the project cards.");
+    } finally {
+      setRealProjectsBusy(false);
     }
   });
 
