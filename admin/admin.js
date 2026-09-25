@@ -31,11 +31,13 @@ const homepageNavButton = document.querySelector("#homepageNavButton");
 const realProjectsNavButton = document.querySelector("#realProjectsNavButton");
 const designShowcaseNavButton = document.querySelector("#designShowcaseNavButton");
 const creativeServicesNavButton = document.querySelector("#creativeServicesNavButton");
+const digitalProjectsNavButton = document.querySelector("#digitalProjectsNavButton");
 const dashboard = document.querySelector("#dashboard");
 const homepageEditor = document.querySelector("#homepageEditor");
 const realProjectsEditor = document.querySelector("#realProjectsEditor");
 const designShowcaseEditor = document.querySelector("#designShowcaseEditor");
 const creativeServicesEditor = document.querySelector("#creativeServicesEditor");
+const digitalProjectsEditor = document.querySelector("#digitalProjectsEditor");
 const cmsPageEyebrow = document.querySelector("#cmsPageEyebrow");
 const cmsPageTitle = document.querySelector("#cmsPageTitle");
 
@@ -84,6 +86,17 @@ const creativeServicesPublishButton = document.querySelector("#creativeServicesP
 const creativeServicesDraftPreview = document.querySelector("#creativeServicesDraftPreview");
 const closeCreativeServicesPreviewButton = document.querySelector("#closeCreativeServicesPreviewButton");
 const creativeServicesPreviewGrid = document.querySelector("#creativeServicesPreviewGrid");
+
+const digitalProjectsEditorForm = document.querySelector("#digitalProjectsEditorForm");
+const digitalProjectsEditorList = document.querySelector("#digitalProjectsEditorList");
+const digitalProjectsEditorState = document.querySelector("#digitalProjectsEditorState");
+const digitalProjectsEditorMessage = document.querySelector("#digitalProjectsEditorMessage");
+const digitalProjectsPreviewButton = document.querySelector("#digitalProjectsPreviewButton");
+const digitalProjectsSaveButton = document.querySelector("#digitalProjectsSaveButton");
+const digitalProjectsPublishButton = document.querySelector("#digitalProjectsPublishButton");
+const digitalProjectsDraftPreview = document.querySelector("#digitalProjectsDraftPreview");
+const closeDigitalProjectsPreviewButton = document.querySelector("#closeDigitalProjectsPreviewButton");
+const digitalProjectsPreviewGrid = document.querySelector("#digitalProjectsPreviewGrid");
 const contentStoreDot = document.querySelector("#contentStoreDot");
 const contentStoreStatus = document.querySelector("#contentStoreStatus");
 const revisionStoreDot = document.querySelector("#revisionStoreDot");
@@ -558,20 +571,23 @@ if (!hasValidConfig) {
     const isRealProjects = view === "real-projects";
     const isDesignShowcase = view === "design-showcase";
     const isCreativeServices = view === "creative-services";
+    const isDigitalProjects = view === "digital-projects";
 
     dashboard.hidden = !isDashboard;
     homepageEditor.hidden = !isHero;
     realProjectsEditor.hidden = !isRealProjects;
     designShowcaseEditor.hidden = !isDesignShowcase;
     creativeServicesEditor.hidden = !isCreativeServices;
+    digitalProjectsEditor.hidden = !isDigitalProjects;
 
     dashboardNavLink?.classList.toggle("active", isDashboard);
     homepageNavButton?.classList.toggle("active", isHero);
     realProjectsNavButton?.classList.toggle("active", isRealProjects);
     designShowcaseNavButton?.classList.toggle("active", isDesignShowcase);
     creativeServicesNavButton?.classList.toggle("active", isCreativeServices);
+    digitalProjectsNavButton?.classList.toggle("active", isDigitalProjects);
 
-    [dashboardNavLink, homepageNavButton, realProjectsNavButton, designShowcaseNavButton, creativeServicesNavButton].forEach((item) => {
+    [dashboardNavLink, homepageNavButton, realProjectsNavButton, designShowcaseNavButton, creativeServicesNavButton, digitalProjectsNavButton].forEach((item) => {
       item?.removeAttribute("aria-current");
     });
 
@@ -591,6 +607,10 @@ if (!hasValidConfig) {
       creativeServicesNavButton?.setAttribute("aria-current", "page");
       cmsPageEyebrow.textContent = "HOMEPAGE CMS";
       cmsPageTitle.textContent = "Creative Services";
+    } else if (isDigitalProjects) {
+      digitalProjectsNavButton?.setAttribute("aria-current", "page");
+      cmsPageEyebrow.textContent = "HOMEPAGE CMS";
+      cmsPageTitle.textContent = "AI & Digital Projects";
     } else {
       dashboardNavLink?.setAttribute("aria-current", "page");
       cmsPageEyebrow.textContent = "HOMEPAGE CMS";
@@ -2320,6 +2340,512 @@ if (!hasValidConfig) {
       setCreativeServicesMessage(error?.message || "Could not publish Creative Services.");
     } finally {
       setCreativeServicesBusy(false);
+    }
+  });
+
+  const DIGITAL_PROJECTS_CONTENT_KEY = "homepage.ai-digital-projects";
+
+  const digitalProjectsDefaults = Object.freeze({
+    eyebrow: "Beyond graphics",
+    titleMain: "AI &",
+    titleAccent: "DIGITAL PROJECTS",
+    projects: [
+      {
+        key: "erp",
+        type: "main",
+        marker: "ERP / WORKFLOW",
+        cardTitle: "From a product idea to an operating system.",
+        cardDescription: "Sourcing, inventory, pricing, customer orders, courier status, expenses and reporting inside one connected workflow.",
+        actionLabel: "View workflow ↗",
+        chips: ["Inventory","Orders","Courier","Expenses","Reports"],
+        modalEyebrow: "Digital project workflow",
+        modalTitle: "ERP & Business Workflow",
+        modalSummary: "I structure a business system around the real flow of products, stock, orders, delivery, expenses and reporting instead of treating each task as a separate sheet or tool.",
+        workflow: [
+          "Process discovery: map how sourcing, inventory, pricing, customer orders, delivery and finance currently move through the business.",
+          "Module planning: separate the system into practical areas such as products, lots, inventory, sales, courier, expenses, salary and reporting.",
+          "Data structure: define the fields, statuses and relationships needed so the same information does not have to be entered repeatedly.",
+          "Interface planning: design clear forms, tables, filters, dashboards and actions around the daily operating flow.",
+          "Scenario testing: test the workflow using realistic stock updates, orders, delivery changes, cancellations and expense entries.",
+          "Refinement and rollout: simplify confusing steps, connect the modules and prepare the system for future features without rebuilding the core."
+        ],
+        deliverables: ["Workflow and module map","Inventory / order status structure","Forms, tables and dashboard flow","Reporting structure","Prototype or implementation scope"],
+        tools: ["Workflow mapping","Front-end development tools","Database / structured data tools","GitHub version control"],
+        needs: ["Current business process","Sample products and orders","Required statuses","User roles","Reports the business needs"],
+        handoff: "A documented and organized system structure, with the agreed prototype or implementation prepared so new modules can be added later."
+      },
+      {
+        key: "ai",
+        type: "compact",
+        marker: "AI",
+        cardTitle: "AI-Assisted Creation",
+        cardDescription: "Prompting, visual ideation and repeatable creative workflows.",
+        actionLabel: "View workflow ↗",
+        chips: [],
+        modalEyebrow: "Digital project workflow",
+        modalTitle: "AI-Assisted Creation",
+        modalSummary: "I use AI as part of a controlled creative workflow for ideation, prompting, visual planning and repeatable content production while keeping the final direction intentional.",
+        workflow: [
+          "Goal definition: decide what needs to be created, who it is for and what the final output must achieve.",
+          "Reference and constraint setup: collect brand rules, examples, visual references and consistency requirements.",
+          "Prompt and concept development: build prompts and test directions until the visual or content structure is useful.",
+          "Selection and refinement: choose the strongest output, correct inconsistencies and refine the creative direction.",
+          "Production integration: combine AI output with design, editing or other production tools instead of using raw generations as the final result.",
+          "Reusable workflow: document the successful process so similar content can be produced faster and more consistently later."
+        ],
+        deliverables: ["Prompt / concept direction","Visual or content variations","Refined production assets","Repeatable prompt workflow","Final creative output as scoped"],
+        tools: ["ChatGPT / AI tools","Image and video generation tools","Adobe creative tools","Prompt documentation"],
+        needs: ["Project goal","Reference style","Brand constraints","Required format","Examples of what should or should not be produced"],
+        handoff: "The approved creative output plus the reusable direction or prompt structure included in the agreed scope."
+      },
+      {
+        key: "web",
+        type: "compact",
+        marker: "WEB",
+        cardTitle: "Web & Portfolio Builds",
+        cardDescription: "Responsive digital experiences designed to present work clearly.",
+        actionLabel: "View workflow ↗",
+        chips: [],
+        modalEyebrow: "Digital project workflow",
+        modalTitle: "Web & Portfolio Builds",
+        modalSummary: "I plan responsive websites around clear hierarchy, real content and practical navigation so the work or business is easy to understand on desktop and mobile.",
+        workflow: [
+          "Content and goal review: define the audience, pages, actions and information the website needs to communicate.",
+          "Information architecture: organize sections, navigation and page flow before styling the interface.",
+          "Visual system: establish typography, colors, spacing, cards and reusable components for consistent presentation.",
+          "Responsive build: implement the interface and adapt the layout across desktop, tablet and mobile.",
+          "Content integration and testing: add real content, check navigation, responsiveness and common interaction states.",
+          "Polish and deployment preparation: refine the final experience, organize the code and prepare the agreed deployment or handoff."
+        ],
+        deliverables: ["Page / section structure","Responsive UI","Reusable visual components","Interactive states","Deployment-ready build as scoped"],
+        tools: ["HTML / CSS / JavaScript","VS Code","GitHub","Design and image tools"],
+        needs: ["Website goal","Page/content list","Brand assets","Images and copy","Required links or functionality"],
+        handoff: "Organized website files and source code, with deployment or repository handoff based on the agreed project scope."
+      },
+      {
+        key: "docs",
+        type: "compact",
+        marker: "OPS",
+        cardTitle: "Business Documents",
+        cardDescription: "Reusable operational templates for clear, consistent communication.",
+        actionLabel: "View workflow ↗",
+        chips: [],
+        modalEyebrow: "Digital project workflow",
+        modalTitle: "Business Documents",
+        modalSummary: "I design reusable business documents that keep customer-facing and internal communication structured, consistent and easy to update.",
+        workflow: [
+          "Use-case review: identify who uses the document, when it is used and what information must always be included.",
+          "Information hierarchy: organize headings, fields, tables, notes and actions in the order people actually need them.",
+          "Visual system: apply consistent typography, spacing and brand styling without making the document cluttered.",
+          "Template design: build the reusable layout for print, PDF or digital use depending on the workflow.",
+          "Real-data testing: test the template with realistic names, quantities, prices, notes and longer content.",
+          "Template handoff: prepare the master version and clear reusable structure for future records or reports."
+        ],
+        deliverables: ["Reusable document template","Print / PDF layout","Structured fields and tables","Brand-consistent formatting","Master editable version"],
+        tools: ["Adobe design tools","Document / spreadsheet tools","PDF export workflow"],
+        needs: ["Document purpose","Required fields","Example data","Brand details","Print or digital requirements"],
+        handoff: "A clean master template with export-ready versions and the editable format included in the agreed scope."
+      }
+    ]
+  });
+
+  let digitalProjectsDirty = false;
+  let digitalProjectsLastLoadedDraft = null;
+
+  const cloneDigitalProjectsDefaults = () => structuredClone(digitalProjectsDefaults);
+
+  const setDigitalProjectsMessage = (message = "") => {
+    if (digitalProjectsEditorMessage) digitalProjectsEditorMessage.textContent = message;
+  };
+
+  const setDigitalProjectsState = (label) => {
+    if (digitalProjectsEditorState) digitalProjectsEditorState.textContent = label;
+  };
+
+  const setDigitalProjectsBusy = (busy) => {
+    [digitalProjectsPreviewButton, digitalProjectsSaveButton, digitalProjectsPublishButton].forEach((button) => {
+      if (button) button.disabled = busy;
+    });
+  };
+
+  const digitalProjectEditorCard = (project, index) => `
+    <article class="project-editor-card digital-editor-card" data-digital-key="${project.key}" data-digital-type="${project.type}">
+      <header>
+        <div>
+          <small>DIGITAL PROJECT ${index + 1}</small>
+          <h4>${project.cardTitle}</h4>
+        </div>
+        <b>${project.type === "main" ? "FEATURED CARD" : "COMPACT CARD"}</b>
+      </header>
+
+      <div class="editor-grid two">
+        <label>
+          <span>${project.type === "main" ? "Badge" : "Icon text"}</span>
+          <input data-digital-field="marker" type="text" maxlength="30" required>
+        </label>
+        <label>
+          <span>Action label</span>
+          <input data-digital-field="actionLabel" type="text" maxlength="50" required>
+        </label>
+        <label class="editor-grid-span">
+          <span>Card title</span>
+          <input data-digital-field="cardTitle" type="text" maxlength="140" required>
+        </label>
+        <label class="editor-grid-span">
+          <span>Card description</span>
+          <textarea data-digital-field="cardDescription" rows="3" maxlength="360" required></textarea>
+        </label>
+        ${project.type === "main" ? `
+        <label class="editor-grid-span">
+          <span>Featured chips — one item per line</span>
+          <textarea data-digital-field="chipsText" rows="5" maxlength="500" required></textarea>
+        </label>` : ""}
+      </div>
+
+      <div class="showcase-modal-fields">
+        <p class="eyebrow">POPUP CONTENT</p>
+        <div class="editor-grid two">
+          <label>
+            <span>Popup eyebrow</span>
+            <input data-digital-field="modalEyebrow" type="text" maxlength="90" required>
+          </label>
+          <label>
+            <span>Popup title</span>
+            <input data-digital-field="modalTitle" type="text" maxlength="120" required>
+          </label>
+          <label class="editor-grid-span">
+            <span>Popup summary</span>
+            <textarea data-digital-field="modalSummary" rows="3" maxlength="600" required></textarea>
+          </label>
+          <label class="editor-grid-span">
+            <span>Workflow — one step per line</span>
+            <textarea data-digital-field="workflowText" rows="7" maxlength="2600" required></textarea>
+          </label>
+          <label>
+            <span>Deliverables — one item per line</span>
+            <textarea data-digital-field="deliverablesText" rows="6" maxlength="1500" required></textarea>
+          </label>
+          <label>
+            <span>Tools — one item per line</span>
+            <textarea data-digital-field="toolsText" rows="6" maxlength="1500" required></textarea>
+          </label>
+          <label class="editor-grid-span">
+            <span>What I need — one item per line</span>
+            <textarea data-digital-field="needsText" rows="6" maxlength="1500" required></textarea>
+          </label>
+          <label class="editor-grid-span">
+            <span>Final handoff</span>
+            <textarea data-digital-field="handoff" rows="3" maxlength="700" required></textarea>
+          </label>
+        </div>
+      </div>
+    </article>
+  `;
+
+  const renderDigitalProjectsEditorCards = () => {
+    digitalProjectsEditorList.innerHTML = digitalProjectsDefaults.projects
+      .map(digitalProjectEditorCard)
+      .join("");
+  };
+
+  const digitalProjectCardElement = (key) =>
+    digitalProjectsEditorList?.querySelector(`[data-digital-key="${key}"]`);
+
+  const fillDigitalProjectCard = (project) => {
+    const card = digitalProjectCardElement(project.key);
+    if (!card) return;
+
+    const simpleFields = ["marker","actionLabel","cardTitle","cardDescription","modalEyebrow","modalTitle","modalSummary","handoff"];
+    simpleFields.forEach((field) => {
+      const input = card.querySelector(`[data-digital-field="${field}"]`);
+      if (input) input.value = project[field] ?? "";
+    });
+
+    const listFields = {
+      workflowText: project.workflow,
+      deliverablesText: project.deliverables,
+      toolsText: project.tools,
+      needsText: project.needs,
+      chipsText: project.chips
+    };
+
+    Object.entries(listFields).forEach(([field, items]) => {
+      const input = card.querySelector(`[data-digital-field="${field}"]`);
+      if (input) input.value = listToText(items);
+    });
+  };
+
+  const populateDigitalProjectsForm = (data = {}) => {
+    const defaults = cloneDigitalProjectsDefaults();
+    const incomingProjects = Array.isArray(data.projects) ? data.projects : [];
+
+    const merged = {
+      ...defaults,
+      ...data,
+      projects: defaults.projects.map((project) => {
+        const incoming = incomingProjects.find((candidate) => candidate?.key === project.key) || {};
+        return { ...project, ...incoming, key: project.key, type: project.type };
+      })
+    };
+
+    digitalProjectsEditorForm.elements.namedItem("eyebrow").value = merged.eyebrow;
+    digitalProjectsEditorForm.elements.namedItem("titleMain").value = merged.titleMain;
+    digitalProjectsEditorForm.elements.namedItem("titleAccent").value = merged.titleAccent;
+    merged.projects.forEach(fillDigitalProjectCard);
+
+    digitalProjectsLastLoadedDraft = structuredClone(merged);
+    digitalProjectsDirty = false;
+    setDigitalProjectsState("Draft loaded");
+  };
+
+  const readDigitalProjectsForm = () => {
+    if (!digitalProjectsEditorForm) return null;
+
+    const missingRequired = [...digitalProjectsEditorForm.querySelectorAll("[required]")].find(
+      (field) => !String(field.value || "").trim()
+    );
+
+    if (missingRequired) {
+      const projectCard = missingRequired.closest("[data-digital-key]");
+      const projectTitle =
+        projectCard?.querySelector('[data-digital-field="cardTitle"]')?.value?.trim() ||
+        projectCard?.dataset.digitalKey ||
+        "section heading";
+      const fieldLabel =
+        missingRequired.closest("label")?.querySelector("span")?.textContent?.trim() ||
+        "required field";
+
+      setDigitalProjectsMessage(`Complete "${fieldLabel}" for ${projectTitle} before saving.`);
+      missingRequired.focus();
+      missingRequired.scrollIntoView({ behavior: "smooth", block: "center" });
+      return null;
+    }
+
+    const projects = digitalProjectsDefaults.projects.map((project) => {
+      const card = digitalProjectCardElement(project.key);
+      const get = (field) =>
+        String(card?.querySelector(`[data-digital-field="${field}"]`)?.value || "").trim();
+
+      return {
+        key: project.key,
+        type: project.type,
+        marker: get("marker"),
+        cardTitle: get("cardTitle"),
+        cardDescription: get("cardDescription"),
+        actionLabel: get("actionLabel"),
+        chips: project.type === "main" ? textToList(get("chipsText")) : [],
+        modalEyebrow: get("modalEyebrow"),
+        modalTitle: get("modalTitle"),
+        modalSummary: get("modalSummary"),
+        workflow: textToList(get("workflowText")),
+        deliverables: textToList(get("deliverablesText")),
+        tools: textToList(get("toolsText")),
+        needs: textToList(get("needsText")),
+        handoff: get("handoff")
+      };
+    });
+
+    return {
+      eyebrow: String(digitalProjectsEditorForm.elements.namedItem("eyebrow").value || "").trim(),
+      titleMain: String(digitalProjectsEditorForm.elements.namedItem("titleMain").value || "").trim(),
+      titleAccent: String(digitalProjectsEditorForm.elements.namedItem("titleAccent").value || "").trim(),
+      projects
+    };
+  };
+
+  const renderDigitalProjectsPreview = (data) => {
+    document.querySelector("#previewDigitalProjectsEyebrow").textContent = data.eyebrow;
+    document.querySelector("#previewDigitalProjectsTitleMain").textContent = data.titleMain;
+    document.querySelector("#previewDigitalProjectsTitleAccent").textContent = data.titleAccent;
+    digitalProjectsPreviewGrid.innerHTML = "";
+
+    data.projects.forEach((project) => {
+      const card = document.createElement("article");
+      card.className = `digital-preview-card ${project.type === "main" ? "featured" : ""}`;
+
+      const marker = document.createElement("span");
+      marker.textContent = project.marker;
+      const title = document.createElement("strong");
+      title.textContent = project.cardTitle;
+      const description = document.createElement("p");
+      description.textContent = project.cardDescription;
+      const action = document.createElement("small");
+      action.textContent = project.actionLabel;
+
+      card.append(marker, title, description);
+
+      if (project.type === "main" && project.chips.length) {
+        const chips = document.createElement("div");
+        chips.className = "digital-preview-chips";
+        project.chips.forEach((chip) => {
+          const tag = document.createElement("i");
+          tag.textContent = chip;
+          chips.appendChild(tag);
+        });
+        card.appendChild(chips);
+      }
+
+      card.appendChild(action);
+      digitalProjectsPreviewGrid.appendChild(card);
+    });
+
+    digitalProjectsDraftPreview.hidden = false;
+    digitalProjectsDraftPreview.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  const loadDigitalProjectsEditor = async () => {
+    setDigitalProjectsMessage("Loading AI & Digital Projects draft…");
+    setDigitalProjectsState("Loading…");
+
+    const { data, error } = await supabaseClient
+      .from("cms_content_entries")
+      .select("content_key,draft_data,published_data,draft_updated_at,published_at")
+      .eq("content_key", DIGITAL_PROJECTS_CONTENT_KEY)
+      .maybeSingle();
+
+    if (error) {
+      console.error("AI & Digital Projects CMS load failed:", error);
+      populateDigitalProjectsForm(digitalProjectsDefaults);
+      setDigitalProjectsState("Load failed");
+      setDigitalProjectsMessage("Could not load the AI & Digital Projects content store.");
+      return false;
+    }
+
+    if (!data) {
+      populateDigitalProjectsForm(digitalProjectsDefaults);
+      setDigitalProjectsState("Setup required");
+      setDigitalProjectsMessage("Save Draft to create the Phase 2E content row.");
+      return false;
+    }
+
+    populateDigitalProjectsForm(data.draft_data || digitalProjectsDefaults);
+
+    const synced =
+      JSON.stringify(data.draft_data || {}) === JSON.stringify(data.published_data || {});
+
+    setDigitalProjectsState(synced ? "Published · synced" : "Draft differs from live");
+    setDigitalProjectsMessage(
+      data.published_at
+        ? "Digital Projects draft loaded. Preview or edit before publishing."
+        : "Digital Projects draft loaded. This content has not been published yet."
+    );
+
+    return true;
+  };
+
+  renderDigitalProjectsEditorCards();
+  populateDigitalProjectsForm(digitalProjectsDefaults);
+
+  digitalProjectsNavButton?.addEventListener("click", async () => {
+    showCmsView("digital-projects");
+    await loadDigitalProjectsEditor();
+  });
+
+  digitalProjectsEditorForm?.addEventListener("input", () => {
+    digitalProjectsDirty = true;
+    setDigitalProjectsState("Unsaved changes");
+  });
+
+  digitalProjectsPreviewButton?.addEventListener("click", () => {
+    setDigitalProjectsMessage("");
+    const draft = readDigitalProjectsForm();
+    if (!draft) return;
+    renderDigitalProjectsPreview(draft);
+  });
+
+  closeDigitalProjectsPreviewButton?.addEventListener("click", () => {
+    digitalProjectsDraftPreview.hidden = true;
+  });
+
+  const saveDigitalProjectsDraft = async () => {
+    setDigitalProjectsMessage("");
+    const draft = readDigitalProjectsForm();
+    if (!draft) return false;
+
+    setDigitalProjectsBusy(true);
+    setDigitalProjectsState("Saving…");
+
+    try {
+      const { data, error } = await supabaseClient
+        .from("cms_content_entries")
+        .upsert(
+          {
+            content_key: DIGITAL_PROJECTS_CONTENT_KEY,
+            draft_data: draft
+          },
+          {
+            onConflict: "content_key"
+          }
+        )
+        .select("content_key,draft_updated_at")
+        .maybeSingle();
+
+      if (error) throw error;
+      if (!data) {
+        setDigitalProjectsState("Save failed");
+        setDigitalProjectsMessage("Could not create or update the AI & Digital Projects draft.");
+        return false;
+      }
+
+      digitalProjectsLastLoadedDraft = structuredClone(draft);
+      digitalProjectsDirty = false;
+      setDigitalProjectsState("Draft saved");
+      setDigitalProjectsMessage("Draft saved. Published digital-project content has not changed.");
+      return true;
+    } catch (error) {
+      console.error("AI & Digital Projects draft save failed:", error);
+      setDigitalProjectsState("Save failed");
+      setDigitalProjectsMessage(
+        error?.message
+          ? `Could not save draft: ${error.message}`
+          : "Could not save the AI & Digital Projects draft."
+      );
+      return false;
+    } finally {
+      setDigitalProjectsBusy(false);
+    }
+  };
+
+  digitalProjectsSaveButton?.addEventListener("click", saveDigitalProjectsDraft);
+
+  digitalProjectsEditorForm?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    await saveDigitalProjectsDraft();
+  });
+
+  digitalProjectsPublishButton?.addEventListener("click", async () => {
+    setDigitalProjectsMessage("");
+
+    if (digitalProjectsDirty) {
+      setDigitalProjectsState("Unsaved changes");
+      setDigitalProjectsMessage("Save the draft first, then publish.");
+      return;
+    }
+
+    if (!digitalProjectsLastLoadedDraft) {
+      setDigitalProjectsMessage("Load or save the digital-project draft before publishing.");
+      return;
+    }
+
+    setDigitalProjectsBusy(true);
+    setDigitalProjectsState("Publishing…");
+
+    try {
+      const { data, error } = await supabaseClient.rpc("cms_publish_content", {
+        p_content_key: DIGITAL_PROJECTS_CONTENT_KEY
+      });
+
+      if (error) throw error;
+      if (!data?.length) throw new Error("Publish returned no AI & Digital Projects row.");
+
+      setDigitalProjectsState("Published · synced");
+      setDigitalProjectsMessage("AI & Digital Projects published to the CMS. Localhost reads this version now; production still waits for explicit live deployment.");
+    } catch (error) {
+      console.error("AI & Digital Projects publish failed:", error);
+      setDigitalProjectsState("Publish failed");
+      setDigitalProjectsMessage(error?.message || "Could not publish AI & Digital Projects.");
+    } finally {
+      setDigitalProjectsBusy(false);
     }
   });
 
