@@ -26,7 +26,21 @@ const adminMessage = document.querySelector("#adminMessage");
 const emailDisplay = document.querySelector("#adminEmailDisplay");
 const mobileMenuToggle = document.querySelector("#mobileMenuToggle");
 const sidebarBackdrop = document.querySelector("#sidebarBackdrop");
-const dashboardNavLink = document.querySelector(".cms-nav .nav-item.active");
+const dashboardNavLink = document.querySelector("#dashboardNavLink");
+const homepageNavButton = document.querySelector("#homepageNavButton");
+const dashboard = document.querySelector("#dashboard");
+const homepageEditor = document.querySelector("#homepageEditor");
+const cmsPageEyebrow = document.querySelector("#cmsPageEyebrow");
+const cmsPageTitle = document.querySelector("#cmsPageTitle");
+
+const heroEditorForm = document.querySelector("#heroEditorForm");
+const heroEditorState = document.querySelector("#heroEditorState");
+const heroEditorMessage = document.querySelector("#heroEditorMessage");
+const heroPreviewButton = document.querySelector("#heroPreviewButton");
+const heroSaveButton = document.querySelector("#heroSaveButton");
+const heroPublishButton = document.querySelector("#heroPublishButton");
+const heroDraftPreview = document.querySelector("#heroDraftPreview");
+const closeHeroPreviewButton = document.querySelector("#closeHeroPreviewButton");
 const contentStoreDot = document.querySelector("#contentStoreDot");
 const contentStoreStatus = document.querySelector("#contentStoreStatus");
 const revisionStoreDot = document.querySelector("#revisionStoreDot");
@@ -224,6 +238,316 @@ if (!hasValidConfig) {
     return true;
   };
 
+  const HERO_CONTENT_KEY = "homepage.hero";
+
+  const heroDefaults = Object.freeze({
+    statusText: "Available for freelance and remote projects",
+    eyebrow: "Graphic Designer • Brand Creator • Digital Systems",
+    nameLine1: "MD MEHEDI",
+    nameLine2: "HASAN SAWON",
+    rolePrefix: "I create",
+    highlight1: "bold visual identities",
+    highlight2: "social and sports graphics",
+    highlight3: "practical digital experiences",
+    roleSuffix: "for growing brands and teams.",
+    primaryLabel: "View selected work",
+    primaryHref: "#work",
+    secondaryLabel: "Let's Work Together",
+    secondaryHref: "#contact",
+    meta1: "Brand identity",
+    meta2: "Social & sports design",
+    meta3: "AI & business workflows",
+    imageSrc: "assets/hero-visual.jpg",
+    imageAlt: "MD Mehedi Hasan Sawon portrait"
+  });
+
+  let heroFormDirty = false;
+  let heroLastLoadedDraft = null;
+
+  const heroField = (name) => heroEditorForm?.elements?.namedItem(name);
+
+  const setHeroEditorMessage = (message = "") => {
+    if (heroEditorMessage) heroEditorMessage.textContent = message;
+  };
+
+  const setHeroEditorState = (label) => {
+    if (heroEditorState) heroEditorState.textContent = label;
+  };
+
+  const setEditorBusy = (busy) => {
+    [heroPreviewButton, heroSaveButton, heroPublishButton].forEach((button) => {
+      if (button) button.disabled = busy;
+    });
+  };
+
+  const isSafeCmsHref = (value) => {
+    const href = String(value || "").trim();
+    if (!href) return false;
+    if (href.startsWith("#") || href.startsWith("/") || href.startsWith("./") || href.startsWith("../")) return true;
+
+    try {
+      const url = new URL(href);
+      return ["https:", "http:", "mailto:", "tel:"].includes(url.protocol);
+    } catch {
+      return false;
+    }
+  };
+
+  const isSafeImageSource = (value) => {
+    const src = String(value || "").trim();
+    if (!src || src.toLowerCase().startsWith("javascript:") || src.toLowerCase().startsWith("data:")) {
+      return false;
+    }
+
+    if (src.startsWith("/") || src.startsWith("./") || src.startsWith("../") || /^[a-z0-9_-]+\//i.test(src)) {
+      return true;
+    }
+
+    try {
+      return new URL(src).protocol === "https:";
+    } catch {
+      return false;
+    }
+  };
+
+  const readHeroForm = () => {
+    if (!heroEditorForm?.reportValidity()) return null;
+
+    const data = {};
+    Object.keys(heroDefaults).forEach((key) => {
+      data[key] = String(heroField(key)?.value || "").trim();
+    });
+
+    if (!isSafeCmsHref(data.primaryHref) || !isSafeCmsHref(data.secondaryHref)) {
+      setHeroEditorMessage("Use a safe internal link or http/https/mailto/tel URL for both buttons.");
+      return null;
+    }
+
+    if (!isSafeImageSource(data.imageSrc)) {
+      setHeroEditorMessage("Use an existing relative image path or an HTTPS image URL.");
+      return null;
+    }
+
+    return data;
+  };
+
+  const populateHeroForm = (data = {}) => {
+    const content = { ...heroDefaults, ...data };
+
+    Object.entries(content).forEach(([key, value]) => {
+      const field = heroField(key);
+      if (field) field.value = value ?? "";
+    });
+
+    heroLastLoadedDraft = structuredClone(content);
+    heroFormDirty = false;
+    setHeroEditorState("Draft loaded");
+  };
+
+  const resolvePreviewImage = (src) => {
+    if (/^https:\/\//i.test(src)) return src;
+    try {
+      return new URL("../" + src.replace(/^\.\//, ""), window.location.href).href;
+    } catch {
+      return "";
+    }
+  };
+
+  const renderHeroPreview = (data) => {
+    const text = (selector, value) => {
+      const element = document.querySelector(selector);
+      if (element) element.textContent = value;
+    };
+
+    text("#previewHeroStatus", data.statusText);
+    text("#previewHeroEyebrow", data.eyebrow);
+    text("#previewHeroName1", data.nameLine1);
+    text("#previewHeroName2", data.nameLine2);
+    text("#previewHeroRolePrefix", data.rolePrefix);
+    text("#previewHeroHighlight1", data.highlight1);
+    text("#previewHeroHighlight2", data.highlight2);
+    text("#previewHeroHighlight3", data.highlight3);
+    text("#previewHeroRoleSuffix", data.roleSuffix);
+    text("#previewHeroPrimary", data.primaryLabel + " →");
+    text("#previewHeroSecondary", data.secondaryLabel);
+    text("#previewHeroMeta1", data.meta1);
+    text("#previewHeroMeta2", data.meta2);
+    text("#previewHeroMeta3", data.meta3);
+
+    const image = document.querySelector("#previewHeroImage");
+    if (image) {
+      image.src = resolvePreviewImage(data.imageSrc);
+      image.alt = data.imageAlt;
+    }
+
+    heroDraftPreview.hidden = false;
+    heroDraftPreview.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  const showCmsView = (view) => {
+    const isHero = view === "hero";
+
+    dashboard.hidden = isHero;
+    homepageEditor.hidden = !isHero;
+
+    dashboardNavLink?.classList.toggle("active", !isHero);
+    homepageNavButton?.classList.toggle("active", isHero);
+
+    if (isHero) {
+      dashboardNavLink?.removeAttribute("aria-current");
+      homepageNavButton?.setAttribute("aria-current", "page");
+      cmsPageEyebrow.textContent = "HOMEPAGE CMS";
+      cmsPageTitle.textContent = "Hero";
+    } else {
+      homepageNavButton?.removeAttribute("aria-current");
+      dashboardNavLink?.setAttribute("aria-current", "page");
+      cmsPageEyebrow.textContent = "HOMEPAGE CMS";
+      cmsPageTitle.textContent = "Dashboard";
+    }
+
+    setSidebarOpen(false);
+  };
+
+  const loadHeroEditor = async () => {
+    setHeroEditorMessage("Loading Hero draft…");
+    setHeroEditorState("Loading…");
+
+    const { data, error } = await supabaseClient
+      .from("cms_content_entries")
+      .select("content_key,draft_data,published_data,draft_updated_at,published_at")
+      .eq("content_key", HERO_CONTENT_KEY)
+      .maybeSingle();
+
+    if (error) {
+      console.error("Hero CMS load failed:", error);
+      populateHeroForm(heroDefaults);
+      setHeroEditorState("Load failed");
+      setHeroEditorMessage("Could not load the Hero content store.");
+      return false;
+    }
+
+    if (!data) {
+      populateHeroForm(heroDefaults);
+      setHeroEditorState("Setup required");
+      setHeroEditorMessage("Run the Phase 2A Hero seed migration before saving.");
+      return false;
+    }
+
+    populateHeroForm(data.draft_data || heroDefaults);
+
+    const draftMatchesPublished =
+      JSON.stringify(data.draft_data || {}) === JSON.stringify(data.published_data || {});
+
+    setHeroEditorState(draftMatchesPublished ? "Published · synced" : "Draft differs from live");
+    setHeroEditorMessage(
+      data.published_at
+        ? "Hero draft loaded. Preview or edit before publishing."
+        : "Hero draft loaded. This content has not been published yet."
+    );
+
+    return true;
+  };
+
+  dashboardNavLink?.addEventListener("click", (event) => {
+    event.preventDefault();
+    showCmsView("dashboard");
+  });
+
+  homepageNavButton?.addEventListener("click", async () => {
+    showCmsView("hero");
+    await loadHeroEditor();
+  });
+
+  heroEditorForm?.addEventListener("input", () => {
+    heroFormDirty = true;
+    setHeroEditorState("Unsaved changes");
+  });
+
+  heroPreviewButton?.addEventListener("click", () => {
+    setHeroEditorMessage("");
+    const data = readHeroForm();
+    if (!data) return;
+    renderHeroPreview(data);
+  });
+
+  closeHeroPreviewButton?.addEventListener("click", () => {
+    heroDraftPreview.hidden = true;
+  });
+
+  heroEditorForm?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    setHeroEditorMessage("");
+
+    const draft = readHeroForm();
+    if (!draft) return;
+
+    setEditorBusy(true);
+    setHeroEditorState("Saving…");
+
+    try {
+      const { data, error } = await supabaseClient
+        .from("cms_content_entries")
+        .update({ draft_data: draft })
+        .eq("content_key", HERO_CONTENT_KEY)
+        .select("content_key,draft_updated_at")
+        .maybeSingle();
+
+      if (error) throw error;
+      if (!data) {
+        setHeroEditorState("Setup required");
+        setHeroEditorMessage("Hero row is missing. Run the Phase 2A seed migration first.");
+        return;
+      }
+
+      heroLastLoadedDraft = structuredClone(draft);
+      heroFormDirty = false;
+      setHeroEditorState("Draft saved");
+      setHeroEditorMessage("Draft saved. The public Hero has not changed.");
+    } catch (error) {
+      console.error("Hero draft save failed:", error);
+      setHeroEditorState("Save failed");
+      setHeroEditorMessage("Could not save the Hero draft.");
+    } finally {
+      setEditorBusy(false);
+    }
+  });
+
+  heroPublishButton?.addEventListener("click", async () => {
+    setHeroEditorMessage("");
+
+    if (heroFormDirty) {
+      setHeroEditorState("Unsaved changes");
+      setHeroEditorMessage("Save the draft first, then publish.");
+      return;
+    }
+
+    if (!heroLastLoadedDraft) {
+      setHeroEditorMessage("Load or save the Hero draft before publishing.");
+      return;
+    }
+
+    setEditorBusy(true);
+    setHeroEditorState("Publishing…");
+
+    try {
+      const { data, error } = await supabaseClient.rpc("cms_publish_content", {
+        p_content_key: HERO_CONTENT_KEY
+      });
+
+      if (error) throw error;
+      if (!data?.length) throw new Error("Publish returned no Hero row.");
+
+      setHeroEditorState("Published · synced");
+      setHeroEditorMessage("Hero published successfully. Local/public pages now read this published version.");
+    } catch (error) {
+      console.error("Hero publish failed:", error);
+      setHeroEditorState("Publish failed");
+      setHeroEditorMessage(error?.message || "Could not publish the Hero.");
+    } finally {
+      setEditorBusy(false);
+    }
+  });
+
   const checkAdminMembership = async (user) => {
     if (!user?.id) {
       return { allowed: false, reason: "No authenticated user." };
@@ -255,6 +579,7 @@ if (!hasValidConfig) {
     setMessage(adminMessage, "");
     setSidebarOpen(false);
     showOnly(adminPanel);
+    showCmsView("dashboard");
     checkContentStore();
     checkRevisionStore();
     checkPublishAction();
