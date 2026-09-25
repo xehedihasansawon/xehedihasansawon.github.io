@@ -9,6 +9,7 @@ const ABOUT_ME_CONTENT_KEY = "homepage.about";
 const SKILLS_TOOLS_CONTENT_KEY = "homepage.skills-tools";
 const EXPERIENCE_COMMUNITY_CONTENT_KEY = "homepage.experience-community";
 const CONTACT_CONTENT_KEY = "homepage.contact";
+const FOOTER_CONTENT_KEY = "homepage.footer";
 
 const byId = (id) => document.getElementById(id);
 
@@ -823,3 +824,75 @@ const loadPublishedContact = async () => {
 };
 
 loadPublishedContact();
+
+
+const applyFooterLinkGroup = (selectorPrefix, items) => {
+  if (!Array.isArray(items)) return;
+
+  items.forEach((item) => {
+    if (!item?.key) return;
+    const link = document.querySelector(`[${selectorPrefix}="${CSS.escape(item.key)}"]`);
+    if (!link) return;
+
+    if (typeof item.label === "string" && item.label.trim()) {
+      link.textContent = item.label.trim();
+    }
+    if (isSafeHref(item.href)) {
+      link.href = item.href.trim();
+    }
+  });
+};
+
+const applyFooter = (data) => {
+  if (!data || typeof data !== "object") return;
+
+  applyText("footerBrandName", data.brandName);
+  applyText("footerBrandRole", data.brandRole);
+  applyText("footerCopyright", data.copyrightText);
+  applyText("footerRights", data.rightsText);
+
+  applyFooterLinkGroup("data-cms-footer-nav", data.navLinks);
+  applyFooterLinkGroup("data-cms-footer-profile", data.profileLinks);
+  applyFooterLinkGroup("data-cms-footer-bottom", data.bottomLinks);
+
+  const backToTop = byId("footerBackToTop");
+  if (backToTop) {
+    if (typeof data.backToTopLabel === "string" && data.backToTopLabel.trim()) {
+      backToTop.textContent = data.backToTopLabel.trim();
+    }
+    if (isSafeHref(data.backToTopHref)) {
+      backToTop.href = data.backToTopHref.trim();
+    }
+  }
+
+  document.documentElement.dataset.footerCms = "loaded";
+};
+
+const loadPublishedFooter = async () => {
+  try {
+    const endpoint = new URL("/rest/v1/cms_content_entries", ADMIN_CONFIG.supabaseUrl);
+    endpoint.searchParams.set("select", "published_data");
+    endpoint.searchParams.set("content_key", `eq.${FOOTER_CONTENT_KEY}`);
+    endpoint.searchParams.set("limit", "1");
+
+    const response = await fetch(endpoint, {
+      headers: {
+        apikey: ADMIN_CONFIG.supabaseAnonKey,
+        Accept: "application/json"
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`Footer CMS request failed with status ${response.status}`);
+    }
+
+    const rows = await response.json();
+    const published = rows?.[0]?.published_data;
+
+    if (published) applyFooter(published);
+  } catch (error) {
+    console.warn("Footer CMS unavailable; using static fallback.", error);
+  }
+};
+
+loadPublishedFooter();
