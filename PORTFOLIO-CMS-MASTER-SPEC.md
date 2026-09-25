@@ -1150,11 +1150,64 @@ Acceptance checklist:
 Lock rule:
 Freeze the Phase 3B media metadata/storage-path and optimization contract. Later modules may consume these media records but must not serve large source originals.
 
-## Next module
+## Active module
 
 **Phase 3C — Dynamic Project & Category Manager**
 
-Plan the category/project CRUD, draft/publish behavior, media attachment and migration strategy before coding. Keep Phase 3A–3B and all Phase 2 modules locked.
+Purpose:
+Turn the locked Phase 3A project/category data stores and Phase 3B Media Library into an admin CRUD workflow, without replacing the current public homepage project cards yet.
+
+Scope:
+- Keep Phase 2A–2K and Phase 3A–3B locked
+- No new SQL migration is required for Phase 3C
+- Reuse `portfolio_categories`, `portfolio_projects` and `portfolio_media`
+- Add a dedicated Phase 3C Projects admin view
+- Create/edit/delete categories
+- Category fields: name, slug, description, active/inactive
+- Category slug auto-generation with manual override
+- Deleting a category is allowed; existing project foreign keys fall back to uncategorized by the locked Phase 3A schema
+- Create/edit/delete dynamic project records
+- Project fields in Phase 3C: title, slug, summary, category, cover image URL/alt, action label/href, visibility
+- Attach an optimized cover from Phase 3B Media Library
+- Media attachment copies the optimized display URL and alt text into the project
+- Tags/badges remain deferred to Phase 3E
+- Featured/homepage-selection remains deferred to Phase 3D
+- Project ordering remains deferred to Phase 3F
+- Save Draft always stores `is_published = false`
+- Editing a currently published project then saving converts it back to Draft before changes can be published again
+- Publish requires an already-saved project record
+- Unsaved project changes block Publish
+- Unpublish returns a project to Draft
+- Public/private visibility remains enforced by the locked Phase 3A RLS policy
+- Publishing a private project does not make it anonymous-readable
+- Do not migrate existing Phase 2 Real Life Projects or Design Showcase cards in Phase 3C
+- Do not change public homepage project rendering
+- Keep production `main` untouched
+
+Acceptance checklist:
+- [ ] Phase 3C Projects navigation opens the manager
+- [ ] Existing category/project/media records load
+- [ ] Category can be created
+- [ ] Category can be edited
+- [ ] Category active/inactive state can be changed
+- [ ] Category can be deleted
+- [ ] Project draft can be created
+- [ ] Project slug validation works
+- [ ] Safe action-link validation works
+- [ ] Category can be assigned to a project
+- [ ] Phase 3B Media Library image can be attached as cover
+- [ ] Cover URL and alt text populate from selected media
+- [ ] Draft project can be edited
+- [ ] Unsaved project changes block Publish
+- [ ] Saved project can be published
+- [ ] Published project can be unpublished
+- [ ] Public/private visibility can be selected
+- [ ] Project can be deleted
+- [ ] Existing public homepage cards remain unchanged
+- [ ] No production `main` deployment occurs
+
+Lock rule:
+After owner verification, freeze the Phase 3C category/project CRUD and draft/publish behavior. Later modules may add featured selection, tags/badges/search and ordering without weakening current RLS or draft/private protections.
 
 ## Planned Phase 3 sequence
 
