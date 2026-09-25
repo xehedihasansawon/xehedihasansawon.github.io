@@ -1,4 +1,5 @@
 import { ADMIN_CONFIG } from "./config.js";
+import { initMediaWorkflow } from "./media-workflow.js";
 
 const configPanel = document.querySelector("#configPanel");
 const loginPanel = document.querySelector("#loginPanel");
@@ -39,6 +40,7 @@ const contactCmsNavButton = document.querySelector("#contactCmsNavButton");
 const footerCmsNavButton = document.querySelector("#footerCmsNavButton");
 const sectionLayoutNavButton = document.querySelector("#sectionLayoutNavButton");
 const projectsNavButton = document.querySelector("#projectsNavButton");
+const mediaWorkflowNavButton = document.querySelector("#mediaWorkflowNavButton");
 const dashboard = document.querySelector("#dashboard");
 const homepageEditor = document.querySelector("#homepageEditor");
 const realProjectsEditor = document.querySelector("#realProjectsEditor");
@@ -52,6 +54,7 @@ const contactCmsEditor = document.querySelector("#contactCmsEditor");
 const footerCmsEditor = document.querySelector("#footerCmsEditor");
 const sectionLayoutEditor = document.querySelector("#sectionLayoutEditor");
 const portfolioFoundationEditor = document.querySelector("#portfolioFoundationEditor");
+const mediaWorkflowEditor = document.querySelector("#mediaWorkflowEditor");
 const cmsPageEyebrow = document.querySelector("#cmsPageEyebrow");
 const cmsPageTitle = document.querySelector("#cmsPageTitle");
 
@@ -670,6 +673,7 @@ if (!hasValidConfig) {
     const isFooter = view === "footer";
     const isSectionLayout = view === "section-layout";
     const isPortfolioFoundation = view === "portfolio-foundation";
+    const isMediaWorkflow = view === "media-workflow";
 
     dashboard.hidden = !isDashboard;
     homepageEditor.hidden = !isHero;
@@ -684,6 +688,7 @@ if (!hasValidConfig) {
     footerCmsEditor.hidden = !isFooter;
     sectionLayoutEditor.hidden = !isSectionLayout;
     portfolioFoundationEditor.hidden = !isPortfolioFoundation;
+    mediaWorkflowEditor.hidden = !isMediaWorkflow;
 
     dashboardNavLink?.classList.toggle("active", isDashboard);
     homepageNavButton?.classList.toggle("active", isHero);
@@ -698,8 +703,9 @@ if (!hasValidConfig) {
     footerCmsNavButton?.classList.toggle("active", isFooter);
     sectionLayoutNavButton?.classList.toggle("active", isSectionLayout);
     projectsNavButton?.classList.toggle("active", isPortfolioFoundation);
+    mediaWorkflowNavButton?.classList.toggle("active", isMediaWorkflow);
 
-    [dashboardNavLink, homepageNavButton, realProjectsNavButton, designShowcaseNavButton, creativeServicesNavButton, digitalProjectsNavButton, aboutMeNavButton, skillsToolsNavButton, experienceCommunityNavButton, contactCmsNavButton, footerCmsNavButton, sectionLayoutNavButton, projectsNavButton].forEach((item) => {
+    [dashboardNavLink, homepageNavButton, realProjectsNavButton, designShowcaseNavButton, creativeServicesNavButton, digitalProjectsNavButton, aboutMeNavButton, skillsToolsNavButton, experienceCommunityNavButton, contactCmsNavButton, footerCmsNavButton, sectionLayoutNavButton, projectsNavButton, mediaWorkflowNavButton].forEach((item) => {
       item?.removeAttribute("aria-current");
     });
 
@@ -751,6 +757,10 @@ if (!hasValidConfig) {
       projectsNavButton?.setAttribute("aria-current", "page");
       cmsPageEyebrow.textContent = "PORTFOLIO ENGINE";
       cmsPageTitle.textContent = "Projects Foundation";
+    } else if (isMediaWorkflow) {
+      mediaWorkflowNavButton?.setAttribute("aria-current", "page");
+      cmsPageEyebrow.textContent = "PORTFOLIO ENGINE";
+      cmsPageTitle.textContent = "Media";
     } else {
       dashboardNavLink?.setAttribute("aria-current", "page");
       cmsPageEyebrow.textContent = "HOMEPAGE CMS";
@@ -5365,6 +5375,8 @@ if (!hasValidConfig) {
   });
 
   portfolioFoundationRefreshButton?.addEventListener("click", checkPortfolioFoundation);
+
+  initMediaWorkflow({ supabaseClient, showCmsView });
 
   const checkAdminMembership = async (user) => {
     if (!user?.id) {
