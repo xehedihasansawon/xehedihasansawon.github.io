@@ -161,6 +161,12 @@
             <small>Locked</small>
           </button>
 
+          <button id="creativeServicesNavButton" class="nav-item nav-item-sub" type="button">
+            <span class="nav-index">02D</span>
+            <span>Creative Services</span>
+            <small>Active</small>
+          </button>
+
           <button class="nav-item" type="button" disabled>
             <span class="nav-index">03</span>
             <span>Projects</span>
@@ -206,7 +212,7 @@
 
         <div class="sidebar-bottom">
           <a class="view-site-link" href="../index.html" target="_blank" rel="noopener">View website ↗</a>
-          <span>Phase 2C · Design Showcase CMS · Locked</span>
+          <span>Phase 2D · Creative Services CMS</span>
         </div>
       </aside>
 
@@ -253,17 +259,17 @@
           <section class="dashboard-hero">
             <div>
               <p class="status-pill success">PHASE 2C LOCKED</p>
-              <h3>Design Showcase CMS is locked and ready.</h3>
+              <h3>Creative Services CMS is the active module.</h3>
               <p>
-                Hero, Real Life Projects and Design Showcase are now frozen. The next planned module
-                is Phase 2D for Creative Services; it has not started yet.
+                Hero, Real Life Projects and Design Showcase stay locked. Phase 2D connects only
+                the six Creative Services cards and their detailed service-workflow popup content.
               </p>
             </div>
 
             <div class="phase-card">
-              <span>LATEST LOCKED MODULE</span>
-              <strong>Phase 2C</strong>
-              <p>Design Showcase CMS</p>
+              <span>CURRENT MODULE</span>
+              <strong>Phase 2D</strong>
+              <p>Creative Services CMS</p>
 
               <div class="foundation-stack" aria-live="polite">
                 <div class="foundation-check">
@@ -431,15 +437,15 @@
                 <b>LOCKED</b>
               </article>
 
-              <article class="module-row queued">
+              <article class="module-row active">
                 <div>
                   <span>2D</span>
                   <div>
                     <strong>Creative Services CMS</strong>
-                    <p>Planned next; scope will be defined before coding starts.</p>
+                    <p>Draft, preview and service-workflow popup controls for the existing six service cards.</p>
                   </div>
                 </div>
-                <b>NEXT</b>
+                <b>ACTIVE</b>
               </article>
             </div>
           </section>
@@ -814,12 +820,95 @@
             <div id="designShowcasePreviewGrid" class="design-showcase-preview-grid"></div>
           </section>
         </div>
+
+        <div id="creativeServicesEditor" class="editor-content" hidden>
+          <section class="editor-heading-card">
+            <div>
+              <p class="status-pill success">PHASE 2D</p>
+              <h3>Creative Services</h3>
+              <p>Edit the existing six service cards and their detailed workflow popup content. Service count and order stay fixed in this phase.</p>
+            </div>
+            <div class="editor-state">
+              <span>CONTENT KEY</span>
+              <strong>homepage.creative-services</strong>
+              <b id="creativeServicesEditorState">Loading…</b>
+            </div>
+          </section>
+
+          <form id="creativeServicesEditorForm" class="cms-editor-form" novalidate>
+            <section class="editor-card">
+              <div class="editor-section-title">
+                <div>
+                  <p class="eyebrow">SECTION HEADING</p>
+                  <h3>Creative Services heading</h3>
+                </div>
+                <span>Homepage section</span>
+              </div>
+
+              <div class="editor-grid three">
+                <label>
+                  <span>Eyebrow</span>
+                  <input name="eyebrow" type="text" maxlength="90" required>
+                </label>
+                <label>
+                  <span>Title — first part</span>
+                  <input name="titleMain" type="text" maxlength="60" required>
+                </label>
+                <label>
+                  <span>Title — accent part</span>
+                  <input name="titleAccent" type="text" maxlength="60" required>
+                </label>
+              </div>
+            </section>
+
+            <section class="editor-card">
+              <div class="editor-section-title">
+                <div>
+                  <p class="eyebrow">SERVICE CARDS</p>
+                  <h3>Current six services</h3>
+                </div>
+                <span>Card + workflow popup</span>
+              </div>
+
+              <div id="creativeServicesEditorList" class="project-editor-list"></div>
+            </section>
+
+            <section class="editor-actions-bar">
+              <div>
+                <strong>Draft → Preview → Publish</strong>
+                <p id="creativeServicesEditorMessage" class="form-message" role="status" aria-live="polite"></p>
+              </div>
+              <div class="editor-action-buttons">
+                <button id="creativeServicesPreviewButton" class="secondary-button" type="button">Preview draft</button>
+                <button id="creativeServicesSaveButton" type="button">Save draft</button>
+                <button id="creativeServicesPublishButton" class="publish-button" type="button">Publish Services</button>
+              </div>
+            </section>
+          </form>
+
+          <section id="creativeServicesDraftPreview" class="hero-draft-preview" hidden aria-label="Creative Services draft preview">
+            <div class="preview-heading">
+              <div>
+                <p class="eyebrow">PRIVATE PREVIEW</p>
+                <h3>Creative Services draft</h3>
+              </div>
+              <button id="closeCreativeServicesPreviewButton" class="text-button" type="button">Close preview</button>
+            </div>
+
+            <div class="real-projects-preview-heading">
+              <p id="previewCreativeServicesEyebrow"></p>
+              <h4><span id="previewCreativeServicesTitleMain"></span> <b id="previewCreativeServicesTitleAccent"></b></h4>
+            </div>
+
+            <div id="creativeServicesPreviewGrid" class="creative-services-preview-grid"></div>
+          </section>
+        </div>
       </div>
     </section>
 
     <footer id="publicAdminFooter" class="admin-footer">
       <span>MEHEDI PORTFOLIO</span>
-      <span>Secure Admin · Phase 2C · Locked</span>
+      <span>Secure Admin · Phase 2D</span>
     </footer>
   </main>
 
