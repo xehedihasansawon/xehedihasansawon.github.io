@@ -98,27 +98,36 @@ Acceptance checklist:
 Lock rule:
 Do not modify Phase 1A behavior while building later modules unless a verified bug or required security change makes it necessary.
 
-## Active module
+## Completed module
 
-**Phase 1B — Admin Dashboard Shell**
+**Phase 1B — Admin Dashboard Shell — LOCKED / DONE**
 
-Scope:
-- Build the reusable authenticated admin workspace
-- Add stable navigation structure for future CMS modules
-- Keep only Dashboard active; future modules remain intentionally disabled
-- Show authenticated admin identity and secure logout in the shell
-- Show Phase 1A security status without changing its locked behavior
-- Keep public portfolio pages completely untouched
-- Do not add content editing, database write features or new CMS tables in this module
+Owner approval: 2026-09-25
+
+Scope delivered:
+- Reusable authenticated admin workspace
+- Stable navigation structure for future CMS modules
+- Dashboard active; future modules intentionally disabled
+- Authenticated admin identity and secure logout in the shell
+- Phase 1A security status retained without changing locked auth behavior
+- Public portfolio pages kept untouched
+- No content editing or new CMS write features introduced
 
 Acceptance checklist:
-- [ ] Login behavior from Phase 1A still works
-- [ ] Allowlisted admin enters the new dashboard shell
-- [ ] Logout still returns to the sign-in screen
-- [ ] Dashboard layout works on desktop and mobile
-- [ ] Future module navigation is visible but disabled
-- [ ] Public homepage remains visually unchanged
-- [ ] No new CMS write permissions introduced
+- [x] Login behavior from Phase 1A still works
+- [x] Allowlisted admin enters the new dashboard shell
+- [x] Logout remains available in the shell
+- [x] Desktop dashboard layout verified
+- [x] Future module navigation is visible but disabled
+- [x] Public homepage remains untouched by Phase 1B
+- [x] No new CMS write permissions introduced
+- [ ] Mobile dashboard layout was not separately evidenced before owner lock
 
 Lock rule:
-After owner approval, freeze the dashboard shell structure and move to the next single foundation module.
+Do not redesign or restructure the Phase 1B shell during later feature work unless a verified usability, responsive, accessibility, or security issue requires it.
+
+## Next module
+
+**Phase 1C — Foundation next layer**
+
+Plan the exact scope before writing code. Continue the one-module-at-a-time rule and keep public portfolio content untouched.
