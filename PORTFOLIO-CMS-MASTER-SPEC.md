@@ -439,6 +439,7 @@ Scope:
 - Keep Phase 2A Hero and Phase 2B Real Life Projects locked
 - Add a dedicated Design Showcase admin view under Homepage CMS
 - Seed `homepage.design-showcase` with the current approved section heading and four fixed showcase cards
+- If the seed row is missing, the authenticated admin Save Draft action may safely create it through the existing admin-only RLS insert permission
 - Edit section eyebrow plus the two-part DESIGN / SHOWCASE heading
 - Edit each card's visible title, visible subtitle, image source and image alt text
 - Edit each card's existing popup title, eyebrow, meta, summary and three proof points
@@ -454,7 +455,7 @@ Scope:
 - Keep `main` untouched until explicit live approval
 
 Acceptance checklist:
-- [ ] Phase 2C seed migration runs successfully
+- [ ] Phase 2C content row exists via seed migration or first authenticated Save Draft
 - [ ] Design Showcase navigation opens only the Phase 2C editor
 - [ ] Current approved heading and all four cards load into Admin
 - [ ] Current popup content loads for all four cards
