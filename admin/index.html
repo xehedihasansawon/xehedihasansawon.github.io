@@ -173,6 +173,12 @@
             <small>Locked</small>
           </button>
 
+          <button id="aboutMeNavButton" class="nav-item nav-item-sub" type="button">
+            <span class="nav-index">02F</span>
+            <span>About Me</span>
+            <small>Active</small>
+          </button>
+
           <button class="nav-item" type="button" disabled>
             <span class="nav-index">03</span>
             <span>Projects</span>
@@ -218,7 +224,7 @@
 
         <div class="sidebar-bottom">
           <a class="view-site-link" href="../index.html" target="_blank" rel="noopener">View website ↗</a>
-          <span>Phase 2E · AI & Digital Projects CMS · Locked</span>
+          <span>Phase 2F · About Me CMS</span>
         </div>
       </aside>
 
@@ -265,17 +271,17 @@
           <section class="dashboard-hero">
             <div>
               <p class="status-pill success">PHASE 2E LOCKED</p>
-              <h3>AI & Digital Projects CMS is locked and ready.</h3>
+              <h3>About Me CMS is the active module.</h3>
               <p>
-                Phase 2A–2E are now frozen. The next planned module is Phase 2F for About Me;
-                it has not started yet.
+                Phase 2A–2E stay locked. Phase 2F connects only the existing About Me section
+                to draft, private preview and secure publish controls.
               </p>
             </div>
 
             <div class="phase-card">
-              <span>LATEST LOCKED MODULE</span>
-              <strong>Phase 2E</strong>
-              <p>AI & Digital Projects CMS</p>
+              <span>CURRENT MODULE</span>
+              <strong>Phase 2F</strong>
+              <p>About Me CMS</p>
 
               <div class="foundation-stack" aria-live="polite">
                 <div class="foundation-check">
@@ -465,15 +471,15 @@
                 <b>LOCKED</b>
               </article>
 
-              <article class="module-row queued">
+              <article class="module-row active">
                 <div>
                   <span>2F</span>
                   <div>
                     <strong>About Me CMS</strong>
-                    <p>Planned next; scope will be defined before coding starts.</p>
+                    <p>Draft, preview and publish controls for the existing About Me copy and profile meta.</p>
                   </div>
                 </div>
-                <b>NEXT</b>
+                <b>ACTIVE</b>
               </article>
             </div>
           </section>
@@ -1014,12 +1020,146 @@
             <div id="digitalProjectsPreviewGrid" class="digital-projects-preview-grid"></div>
           </section>
         </div>
+
+        <div id="aboutMeEditor" class="editor-content" hidden>
+          <section class="editor-heading-card">
+            <div>
+              <p class="status-pill success">PHASE 2F</p>
+              <h3>About Me</h3>
+              <p>Edit only the existing About Me section copy and profile meta. The approved section layout stays unchanged.</p>
+            </div>
+            <div class="editor-state">
+              <span>CONTENT KEY</span>
+              <strong>homepage.about</strong>
+              <b id="aboutMeEditorState">Loading…</b>
+            </div>
+          </section>
+
+          <form id="aboutMeEditorForm" class="cms-editor-form" novalidate>
+            <section class="editor-card">
+              <div class="editor-section-title">
+                <div>
+                  <p class="eyebrow">SECTION HEADING</p>
+                  <h3>About section heading</h3>
+                </div>
+                <span>Homepage section</span>
+              </div>
+
+              <div class="editor-grid three">
+                <label>
+                  <span>Eyebrow</span>
+                  <input name="eyebrow" type="text" maxlength="100" required>
+                </label>
+                <label>
+                  <span>Title — first part</span>
+                  <input name="titleMain" type="text" maxlength="50" required>
+                </label>
+                <label>
+                  <span>Title — accent part</span>
+                  <input name="titleAccent" type="text" maxlength="50" required>
+                </label>
+              </div>
+            </section>
+
+            <section class="editor-card">
+              <div class="editor-section-title">
+                <div>
+                  <p class="eyebrow">ABOUT COPY</p>
+                  <h3>Story & positioning</h3>
+                </div>
+                <span>Text only</span>
+              </div>
+
+              <div class="editor-grid two">
+                <label>
+                  <span>Headline — first line</span>
+                  <input name="headlineMain" type="text" maxlength="100" required>
+                </label>
+                <label>
+                  <span>Headline — accent line</span>
+                  <input name="headlineAccent" type="text" maxlength="120" required>
+                </label>
+                <label class="editor-grid-span">
+                  <span>Paragraph 1</span>
+                  <textarea name="paragraph1" rows="5" maxlength="900" required></textarea>
+                </label>
+                <label class="editor-grid-span">
+                  <span>Paragraph 2</span>
+                  <textarea name="paragraph2" rows="5" maxlength="900" required></textarea>
+                </label>
+              </div>
+            </section>
+
+            <section class="editor-card">
+              <div class="editor-section-title">
+                <div>
+                  <p class="eyebrow">PROFILE META</p>
+                  <h3>Location & availability</h3>
+                </div>
+                <span>Two existing items</span>
+              </div>
+
+              <div class="editor-grid two">
+                <label>
+                  <span>Meta 1 label</span>
+                  <input name="meta1Label" type="text" maxlength="50" required>
+                </label>
+                <label>
+                  <span>Meta 1 value</span>
+                  <input name="meta1Value" type="text" maxlength="100" required>
+                </label>
+                <label>
+                  <span>Meta 2 label</span>
+                  <input name="meta2Label" type="text" maxlength="50" required>
+                </label>
+                <label>
+                  <span>Meta 2 value</span>
+                  <input name="meta2Value" type="text" maxlength="120" required>
+                </label>
+              </div>
+            </section>
+
+            <section class="editor-actions-bar">
+              <div>
+                <strong>Draft → Preview → Publish</strong>
+                <p id="aboutMeEditorMessage" class="form-message" role="status" aria-live="polite"></p>
+              </div>
+              <div class="editor-action-buttons">
+                <button id="aboutMePreviewButton" class="secondary-button" type="button">Preview draft</button>
+                <button id="aboutMeSaveButton" type="button">Save draft</button>
+                <button id="aboutMePublishButton" class="publish-button" type="button">Publish About</button>
+              </div>
+            </section>
+          </form>
+
+          <section id="aboutMeDraftPreview" class="hero-draft-preview" hidden aria-label="About Me draft preview">
+            <div class="preview-heading">
+              <div>
+                <p class="eyebrow">PRIVATE PREVIEW</p>
+                <h3>About Me draft</h3>
+              </div>
+              <button id="closeAboutMePreviewButton" class="text-button" type="button">Close preview</button>
+            </div>
+
+            <div class="about-preview-card">
+              <p id="previewAboutEyebrow" class="about-preview-eyebrow"></p>
+              <h4><span id="previewAboutTitleMain"></span> <b id="previewAboutTitleAccent"></b></h4>
+              <h5><span id="previewAboutHeadlineMain"></span><br><b id="previewAboutHeadlineAccent"></b></h5>
+              <p id="previewAboutParagraph1"></p>
+              <p id="previewAboutParagraph2"></p>
+              <div class="about-preview-meta">
+                <div><strong id="previewAboutMeta1Label"></strong><span id="previewAboutMeta1Value"></span></div>
+                <div><strong id="previewAboutMeta2Label"></strong><span id="previewAboutMeta2Value"></span></div>
+              </div>
+            </div>
+          </section>
+        </div>
       </div>
     </section>
 
     <footer id="publicAdminFooter" class="admin-footer">
       <span>MEHEDI PORTFOLIO</span>
-      <span>Secure Admin · Phase 2E · Locked</span>
+      <span>Secure Admin · Phase 2F</span>
     </footer>
   </main>
 
