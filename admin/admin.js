@@ -38,6 +38,7 @@ const experienceCommunityNavButton = document.querySelector("#experienceCommunit
 const contactCmsNavButton = document.querySelector("#contactCmsNavButton");
 const footerCmsNavButton = document.querySelector("#footerCmsNavButton");
 const sectionLayoutNavButton = document.querySelector("#sectionLayoutNavButton");
+const projectsNavButton = document.querySelector("#projectsNavButton");
 const dashboard = document.querySelector("#dashboard");
 const homepageEditor = document.querySelector("#homepageEditor");
 const realProjectsEditor = document.querySelector("#realProjectsEditor");
@@ -50,6 +51,7 @@ const experienceCommunityEditor = document.querySelector("#experienceCommunityEd
 const contactCmsEditor = document.querySelector("#contactCmsEditor");
 const footerCmsEditor = document.querySelector("#footerCmsEditor");
 const sectionLayoutEditor = document.querySelector("#sectionLayoutEditor");
+const portfolioFoundationEditor = document.querySelector("#portfolioFoundationEditor");
 const cmsPageEyebrow = document.querySelector("#cmsPageEyebrow");
 const cmsPageTitle = document.querySelector("#cmsPageTitle");
 
@@ -175,6 +177,16 @@ const sectionLayoutResetButton = document.querySelector("#sectionLayoutResetButt
 const sectionLayoutDraftPreview = document.querySelector("#sectionLayoutDraftPreview");
 const sectionLayoutPreviewList = document.querySelector("#sectionLayoutPreviewList");
 const closeSectionLayoutPreviewButton = document.querySelector("#closeSectionLayoutPreviewButton");
+
+const portfolioFoundationState = document.querySelector("#portfolioFoundationState");
+const portfolioFoundationMessage = document.querySelector("#portfolioFoundationMessage");
+const portfolioFoundationRefreshButton = document.querySelector("#portfolioFoundationRefreshButton");
+const portfolioCategoriesDot = document.querySelector("#portfolioCategoriesDot");
+const portfolioCategoriesStatus = document.querySelector("#portfolioCategoriesStatus");
+const portfolioCategoriesCount = document.querySelector("#portfolioCategoriesCount");
+const portfolioProjectsDot = document.querySelector("#portfolioProjectsDot");
+const portfolioProjectsStatus = document.querySelector("#portfolioProjectsStatus");
+const portfolioProjectsCount = document.querySelector("#portfolioProjectsCount");
 
 const contentStoreDot = document.querySelector("#contentStoreDot");
 const contentStoreStatus = document.querySelector("#contentStoreStatus");
@@ -657,6 +669,7 @@ if (!hasValidConfig) {
     const isContact = view === "contact";
     const isFooter = view === "footer";
     const isSectionLayout = view === "section-layout";
+    const isPortfolioFoundation = view === "portfolio-foundation";
 
     dashboard.hidden = !isDashboard;
     homepageEditor.hidden = !isHero;
@@ -670,6 +683,7 @@ if (!hasValidConfig) {
     contactCmsEditor.hidden = !isContact;
     footerCmsEditor.hidden = !isFooter;
     sectionLayoutEditor.hidden = !isSectionLayout;
+    portfolioFoundationEditor.hidden = !isPortfolioFoundation;
 
     dashboardNavLink?.classList.toggle("active", isDashboard);
     homepageNavButton?.classList.toggle("active", isHero);
@@ -683,8 +697,9 @@ if (!hasValidConfig) {
     contactCmsNavButton?.classList.toggle("active", isContact);
     footerCmsNavButton?.classList.toggle("active", isFooter);
     sectionLayoutNavButton?.classList.toggle("active", isSectionLayout);
+    projectsNavButton?.classList.toggle("active", isPortfolioFoundation);
 
-    [dashboardNavLink, homepageNavButton, realProjectsNavButton, designShowcaseNavButton, creativeServicesNavButton, digitalProjectsNavButton, aboutMeNavButton, skillsToolsNavButton, experienceCommunityNavButton, contactCmsNavButton, footerCmsNavButton, sectionLayoutNavButton].forEach((item) => {
+    [dashboardNavLink, homepageNavButton, realProjectsNavButton, designShowcaseNavButton, creativeServicesNavButton, digitalProjectsNavButton, aboutMeNavButton, skillsToolsNavButton, experienceCommunityNavButton, contactCmsNavButton, footerCmsNavButton, sectionLayoutNavButton, projectsNavButton].forEach((item) => {
       item?.removeAttribute("aria-current");
     });
 
@@ -732,6 +747,10 @@ if (!hasValidConfig) {
       sectionLayoutNavButton?.setAttribute("aria-current", "page");
       cmsPageEyebrow.textContent = "HOMEPAGE CMS";
       cmsPageTitle.textContent = "Section Order";
+    } else if (isPortfolioFoundation) {
+      projectsNavButton?.setAttribute("aria-current", "page");
+      cmsPageEyebrow.textContent = "PORTFOLIO ENGINE";
+      cmsPageTitle.textContent = "Projects Foundation";
     } else {
       dashboardNavLink?.setAttribute("aria-current", "page");
       cmsPageEyebrow.textContent = "HOMEPAGE CMS";
@@ -5268,6 +5287,84 @@ if (!hasValidConfig) {
       setSectionLayoutBusy(false);
     }
   });
+
+  const setPortfolioFoundationCheck = (dot, status, count, state, label, countLabel = "—") => {
+    if (dot) {
+      dot.classList.remove("checking", "ready", "missing");
+      dot.classList.add(state);
+    }
+    if (status) status.textContent = label;
+    if (count) count.textContent = countLabel;
+  };
+
+  const checkPortfolioFoundation = async () => {
+    if (!portfolioFoundationState) return false;
+
+    portfolioFoundationRefreshButton.disabled = true;
+    portfolioFoundationState.textContent = "Checking…";
+    portfolioFoundationMessage.textContent = "Checking secure Portfolio Engine tables…";
+
+    setPortfolioFoundationCheck(
+      portfolioCategoriesDot,
+      portfolioCategoriesStatus,
+      portfolioCategoriesCount,
+      "checking",
+      "Checking…"
+    );
+    setPortfolioFoundationCheck(
+      portfolioProjectsDot,
+      portfolioProjectsStatus,
+      portfolioProjectsCount,
+      "checking",
+      "Checking…"
+    );
+
+    const [categoriesResult, projectsResult] = await Promise.all([
+      supabaseClient
+        .from("portfolio_categories")
+        .select("id", { head: true, count: "exact" }),
+      supabaseClient
+        .from("portfolio_projects")
+        .select("id", { head: true, count: "exact" })
+    ]);
+
+    const categoriesReady = !categoriesResult.error;
+    const projectsReady = !projectsResult.error;
+
+    setPortfolioFoundationCheck(
+      portfolioCategoriesDot,
+      portfolioCategoriesStatus,
+      portfolioCategoriesCount,
+      categoriesReady ? "ready" : "missing",
+      categoriesReady ? "Ready" : "Migration required",
+      categoriesReady ? `${categoriesResult.count ?? 0} categories` : "Table not available"
+    );
+
+    setPortfolioFoundationCheck(
+      portfolioProjectsDot,
+      portfolioProjectsStatus,
+      portfolioProjectsCount,
+      projectsReady ? "ready" : "missing",
+      projectsReady ? "Ready" : "Migration required",
+      projectsReady ? `${projectsResult.count ?? 0} projects` : "Table not available"
+    );
+
+    const ready = categoriesReady && projectsReady;
+    portfolioFoundationState.textContent = ready ? "Foundation ready" : "Setup required";
+    portfolioFoundationMessage.textContent = ready
+      ? "Phase 3A data foundation is ready. No public project output has changed."
+      : "Run supabase/migrations/010_portfolio_engine_foundation.sql in Supabase SQL Editor, then click Check again.";
+
+    portfolioFoundationRefreshButton.disabled = false;
+    return ready;
+  };
+
+  projectsNavButton?.addEventListener("click", async () => {
+    showCmsView("portfolio-foundation");
+    await checkPortfolioFoundation();
+  });
+
+  portfolioFoundationRefreshButton?.addEventListener("click", checkPortfolioFoundation);
 
   const checkAdminMembership = async (user) => {
     if (!user?.id) {
