@@ -514,16 +514,37 @@
               <div class="editor-section-title">
                 <div>
                   <p class="eyebrow">VISUAL</p>
-                  <h3>Current Hero image</h3>
+                  <h3>Hero image</h3>
                 </div>
-                <span>Upload system comes later</span>
+                <span>Upload or use URL</span>
               </div>
 
-              <div class="editor-grid two">
+              <div class="hero-image-manager">
+                <div class="hero-upload-panel">
+                  <label class="hero-upload-label" for="heroImageUploadInput">Upload new image</label>
+                  <input
+                    id="heroImageUploadInput"
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp"
+                  >
+                  <button id="heroImageUploadButton" class="secondary-button" type="button">Upload image</button>
+                  <small>JPG, PNG or WebP · maximum 8 MB. Upload fills the image URL automatically.</small>
+                  <p id="heroImageUploadStatus" class="form-message" role="status" aria-live="polite"></p>
+                </div>
+
+                <div class="hero-image-current">
+                  <span>Current selection</span>
+                  <div class="hero-image-thumb">
+                    <img id="heroImageSelectionPreview" alt="Current Hero image preview">
+                  </div>
+                </div>
+              </div>
+
+              <div class="editor-grid two hero-image-fields">
                 <label>
                   <span>Image path / URL</span>
                   <input id="heroImageSrcInput" name="imageSrc" type="text" maxlength="500" required>
-                  <small>For now use an existing asset path or HTTPS image URL. Media upload is a later module.</small>
+                  <small>You can still use an existing asset path or HTTPS image URL manually.</small>
                 </label>
                 <label>
                   <span>Image alt text</span>
