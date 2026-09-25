@@ -795,55 +795,77 @@ Acceptance checklist:
 Lock rule:
 Freeze the Phase 2H four-card content contract. Only verified bugs/security issues may modify it before later structural CMS work.
 
-## Active module
+## Completed module
 
-**Phase 2I — Homepage Contact CMS**
+**Phase 2I — Homepage Contact CMS — LOCKED / DONE**
 
-Purpose:
-Connect the approved Contact section to the locked CMS foundation without redesigning it or adding the future client-inquiry form in this module.
+Owner approval: 2026-09-26
 
-Scope:
-- Keep Phase 2A–2H locked
-- Add a dedicated Contact admin view under Homepage CMS
-- Use content key `homepage.contact`
-- Allow authenticated Save Draft to safely create the row if it does not exist
-- Edit availability/status text, kicker, two-part CTA heading and description
-- Keep the existing WhatsApp and Email primary contact cards
-- Edit WhatsApp label, display text, description, action text and URL
-- Edit Email label, address, description and copy-button text
-- Keep the existing Social & direct and Professional profiles groups
-- Edit group titles, visible link labels and URLs for Call, Facebook, Instagram, LinkedIn, GitHub and Behance
-- Validate URLs against the existing safe-link rules
-- Keep Email copy behavior working with the published email address
-- Save only to `draft_data`
-- Provide a private draft preview
-- Require Save Draft before Publish
-- Publish through the locked Phase 1F secure publish action
+Purpose delivered:
+Connected the approved Contact section to the locked CMS foundation while preserving the existing CTA/channel/profile-link layout and leaving the future client-inquiry form outside this module.
+
+Scope delivered:
+- Added a dedicated Contact admin editor under Homepage CMS
+- `homepage.contact` is safely created on first authenticated Save Draft if missing
+- Availability/status text, kicker, two-part CTA heading and description are editable
+- Existing WhatsApp and Email primary contact cards remain in place
+- WhatsApp label, display text, description, action text and URL are editable
+- Email label, address, description and copy-button text are editable
+- Existing Social & direct and Professional profiles groups remain in place
+- Group titles, visible labels and URLs for Call, Facebook, Instagram, LinkedIn, GitHub and Behance are editable
+- Contact URLs use the existing safe-link validation rules
+- Email copy behavior tracks the CMS-published email address and action label
+- Save Draft writes only to `draft_data`
+- Private draft preview is available
+- Publish uses the locked Phase 1F secure publish action
 - Public/local homepage reads only `published_data`
-- Keep current static Contact markup as fail-safe fallback
-- Do not implement the future client inquiry form in Phase 2I
-- Do not change Footer content in Phase 2I
-- Keep `main` untouched until explicit live approval
+- Existing static Contact markup remains as fail-safe fallback
+- Future client inquiry form was intentionally not added
+- Footer content was not changed
+- Production `main` branch remains untouched
+
+Verified during this checkpoint:
+- Contact admin editor loaded successfully
+- First authenticated Save Draft completed and created the content row when needed
+- Private Preview was checked
+- Publish Contact completed successfully
+- Localhost Contact section was checked after publishing
+- WhatsApp, Email copy, Call, Facebook, Instagram, LinkedIn, GitHub and Behance actions were checked
+- Existing Contact layout remained unchanged
+- Footer remained unchanged
+- Production remained unchanged because no live deployment was performed
+
+Not separately evidenced before owner lock:
+- Explicit unsaved-change publish-block result
+- Forced CMS-failure fallback test
+- Dedicated desktop visual comparison
+- Mobile visual verification
 
 Acceptance checklist:
-- [ ] Phase 2I content row exists via first authenticated Save Draft
-- [ ] Contact navigation opens only the Phase 2I editor
-- [ ] Current CTA copy and contact details load into Admin
-- [ ] WhatsApp URL and action remain functional
-- [ ] Email copy button uses the CMS-published address
-- [ ] Call/Facebook/Instagram links remain functional
-- [ ] LinkedIn/GitHub/Behance links remain functional
-- [ ] Save Draft changes draft data without changing published content
-- [ ] Private Preview reflects current Contact values
-- [ ] Publish is blocked while there are unsaved changes
-- [ ] Publish promotes the saved draft through the secure Phase 1F action
-- [ ] Localhost Contact section loads published CMS content
-- [ ] Existing Contact layout remains unchanged
-- [ ] Static fallback remains available if the CMS request fails
-- [ ] Desktop layout remains visually consistent
-- [ ] Mobile layout remains visually consistent
-- [ ] Footer remains untouched
-- [ ] No other homepage section is changed
+- [x] Phase 2I content row exists via first authenticated Save Draft
+- [x] Contact navigation opens the Phase 2I editor
+- [x] Current CTA copy and contact details load into Admin
+- [x] WhatsApp URL and action remain functional
+- [x] Email copy button uses the CMS-published address
+- [x] Call/Facebook/Instagram links remain functional
+- [x] LinkedIn/GitHub/Behance links remain functional
+- [x] Save Draft writes successfully without publishing
+- [x] Private Preview reflects current Contact values
+- [ ] Unsaved-change publish block was not separately evidenced
+- [x] Publish promotes the saved draft through the secure Phase 1F action
+- [x] Localhost Contact section loads published CMS content
+- [x] Existing Contact layout remains unchanged
+- [ ] Static fallback was implemented but not force-tested
+- [ ] Dedicated desktop visual comparison was not separately evidenced
+- [ ] Mobile visual verification was not separately evidenced
+- [x] Footer remains untouched
+- [x] No other homepage CMS section was implemented in Phase 2I
 
 Lock rule:
-After owner approval, freeze the Phase 2I Contact content contract and current channel/link structure. Client inquiry form work remains a separate later module.
+Freeze the Phase 2I Contact content contract and current channel/link structure. Only verified bugs/security issues may modify it before later structural CMS work. The client inquiry form remains a separate later module.
+
+## Next module
+
+**Phase 2J — Homepage Footer CMS**
+
+Plan the exact scope before coding. Keep Phase 2A–2I locked and touch only the Footer when Phase 2J starts.
