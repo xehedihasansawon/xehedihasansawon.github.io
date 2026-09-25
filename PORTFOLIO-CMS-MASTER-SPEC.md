@@ -98,8 +98,27 @@ Acceptance checklist:
 Lock rule:
 Do not modify Phase 1A behavior while building later modules unless a verified bug or required security change makes it necessary.
 
-## Next module
+## Active module
 
-**Phase 1B — Admin Foundation next layer**
+**Phase 1B — Admin Dashboard Shell**
 
-Plan this module before writing code. Keep the public homepage untouched.
+Scope:
+- Build the reusable authenticated admin workspace
+- Add stable navigation structure for future CMS modules
+- Keep only Dashboard active; future modules remain intentionally disabled
+- Show authenticated admin identity and secure logout in the shell
+- Show Phase 1A security status without changing its locked behavior
+- Keep public portfolio pages completely untouched
+- Do not add content editing, database write features or new CMS tables in this module
+
+Acceptance checklist:
+- [ ] Login behavior from Phase 1A still works
+- [ ] Allowlisted admin enters the new dashboard shell
+- [ ] Logout still returns to the sign-in screen
+- [ ] Dashboard layout works on desktop and mobile
+- [ ] Future module navigation is visible but disabled
+- [ ] Public homepage remains visually unchanged
+- [ ] No new CMS write permissions introduced
+
+Lock rule:
+After owner approval, freeze the dashboard shell structure and move to the next single foundation module.
