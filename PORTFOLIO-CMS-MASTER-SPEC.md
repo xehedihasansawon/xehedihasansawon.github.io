@@ -257,36 +257,69 @@ Acceptance checklist:
 Lock rule:
 Freeze the Phase 1E revision schema. Future restore UI may read these snapshots but should not rewrite this history model without an explicit migration.
 
-## Active module
+## Completed module
 
-**Phase 1F — Secure Draft-to-Publish Action Foundation**
+**Phase 1F — Secure Draft-to-Publish Action Foundation — LOCKED / DONE**
 
-Purpose:
-Finish the core Phase 1 publishing foundation with one controlled server-side action that promotes an approved draft to public published content.
+Owner approval: 2026-09-25
 
-Scope:
-- Add an admin-only `cms_publish_content(content_key)` database function
-- Copy the current `draft_data` into `published_data` atomically
-- Reuse the locked Phase 1D timestamp/update trigger and Phase 1E automatic revision history
-- Reject unauthenticated and non-allowlisted callers inside the database function
-- Reject missing content keys instead of silently creating content
-- Add a read-only `cms_publish_foundation_ready()` check for the admin dashboard
-- Grant function execution only to authenticated users; admin allowlist is still enforced inside the functions
-- Do not add a Publish button or editable Homepage UI yet
-- Do not implement Preview yet; Preview belongs with the actual content editor in Phase 2
-- Do not move existing homepage content into Supabase
-- Preserve all locked Phase 1A–1E behavior and public portfolio files
+Purpose delivered:
+Finished the core Phase 1 publishing foundation with a controlled server-side action that promotes an approved draft to public published content.
+
+Scope delivered:
+- Added admin-only `cms_publish_content(content_key)` database function
+- Draft JSON is promoted atomically into `published_data`
+- Reused the locked Phase 1D publish metadata trigger
+- Reused the locked Phase 1E automatic revision-history trigger
+- Unauthenticated and non-allowlisted callers are rejected inside the database function
+- Missing content keys are rejected instead of silently creating content
+- Added `cms_publish_foundation_ready()` dashboard readiness check
+- Function execution is granted only to authenticated callers, with allowlist enforcement still performed inside the functions
+- Publish button, Preview UI and real homepage editing were intentionally not added yet
+- Existing homepage content remains outside Supabase
+- Locked Phase 1A–1E behavior and public portfolio files remain preserved
+
+Verification:
+- Publish migration installed successfully
+- Dashboard showed Content Store → Ready, Revision History → Ready and Publish Action → Ready
+- Owner completed the temporary draft creation and secure publish tests
+- Published JSON matched the draft JSON
+- Publish produced an automatic revision snapshot
+- Function grant test confirmed anonymous execution is unavailable
+- Missing content key rejection test completed successfully
+- Temporary Phase 1F test content and revisions were cleaned up
+- Detailed SQL results were user-confirmed as complete
 
 Acceptance checklist:
-- [ ] Migration runs successfully in Supabase
-- [ ] Dashboard shows Publish Action → Ready
-- [ ] Temporary draft-only content can be published through `cms_publish_content`
-- [ ] Published JSON exactly matches the draft JSON after publish
-- [ ] Publish creates an automatic revision snapshot
-- [ ] Anonymous caller cannot execute the publish function
-- [ ] Missing content key is rejected
-- [ ] Temporary test content/revisions are cleaned up
-- [ ] Public portfolio remains visually unchanged
+- [x] Migration runs successfully in Supabase
+- [x] Dashboard shows Publish Action → Ready
+- [x] Temporary draft-only content can be published through `cms_publish_content`
+- [x] Published JSON exactly matches the draft JSON after publish
+- [x] Publish creates an automatic revision snapshot
+- [x] Anonymous caller cannot execute the publish function
+- [x] Missing content key is rejected
+- [x] Temporary test content/revisions are cleaned up
+- [x] Public portfolio remains visually unchanged
 
-Phase 1 completion rule:
-After owner approval and lock of Phase 1F, the Admin Foundation is complete enough to begin Phase 2 — Homepage CMS. Preview UI, real content fields and section editors start in Phase 2 rather than expanding Phase 1 further.
+Lock rule:
+Freeze the Phase 1F publish foundation. Real editor controls and Preview/Publish workflow UI begin in Phase 2.
+
+## Phase 1 completion
+
+**Phase 1 — Admin Foundation — COMPLETE / LOCKED**
+
+Completed modules:
+- Phase 1A — Admin Authentication Foundation
+- Phase 1B — Admin Dashboard Shell
+- Phase 1C — Password Recovery & Account Security
+- Phase 1D — CMS Content Store & Draft/Publish Security Foundation
+- Phase 1E — Automatic Revision History Foundation
+- Phase 1F — Secure Draft-to-Publish Action Foundation
+
+The project is now ready to begin **Phase 2 — Homepage CMS**, one mini-module at a time.
+
+## Next module
+
+**Phase 2A — Homepage Hero CMS**
+
+Plan the exact scope before writing code. Start with the Hero section only. Do not edit Projects, Services, Digital, About, Skills, Experience, Contact, Footer or section ordering until their own modules begin.
