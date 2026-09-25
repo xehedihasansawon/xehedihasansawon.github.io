@@ -171,8 +171,34 @@ Acceptance checklist:
 Lock rule:
 Do not change Phase 1C behavior during later feature work unless a verified bug or security requirement makes it necessary.
 
-## Next module
+## Active module
 
-**Phase 1D — Foundation next layer**
+**Phase 1D — CMS Content Store & Draft/Publish Security Foundation**
 
-Plan the exact scope before writing code. Continue the one-module-at-a-time rule and keep public portfolio content untouched.
+Purpose:
+Create the smallest secure database layer needed before homepage content becomes editable.
+
+Scope:
+- Add a single generic `cms_content_entries` table for future CMS modules
+- Keep draft and published JSON data separate in the same entry
+- Give public/anonymous visitors read access only to published columns and only when published data exists
+- Give allowlisted admins RLS-protected select/insert/update/delete access
+- Deny non-admin authenticated accounts through RLS
+- Automatically track draft updates, publish timestamps and the authenticated updater
+- Add a dashboard readiness check showing whether the migration is installed
+- Do not seed or edit homepage content yet
+- Do not enable Homepage/Projects navigation yet
+- Do not implement version history in this module; that remains a later requirement
+- Preserve all locked Phase 1A–1C behavior and keep public portfolio files untouched
+
+Acceptance checklist:
+- [ ] Migration runs successfully in Supabase
+- [ ] `cms_content_entries` table exists with RLS enabled
+- [ ] Admin dashboard changes from “Migration required” to “Ready”
+- [ ] Allowlisted admin can query the table
+- [ ] Public access cannot read draft data
+- [ ] No homepage content has been moved into the CMS yet
+- [ ] Public portfolio remains visually unchanged
+
+Lock rule:
+After owner approval, freeze the content-store schema and only extend it through explicit later migrations.
