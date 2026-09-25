@@ -364,8 +364,48 @@ Deferred Hero visual polish note:
 Lock rule:
 Freeze the Phase 2A Hero field contract and workflow. Only verified bugs, security issues, or the later full media optimization/library upgrade may modify this locked module.
 
-## Next module
+## Active module
 
 **Phase 2B — Homepage Real Life Projects CMS**
 
-Plan the exact scope before coding. Keep Phase 2A locked and touch only the Real Life Projects homepage section when Phase 2B starts.
+Purpose:
+Connect the already-approved Real Life Projects homepage section to the locked CMS foundation without redesigning the section, changing project order, or starting the later Portfolio Engine.
+
+Scope:
+- Keep Phase 2A Hero CMS locked
+- Add a dedicated Real Life Projects admin view under Homepage CMS
+- Seed `homepage.real-life-projects` with the current approved heading and four fixed project cards
+- Edit the section eyebrow plus the two-part REAL LIFE / PROJECTS heading
+- Edit each existing card's category/meta, title, description, action label, image source and image alt text
+- Keep SSFC and Biporjoy as fixed link-card types while allowing their destinations to be edited safely
+- Keep MIUW and Portfolio as fixed existing preview-modal card types; modal/case-study body content remains outside Phase 2B
+- Reuse the locked Supabase `portfolio-media` bucket for basic JPG/PNG/WebP uploads up to 8 MB
+- Save only to `draft_data`
+- Provide a private 2×2-style draft preview in Admin
+- Require Save Draft before Publish
+- Publish through the locked Phase 1F secure publish action
+- Public/local homepage reads only `published_data`
+- Keep current static project markup as the fail-safe fallback
+- Keep the current four-card order fixed; drag-and-drop and dynamic project/category expansion remain for Phase 3
+- Do not touch Design Showcase, Services, Digital, About, Skills, Experience, Contact, Footer or section ordering
+- Keep `main` untouched until explicit live approval
+
+Acceptance checklist:
+- [ ] Phase 2B seed migration runs successfully
+- [ ] Real Life Projects admin navigation opens only the Phase 2B editor
+- [ ] Current approved heading and four cards load into Admin
+- [ ] Project image upload works through the existing secure storage bucket
+- [ ] Save Draft changes draft data without changing published cards
+- [ ] Private Preview reflects current heading/card form values
+- [ ] Publish is blocked while there are unsaved changes
+- [ ] Publish promotes the saved draft through the secure Phase 1F action
+- [ ] Localhost Real Life Projects section loads published CMS content
+- [ ] SSFC and Biporjoy links remain functional
+- [ ] MIUW and Portfolio preview-card behavior remains functional
+- [ ] Static fallback remains available if the CMS request fails
+- [ ] Desktop section remains visually consistent
+- [ ] Mobile section remains visually consistent
+- [ ] No other homepage section is changed
+
+Lock rule:
+After owner approval, freeze the Phase 2B four-card contract and workflow. Dynamic project counts, ordering, categories, filters and full Portfolio Engine behavior remain reserved for Phase 3.
