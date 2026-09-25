@@ -130,8 +130,36 @@ The owner locked Phase 1B before the mobile evidence was reviewed. The subsequen
 Lock rule:
 Do not redesign or restructure the Phase 1B shell during later feature work unless a verified usability, responsive, accessibility, or security issue requires it.
 
-## Next module
+## Active module
 
-**Phase 1C — Foundation next layer**
+**Phase 1C — Password Recovery & Account Security**
 
-Plan the exact scope before writing code. Continue the one-module-at-a-time rule and keep public portfolio content untouched.
+Scope:
+- Add a Forgot Password action to the admin sign-in screen
+- Send a Supabase password recovery email using the browser-safe client
+- Use a generic success message so the UI does not reveal whether an email exists
+- Accept only an authenticated PASSWORD_RECOVERY session for the password-update screen
+- Re-check the admin allowlist before permitting a recovered account to update its password
+- Require a new password of at least 10 characters and matching confirmation
+- Sign out after a successful password update and require a fresh login
+- Preserve Phase 1A login/allowlist behavior and the locked Phase 1B dashboard shell
+- Add no CMS content tables and no new database write permissions
+
+Required Supabase dashboard setup before full testing:
+- Add `http://localhost:5173/admin/` to Authentication → URL Configuration → Redirect URLs
+- When this branch is eventually deployed, also add the final production admin URL before testing recovery there
+
+Acceptance checklist:
+- [ ] Existing admin login still works
+- [ ] Forgot Password screen opens and returns to Sign in
+- [ ] Recovery request uses a generic response
+- [ ] Recovery email redirects back to the admin route
+- [ ] PASSWORD_RECOVERY session opens the new-password screen
+- [ ] Non-allowlisted recovery session is rejected
+- [ ] Short or mismatched new passwords are rejected
+- [ ] Successful password update signs the user out
+- [ ] New password works on the next login
+- [ ] Public portfolio remains untouched
+
+Lock rule:
+After owner approval, freeze Phase 1C and move to the next single foundation module.
