@@ -1060,67 +1060,101 @@ Acceptance checklist:
 Lock rule:
 Freeze the Phase 3A schema/security contract. Later Phase 3 modules may extend it compatibly when required, but must not weaken RLS or expose draft/private projects.
 
-## Active module
+## Completed module
 
-**Phase 3B — Media / Image Workflow**
+**Phase 3B — Media / Image Workflow — LOCKED / DONE**
 
-Purpose:
-Build a reusable web-optimized image pipeline for future dynamic projects while keeping all existing public project rendering unchanged.
+Owner approval: 2026-09-26
 
-Scope:
-- Keep Phase 2A–2K and Phase 3A locked
-- Reuse the existing `portfolio-media` Supabase Storage bucket and its allowlisted-admin mutation policies
-- Add admin-only `public.portfolio_media` metadata table
-- Accept JPG, PNG and WebP source images
-- Allow source files up to 25 MB for local browser processing; do not upload the source original
-- Reject source images above 60 megapixels to limit browser memory risk
-- Generate a display variant that preserves the source/natural aspect ratio
-- Display max-width choices: 1600, 2000 or 2400 px, with no upscaling
-- Generate a separate thumbnail variant
-- Thumbnail width choices: 640, 800 or 1000 px
-- Thumbnail aspect choices: 16:10, 4:3, 1:1 or natural
-- Output format choices: Auto, WebP, JPG or PNG
-- In Auto mode, preserve PNG output when PNG-transparency preservation is enabled; otherwise prefer WebP
-- Provide adjustable WebP/JPG compression quality
-- Flatten transparency to white when explicit JPG output is selected
-- Enforce the existing 8 MB Storage output limit per optimized variant
-- Store source dimensions/size plus display/thumbnail dimensions, bytes, paths and public URLs in metadata
-- Store accessibility alt text
-- Use `projects/library/<media-id>/...` Storage paths
-- Provide preview metadata in px and KB/MB
-- Provide Media Library with display/thumbnail URL copy actions
-- Provide deletion/cleanup of both optimized Storage objects and metadata
-- Clean up partial Storage uploads if later upload/metadata steps fail
-- Do not attach images to projects yet; that begins in Phase 3C
-- Do not migrate or alter Phase 2 project cards
-- Keep production `main` untouched
+Purpose delivered:
+Built a reusable browser-side image optimization and Media Library workflow for future dynamic portfolio projects without changing current public project rendering.
+
+Scope delivered:
+- Reused the existing `portfolio-media` Supabase Storage bucket
+- Added admin-only `public.portfolio_media` metadata
+- JPG, PNG and WebP source types are supported by implementation
+- Source files are processed locally in the browser and the original source file is not uploaded by this workflow
+- Source safety limits: 25 MB and 60 megapixels
+- Natural-ratio display variant generation
+- Display max-width choices: 1600 / 2000 / 2400 px with no upscaling
+- Separate thumbnail generation at 640 / 800 / 1000 px
+- Thumbnail ratios: 16:10 / 4:3 / 1:1 / natural
+- Output choices: Auto / WebP / JPG / PNG
+- Adjustable WebP/JPG compression quality
+- PNG preservation option in Auto mode
+- White flattening for explicit JPG output
+- 8 MB per optimized Storage output limit
+- Source/display/thumbnail dimensions and byte metadata
+- Accessibility alt text
+- Storage path contract: `projects/library/<media-id>/...`
+- Display/thumbnail previews with dimensions and file sizes
+- Media Library with display/thumbnail URL copy controls
+- Delete workflow for optimized Storage files + metadata
+- Partial-upload cleanup path implemented
+- No project attachment/migration yet
+- Existing Phase 2 public project rendering remains unchanged
+- Production `main` remains untouched
+
+Verified during this checkpoint:
+- Migration 011 ran successfully in Supabase
+- Storage Bucket reported **Ready**
+- Media Metadata reported **Ready**
+- Empty Media Library reported **0 media items**
+- Media workflow state reported **Media workflow ready**
+- A PNG source was uploaded through Auto mode
+- Display output was generated at **1024 × 1536**
+- The selected 2000 px display maximum did not upscale the 1024 px source
+- Display output preserved the natural portrait ratio
+- A separate **800 × 500** 16:10 thumbnail was generated
+- Display and thumbnail file sizes were shown
+- The uploaded item appeared in Media Library as **1 item**
+
+Implemented but not separately evidenced before owner lock:
+- JPG source upload
+- WebP source upload
+- Explicit WebP output mode
+- Explicit JPG output mode
+- Explicit PNG output mode
+- Other thumbnail ratios (4:3, 1:1, natural)
+- Copy display URL result
+- Copy thumbnail URL result
+- Delete/cleanup result
+- Forced partial-upload failure cleanup
+- Direct Storage inspection proving no source-original object
+- Dedicated public-page visual regression comparison
 
 Acceptance checklist:
-- [ ] Migration 011 runs successfully
-- [ ] Storage Bucket reports Ready
-- [ ] Media Metadata reports Ready
-- [ ] Empty library reports 0 media items
-- [ ] JPG source can be optimized/uploaded
-- [ ] PNG source is supported
-- [ ] WebP source is supported
-- [ ] Auto output generates web-ready output
-- [ ] Explicit WebP output works
-- [ ] Explicit JPG output works
-- [ ] Explicit PNG output works
-- [ ] Display variant preserves natural aspect ratio
-- [ ] Thumbnail ratio selection works
-- [ ] Display/thumbnail dimensions and sizes are shown
-- [ ] Media item appears in library after upload
-- [ ] Copy display URL works
-- [ ] Copy thumbnail URL works
-- [ ] Delete removes media metadata and both optimized Storage objects
-- [ ] Partial-upload cleanup path is implemented
-- [ ] Source original is not uploaded
-- [ ] Existing public project rendering remains unchanged
-- [ ] No production `main` deployment occurs
+- [x] Migration 011 runs successfully
+- [x] Storage Bucket reports Ready
+- [x] Media Metadata reports Ready
+- [x] Empty library reports 0 media items
+- [ ] JPG source support implemented but not separately tested
+- [x] PNG source upload tested
+- [ ] WebP source support implemented but not separately tested
+- [x] Auto output generated an optimized image
+- [ ] Explicit WebP output was not separately tested
+- [ ] Explicit JPG output was not separately tested
+- [ ] Explicit PNG output was not separately tested
+- [x] Display variant preserved natural aspect ratio
+- [x] 16:10 thumbnail selection produced 800 × 500 output
+- [x] Display/thumbnail dimensions and sizes were shown
+- [x] Media item appeared in library after upload
+- [ ] Copy display URL result was not separately evidenced
+- [ ] Copy thumbnail URL result was not separately evidenced
+- [ ] Delete result was not separately evidenced
+- [x] Partial-upload cleanup path is implemented in code
+- [x] Source-original upload is intentionally absent from the implementation
+- [x] Existing public project rendering was not modified by Phase 3B code
+- [x] No production `main` deployment occurred
 
 Lock rule:
-After owner verification, freeze the Phase 3B media metadata/storage-path and optimization contract. Later modules may consume these media records but must not begin serving large source originals.
+Freeze the Phase 3B media metadata/storage-path and optimization contract. Later modules may consume these media records but must not serve large source originals.
+
+## Next module
+
+**Phase 3C — Dynamic Project & Category Manager**
+
+Plan the category/project CRUD, draft/publish behavior, media attachment and migration strategy before coding. Keep Phase 3A–3B and all Phase 2 modules locked.
 
 ## Planned Phase 3 sequence
 
