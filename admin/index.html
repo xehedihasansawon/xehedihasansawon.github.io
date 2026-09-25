@@ -2164,7 +2164,7 @@
             </div>
             <div class="editor-state">
               <span>DATABASE</span>
-              <strong>Phase 3A category + project stores</strong>
+              <strong>Phase 3A + 3B stores</strong>
               <b id="projectManagerState">Loading…</b>
             </div>
           </section>
@@ -2179,8 +2179,8 @@
             </div>
             <p id="projectManagerMessage" class="form-message" role="status" aria-live="polite"></p>
             <div class="portfolio-manager-note">
-              <strong>Phase 3C-2 · Project Draft Create/Edit</strong>
-              <span>Categories stay available from the approved 3C-1 slice. This checkpoint adds draft project create/edit only. Media Library cover attachment, delete and Publish/Unpublish remain deferred.</span>
+              <strong>Phase 3C-3 · Media Library Cover Attachment</strong>
+              <span>Category and draft editing stay locked. This checkpoint only attaches optimized Phase 3B Media Library images to project drafts. Publish/Unpublish and project delete remain deferred.</span>
             </div>
           </section>
 
@@ -2271,6 +2271,24 @@
                   </select>
                 </label>
 
+                <label class="editor-grid-span">
+                  <span>Cover from Media Library</span>
+                  <select id="portfolioProjectMedia">
+                    <option value="">No Media Library image</option>
+                  </select>
+                  <small>Selecting media copies its optimized display image and alt text into this draft.</small>
+                </label>
+
+                <label class="editor-grid-span">
+                  <span>Cover image URL</span>
+                  <input id="portfolioProjectCoverUrl" type="url" maxlength="1000" readonly placeholder="Selected optimized display URL">
+                </label>
+
+                <label class="editor-grid-span">
+                  <span>Cover alt text</span>
+                  <input id="portfolioProjectCoverAlt" type="text" maxlength="220" placeholder="Describe the project cover">
+                </label>
+
                 <label>
                   <span>Action label</span>
                   <input id="portfolioProjectActionLabel" type="text" maxlength="80" value="View project" required>
@@ -2286,6 +2304,15 @@
               <div class="manager-form-actions">
                 <button id="portfolioProjectSaveButton" type="submit">Save draft</button>
                 <button id="portfolioProjectCancelButton" class="secondary-button" type="button" hidden>Cancel edit</button>
+              </div>
+
+              <div class="project-cover-manager-preview">
+                <span>PROJECT COVER PREVIEW</span>
+                <div class="project-cover-manager-frame">
+                  <img id="portfolioProjectCoverPreview" alt="" hidden>
+                  <b id="portfolioProjectCoverPreviewEmpty">No cover selected</b>
+                </div>
+                <small>Only the optimized Phase 3B display image is stored on the project. Source originals are not used.</small>
               </div>
 
               <p id="portfolioProjectFormMessage" class="form-message" role="status" aria-live="polite"></p>
