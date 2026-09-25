@@ -17,7 +17,7 @@
       <a class="brand-mark" href="../index.html" aria-label="Back to portfolio">Mhs.</a>
       <div>
         <p class="eyebrow">PORTFOLIO CMS</p>
-        <h1>Admin Foundation</h1>
+        <h1>Admin</h1>
       </div>
     </header>
 
@@ -25,7 +25,7 @@
       <p class="status-pill">SETUP REQUIRED</p>
       <h2>Connect Supabase first.</h2>
       <p>
-        Phase 1A is installed, but the public Supabase URL and anon key have not been configured yet.
+        Phase 1A is installed, but the public Supabase URL and publishable key have not been configured yet.
         Add them in <code>admin/config.js</code>.
       </p>
     </section>
@@ -65,48 +65,193 @@
       </form>
     </section>
 
-    <section id="adminPanel" class="panel dashboard-panel" hidden>
-      <div class="dashboard-top">
-        <div>
-          <p class="status-pill success">PHASE 1A ACTIVE</p>
-          <h2>CMS Foundation</h2>
-          <p>
-            Authentication and the admin allowlist are working. Content editing stays disabled
-            until the next approved module.
-          </p>
+    <section id="adminPanel" class="cms-app" hidden>
+      <aside class="cms-sidebar" aria-label="CMS navigation">
+        <div class="sidebar-heading">
+          <div class="sidebar-logo">Mhs.</div>
+          <div>
+            <p>PORTFOLIO CMS</p>
+            <strong>Control Center</strong>
+          </div>
         </div>
-        <button id="logoutButton" class="secondary-button" type="button">Log out</button>
-      </div>
 
-      <div class="account-row">
-        <span>Authenticated as</span>
-        <strong id="adminEmailDisplay">—</strong>
-      </div>
+        <nav class="cms-nav">
+          <a class="nav-item active" href="#dashboard" aria-current="page">
+            <span class="nav-index">01</span>
+            <span>Dashboard</span>
+          </a>
 
-      <div class="security-grid" aria-label="Security status">
-        <article>
-          <span>01</span>
-          <h3>Supabase Auth</h3>
-          <p>Email/password session required.</p>
-        </article>
-        <article>
-          <span>02</span>
-          <h3>Admin Allowlist</h3>
-          <p>Authenticated users still need a database membership row.</p>
-        </article>
-        <article>
-          <span>03</span>
-          <h3>RLS First</h3>
-          <p>Future CMS data must stay protected by database policies.</p>
-        </article>
-      </div>
+          <button class="nav-item" type="button" disabled>
+            <span class="nav-index">02</span>
+            <span>Homepage</span>
+            <small>Later</small>
+          </button>
 
-      <p id="adminMessage" class="form-message" role="status" aria-live="polite"></p>
+          <button class="nav-item" type="button" disabled>
+            <span class="nav-index">03</span>
+            <span>Projects</span>
+            <small>Later</small>
+          </button>
+
+          <button class="nav-item" type="button" disabled>
+            <span class="nav-index">04</span>
+            <span>Case Studies</span>
+            <small>Later</small>
+          </button>
+
+          <button class="nav-item" type="button" disabled>
+            <span class="nav-index">05</span>
+            <span>Media</span>
+            <small>Later</small>
+          </button>
+
+          <button class="nav-item" type="button" disabled>
+            <span class="nav-index">06</span>
+            <span>CV Manager</span>
+            <small>Later</small>
+          </button>
+
+          <button class="nav-item" type="button" disabled>
+            <span class="nav-index">07</span>
+            <span>Messages</span>
+            <small>Later</small>
+          </button>
+
+          <button class="nav-item" type="button" disabled>
+            <span class="nav-index">08</span>
+            <span>Analytics</span>
+            <small>Later</small>
+          </button>
+
+          <button class="nav-item" type="button" disabled>
+            <span class="nav-index">09</span>
+            <span>Settings</span>
+            <small>Later</small>
+          </button>
+        </nav>
+
+        <div class="sidebar-bottom">
+          <a class="view-site-link" href="../index.html" target="_blank" rel="noopener">View website ↗</a>
+          <span>Phase 1B · Dashboard Shell</span>
+        </div>
+      </aside>
+
+      <div class="cms-main">
+        <header class="cms-topbar">
+          <div>
+            <p class="eyebrow">ADMIN FOUNDATION</p>
+            <h2>Dashboard</h2>
+          </div>
+
+          <div class="topbar-actions">
+            <div class="signed-in-user">
+              <span>Signed in as</span>
+              <strong id="adminEmailDisplay">—</strong>
+            </div>
+            <button id="logoutButton" class="secondary-button" type="button">Log out</button>
+          </div>
+        </header>
+
+        <div id="dashboard" class="dashboard-content">
+          <section class="dashboard-hero">
+            <div>
+              <p class="status-pill success">PHASE 1A LOCKED</p>
+              <h3>Admin foundation is secure and ready.</h3>
+              <p>
+                The reusable CMS dashboard shell is now in place. Editing modules stay disabled
+                until each one is built, tested and approved separately.
+              </p>
+            </div>
+
+            <div class="phase-card">
+              <span>CURRENT MODULE</span>
+              <strong>Phase 1B</strong>
+              <p>Admin Dashboard Shell</p>
+            </div>
+          </section>
+
+          <section class="status-grid" aria-label="Foundation status">
+            <article>
+              <div class="status-card-top">
+                <span class="status-dot"></span>
+                <small>AUTH</small>
+              </div>
+              <h4>Supabase Auth</h4>
+              <p>Email/password session is required before the dashboard is shown.</p>
+            </article>
+
+            <article>
+              <div class="status-card-top">
+                <span class="status-dot"></span>
+                <small>ACCESS</small>
+              </div>
+              <h4>Admin Allowlist</h4>
+              <p>Authentication alone is not enough; the account must be allowlisted.</p>
+            </article>
+
+            <article>
+              <div class="status-card-top">
+                <span class="status-dot"></span>
+                <small>DATABASE</small>
+              </div>
+              <h4>RLS First</h4>
+              <p>Future CMS data will be protected by database policies, not UI hiding.</p>
+            </article>
+          </section>
+
+          <section class="module-roadmap">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">MODULE ROADMAP</p>
+                <h3>One module at a time.</h3>
+              </div>
+              <span class="roadmap-note">No bulk implementation</span>
+            </div>
+
+            <div class="module-list">
+              <article class="module-row done">
+                <div>
+                  <span>1A</span>
+                  <div>
+                    <strong>Admin Authentication</strong>
+                    <p>Login, allowlist, session and logout.</p>
+                  </div>
+                </div>
+                <b>LOCKED</b>
+              </article>
+
+              <article class="module-row active">
+                <div>
+                  <span>1B</span>
+                  <div>
+                    <strong>Admin Dashboard Shell</strong>
+                    <p>Stable navigation and workspace for future CMS modules.</p>
+                  </div>
+                </div>
+                <b>ACTIVE</b>
+              </article>
+
+              <article class="module-row queued">
+                <div>
+                  <span>NEXT</span>
+                  <div>
+                    <strong>Next foundation module</strong>
+                    <p>Will be planned only after Phase 1B is tested and locked.</p>
+                  </div>
+                </div>
+                <b>QUEUED</b>
+              </article>
+            </div>
+          </section>
+
+          <p id="adminMessage" class="form-message" role="status" aria-live="polite"></p>
+        </div>
+      </div>
     </section>
 
-    <footer class="admin-footer">
+    <footer id="publicAdminFooter" class="admin-footer">
       <span>MEHEDI PORTFOLIO</span>
-      <span>Phase 1A · Admin Authentication Foundation</span>
+      <span>Secure Admin · Phase 1B</span>
     </footer>
   </main>
 
