@@ -1173,7 +1173,37 @@ Delivered:
 Lock rule:
 Do not redesign or change the 3C-1 category workflow unless a verified bug/security issue requires it.
 
-**Phase 3C-2 — Project Draft Create/Edit — ACTIVE**
+**Phase 3C-2 — Project Draft Create/Edit — LOCKED / DONE**
+
+Owner approval: 2026-09-26
+
+Delivered:
+- Create draft project records
+- Edit existing project records as drafts
+- Title, slug, summary, category, visibility, action label and safe action link
+- Every save writes `is_published = false`
+- Duplicate slug handling
+- Safe relative/http/https/mailto/tel action-link validation
+- Existing Phase 2 project cards remain untouched
+- No production `main` deployment
+
+Lock rule:
+Do not redesign or change the 3C-2 draft create/edit workflow unless a verified bug/security issue requires it.
+
+**Phase 3C-3 — Media Library Cover Attachment — ACTIVE**
+
+Scope:
+- Reuse locked Phase 3B `portfolio_media`
+- Load optimized media into project draft form
+- Selecting media copies optimized `display_url` and media alt text into the project draft
+- Show cover preview
+- Allow cover alt text adjustment
+- No source-original serving/upload
+- Publish/Unpublish remains deferred
+- Project delete remains deferred
+- Existing Phase 2 project cards remain untouched
+
+### Previous 3C-2 scope reference
 
 Scope:
 - Create draft project records
@@ -1222,17 +1252,17 @@ Acceptance checklist:
 - [x] Category can be edited
 - [x] Category active/inactive state can be changed
 - [x] Category can be deleted
-- [ ] Project draft can be created
-- [ ] Project slug validation works
-- [ ] Safe action-link validation works
-- [ ] Category can be assigned to a project
+- [x] Project draft can be created
+- [x] Project slug validation works
+- [x] Safe action-link validation works
+- [x] Category can be assigned to a project
 - [ ] Phase 3B Media Library image can be attached as cover
 - [ ] Cover URL and alt text populate from selected media
-- [ ] Draft project can be edited
+- [x] Draft project can be edited
 - [ ] Unsaved project changes block Publish
 - [ ] Saved project can be published
 - [ ] Published project can be unpublished
-- [ ] Public/private visibility can be selected
+- [x] Public/private visibility can be selected
 - [ ] Project can be deleted
 - [ ] Existing public homepage cards remain unchanged
 - [ ] No production `main` deployment occurs
