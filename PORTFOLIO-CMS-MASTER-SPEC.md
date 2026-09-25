@@ -318,50 +318,54 @@ Completed modules:
 
 The project is now ready to begin **Phase 2 — Homepage CMS**, one mini-module at a time.
 
-## Active module
+## Completed module
 
-**Phase 2A — Homepage Hero CMS**
+**Phase 2A — Homepage Hero CMS — LOCKED / DONE**
 
-Purpose:
-Connect the already-approved public Hero section to the locked CMS foundation without redesigning the Hero or touching any other homepage section.
+Owner approval: 2026-09-25
 
-Scope:
-- Enable only the Homepage → Hero admin navigation
-- Seed `homepage.hero` with the current approved Hero content as both draft and published data
-- Edit Hero availability text, eyebrow, two name lines, role/highlight copy, button labels/links, proof points, image source and image alt text
-- Basic Hero image upload is included by owner request using a dedicated Supabase Storage bucket
-- Accept JPG, PNG and WebP up to 8 MB; upload fills the Hero image URL automatically
-- Keep the manual relative-path / HTTPS URL field as a fallback
-- Advanced image optimization, resizing, WebP conversion, thumbnails and media-library management remain in the later Portfolio Engine requirement
-- Save changes to `draft_data` only
-- Provide a private draft preview inside Admin
-- Require a saved draft before Publish
-- Publish through the locked Phase 1F `cms_publish_content` function
-- Make the public Hero read only `published_data`
-- Keep the existing static Hero markup as a fail-safe fallback if CMS loading fails
-- Preserve the approved Hero layout, styling and responsiveness
-- Do not edit Real Life Projects, Design Showcase, Services, Digital, About, Skills, Experience, Contact, Footer or section ordering
-- Keep `main` untouched until explicit live approval
+Purpose delivered:
+Connected the approved public Hero section to the locked CMS foundation while preserving its existing design and keeping all other homepage sections outside this module.
 
-Acceptance checklist:
-- [ ] Phase 2A seed migration runs successfully
-- [ ] Homepage navigation opens only the Hero editor
-- [ ] Existing approved Hero content loads into the editor
-- [ ] Hero image can be uploaded securely from Admin
-- [ ] Uploaded Hero image fills the image URL and can be previewed before draft save
-- [ ] Save Draft changes draft data without changing published data
-- [ ] Private Preview reflects current form values
-- [ ] Publish is blocked while the form has unsaved changes
-- [ ] Publish promotes the saved Hero draft through the secure Phase 1F action
-- [ ] Public/local Hero loads published CMS content
-- [ ] Public Hero falls back safely to static markup if the CMS request fails
-- [ ] Hero layout remains visually consistent on desktop
-- [ ] Hero layout remains visually consistent on mobile
-- [ ] No other homepage section is changed
+Scope delivered:
+- Homepage → Hero admin editor enabled
+- `homepage.hero` seeded with the approved Hero content
+- Hero copy, buttons, proof points, image source and alt text are editable
+- Basic secure Hero image upload added through Supabase Storage
+- JPG, PNG and WebP uploads supported up to 8 MB
+- Uploaded image URL is inserted into the Hero form automatically
+- Manual relative-path / HTTPS image source remains available
+- Save Draft writes only to `draft_data`
+- Private draft preview is available in Admin
+- Publish uses the locked Phase 1F secure publish action
+- Public/local Hero reads only `published_data`
+- Existing static Hero HTML remains as the fail-safe fallback
+- Production `main` branch remains untouched
+- No other homepage CMS section was implemented
+
+Verified during this checkpoint:
+- Seed migration completed
+- Hero editor loaded the approved content
+- Secure image upload completed successfully
+- Draft/publish flow updated the localhost Hero
+- Published Hero image/content displayed correctly on localhost desktop
+- Production site remained unchanged because `main` was not deployed
+
+Not separately evidenced before owner lock:
+- Unsaved-change publish-block message
+- Dedicated private-preview screenshot/result
+- Mobile Hero/editor visual verification
+- Forced CMS-request failure fallback test
 
 Deferred Hero visual polish note:
 - Replace the current Hero image gradient/fade treatment with a cleaner border/frame system.
-- Keep this as a visual-polish task; do not change it during the current CMS functionality test unless the owner explicitly asks to implement it now.
+- Keep this as a later visual-polish task unless the owner explicitly moves it earlier.
 
 Lock rule:
-After owner approval, freeze the Phase 2A Hero field contract and move to the next Homepage CMS mini-module. The basic upload control may later be upgraded by the full media optimization/library system without redesigning the Hero content model.
+Freeze the Phase 2A Hero field contract and workflow. Only verified bugs, security issues, or the later full media optimization/library upgrade may modify this locked module.
+
+## Next module
+
+**Phase 2B — Homepage Real Life Projects CMS**
+
+Plan the exact scope before coding. Keep Phase 2A locked and touch only the Real Life Projects homepage section when Phase 2B starts.
