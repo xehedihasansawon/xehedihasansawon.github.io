@@ -764,8 +764,13 @@ const applyContact = (data) => {
   applyText("contactEmailAction", data.emailAction);
 
   const copyButton = byId("contactEmailAction");
-  if (copyButton && typeof data.emailAddress === "string" && data.emailAddress.trim()) {
-    copyButton.dataset.copyEmail = data.emailAddress.trim();
+  if (copyButton) {
+    if (typeof data.emailAddress === "string" && data.emailAddress.trim()) {
+      copyButton.dataset.copyEmail = data.emailAddress.trim();
+    }
+    if (typeof data.emailAction === "string" && data.emailAction.trim()) {
+      copyButton.dataset.copyDefaultLabel = data.emailAction.trim();
+    }
   }
 
   applyText("contactSocialGroupTitle", data.socialGroupTitle);
