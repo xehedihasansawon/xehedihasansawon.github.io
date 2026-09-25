@@ -490,8 +490,47 @@ Acceptance checklist:
 Lock rule:
 Freeze the Phase 2C four-card showcase contract and modal-content workflow. Only verified bugs/security issues may modify it before the later Phase 3 Portfolio Engine.
 
-## Next module
+## Active module
 
 **Phase 2D — Homepage Creative Services CMS**
 
-Plan the exact scope before coding. Keep Phase 2A–2C locked and touch only the Creative Services homepage section when Phase 2D starts.
+Purpose:
+Connect the approved Creative Services section and its existing service-workflow popup content to the locked CMS foundation without redesigning the section or changing the current service count/order.
+
+Scope:
+- Keep Phase 2A–2C locked
+- Add a dedicated Creative Services admin view under Homepage CMS
+- Seed `homepage.creative-services` with the current approved section heading and six fixed services
+- If the seed row is missing, authenticated Save Draft may safely create it through the existing admin-only RLS insert permission
+- Edit section eyebrow plus the two-part CREATIVE / SERVICES heading
+- Edit each visible service card title and description; service number/key/order remain fixed
+- Edit each service popup eyebrow, title, summary, workflow steps, deliverables, tools/process, client requirements and final handoff
+- Use one-item-per-line text areas for popup list content while storing clean JSON arrays
+- Save only to `draft_data`
+- Provide a private draft preview for the visible six-card section
+- Require Save Draft before Publish
+- Publish through the locked Phase 1F secure publish action
+- Public/local homepage reads only `published_data`
+- Existing static card text and `serviceDetails` JavaScript remain as fail-safe fallback
+- Do not touch AI & Digital Projects, About, Skills, Experience, Contact, Footer or section ordering
+- Keep `main` untouched until explicit live approval
+
+Acceptance checklist:
+- [ ] Phase 2D content row exists via seed migration or first authenticated Save Draft
+- [ ] Creative Services navigation opens only the Phase 2D editor
+- [ ] Current heading and six approved service cards load into Admin
+- [ ] Existing popup workflow content loads for all six services
+- [ ] Save Draft changes draft data without changing published content
+- [ ] Private Preview reflects visible service-card values
+- [ ] Publish is blocked while there are unsaved changes
+- [ ] Publish promotes the saved draft through the secure Phase 1F action
+- [ ] Localhost Creative Services section loads published CMS content
+- [ ] Clicking each service card still opens the existing service dialog
+- [ ] Published popup workflow/deliverables/tools/needs/handoff appear in the dialog
+- [ ] Static fallback remains available if the CMS request fails
+- [ ] Desktop layout remains visually consistent
+- [ ] Mobile layout remains visually consistent
+- [ ] No other homepage section is changed
+
+Lock rule:
+After owner approval, freeze the Phase 2D six-service contract and workflow-popup model. Dynamic service count/order remains outside this module.
