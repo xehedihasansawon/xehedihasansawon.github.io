@@ -318,8 +318,41 @@ Completed modules:
 
 The project is now ready to begin **Phase 2 — Homepage CMS**, one mini-module at a time.
 
-## Next module
+## Active module
 
 **Phase 2A — Homepage Hero CMS**
 
-Plan the exact scope before writing code. Start with the Hero section only. Do not edit Projects, Services, Digital, About, Skills, Experience, Contact, Footer or section ordering until their own modules begin.
+Purpose:
+Connect the already-approved public Hero section to the locked CMS foundation without redesigning the Hero or touching any other homepage section.
+
+Scope:
+- Enable only the Homepage → Hero admin navigation
+- Seed `homepage.hero` with the current approved Hero content as both draft and published data
+- Edit Hero availability text, eyebrow, two name lines, role/highlight copy, button labels/links, proof points, image path and image alt text
+- Keep media upload out of scope; Phase 2A may reference an existing relative asset path or HTTPS image URL
+- Save changes to `draft_data` only
+- Provide a private draft preview inside Admin
+- Require a saved draft before Publish
+- Publish through the locked Phase 1F `cms_publish_content` function
+- Make the public Hero read only `published_data`
+- Keep the existing static Hero markup as a fail-safe fallback if CMS loading fails
+- Preserve the approved Hero layout, styling and responsiveness
+- Do not edit Real Life Projects, Design Showcase, Services, Digital, About, Skills, Experience, Contact, Footer or section ordering
+- Keep `main` untouched until explicit live approval
+
+Acceptance checklist:
+- [ ] Phase 2A seed migration runs successfully
+- [ ] Homepage navigation opens only the Hero editor
+- [ ] Existing approved Hero content loads into the editor
+- [ ] Save Draft changes draft data without changing published data
+- [ ] Private Preview reflects current form values
+- [ ] Publish is blocked while the form has unsaved changes
+- [ ] Publish promotes the saved Hero draft through the secure Phase 1F action
+- [ ] Public/local Hero loads published CMS content
+- [ ] Public Hero falls back safely to static markup if the CMS request fails
+- [ ] Hero layout remains visually consistent on desktop
+- [ ] Hero layout remains visually consistent on mobile
+- [ ] No other homepage section is changed
+
+Lock rule:
+After owner approval, freeze the Phase 2A Hero field contract and move to the next Homepage CMS mini-module. Later media-upload work may replace the image-path field without redesigning the Hero content model.
