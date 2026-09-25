@@ -307,10 +307,10 @@
           <section class="dashboard-hero">
             <div>
               <p class="status-pill success">PHASE 3B LOCKED</p>
-              <h3>Dynamic Project & Category Manager is the active module.</h3>
+              <h3>Phase 3C starts with the Category Manager.</h3>
               <p>
-                Phase 2A–2K and Phase 3A–3B stay locked. Phase 3C adds category/project CRUD,
-                Media Library cover attachment, draft/publish controls and private/public visibility.
+                Phase 2A–2K and Phase 3A–3B stay locked. This first Phase 3C checkpoint only manages
+                portfolio categories. Project CRUD, media attachment and publishing controls come later.
               </p>
             </div>
 
@@ -2159,12 +2159,12 @@
           <section class="editor-heading-card">
             <div>
               <p class="status-pill success">PHASE 3C</p>
-              <h3>Dynamic Project & Category Manager</h3>
-              <p>Create portfolio categories and reusable project records. Project covers can be attached from the locked Phase 3B Media Library.</p>
+              <h3>Category Manager</h3>
+              <p>Create, edit and delete Portfolio Engine categories using the locked Phase 3A category store.</p>
             </div>
             <div class="editor-state">
               <span>DATABASE</span>
-              <strong>Phase 3A + 3B stores</strong>
+              <strong>Phase 3A category store</strong>
               <b id="projectManagerState">Loading…</b>
             </div>
           </section>
@@ -2179,8 +2179,8 @@
             </div>
             <p id="projectManagerMessage" class="form-message" role="status" aria-live="polite"></p>
             <div class="portfolio-manager-note">
-              <strong>No SQL required for Phase 3C.</strong>
-              <span>This manager uses the locked Phase 3A project/category tables and Phase 3B media records. Public homepage rendering is still unchanged.</span>
+              <strong>No SQL required for this checkpoint.</strong>
+              <span>This first Phase 3C slice uses only the locked Phase 3A category table. Project CRUD, Phase 3B media attachment and publishing are intentionally deferred until this category manager is tested and approved.</span>
             </div>
           </section>
 
@@ -2227,102 +2227,6 @@
             <div id="projectCategoryList" class="manager-list"></div>
           </section>
 
-          <section class="editor-card">
-            <div class="editor-section-title">
-              <div>
-                <p class="eyebrow">PROJECT MANAGER</p>
-                <h3>Create project draft</h3>
-              </div>
-              <span id="portfolioProjectCount">0 projects</span>
-            </div>
-
-            <form id="portfolioProjectForm" class="cms-editor-form manager-form" novalidate>
-              <input id="portfolioProjectId" type="hidden">
-
-              <div class="project-manager-form-grid">
-                <div class="project-manager-fields">
-                  <div class="editor-grid two">
-                    <label>
-                      <span>Project title</span>
-                      <input id="portfolioProjectTitle" type="text" maxlength="160" required placeholder="SSFC Season 4">
-                    </label>
-                    <label>
-                      <span>Slug</span>
-                      <input id="portfolioProjectSlug" type="text" maxlength="120" required placeholder="ssfc-season-4">
-                    </label>
-
-                    <label class="editor-grid-span">
-                      <span>Summary</span>
-                      <textarea id="portfolioProjectSummary" rows="4" maxlength="900" placeholder="Short project summary"></textarea>
-                    </label>
-
-                    <label>
-                      <span>Category</span>
-                      <select id="portfolioProjectCategory">
-                        <option value="">No category</option>
-                      </select>
-                    </label>
-
-                    <label>
-                      <span>Visibility</span>
-                      <select id="portfolioProjectVisibility">
-                        <option value="public">Public</option>
-                        <option value="private">Private</option>
-                      </select>
-                    </label>
-
-                    <label class="editor-grid-span">
-                      <span>Cover from Media Library</span>
-                      <select id="portfolioProjectMedia">
-                        <option value="">No Media Library image</option>
-                      </select>
-                      <small>Selecting media copies its optimized display URL and alt text into this project.</small>
-                    </label>
-
-                    <label class="editor-grid-span">
-                      <span>Cover image URL</span>
-                      <input id="portfolioProjectCoverUrl" type="url" maxlength="1000" placeholder="https://...">
-                    </label>
-
-                    <label class="editor-grid-span">
-                      <span>Cover alt text</span>
-                      <input id="portfolioProjectCoverAlt" type="text" maxlength="220" placeholder="Describe the cover image">
-                    </label>
-
-                    <label>
-                      <span>Action label</span>
-                      <input id="portfolioProjectActionLabel" type="text" maxlength="80" value="View project" required>
-                    </label>
-
-                    <label>
-                      <span>Action link</span>
-                      <input id="portfolioProjectActionHref" type="text" maxlength="500" placeholder="project.html or https://...">
-                    </label>
-                  </div>
-                </div>
-
-                <div class="project-cover-manager-preview">
-                  <span>PROJECT COVER</span>
-                  <div class="project-cover-manager-frame">
-                    <img id="portfolioProjectCoverPreview" alt="" hidden>
-                    <b id="portfolioProjectCoverPreviewEmpty">No cover selected</b>
-                  </div>
-                  <small>Phase 3C stores the optimized display image. Homepage thumbnail selection is handled later.</small>
-                </div>
-              </div>
-
-              <div class="manager-form-actions project-manager-actions">
-                <button id="portfolioProjectSaveButton" type="submit">Save draft</button>
-                <button id="portfolioProjectPublishButton" class="publish-button" type="button" hidden>Publish project</button>
-                <button id="portfolioProjectUnpublishButton" class="secondary-button" type="button" hidden>Unpublish</button>
-                <button id="portfolioProjectCancelButton" class="secondary-button" type="button" hidden>Cancel edit</button>
-              </div>
-
-              <p id="portfolioProjectFormMessage" class="form-message" role="status" aria-live="polite"></p>
-            </form>
-
-            <div id="portfolioProjectList" class="project-manager-list"></div>
-          </section>
         </div>
       </div>
     </section>
