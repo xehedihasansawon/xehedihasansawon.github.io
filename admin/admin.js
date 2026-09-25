@@ -31,6 +31,8 @@ const contentStoreDot = document.querySelector("#contentStoreDot");
 const contentStoreStatus = document.querySelector("#contentStoreStatus");
 const revisionStoreDot = document.querySelector("#revisionStoreDot");
 const revisionStoreStatus = document.querySelector("#revisionStoreStatus");
+const publishActionDot = document.querySelector("#publishActionDot");
+const publishActionStatus = document.querySelector("#publishActionStatus");
 
 const allPanels = [
   configPanel,
@@ -197,6 +199,31 @@ if (!hasValidConfig) {
     return true;
   };
 
+  const setPublishActionStatus = (state, label) => {
+    if (!publishActionDot || !publishActionStatus) return;
+
+    publishActionDot.classList.remove("checking", "ready", "missing");
+    publishActionDot.classList.add(state);
+    publishActionStatus.textContent = label;
+  };
+
+  const checkPublishAction = async () => {
+    setPublishActionStatus("checking", "Checking…");
+
+    const { data, error } = await supabaseClient.rpc("cms_publish_foundation_ready");
+
+    if (error || data !== true) {
+      if (error) {
+        console.warn("CMS publish action check failed:", error.message);
+      }
+      setPublishActionStatus("missing", "Migration required");
+      return false;
+    }
+
+    setPublishActionStatus("ready", "Ready");
+    return true;
+  };
+
   const checkAdminMembership = async (user) => {
     if (!user?.id) {
       return { allowed: false, reason: "No authenticated user." };
@@ -230,6 +257,7 @@ if (!hasValidConfig) {
     showOnly(adminPanel);
     checkContentStore();
     checkRevisionStore();
+    checkPublishAction();
   };
 
   const enterLogin = (message = "") => {
