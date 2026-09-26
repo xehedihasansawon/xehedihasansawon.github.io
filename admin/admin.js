@@ -770,7 +770,7 @@ if (!hasValidConfig) {
     } else if (isProjectManager) {
       projectManagerNavButton?.setAttribute("aria-current", "page");
       cmsPageEyebrow.textContent = "PORTFOLIO ENGINE";
-      cmsPageTitle.textContent = "Publish Workflow";
+      cmsPageTitle.textContent = "Project Manager";
     } else {
       dashboardNavLink?.setAttribute("aria-current", "page");
       cmsPageEyebrow.textContent = "HOMEPAGE CMS";
