@@ -1154,82 +1154,28 @@ Freeze the Phase 3B media metadata/storage-path and optimization contract. Later
 
 **Phase 3C — Dynamic Project & Category Manager**
 
-### Phase 3C submodule checkpoints
+### Phase 3C implementation status
 
-**Phase 3C-1 — Category Manager CRUD — LOCKED / DONE**
+**Status: IMPLEMENTATION COMPLETE · FINAL OWNER TEST PENDING**
 
-Owner approval: 2026-09-26
-
-Delivered:
-- Load categories from the locked Phase 3A store
-- Create category
-- Edit category
-- Delete category
-- Name, slug, description and active/inactive state
-- Automatic slug generation with manual override
-- No homepage migration
-- No production `main` deployment
-
-Lock rule:
-Do not redesign or change the 3C-1 category workflow unless a verified bug/security issue requires it.
-
-**Phase 3C-2 — Project Draft Create/Edit — LOCKED / DONE**
-
-Owner approval: 2026-09-26
-
-Delivered:
-- Create draft project records
-- Edit existing project records as drafts
-- Title, slug, summary, category, visibility, action label and safe action link
-- Every save writes `is_published = false`
-- Duplicate slug handling
-- Safe relative/http/https/mailto/tel action-link validation
-- Existing Phase 2 project cards remain untouched
-- No production `main` deployment
-
-Lock rule:
-Do not redesign or change the 3C-2 draft create/edit workflow unless a verified bug/security issue requires it.
-
-**Phase 3C-3 — Media Library Cover Attachment — LOCKED / DONE**
-
-Owner approval: 2026-09-26
-
-Delivered:
-- Reused locked Phase 3B `portfolio_media`
-- Loaded optimized media into the project draft form
-- Media selection copies optimized `display_url` and alt text into the project
-- Cover preview added
-- Cover alt text remains editable
-- Source originals are not served or uploaded by this workflow
-- Existing Phase 2 project cards remain untouched
-- No production `main` deployment
-
-Lock rule:
-Do not redesign or change the 3C-3 media attachment contract unless a verified bug/security issue requires it.
-
-**Phase 3C-4 — Publish / Unpublish Workflow — ACTIVE**
-
-Scope:
-- Saved draft can be published
-- Unsaved project changes block Publish
-- Published project can be unpublished back to Draft
+Implemented inside Phase 3C:
+- Category CRUD: create, edit, active/inactive, delete
+- Project CRUD: create draft, edit draft, delete
+- Project fields: title, slug, summary, category, cover image URL/alt, action label/href, visibility
+- Phase 3B Media Library optimized cover attachment
+- Draft safety: every content save writes `is_published = false`
+- Publish saved drafts
+- Block Publish when the currently loaded project has unsaved changes
+- Unpublish published projects back to Draft
 - Editing a published project and saving returns it to Draft
-- Private project may be published but remains anonymous-inaccessible through locked Phase 3A RLS
-- No project delete yet
-- No homepage migration or public rendering change
-- Keep production `main` untouched
+- Private published projects remain anonymous-inaccessible through locked Phase 3A RLS
+- No Phase 2 homepage migration or public project rendering changes
+- Production `main` remains untouched
 
-### Previous 3C-2 scope reference
+Phase 3C is **not locked yet**. Lock only after the owner completes the full localhost acceptance test.
 
-Scope:
-- Create draft project records
-- Edit existing project records as drafts
-- Title, slug, summary, category, visibility, action label and safe action link
-- Every save writes `is_published = false`
-- Media cover attachment is deferred
-- Publish/Unpublish is deferred
-- Project delete is deferred
-- Existing Phase 2 project cards remain untouched
+
+
 
 Purpose:
 Turn the locked Phase 3A project/category data stores and Phase 3B Media Library into an admin CRUD workflow, without replacing the current public homepage project cards yet.
