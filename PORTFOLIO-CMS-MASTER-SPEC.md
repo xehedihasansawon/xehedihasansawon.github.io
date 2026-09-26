@@ -1156,7 +1156,7 @@ Freeze the Phase 3B media metadata/storage-path and optimization contract. Later
 
 ### Phase 3C implementation status
 
-**Status: IMPLEMENTATION COMPLETE · FINAL OWNER TEST PENDING**
+**Status: LOCKED / DONE**
 
 Implemented inside Phase 3C:
 - Category CRUD: create, edit, active/inactive, delete
@@ -1172,7 +1172,9 @@ Implemented inside Phase 3C:
 - No Phase 2 homepage migration or public project rendering changes
 - Production `main` remains untouched
 
-Phase 3C is **not locked yet**. Lock only after the owner completes the full localhost acceptance test.
+Owner approval: 2026-09-26
+
+Phase 3C is locked. Future phases may consume this project/category manager but must not change its established CRUD, draft/publish, RLS or media-attachment behavior unless a verified bug/security issue requires it.
 
 
 
@@ -1208,8 +1210,8 @@ Scope:
 - Keep production `main` untouched
 
 Acceptance checklist:
-- [ ] Phase 3C Projects navigation opens the manager
-- [ ] Existing category/project/media records load
+- [x] Phase 3C Projects navigation opens the manager
+- [x] Existing category/project/media records load
 - [x] Category can be created
 - [x] Category can be edited
 - [x] Category active/inactive state can be changed
@@ -1221,13 +1223,13 @@ Acceptance checklist:
 - [x] Phase 3B Media Library image can be attached as cover
 - [x] Cover URL and alt text populate from selected media
 - [x] Draft project can be edited
-- [ ] Unsaved project changes block Publish
-- [ ] Saved project can be published
-- [ ] Published project can be unpublished
+- [x] Unsaved project changes block Publish
+- [x] Saved project can be published
+- [x] Published project can be unpublished
 - [x] Public/private visibility can be selected
-- [ ] Project can be deleted
-- [ ] Existing public homepage cards remain unchanged
-- [ ] No production `main` deployment occurs
+- [x] Project can be deleted
+- [x] Existing public homepage cards remain unchanged
+- [x] No production `main` deployment occurs
 
 Lock rule:
 After owner verification, freeze the Phase 3C category/project CRUD and draft/publish behavior. Later modules may add featured selection, tags/badges/search and ordering without weakening current RLS or draft/private protections.
