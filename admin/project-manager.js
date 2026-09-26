@@ -421,7 +421,44 @@ export const initProjectManager = ({ supabaseClient, showCmsView }) => {
         projectTitleInput.focus();
       });
 
-      actions.append(editButton);
+      const deleteButton = document.createElement("button");
+      deleteButton.type = "button";
+      deleteButton.className = "text-button manager-delete-button";
+      deleteButton.textContent = "Delete project";
+      deleteButton.addEventListener("click", async () => {
+        const status = item.is_published ? "published" : "draft";
+        const confirmed = window.confirm(
+          'Delete the ' + status + ' project "' + item.title + '" permanently?'
+        );
+
+        if (!confirmed) return;
+
+        setBusy(true);
+        setProjectMessage("Deleting project…");
+
+        try {
+          const result = await supabaseClient
+            .from("portfolio_projects")
+            .delete()
+            .eq("id", item.id);
+
+          if (result.error) throw result.error;
+
+          if (projectIdInput.value === item.id) {
+            resetProjectForm({ clearMessage: false });
+          }
+
+          await loadManagerData();
+          setProjectMessage("Project deleted.");
+        } catch (error) {
+          console.error("Project delete failed:", error);
+          setProjectMessage(error?.message || "Could not delete project.");
+        } finally {
+          setBusy(false);
+        }
+      });
+
+      actions.append(editButton, deleteButton);
       card.append(copy, actions);
       projectList.appendChild(card);
     });
