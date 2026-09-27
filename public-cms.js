@@ -355,14 +355,14 @@ const loadPortfolioEngineHomepageProjects = async () => {
     );
     projectsEndpoint.searchParams.set(
       "select",
-      "id,slug,title,summary,category_id,cover_image_url,cover_image_alt,action_label,action_href,is_featured,show_on_homepage,published_at,created_at"
+      "id,slug,title,summary,category_id,cover_image_url,cover_image_alt,action_label,action_href,is_featured,show_on_homepage,sort_order,published_at,created_at"
     );
     projectsEndpoint.searchParams.set("show_on_homepage", "eq.true");
     projectsEndpoint.searchParams.set("is_published", "eq.true");
     projectsEndpoint.searchParams.set("visibility", "eq.public");
     projectsEndpoint.searchParams.set(
       "order",
-      "is_featured.desc,published_at.desc.nullslast,created_at.desc"
+      "is_featured.desc,sort_order.asc,published_at.desc.nullslast,created_at.desc"
     );
     projectsEndpoint.searchParams.set("limit", "4");
 
@@ -591,6 +591,23 @@ const initProjectExplorer = () => {
       return matchesSearch && matchesCategory && matchesTag && matchesBadge;
     });
 
+    filtered.sort((a, b) => {
+      const primaryDiff = categoryId
+        ? (a.category_sort_order ?? 0) - (b.category_sort_order ?? 0)
+        : (a.sort_order ?? 0) - (b.sort_order ?? 0);
+
+      if (primaryDiff) return primaryDiff;
+
+      if (categoryId) {
+        const globalDiff = (a.sort_order ?? 0) - (b.sort_order ?? 0);
+        if (globalDiff) return globalDiff;
+      }
+
+      const aDate = Date.parse(a.published_at || a.created_at || 0) || 0;
+      const bDate = Date.parse(b.published_at || b.created_at || 0) || 0;
+      return bDate - aDate;
+    });
+
     grid.replaceChildren();
 
     filtered.forEach((project) => {
@@ -619,13 +636,13 @@ const initProjectExplorer = () => {
       );
       projectsEndpoint.searchParams.set(
         "select",
-        "id,slug,title,summary,category_id,cover_image_url,cover_image_alt,action_label,action_href,tags,badges,published_at,created_at"
+        "id,slug,title,summary,category_id,cover_image_url,cover_image_alt,action_label,action_href,tags,badges,sort_order,category_sort_order,published_at,created_at"
       );
       projectsEndpoint.searchParams.set("is_published", "eq.true");
       projectsEndpoint.searchParams.set("visibility", "eq.public");
       projectsEndpoint.searchParams.set(
         "order",
-        "published_at.desc.nullslast,created_at.desc"
+        "sort_order.asc,published_at.desc.nullslast,created_at.desc"
       );
 
       const categoriesEndpoint = new URL(
