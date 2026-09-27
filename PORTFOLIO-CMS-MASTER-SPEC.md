@@ -1258,8 +1258,10 @@ Scope:
 - If a previously selected project becomes ineligible, admin may remove the stale selection
 - Public homepage queries only anonymous-readable published public projects through locked Phase 3A RLS
 - Public Real Life Projects keeps the locked Phase 2 card classes/layout
-- Selected Portfolio Engine projects replace the static Real Life Projects cards only when at least one valid selected project exists
-- If no valid Portfolio Engine selection exists, existing Phase 2 static cards remain the safe fallback
+- Selected Portfolio Engine projects fill the first available Real Life Projects slots
+- When fewer than 4 dynamic projects are selected, remaining slots keep existing Phase 2 cards so the locked 2×2 layout stays visually complete
+- Matching static fallback cards are skipped when they represent the same selected project
+- If no valid Portfolio Engine selection exists, all existing Phase 2 static cards remain the safe fallback
 - Phase 2 Real Life Projects heading remains managed by its existing locked CMS content
 - Tags, badges, search and smart filters remain deferred to Phase 3E
 - Manual drag/drop ordering remains deferred to Phase 3F
@@ -1279,6 +1281,7 @@ Acceptance checklist:
 - [ ] Homepage selection saves to `show_on_homepage` / `is_featured`
 - [ ] Saved selection reloads correctly
 - [ ] Public homepage renders selected Portfolio Engine project(s)
+- [ ] Partial selection keeps remaining Phase 2 fallback cards and preserves the locked 2×2 layout
 - [ ] Category name, title, summary, cover and action data render
 - [ ] Empty Portfolio Engine selection preserves Phase 2 static fallback
 - [ ] Locked Phase 2 Real Life Projects layout/design remains unchanged
