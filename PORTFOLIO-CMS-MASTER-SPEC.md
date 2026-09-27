@@ -1272,9 +1272,9 @@ Acceptance checklist:
 - [x] 03D Homepage navigation opens the Phase 3D manager
 - [x] Existing categories/projects load
 - [x] Category filter works
-- [ ] Draft project cannot be newly selected
+- [x] Draft project cannot be newly selected
 - [x] Private project cannot be newly selected
-- [ ] Project without cover cannot be newly selected
+- [x] Project without cover cannot be newly selected
 - [x] Published public project with optimized cover can be selected
 - [ ] Maximum 4 homepage projects is enforced
 - [x] Featured priority can be assigned to one selected project
