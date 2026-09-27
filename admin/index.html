@@ -245,10 +245,10 @@
             <small>Locked</small>
           </button>
 
-          <button class="nav-item" type="button" disabled>
+          <button id="caseStudiesNavButton" class="nav-item" type="button">
             <span class="nav-index">04</span>
             <span>Case Studies</span>
-            <small>Later</small>
+            <small>Active</small>
           </button>
 
           <button class="nav-item" type="button" disabled>
@@ -324,18 +324,18 @@
         <div id="dashboard" class="dashboard-content">
           <section class="dashboard-hero">
             <div>
-              <p class="status-pill success">PHASE 3 COMPLETE</p>
-              <h3>Portfolio Engine is locked.</h3>
+              <p class="status-pill success">PHASE 3 LOCKED</p>
+              <h3>Phase 4 Case Studies is active.</h3>
               <p>
-                Phase 3A–3F are complete and locked. The next planned module is Phase 4 Case Studies,
-                which will build full dynamic project detail pages on top of this foundation.
+                Phase 3A–3F stay locked. Phase 4 builds reusable full project pages using Portfolio Engine
+                projects and optimized Media Library images.
               </p>
             </div>
 
             <div class="phase-card">
               <span>CURRENT MODULE</span>
-              <strong>Phase 3 Complete</strong>
-              <p>Portfolio Engine foundation locked</p>
+              <strong>Phase 4</strong>
+              <p>Dynamic Case Studies</p>
 
               <div class="foundation-stack" aria-live="polite">
                 <div class="foundation-check">
@@ -2512,7 +2512,7 @@
             <div class="editor-state">
               <span>DATABASE</span>
               <strong>Phase 3A order fields</strong>
-              <b id="projectOrderingState">Loading…</b>
+              <b id="projectOrderingState">Locked</b>
             </div>
           </section>
 
@@ -2550,12 +2550,135 @@
             <div id="projectOrderingList" class="project-ordering-list" aria-live="polite"></div>
           </section>
         </div>
+
+        <div id="caseStudiesEditor" class="editor-content" hidden>
+          <section class="editor-heading-card">
+            <div>
+              <p class="status-pill success">PHASE 4</p>
+              <h3>Dynamic Case Studies</h3>
+              <p>Build full reusable project pages from Portfolio Engine content and optimized Media Library images.</p>
+            </div>
+            <div class="editor-state">
+              <span>DATABASE</span>
+              <strong>Phase 4 case study store</strong>
+              <b id="caseStudyState">Loading…</b>
+            </div>
+          </section>
+
+          <section class="editor-card">
+            <div class="editor-section-title">
+              <div>
+                <p class="eyebrow">CASE STUDY STATUS</p>
+                <h3>Project case study</h3>
+              </div>
+              <button id="caseStudyRefreshButton" class="secondary-button" type="button">Refresh / discard</button>
+            </div>
+
+            <p id="caseStudyMessage" class="form-message" role="status" aria-live="polite"></p>
+
+            <div class="portfolio-manager-note">
+              <strong>Phase 4 · Reusable Case Study Builder</strong>
+              <span>Select a project, build the page, then Save Draft or Publish. Private/draft parent projects remain admin-only.</span>
+            </div>
+          </section>
+
+          <section class="editor-card">
+            <form id="caseStudyForm" class="cms-editor-form manager-form" novalidate>
+              <label>
+                <span>Project</span>
+                <select id="caseStudyProject">
+                  <option value="">Select a project</option>
+                </select>
+              </label>
+
+              <div class="manager-form-grid">
+                <label>
+                  <span>Hero kicker</span>
+                  <input id="caseStudyKicker" type="text" maxlength="120" placeholder="Featured Case Study">
+                </label>
+                <label>
+                  <span>Hero headline</span>
+                  <input id="caseStudyHeadline" type="text" maxlength="220" placeholder="Leave blank to use project title">
+                </label>
+              </div>
+
+              <label>
+                <span>Hero lead</span>
+                <textarea id="caseStudyLead" maxlength="1200" rows="4" placeholder="Short case study introduction"></textarea>
+              </label>
+
+              <div class="manager-form-grid">
+                <label>
+                  <span>Hero image from Media Library</span>
+                  <select id="caseStudyHeroMedia">
+                    <option value="">Use project cover</option>
+                  </select>
+                </label>
+                <label>
+                  <span>Related project</span>
+                  <select id="caseStudyRelatedProject">
+                    <option value="">No related project</option>
+                  </select>
+                </label>
+              </div>
+
+              <div class="manager-form-grid">
+                <label>
+                  <span>CTA label</span>
+                  <input id="caseStudyCtaLabel" type="text" maxlength="100" placeholder="Visit live project">
+                </label>
+                <label>
+                  <span>CTA link</span>
+                  <input id="caseStudyCtaHref" type="text" maxlength="1000" placeholder="https://...">
+                </label>
+              </div>
+
+              <div class="case-builder-block">
+                <div class="editor-section-title compact">
+                  <div>
+                    <p class="eyebrow">SUMMARY FACTS</p>
+                    <h3>Project facts</h3>
+                  </div>
+                  <button id="caseStudyAddFact" class="secondary-button" type="button">Add fact</button>
+                </div>
+                <div id="caseStudyFacts" class="case-facts-editor"></div>
+              </div>
+
+              <div class="case-builder-block">
+                <div class="editor-section-title compact">
+                  <div>
+                    <p class="eyebrow">PAGE SECTIONS</p>
+                    <h3>Build the story</h3>
+                  </div>
+                </div>
+
+                <div class="case-section-adders">
+                  <button type="button" data-add-case-section="text">+ Text</button>
+                  <button type="button" data-add-case-section="image">+ Image</button>
+                  <button type="button" data-add-case-section="gallery">+ Gallery</button>
+                  <button type="button" data-add-case-section="cards">+ Feature Cards</button>
+                </div>
+
+                <div id="caseStudySections" class="case-sections-editor"></div>
+              </div>
+
+              <div class="manager-form-actions case-study-actions">
+                <button id="caseStudySaveDraft" type="button" disabled>Save draft</button>
+                <button id="caseStudyPublish" type="button" disabled>Publish case study</button>
+                <button id="caseStudyUnpublish" class="secondary-button" type="button" disabled>Unpublish</button>
+                <button id="caseStudyOpenPage" class="secondary-button" type="button" disabled>Open full page</button>
+              </div>
+
+              <p id="caseStudyFormMessage" class="form-message" role="status" aria-live="polite"></p>
+            </form>
+          </section>
+        </div>
       </div>
     </section>
 
     <footer id="publicAdminFooter" class="admin-footer">
       <span>MEHEDI PORTFOLIO</span>
-      <span>Secure Admin · Phase 3 Complete</span>
+      <span>Secure Admin · Phase 4</span>
     </footer>
   </main>
 
