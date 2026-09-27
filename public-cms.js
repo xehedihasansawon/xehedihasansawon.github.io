@@ -221,6 +221,37 @@ const loadPublishedRealProjects = async () => {
 
 loadPublishedRealProjects();
 
+const realProjectsPhase2FallbackCards = (() => {
+  const grid = document.querySelector("#work .real-projects-grid");
+  return grid ? [...grid.children] : [];
+})();
+
+const fallbackMatchesEngineProject = (card, project) => {
+  if (!card || !project) return false;
+
+  const key = String(card.dataset?.cmsProject || "").trim().toLowerCase();
+  const slug = String(project.slug || "").trim().toLowerCase();
+
+  if (
+    key &&
+    slug &&
+    (key === slug || slug.startsWith(key + "-") || key.startsWith(slug + "-"))
+  ) {
+    return true;
+  }
+
+  if (card.tagName === "A" && isSafeHref(project.action_href)) {
+    const fallbackHref = String(card.getAttribute("href") || "").trim();
+    const projectHref = String(project.action_href || "").trim();
+
+    if (fallbackHref && fallbackHref === projectHref) {
+      return true;
+    }
+  }
+
+  return false;
+};
+
 const renderPortfolioEngineHomepageProjects = (projects, categories) => {
   if (!Array.isArray(projects) || !projects.length) return;
 
@@ -246,7 +277,9 @@ const renderPortfolioEngineHomepageProjects = (projects, categories) => {
 
   const fragment = document.createDocumentFragment();
 
-  validProjects.slice(0, 4).forEach((project) => {
+  const selected = validProjects.slice(0, 4);
+
+  selected.forEach((project) => {
     const hasLink = isSafeHref(project.action_href);
     const card = document.createElement(hasLink ? "a" : "article");
     card.className = "real-project-card real-project-split-card";
@@ -299,7 +332,18 @@ const renderPortfolioEngineHomepageProjects = (projects, categories) => {
     fragment.appendChild(card);
   });
 
+  const remainingSlots = Math.max(0, 4 - selected.length);
+  const fallbackCandidates = realProjectsPhase2FallbackCards.filter(
+    (card) =>
+      !selected.some((project) => fallbackMatchesEngineProject(card, project))
+  );
+
+  fallbackCandidates.slice(0, remainingSlots).forEach((card) => {
+    fragment.appendChild(card);
+  });
+
   grid.replaceChildren(fragment);
+  grid.dataset.engineSelectedCount = String(selected.length);
   document.documentElement.dataset.portfolioEngineHome = "loaded";
 };
 
