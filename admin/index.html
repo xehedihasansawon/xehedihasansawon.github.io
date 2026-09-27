@@ -2452,11 +2452,14 @@
                 </select>
               </label>
 
-              <label>
-                <span>Tags</span>
-                <input id="projectMetadataTags" type="text" maxlength="500" placeholder="sports branding, social media, jersey design">
-                <small>Separate tags with commas. Empty and duplicate tags are removed automatically.</small>
-              </label>
+              <div class="metadata-tag-field">
+                <span class="metadata-field-label">Tags</span>
+                <div id="projectMetadataTagEditor" class="metadata-tag-editor" aria-label="Project tags">
+                  <div id="projectMetadataTagList" class="metadata-tag-list"></div>
+                  <input id="projectMetadataTagInput" type="text" maxlength="50" placeholder="Type a tag and press Enter" autocomplete="off" autocapitalize="words" spellcheck="false">
+                </div>
+                <small>Press Enter or comma to add a tag. Duplicate and empty tags are ignored. Maximum 20 tags.</small>
+              </div>
 
               <div>
                 <span class="metadata-field-label">Badges</span>
