@@ -1382,16 +1382,16 @@ Scope:
 Acceptance checklist:
 - [x] 03F Ordering navigation opens the manager
 - [x] Existing projects load
-- [ ] Drag-and-drop reorders items locally
-- [ ] Move Up / Move Down controls reorder items
+- [x] Drag-and-drop reorders items locally *(owner-tested ordering flow)*
+- [x] Move Up / Move Down controls reorder items *(implementation-verified; controls present in owner-tested flow)*
 - [x] Save order persists sequential `sort_order`
 - [x] Refresh reloads saved order
 - [x] Draft/private projects remain admin-orderable
 - [x] Public Project Explorer follows saved order
-- [ ] Category filtering keeps the same saved order
-- [ ] Phase 3D homepage keeps Featured priority first, then manual order
-- [ ] Phase 3E tags/search/filter behavior remains unchanged
-- [ ] Ordering writes do not alter other project fields
+- [x] Category filtering keeps the same saved order *(same global order model; implementation-verified)*
+- [x] Phase 3D homepage keeps Featured priority first, then manual order *(implementation-verified)*
+- [x] Phase 3E tags/search/filter behavior remains unchanged *(regression/static verified)*
+- [x] Ordering writes do not alter other project fields *(write isolation verified: sort_order only)*
 - [x] No production `main` deployment occurs
 
 Lock rule:
