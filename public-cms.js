@@ -592,16 +592,8 @@ const initProjectExplorer = () => {
     });
 
     filtered.sort((a, b) => {
-      const primaryDiff = categoryId
-        ? (a.category_sort_order ?? 0) - (b.category_sort_order ?? 0)
-        : (a.sort_order ?? 0) - (b.sort_order ?? 0);
-
-      if (primaryDiff) return primaryDiff;
-
-      if (categoryId) {
-        const globalDiff = (a.sort_order ?? 0) - (b.sort_order ?? 0);
-        if (globalDiff) return globalDiff;
-      }
+      const orderDiff = (a.sort_order ?? 0) - (b.sort_order ?? 0);
+      if (orderDiff) return orderDiff;
 
       const aDate = Date.parse(a.published_at || a.created_at || 0) || 0;
       const bDate = Date.parse(b.published_at || b.created_at || 0) || 0;
@@ -636,7 +628,7 @@ const initProjectExplorer = () => {
       );
       projectsEndpoint.searchParams.set(
         "select",
-        "id,slug,title,summary,category_id,cover_image_url,cover_image_alt,action_label,action_href,tags,badges,sort_order,category_sort_order,published_at,created_at"
+        "id,slug,title,summary,category_id,cover_image_url,cover_image_alt,action_label,action_href,tags,badges,sort_order,published_at,created_at"
       );
       projectsEndpoint.searchParams.set("is_published", "eq.true");
       projectsEndpoint.searchParams.set("visibility", "eq.public");
