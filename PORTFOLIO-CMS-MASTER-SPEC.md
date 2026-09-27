@@ -1380,19 +1380,19 @@ Scope:
 - Keep production `main` untouched
 
 Acceptance checklist:
-- [ ] 03F Ordering navigation opens the manager
-- [ ] Existing projects load
+- [x] 03F Ordering navigation opens the manager
+- [x] Existing projects load
 - [ ] Drag-and-drop reorders items locally
 - [ ] Move Up / Move Down controls reorder items
-- [ ] Save order persists sequential `sort_order`
-- [ ] Refresh reloads saved order
-- [ ] Draft/private projects remain admin-orderable
-- [ ] Public Project Explorer follows saved order
+- [x] Save order persists sequential `sort_order`
+- [x] Refresh reloads saved order
+- [x] Draft/private projects remain admin-orderable
+- [x] Public Project Explorer follows saved order
 - [ ] Category filtering keeps the same saved order
 - [ ] Phase 3D homepage keeps Featured priority first, then manual order
 - [ ] Phase 3E tags/search/filter behavior remains unchanged
 - [ ] Ordering writes do not alter other project fields
-- [ ] No production `main` deployment occurs
+- [x] No production `main` deployment occurs
 
 Lock rule:
 After owner localhost verification, freeze Phase 3F ordering behavior. This completes the planned Phase 3 Portfolio Engine sequence.
