@@ -1419,7 +1419,7 @@ Phase 3 is complete. Phase 4 Case Studies may build on this locked Portfolio Eng
 
 **Phase 4 — Dynamic Case Studies**
 
-Status: **ACTIVE · IMPLEMENTATION IN PROGRESS**
+Status: **ACTIVE · IMPLEMENTATION COMPLETE · OWNER TEST PENDING**
 
 Purpose:
 Turn Portfolio Engine projects into full reusable case-study pages while preserving the locked Phase 3 project, media, homepage, metadata and ordering contracts.
