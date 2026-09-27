@@ -7,23 +7,31 @@ const BADGE_PRESETS = Object.freeze([
   "Concept"
 ]);
 
-const normalizeTags = (value) => {
+const cleanTag = (value) =>
+  String(value || "")
+    .trim()
+    .replace(/\s+/g, " ")
+    .slice(0, 50);
+
+const normalizeTags = (values) => {
+  const source = Array.isArray(values)
+    ? values
+    : String(values || "").split(",");
+
   const seen = new Set();
   const output = [];
 
-  String(value || "")
-    .split(",")
-    .map((item) => item.trim().replace(/\s+/g, " "))
-    .filter(Boolean)
-    .forEach((item) => {
-      const clean = item.slice(0, 50);
-      const key = clean.toLowerCase();
-      if (!key || seen.has(key)) return;
-      seen.add(key);
-      output.push(clean);
-    });
+  source.forEach((value) => {
+    const clean = cleanTag(value);
+    const key = clean.toLowerCase();
 
-  return output.slice(0, 20);
+    if (!clean || seen.has(key) || output.length >= 20) return;
+
+    seen.add(key);
+    output.push(clean);
+  });
+
+  return output;
 };
 
 export const initProjectMetadata = ({ supabaseClient, showCmsView }) => {
@@ -34,19 +42,32 @@ export const initProjectMetadata = ({ supabaseClient, showCmsView }) => {
   const count = document.querySelector("#projectMetadataCount");
   const form = document.querySelector("#projectMetadataForm");
   const projectSelect = document.querySelector("#projectMetadataProject");
-  const tagsInput = document.querySelector("#projectMetadataTags");
+  const tagEditor = document.querySelector("#projectMetadataTagEditor");
+  const tagList = document.querySelector("#projectMetadataTagList");
+  const tagInput = document.querySelector("#projectMetadataTagInput");
   const badgeOptions = document.querySelector("#projectMetadataBadgeOptions");
   const saveButton = document.querySelector("#projectMetadataSaveButton");
   const formMessage = document.querySelector("#projectMetadataFormMessage");
   const previewStatus = document.querySelector("#projectMetadataPreviewStatus");
   const preview = document.querySelector("#projectMetadataPreview");
 
-  if (!navButton || !form || !projectSelect || !badgeOptions || !saveButton) {
+  if (
+    !navButton ||
+    !form ||
+    !projectSelect ||
+    !tagEditor ||
+    !tagList ||
+    !tagInput ||
+    !badgeOptions ||
+    !saveButton
+  ) {
     return;
   }
 
   let projects = [];
   let categories = [];
+  let currentTags = [];
+  let busy = false;
 
   const setState = (value) => {
     if (state) state.textContent = value;
@@ -71,14 +92,57 @@ export const initProjectMetadata = ({ supabaseClient, showCmsView }) => {
       .map((input) => input.value)
       .filter((value) => BADGE_PRESETS.includes(value));
 
-  const setBusy = (busy) => {
-    refreshButton.disabled = busy;
-    projectSelect.disabled = busy;
-    tagsInput.disabled = busy || !projectSelect.value;
-    badgeOptions.querySelectorAll("input").forEach((input) => {
-      input.disabled = busy || !projectSelect.value;
+  const renderTagEditor = () => {
+    tagList.replaceChildren();
+
+    currentTags.forEach((tag) => {
+      const chip = document.createElement("span");
+      chip.className = "metadata-tag-chip";
+
+      const label = document.createElement("span");
+      label.textContent = tag;
+
+      const remove = document.createElement("button");
+      remove.type = "button";
+      remove.textContent = "×";
+      remove.setAttribute("aria-label", "Remove tag " + tag);
+      remove.disabled = busy || !projectSelect.value;
+
+      remove.addEventListener("click", () => {
+        currentTags = currentTags.filter(
+          (item) => item.toLowerCase() !== tag.toLowerCase()
+        );
+        setFormMessage("Tag removed. Save metadata when ready.");
+        renderTagEditor();
+        renderPreview();
+        tagInput.focus();
+      });
+
+      chip.append(label, remove);
+      tagList.appendChild(chip);
     });
-    saveButton.disabled = busy || !projectSelect.value;
+
+    tagEditor.classList.toggle("has-tags", currentTags.length > 0);
+  };
+
+  const setBusy = (isBusy) => {
+    busy = isBusy;
+
+    refreshButton.disabled = isBusy;
+    projectSelect.disabled = isBusy;
+
+    const noProject = !projectSelect.value;
+    tagInput.disabled = isBusy || noProject;
+
+    badgeOptions.querySelectorAll("input").forEach((input) => {
+      input.disabled = isBusy || noProject;
+    });
+
+    saveButton.disabled = isBusy || noProject;
+
+    tagList.querySelectorAll("button").forEach((button) => {
+      button.disabled = isBusy || noProject;
+    });
   };
 
   const renderPreview = () => {
@@ -94,7 +158,6 @@ export const initProjectMetadata = ({ supabaseClient, showCmsView }) => {
       return;
     }
 
-    const tags = normalizeTags(tagsInput.value);
     const badges = getSelectedBadges();
 
     previewStatus.textContent =
@@ -111,8 +174,10 @@ export const initProjectMetadata = ({ supabaseClient, showCmsView }) => {
     const copy = document.createElement("div");
     const title = document.createElement("strong");
     title.textContent = project.title;
+
     const meta = document.createElement("small");
     meta.textContent = categoryName(project.category_id) + " · " + project.slug;
+
     copy.append(title, meta);
     top.appendChild(copy);
 
@@ -135,8 +200,8 @@ export const initProjectMetadata = ({ supabaseClient, showCmsView }) => {
     const tagRow = document.createElement("div");
     tagRow.className = "project-metadata-chip-row";
 
-    if (tags.length) {
-      tags.forEach((tag) => {
+    if (currentTags.length) {
+      currentTags.forEach((tag) => {
         const chip = document.createElement("span");
         chip.textContent = tag;
         tagRow.appendChild(chip);
@@ -152,21 +217,59 @@ export const initProjectMetadata = ({ supabaseClient, showCmsView }) => {
     preview.appendChild(card);
   };
 
-  const populateProjectForm = () => {
-    const project = getSelectedProject();
+  const addTags = (rawValue) => {
+    const incoming = normalizeTags(String(rawValue || "").split(","));
 
-    if (!project) {
-      tagsInput.value = "";
-      badgeOptions.querySelectorAll("input").forEach((input) => {
-        input.checked = false;
-      });
-      saveButton.disabled = true;
-      setFormMessage("");
-      renderPreview();
+    if (!incoming.length) {
+      tagInput.value = "";
       return;
     }
 
-    tagsInput.value = Array.isArray(project.tags) ? project.tags.join(", ") : "";
+    const before = currentTags.length;
+    const existing = new Set(currentTags.map((tag) => tag.toLowerCase()));
+
+    incoming.forEach((tag) => {
+      const key = tag.toLowerCase();
+      if (existing.has(key) || currentTags.length >= 20) return;
+      existing.add(key);
+      currentTags.push(tag);
+    });
+
+    tagInput.value = "";
+
+    if (currentTags.length === before) {
+      setFormMessage(
+        currentTags.length >= 20
+          ? "Maximum 20 tags reached."
+          : "That tag already exists."
+      );
+    } else {
+      setFormMessage("Tag added. Save metadata when ready.");
+    }
+
+    renderTagEditor();
+    renderPreview();
+    setBusy(false);
+  };
+
+  const populateProjectForm = () => {
+    const project = getSelectedProject();
+    tagInput.value = "";
+
+    if (!project) {
+      currentTags = [];
+      badgeOptions.querySelectorAll("input").forEach((input) => {
+        input.checked = false;
+      });
+
+      setFormMessage("");
+      renderTagEditor();
+      renderPreview();
+      setBusy(false);
+      return;
+    }
+
+    currentTags = normalizeTags(project.tags || []);
 
     const projectBadges = new Set(
       Array.isArray(project.badges) ? project.badges : []
@@ -176,14 +279,10 @@ export const initProjectMetadata = ({ supabaseClient, showCmsView }) => {
       input.checked = projectBadges.has(input.value);
     });
 
-    saveButton.disabled = false;
-    tagsInput.disabled = false;
-    badgeOptions.querySelectorAll("input").forEach((input) => {
-      input.disabled = false;
-    });
-
     setFormMessage("Editing metadata for " + project.title + ".");
+    renderTagEditor();
     renderPreview();
+    setBusy(false);
   };
 
   const renderProjectSelect = () => {
@@ -250,9 +349,7 @@ export const initProjectMetadata = ({ supabaseClient, showCmsView }) => {
       setState("Metadata ready");
       setMessage(
         projects.length +
-          (projects.length === 1
-            ? " project loaded."
-            : " projects loaded.")
+          (projects.length === 1 ? " project loaded." : " projects loaded.")
       );
 
       return true;
@@ -263,15 +360,59 @@ export const initProjectMetadata = ({ supabaseClient, showCmsView }) => {
       return false;
     } finally {
       setBusy(false);
+      renderTagEditor();
     }
   };
 
   projectSelect.addEventListener("change", populateProjectForm);
-  tagsInput.addEventListener("input", renderPreview);
-  badgeOptions.addEventListener("change", renderPreview);
+
+  tagEditor.addEventListener("click", (event) => {
+    if (event.target === tagEditor || event.target === tagList) {
+      tagInput.focus();
+    }
+  });
+
+  tagInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" || event.key === ",") {
+      event.preventDefault();
+      addTags(tagInput.value);
+      return;
+    }
+
+    if (
+      event.key === "Backspace" &&
+      !tagInput.value &&
+      currentTags.length
+    ) {
+      const removed = currentTags.pop();
+      setFormMessage("Removed " + removed + ". Save metadata when ready.");
+      renderTagEditor();
+      renderPreview();
+    }
+  });
+
+  tagInput.addEventListener("blur", () => {
+    if (tagInput.value.trim()) {
+      addTags(tagInput.value);
+    }
+  });
+
+  tagInput.addEventListener("paste", (event) => {
+    const pasted = event.clipboardData?.getData("text") || "";
+    if (!pasted.includes(",")) return;
+
+    event.preventDefault();
+    addTags(pasted);
+  });
+
+  badgeOptions.addEventListener("change", () => {
+    setFormMessage("Badge selection changed. Save metadata when ready.");
+    renderPreview();
+  });
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
+
     const project = getSelectedProject();
 
     if (!project) {
@@ -279,7 +420,11 @@ export const initProjectMetadata = ({ supabaseClient, showCmsView }) => {
       return;
     }
 
-    const tags = normalizeTags(tagsInput.value);
+    if (tagInput.value.trim()) {
+      addTags(tagInput.value);
+    }
+
+    const tags = normalizeTags(currentTags);
     const badges = getSelectedBadges();
 
     setBusy(true);
@@ -296,12 +441,21 @@ export const initProjectMetadata = ({ supabaseClient, showCmsView }) => {
 
       if (result.error) throw result.error;
 
-      project.tags = result.data.tags || [];
-      project.badges = result.data.badges || [];
+      project.tags = normalizeTags(result.data.tags || []);
+      project.badges = Array.isArray(result.data.badges)
+        ? result.data.badges
+        : [];
       project.updated_at = result.data.updated_at;
 
-      tagsInput.value = project.tags.join(", ");
+      currentTags = [...project.tags];
+
+      const savedBadges = new Set(project.badges);
+      badgeOptions.querySelectorAll("input").forEach((input) => {
+        input.checked = savedBadges.has(input.value);
+      });
+
       setFormMessage("Project tags and badges saved.");
+      renderTagEditor();
       renderPreview();
     } catch (error) {
       console.error("Project metadata save failed:", error);
@@ -309,6 +463,7 @@ export const initProjectMetadata = ({ supabaseClient, showCmsView }) => {
     } finally {
       saveButton.textContent = "Save metadata";
       setBusy(false);
+      renderTagEditor();
     }
   });
 
@@ -319,6 +474,7 @@ export const initProjectMetadata = ({ supabaseClient, showCmsView }) => {
     await loadData();
   });
 
-  setBusy(false);
+  renderTagEditor();
   renderPreview();
+  setBusy(false);
 };
