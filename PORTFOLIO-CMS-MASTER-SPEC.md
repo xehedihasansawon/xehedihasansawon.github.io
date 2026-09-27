@@ -1234,6 +1234,60 @@ Acceptance checklist:
 Lock rule:
 After owner verification, freeze the Phase 3C category/project CRUD and draft/publish behavior. Later modules may add featured selection, tags/badges/search and ordering without weakening current RLS or draft/private protections.
 
+## Active module
+
+**Phase 3D — Featured Homepage / Category Selection**
+
+Status: **ACTIVE · IMPLEMENTATION COMPLETE · OWNER TEST PENDING**
+
+Purpose:
+Connect the locked Phase 3C Portfolio Engine to the locked Phase 2 Real Life Projects homepage design without changing the public visual system.
+
+Scope:
+- Keep Phase 2A–2K and Phase 3A–3C locked
+- No SQL migration required
+- Reuse existing `portfolio_projects.show_on_homepage`, `portfolio_projects.is_featured` and `category_id`
+- Add a dedicated Phase 3D Homepage Selection admin view
+- Load Portfolio Engine categories and projects for admin selection
+- Category filter is an admin selection aid only; category editing remains Phase 3C
+- Homepage eligibility requires: published + public + optimized cover
+- Allow at most 4 Portfolio Engine projects on the homepage
+- Allow one selected project to receive Featured priority
+- Turning off homepage selection also clears Featured priority for that project
+- Draft, private or coverless projects cannot be newly selected for the public homepage
+- If a previously selected project becomes ineligible, admin may remove the stale selection
+- Public homepage queries only anonymous-readable published public projects through locked Phase 3A RLS
+- Public Real Life Projects keeps the locked Phase 2 card classes/layout
+- Selected Portfolio Engine projects replace the static Real Life Projects cards only when at least one valid selected project exists
+- If no valid Portfolio Engine selection exists, existing Phase 2 static cards remain the safe fallback
+- Phase 2 Real Life Projects heading remains managed by its existing locked CMS content
+- Tags, badges, search and smart filters remain deferred to Phase 3E
+- Manual drag/drop ordering remains deferred to Phase 3F
+- Until Phase 3F, Featured priority is shown first, then newest published projects
+- Keep production `main` untouched
+
+Acceptance checklist:
+- [ ] 03D Homepage navigation opens the Phase 3D manager
+- [ ] Existing categories/projects load
+- [ ] Category filter works
+- [ ] Draft project cannot be newly selected
+- [ ] Private project cannot be newly selected
+- [ ] Project without cover cannot be newly selected
+- [ ] Published public project with optimized cover can be selected
+- [ ] Maximum 4 homepage projects is enforced
+- [ ] Featured priority can be assigned to one selected project
+- [ ] Homepage selection saves to `show_on_homepage` / `is_featured`
+- [ ] Saved selection reloads correctly
+- [ ] Public homepage renders selected Portfolio Engine project(s)
+- [ ] Category name, title, summary, cover and action data render
+- [ ] Empty Portfolio Engine selection preserves Phase 2 static fallback
+- [ ] Locked Phase 2 Real Life Projects layout/design remains unchanged
+- [ ] Phase 3C CRUD/draft/publish behavior remains unchanged
+- [ ] No production `main` deployment occurs
+
+Lock rule:
+After owner localhost verification, freeze Phase 3D homepage/category-selection behavior. Phase 3E may add metadata/filter/search capabilities and Phase 3F may add manual ordering without changing the Phase 3D eligibility, fallback or RLS contract.
+
 ## Planned Phase 3 sequence
 
 - **3A — Portfolio Data Foundation**
