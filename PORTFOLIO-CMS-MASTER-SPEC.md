@@ -1328,24 +1328,24 @@ Scope:
 - Keep production `main` untouched
 
 Acceptance checklist:
-- [ ] 03E Tags & Search navigation opens the manager
-- [ ] Existing projects/categories load
-- [ ] Tags can be added and removed
-- [ ] Duplicate/empty tags are prevented
-- [ ] Badge presets can be assigned and removed
-- [ ] Metadata saves to `tags` / `badges`
-- [ ] Saved metadata reloads correctly
+- [x] 03E Tags & Search navigation opens the manager
+- [x] Existing projects/categories load
+- [x] Tags can be added and removed
+- [x] Duplicate/empty tags are prevented
+- [x] Badge presets can be assigned and removed
+- [x] Metadata saves to `tags` / `badges`
+- [x] Saved metadata reloads correctly
 - [ ] Draft/private metadata remains admin-only
-- [ ] Public Project Explorer loads published public projects only
-- [ ] Keyword search works
-- [ ] Category filter works
+- [x] Public Project Explorer loads published public projects only
+- [x] Keyword search works
+- [x] Category filter works
 - [x] Tag filter works
 - [x] Badge filter works
 - [x] Combined filters work
-- [ ] Empty result state works
-- [ ] Locked Real Life Projects 2×2 section remains unchanged
-- [ ] Phase 3D homepage selection remains unchanged
-- [ ] No production `main` deployment occurs
+- [x] Empty result state works
+- [x] Locked Real Life Projects 2×2 section remains unchanged
+- [x] Phase 3D homepage selection remains unchanged
+- [x] No production `main` deployment occurs
 
 Lock rule:
 After owner localhost verification, freeze Phase 3E metadata/search/filter behavior. Phase 3F may add manual project ordering without changing Phase 3E metadata or filter semantics.
