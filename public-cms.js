@@ -66,6 +66,59 @@ const isSafeImageSource = (value) => {
   }
 };
 
+let publishedCaseStudyProjectIdsPromise = null;
+
+const loadPublishedCaseStudyProjectIds = () => {
+  if (publishedCaseStudyProjectIdsPromise) {
+    return publishedCaseStudyProjectIdsPromise;
+  }
+
+  publishedCaseStudyProjectIdsPromise = (async () => {
+    try {
+      const endpoint = new URL(
+        "/rest/v1/portfolio_case_studies",
+        ADMIN_CONFIG.supabaseUrl
+      );
+      endpoint.searchParams.set("select", "project_id");
+      endpoint.searchParams.set("is_published", "eq.true");
+
+      const response = await fetch(endpoint, {
+        headers: {
+          apikey: ADMIN_CONFIG.supabaseAnonKey,
+          Accept: "application/json"
+        }
+      });
+
+      if (!response.ok) return new Set();
+
+      const rows = await response.json();
+      return new Set(
+        (Array.isArray(rows) ? rows : [])
+          .map((item) => item?.project_id)
+          .filter(Boolean)
+      );
+    } catch {
+      return new Set();
+    }
+  })();
+
+  return publishedCaseStudyProjectIdsPromise;
+};
+
+const getProjectCaseHref = (project, caseStudyProjectIds) => {
+  if (
+    project?.id &&
+    project?.slug &&
+    caseStudyProjectIds?.has(project.id)
+  ) {
+    return "project.html?slug=" + encodeURIComponent(project.slug);
+  }
+
+  return isSafeHref(project?.action_href)
+    ? String(project.action_href).trim()
+    : "";
+};
+
 const applyText = (id, value) => {
   if (typeof value !== "string" || !value.trim()) return;
   const element = byId(id);
@@ -252,7 +305,11 @@ const fallbackMatchesEngineProject = (card, project) => {
   return false;
 };
 
-const renderPortfolioEngineHomepageProjects = (projects, categories) => {
+const renderPortfolioEngineHomepageProjects = (
+  projects,
+  categories,
+  caseStudyProjectIds = new Set()
+) => {
   if (!Array.isArray(projects) || !projects.length) return;
 
   const grid = document.querySelector("#work .real-projects-grid");
@@ -280,13 +337,14 @@ const renderPortfolioEngineHomepageProjects = (projects, categories) => {
   const selected = validProjects.slice(0, 4);
 
   selected.forEach((project) => {
-    const hasLink = isSafeHref(project.action_href);
+    const projectHref = getProjectCaseHref(project, caseStudyProjectIds);
+    const hasLink = isSafeHref(projectHref);
     const card = document.createElement(hasLink ? "a" : "article");
     card.className = "real-project-card real-project-split-card";
     card.dataset.engineProject = project.slug || project.id;
 
     if (hasLink) {
-      card.setAttribute("href", project.action_href.trim());
+      card.setAttribute("href", projectHref);
     }
 
     const thumb = document.createElement("div");
@@ -396,12 +454,17 @@ const loadPortfolioEngineHomepageProjects = async () => {
       );
     }
 
-    const [projects, categories] = await Promise.all([
+    const [projects, categories, caseStudyProjectIds] = await Promise.all([
       projectResponse.json(),
-      categoryResponse.json()
+      categoryResponse.json(),
+      loadPublishedCaseStudyProjectIds()
     ]);
 
-    renderPortfolioEngineHomepageProjects(projects, categories);
+    renderPortfolioEngineHomepageProjects(
+      projects,
+      categories,
+      caseStudyProjectIds
+    );
   } catch (error) {
     // Existing Phase 2 cards remain the safe public fallback.
     console.warn(
@@ -442,6 +505,7 @@ const initProjectExplorer = () => {
   let projects = [];
   let categories = [];
   let categoryMap = new Map();
+  let caseStudyProjectIds = new Set();
 
   const normalize = (value) => String(value || "").trim().toLowerCase();
 
@@ -482,12 +546,13 @@ const initProjectExplorer = () => {
   };
 
   const renderCard = (project) => {
-    const hasLink = isSafeHref(project.action_href);
+    const projectHref = getProjectCaseHref(project, caseStudyProjectIds);
+    const hasLink = isSafeHref(projectHref);
     const card = document.createElement(hasLink ? "a" : "article");
     card.className = "project-explorer-card";
 
     if (hasLink) {
-      card.href = project.action_href.trim();
+      card.href = projectHref;
     }
 
     const visual = document.createElement("div");
@@ -667,9 +732,10 @@ const initProjectExplorer = () => {
         );
       }
 
-      [projects, categories] = await Promise.all([
+      [projects, categories, caseStudyProjectIds] = await Promise.all([
         projectResponse.json(),
-        categoryResponse.json()
+        categoryResponse.json(),
+        loadPublishedCaseStudyProjectIds()
       ]);
 
       categoryMap = new Map(
