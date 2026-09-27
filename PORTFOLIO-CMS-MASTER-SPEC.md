@@ -1238,7 +1238,7 @@ After owner verification, freeze the Phase 3C category/project CRUD and draft/pu
 
 **Phase 3D — Featured Homepage / Category Selection**
 
-Status: **ACTIVE · IMPLEMENTATION COMPLETE · OWNER TEST PENDING**
+Status: **LOCKED / DONE**
 
 Purpose:
 Connect the locked Phase 3C Portfolio Engine to the locked Phase 2 Real Life Projects homepage design without changing the public visual system.
@@ -1276,7 +1276,7 @@ Acceptance checklist:
 - [x] Private project cannot be newly selected
 - [x] Project without cover cannot be newly selected
 - [x] Published public project with optimized cover can be selected
-- [ ] Maximum 4 homepage projects is enforced
+- [x] Maximum 4 homepage projects is enforced *(implementation-verified; owner approved move to Phase 3E)*
 - [x] Featured priority can be assigned to one selected project
 - [x] Homepage selection saves to `show_on_homepage` / `is_featured`
 - [x] Saved selection reloads correctly
@@ -1288,8 +1288,67 @@ Acceptance checklist:
 - [x] Phase 3C CRUD/draft/publish behavior remains unchanged
 - [x] No production `main` deployment occurs
 
+Owner approval: 2026-09-27
+
+Phase 3D is locked. Future phases may consume homepage selection flags but must not change the established eligibility, max-4, featured-priority, fallback or RLS behavior unless a verified bug/security issue requires it.
+
 Lock rule:
-After owner localhost verification, freeze Phase 3D homepage/category-selection behavior. Phase 3E may add metadata/filter/search capabilities and Phase 3F may add manual ordering without changing the Phase 3D eligibility, fallback or RLS contract.
+Freeze Phase 3D homepage/category-selection behavior. Phase 3E may add metadata/filter/search capabilities and Phase 3F may add manual ordering without changing the Phase 3D eligibility, fallback or RLS contract.
+
+## Active module
+
+**Phase 3E — Tags, Badges, Smart Filters & Search**
+
+Status: **ACTIVE · IMPLEMENTATION IN PROGRESS**
+
+Purpose:
+Add structured project metadata and public discovery without changing locked Phase 3C CRUD, Phase 3D homepage selection or Phase 2 visual cards.
+
+Scope:
+- Keep Phase 2A–2K and Phase 3A–3D locked
+- No SQL migration required
+- Reuse existing `portfolio_projects.tags text[]` and `portfolio_projects.badges text[]`
+- Add dedicated 03E Tags & Search admin view
+- Admin can assign/remove normalized tags per project
+- Admin can assign/remove badges per project
+- Badge presets: Featured, New, Live, Private, Case Study, Concept
+- Prevent duplicate/empty tags and badges
+- Keep Phase 3D `is_featured` flag independent from display badge metadata
+- Public discovery reads only published + public projects through locked Phase 3A RLS
+- Add public Project Explorer with keyword search across title, summary, category and tags
+- Add category filter
+- Add tag filter
+- Add badge filter
+- Smart filters combine together using AND between filter groups
+- Search remains case-insensitive
+- Empty results show a branded empty state
+- Search/filter controls do not alter locked Real Life Projects 2×2 card layout
+- Phase 3D homepage selection behavior remains unchanged
+- Project ordering remains deferred to Phase 3F
+- Keep production `main` untouched
+
+Acceptance checklist:
+- [ ] 03E Tags & Search navigation opens the manager
+- [ ] Existing projects/categories load
+- [ ] Tags can be added and removed
+- [ ] Duplicate/empty tags are prevented
+- [ ] Badge presets can be assigned and removed
+- [ ] Metadata saves to `tags` / `badges`
+- [ ] Saved metadata reloads correctly
+- [ ] Draft/private metadata remains admin-only
+- [ ] Public Project Explorer loads published public projects only
+- [ ] Keyword search works
+- [ ] Category filter works
+- [ ] Tag filter works
+- [ ] Badge filter works
+- [ ] Combined filters work
+- [ ] Empty result state works
+- [ ] Locked Real Life Projects 2×2 section remains unchanged
+- [ ] Phase 3D homepage selection remains unchanged
+- [ ] No production `main` deployment occurs
+
+Lock rule:
+After owner localhost verification, freeze Phase 3E metadata/search/filter behavior. Phase 3F may add manual project ordering without changing Phase 3E metadata or filter semantics.
 
 ## Planned Phase 3 sequence
 
