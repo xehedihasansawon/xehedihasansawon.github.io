@@ -1335,7 +1335,7 @@ Acceptance checklist:
 - [x] Badge presets can be assigned and removed
 - [x] Metadata saves to `tags` / `badges`
 - [x] Saved metadata reloads correctly
-- [ ] Draft/private metadata remains admin-only
+- [x] Draft/private metadata remains admin-only
 - [x] Public Project Explorer loads published public projects only
 - [x] Keyword search works
 - [x] Category filter works
