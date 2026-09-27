@@ -6514,3 +6514,109 @@ html{
     max-height:260px;
   }
 }
+
+
+/* Phase 4 · Dynamic Case Study */
+.case-dynamic-state {
+  min-height: 58vh;
+  display: grid;
+  align-items: center;
+}
+.case-dynamic-state .shell {
+  display: grid;
+  gap: 14px;
+}
+.case-dynamic-state h1 {
+  margin: 0;
+  max-width: 760px;
+  color: #f2f7f4;
+  font-family: "Bebas Neue",sans-serif;
+  font-size: clamp(46px,7vw,88px);
+  line-height: .9;
+}
+.case-dynamic-state > .shell > p:not(.case-eyebrow) {
+  max-width: 640px;
+  margin: 0;
+  color: #b7c8c0;
+  line-height: 1.65;
+}
+.dynamic-case-no-image {
+  width: 100%;
+  min-height: 360px;
+  display: grid;
+  place-items: center;
+  border: 1px dashed rgba(218,241,222,.16);
+  color: rgba(218,241,222,.22);
+  font-family: "Bebas Neue",sans-serif;
+  font-size: clamp(42px,6vw,90px);
+  letter-spacing: .08em;
+}
+.dynamic-case-media-section .case-section-head,
+.dynamic-case-gallery-section .case-section-head {
+  margin-bottom: 28px;
+}
+.dynamic-case-single-image {
+  display: grid;
+}
+.dynamic-case-single-image .case-image-button {
+  overflow: hidden;
+  border-radius: 16px;
+}
+.dynamic-case-single-image.wide .case-image-button img {
+  width: 100%;
+  max-height: 780px;
+  object-fit: contain;
+  background: rgba(255,255,255,.015);
+}
+.dynamic-case-single-image.portrait {
+  justify-items: center;
+}
+.dynamic-case-single-image.portrait .case-image-button {
+  width: min(520px,100%);
+}
+.dynamic-case-single-image.portrait .case-image-button img {
+  width: 100%;
+  max-height: 900px;
+  object-fit: contain;
+  background: rgba(255,255,255,.015);
+}
+.dynamic-case-gallery {
+  display: grid;
+  grid-template-columns: repeat(2,minmax(0,1fr));
+  gap: 14px;
+}
+.dynamic-case-gallery .case-image-button {
+  min-height: 280px;
+  overflow: hidden;
+  border-radius: 14px;
+  background: rgba(255,255,255,.015);
+}
+.dynamic-case-gallery .case-image-button img {
+  width: 100%;
+  height: 100%;
+  min-height: 280px;
+  max-height: 620px;
+  object-fit: contain;
+}
+.dynamic-case-role-grid {
+  margin-top: 24px;
+}
+.dynamic-case-cta {
+  background: rgba(255,255,255,.012);
+}
+.dynamic-case-study-page .case-hero-visual img {
+  object-fit: contain;
+  background: rgba(255,255,255,.015);
+}
+@media (max-width: 760px) {
+  .dynamic-case-gallery {
+    grid-template-columns: 1fr;
+  }
+  .dynamic-case-gallery .case-image-button,
+  .dynamic-case-gallery .case-image-button img {
+    min-height: 220px;
+  }
+  .dynamic-case-no-image {
+    min-height: 240px;
+  }
+}
