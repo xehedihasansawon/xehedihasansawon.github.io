@@ -3126,3 +3126,93 @@ button {
     flex-direction: column;
   }
 }
+
+
+/* Phase 3E · Project metadata */
+.metadata-field-label {
+  display: block;
+  margin-bottom: 8px;
+  color: #dfe7e3;
+  font-size: 0.68rem;
+  font-weight: 800;
+}
+.metadata-badge-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.metadata-badge-options label {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: #071611;
+  color: #dfe7e3;
+  font-size: 0.63rem;
+  font-weight: 800;
+}
+.metadata-badge-options input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--red);
+}
+.project-metadata-preview {
+  display: grid;
+}
+.project-metadata-preview-card {
+  padding: 15px;
+  display: grid;
+  gap: 12px;
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  background: #071611;
+}
+.project-metadata-preview-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+.project-metadata-preview-top > div {
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+}
+.project-metadata-preview-top strong {
+  font-size: 0.82rem;
+}
+.project-metadata-preview-top small {
+  color: var(--red);
+  font-size: 0.6rem;
+  font-weight: 800;
+}
+.project-metadata-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+.project-metadata-chip-row span {
+  padding: 6px 8px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255,255,255,0.025);
+  color: #cfd9d4;
+  font-size: 0.59rem;
+  font-weight: 800;
+}
+.project-metadata-chip-row.badges span {
+  border-color: rgba(226,29,42,0.28);
+  color: #f2b0b4;
+  background: rgba(226,29,42,0.055);
+}
+.project-metadata-chip-row span.muted-chip {
+  color: var(--muted-2);
+  border-style: dashed;
+  background: transparent;
+}
+@media (max-width: 650px) {
+  .project-metadata-preview-top {
+    flex-direction: column;
+  }
+}
