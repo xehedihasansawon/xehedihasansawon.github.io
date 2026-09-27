@@ -2507,7 +2507,7 @@
             <div>
               <p class="status-pill success">PHASE 3F</p>
               <h3>Drag-and-Drop Project Ordering</h3>
-              <p>Control global and per-category Portfolio Engine order without changing project content, metadata, publication or homepage eligibility.</p>
+              <p>Set one simple Portfolio Engine project order without changing project content, metadata, publication or homepage eligibility.</p>
             </div>
             <div class="editor-state">
               <span>DATABASE</span>
@@ -2529,35 +2529,21 @@
 
             <div class="portfolio-manager-note">
               <strong>Phase 3F · Drag-and-Drop Project Ordering</strong>
-              <span>Drag rows or use Move Up / Move Down. Changes remain local until Save order. Global order controls default discovery; category order controls discovery inside a selected category.</span>
+              <span>Drag rows or use Move Up / Move Down, then press Save order. The same saved order is used everywhere projects are listed.</span>
             </div>
           </section>
 
           <section class="editor-card">
             <div class="editor-section-title">
               <div>
-                <p class="eyebrow">ORDER MODE</p>
+                <p class="eyebrow">PROJECT ORDER</p>
                 <h3>Arrange projects</h3>
               </div>
               <span id="projectOrderingCount">0 projects</span>
             </div>
 
-            <div class="project-ordering-toolbar">
-              <label>
-                <span>Mode</span>
-                <select id="projectOrderingMode">
-                  <option value="global">Global order</option>
-                  <option value="category">Category order</option>
-                </select>
-              </label>
-
-              <label>
-                <span>Category</span>
-                <select id="projectOrderingCategory" disabled>
-                  <option value="">Select category</option>
-                </select>
-              </label>
-
+            <div class="project-ordering-toolbar project-ordering-toolbar-simple">
+              <p>Drag projects into the order you want, then save.</p>
               <button id="projectOrderingSaveButton" type="button" disabled>Save order</button>
             </div>
 
