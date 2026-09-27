@@ -227,6 +227,12 @@
             <small>Locked</small>
           </button>
 
+          <button id="homepageSelectionNavButton" class="nav-item" type="button">
+            <span class="nav-index">03D</span>
+            <span>Homepage</span>
+            <small>Active</small>
+          </button>
+
           <button class="nav-item" type="button" disabled>
             <span class="nav-index">04</span>
             <span>Case Studies</span>
@@ -2324,12 +2330,79 @@
           </section>
 
         </div>
+
+        <div id="homepageSelectionEditor" class="editor-content" hidden>
+          <section class="editor-heading-card">
+            <div>
+              <p class="status-pill success">PHASE 3D</p>
+              <h3>Featured Homepage / Category Selection</h3>
+              <p>Select which published Portfolio Engine projects appear inside the locked Real Life Projects homepage design.</p>
+            </div>
+            <div class="editor-state">
+              <span>DATABASE</span>
+              <strong>Phase 3A project flags</strong>
+              <b id="homepageSelectionState">Loading…</b>
+            </div>
+          </section>
+
+          <section class="editor-card">
+            <div class="editor-section-title">
+              <div>
+                <p class="eyebrow">HOMEPAGE STATUS</p>
+                <h3>Selected Portfolio Engine projects</h3>
+              </div>
+              <button id="homepageSelectionRefreshButton" class="secondary-button" type="button">Refresh data</button>
+            </div>
+
+            <p id="homepageSelectionMessage" class="form-message" role="status" aria-live="polite"></p>
+
+            <div class="portfolio-manager-note">
+              <strong>Phase 3D · Featured Homepage / Category Selection</strong>
+              <span>Choose up to 4 published public projects with optimized covers. The Phase 2 card design stays unchanged. Ordering is deferred to Phase 3F; tags and search remain deferred to Phase 3E.</span>
+            </div>
+          </section>
+
+          <section class="editor-card">
+            <div class="editor-section-title">
+              <div>
+                <p class="eyebrow">PROJECT SELECTION</p>
+                <h3>Choose homepage projects</h3>
+              </div>
+              <span id="homepageSelectionCount">0 / 4 selected</span>
+            </div>
+
+            <div class="homepage-selection-toolbar">
+              <label>
+                <span>Filter by category</span>
+                <select id="homepageSelectionCategoryFilter">
+                  <option value="">All categories</option>
+                </select>
+              </label>
+
+              <button id="homepageSelectionSaveButton" type="button">Save homepage selection</button>
+            </div>
+
+            <div id="homepageSelectionList" class="homepage-selection-list"></div>
+          </section>
+
+          <section class="editor-card">
+            <div class="editor-section-title">
+              <div>
+                <p class="eyebrow">CURRENT HOMEPAGE SET</p>
+                <h3>Selected projects</h3>
+              </div>
+              <span>Maximum 4</span>
+            </div>
+
+            <div id="homepageSelectionPreview" class="homepage-selection-preview"></div>
+          </section>
+        </div>
       </div>
     </section>
 
     <footer id="publicAdminFooter" class="admin-footer">
       <span>MEHEDI PORTFOLIO</span>
-      <span>Secure Admin · Phase 3C</span>
+      <span>Secure Admin · Phase 3D</span>
     </footer>
   </main>
 
