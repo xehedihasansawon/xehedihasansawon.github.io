@@ -2364,7 +2364,7 @@
 
             <div class="portfolio-manager-note">
               <strong>Phase 3D · Featured Homepage / Category Selection</strong>
-              <span>Choose up to 4 published public projects with optimized covers. The Phase 2 card design stays unchanged. Ordering is deferred to Phase 3F; tags and search remain deferred to Phase 3E.</span>
+              <span>Choose up to 4 published public projects with optimized covers. The Phase 2 card design stays unchanged. Phase 3D is locked; metadata/search now lives separately in Phase 3E.</span>
             </div>
           </section>
 
@@ -2401,6 +2401,95 @@
             </div>
 
             <div id="homepageSelectionPreview" class="homepage-selection-preview"></div>
+          </section>
+        </div>
+
+        <div id="projectMetadataEditor" class="editor-content" hidden>
+          <section class="editor-heading-card">
+            <div>
+              <p class="status-pill success">PHASE 3E</p>
+              <h3>Tags, Badges, Smart Filters & Search</h3>
+              <p>Add structured project metadata and power the public Project Explorer without changing locked homepage selection or project CRUD.</p>
+            </div>
+            <div class="editor-state">
+              <span>DATABASE</span>
+              <strong>Phase 3A tags + badges</strong>
+              <b id="projectMetadataState">Loading…</b>
+            </div>
+          </section>
+
+          <section class="editor-card">
+            <div class="editor-section-title">
+              <div>
+                <p class="eyebrow">METADATA STATUS</p>
+                <h3>Portfolio project metadata</h3>
+              </div>
+              <button id="projectMetadataRefreshButton" class="secondary-button" type="button">Refresh data</button>
+            </div>
+
+            <p id="projectMetadataMessage" class="form-message" role="status" aria-live="polite"></p>
+
+            <div class="portfolio-manager-note">
+              <strong>Phase 3E · Tags, Badges, Smart Filters & Search</strong>
+              <span>Tags and display badges are project metadata. They do not change Phase 3D Featured priority, homepage selection, publish state or ordering.</span>
+            </div>
+          </section>
+
+          <section class="editor-card">
+            <div class="editor-section-title">
+              <div>
+                <p class="eyebrow">PROJECT METADATA</p>
+                <h3>Edit tags & badges</h3>
+              </div>
+              <span id="projectMetadataCount">0 projects</span>
+            </div>
+
+            <form id="projectMetadataForm" class="cms-editor-form manager-form" novalidate>
+              <label>
+                <span>Project</span>
+                <select id="projectMetadataProject">
+                  <option value="">Select a project</option>
+                </select>
+              </label>
+
+              <label>
+                <span>Tags</span>
+                <input id="projectMetadataTags" type="text" maxlength="500" placeholder="sports branding, social media, jersey design">
+                <small>Separate tags with commas. Empty and duplicate tags are removed automatically.</small>
+              </label>
+
+              <div>
+                <span class="metadata-field-label">Badges</span>
+                <div id="projectMetadataBadgeOptions" class="metadata-badge-options">
+                  <label><input type="checkbox" value="Featured"><span>Featured</span></label>
+                  <label><input type="checkbox" value="New"><span>New</span></label>
+                  <label><input type="checkbox" value="Live"><span>Live</span></label>
+                  <label><input type="checkbox" value="Private"><span>Private</span></label>
+                  <label><input type="checkbox" value="Case Study"><span>Case Study</span></label>
+                  <label><input type="checkbox" value="Concept"><span>Concept</span></label>
+                </div>
+              </div>
+
+              <div class="manager-form-actions">
+                <button id="projectMetadataSaveButton" type="submit" disabled>Save metadata</button>
+              </div>
+
+              <p id="projectMetadataFormMessage" class="form-message" role="status" aria-live="polite"></p>
+            </form>
+          </section>
+
+          <section class="editor-card">
+            <div class="editor-section-title">
+              <div>
+                <p class="eyebrow">METADATA PREVIEW</p>
+                <h3>Current project metadata</h3>
+              </div>
+              <span id="projectMetadataPreviewStatus">No project selected</span>
+            </div>
+
+            <div id="projectMetadataPreview" class="project-metadata-preview">
+              <div class="manager-empty">Select a project to preview its tags and badges.</div>
+            </div>
           </section>
         </div>
       </div>
