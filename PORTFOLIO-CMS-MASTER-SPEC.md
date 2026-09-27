@@ -1361,21 +1361,19 @@ Freeze Phase 3E metadata/search/filter behavior. Phase 3F may add manual project
 Status: **ACTIVE · IMPLEMENTATION COMPLETE · OWNER TEST PENDING**
 
 Purpose:
-Add deliberate manual ordering to Portfolio Engine projects while preserving locked Phase 3C CRUD, Phase 3D homepage eligibility/featured behavior and Phase 3E metadata/filter semantics.
+Add one simple manual order to Portfolio Engine projects while preserving locked Phase 3C CRUD, Phase 3D homepage eligibility/featured behavior and Phase 3E metadata/filter semantics.
 
 Scope:
 - Keep Phase 2A–2K and Phase 3A–3E locked
 - No SQL migration required
-- Reuse existing `portfolio_projects.sort_order` and `portfolio_projects.category_sort_order`
+- Reuse existing `portfolio_projects.sort_order`
 - Add dedicated 03F Ordering admin view
-- Global ordering mode writes sequential `sort_order`
-- Category ordering mode writes sequential `category_sort_order` for the selected category only
-- Drag-and-drop works with mouse/pointer and keyboard-accessible Move Up / Move Down controls
+- One project list only; no separate category-order mode
+- Drag-and-drop works with mouse/pointer and Move Up / Move Down controls
 - Save order explicitly; dragging does not write until Save
 - Refresh/discard reloads persisted order
 - Draft/private projects remain orderable by admin
-- Public Project Explorer defaults to global `sort_order`
-- When a category filter is active, public Project Explorer uses that category's `category_sort_order`
+- Public Project Explorer uses the same global `sort_order` everywhere, including after category filtering
 - Phase 3D homepage selection keeps Featured priority first, then manual global `sort_order`
 - Equal/legacy order values fall back to newest published/created data for deterministic display
 - Ordering must not modify tags, badges, publish state, visibility, category, homepage-selection flags or content fields
@@ -1383,19 +1381,15 @@ Scope:
 
 Acceptance checklist:
 - [ ] 03F Ordering navigation opens the manager
-- [ ] Existing projects/categories load
-- [ ] Global drag-and-drop reorders items locally
+- [ ] Existing projects load
+- [ ] Drag-and-drop reorders items locally
 - [ ] Move Up / Move Down controls reorder items
-- [ ] Save global order persists sequential `sort_order`
-- [ ] Refresh reloads saved global order
-- [ ] Category mode shows only selected category projects
-- [ ] Category drag-and-drop reorders items locally
-- [ ] Save category order persists sequential `category_sort_order`
-- [ ] Refresh reloads saved category order
+- [ ] Save order persists sequential `sort_order`
+- [ ] Refresh reloads saved order
 - [ ] Draft/private projects remain admin-orderable
-- [ ] Public Project Explorer follows global order by default
-- [ ] Public Project Explorer follows category order when category filter is active
-- [ ] Phase 3D homepage keeps Featured priority first, then manual global order
+- [ ] Public Project Explorer follows saved order
+- [ ] Category filtering keeps the same saved order
+- [ ] Phase 3D homepage keeps Featured priority first, then manual order
 - [ ] Phase 3E tags/search/filter behavior remains unchanged
 - [ ] Ordering writes do not alter other project fields
 - [ ] No production `main` deployment occurs
