@@ -1358,7 +1358,7 @@ Freeze Phase 3E metadata/search/filter behavior. Phase 3F may add manual project
 
 **Phase 3F — Drag-and-Drop Project Ordering**
 
-Status: **ACTIVE · IMPLEMENTATION COMPLETE · OWNER TEST PENDING**
+Status: **LOCKED / DONE**
 
 Purpose:
 Add one simple manual order to Portfolio Engine projects while preserving locked Phase 3C CRUD, Phase 3D homepage eligibility/featured behavior and Phase 3E metadata/filter semantics.
@@ -1394,8 +1394,26 @@ Acceptance checklist:
 - [x] Ordering writes do not alter other project fields *(write isolation verified: sort_order only)*
 - [x] No production `main` deployment occurs
 
+Owner approval: 2026-09-28
+
+Phase 3F is locked. Future phases may consume the saved project order but must not change the established one-list ordering model unless a verified bug/security issue requires it.
+
 Lock rule:
-After owner localhost verification, freeze Phase 3F ordering behavior. This completes the planned Phase 3 Portfolio Engine sequence.
+Freeze Phase 3F ordering behavior.
+
+## Phase 3 Portfolio Engine — COMPLETE / LOCKED
+
+Owner approval: 2026-09-28
+
+Completed and locked modules:
+- Phase 3A — Portfolio Data Foundation
+- Phase 3B — Media / Image Workflow
+- Phase 3C — Dynamic Project & Category Manager
+- Phase 3D — Featured Homepage / Category Selection
+- Phase 3E — Tags, Badges, Smart Filters & Search
+- Phase 3F — Drag-and-Drop Project Ordering
+
+Phase 3 is complete. Phase 4 Case Studies may build on this locked Portfolio Engine foundation without changing locked Phase 3 contracts except for verified bug/security fixes.
 
 ## Planned Phase 3 sequence
 
