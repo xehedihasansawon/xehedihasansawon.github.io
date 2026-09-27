@@ -1269,24 +1269,24 @@ Scope:
 - Keep production `main` untouched
 
 Acceptance checklist:
-- [ ] 03D Homepage navigation opens the Phase 3D manager
-- [ ] Existing categories/projects load
-- [ ] Category filter works
+- [x] 03D Homepage navigation opens the Phase 3D manager
+- [x] Existing categories/projects load
+- [x] Category filter works
 - [ ] Draft project cannot be newly selected
-- [ ] Private project cannot be newly selected
+- [x] Private project cannot be newly selected
 - [ ] Project without cover cannot be newly selected
-- [ ] Published public project with optimized cover can be selected
+- [x] Published public project with optimized cover can be selected
 - [ ] Maximum 4 homepage projects is enforced
-- [ ] Featured priority can be assigned to one selected project
-- [ ] Homepage selection saves to `show_on_homepage` / `is_featured`
-- [ ] Saved selection reloads correctly
-- [ ] Public homepage renders selected Portfolio Engine project(s)
-- [ ] Partial selection keeps remaining Phase 2 fallback cards and preserves the locked 2×2 layout
-- [ ] Category name, title, summary, cover and action data render
-- [ ] Empty Portfolio Engine selection preserves Phase 2 static fallback
-- [ ] Locked Phase 2 Real Life Projects layout/design remains unchanged
-- [ ] Phase 3C CRUD/draft/publish behavior remains unchanged
-- [ ] No production `main` deployment occurs
+- [x] Featured priority can be assigned to one selected project
+- [x] Homepage selection saves to `show_on_homepage` / `is_featured`
+- [x] Saved selection reloads correctly
+- [x] Public homepage renders selected Portfolio Engine project(s)
+- [x] Partial selection keeps remaining Phase 2 fallback cards and preserves the locked 2×2 layout
+- [x] Category name, title, summary, cover and action data render
+- [x] Empty Portfolio Engine selection preserves Phase 2 static fallback
+- [x] Locked Phase 2 Real Life Projects layout/design remains unchanged
+- [x] Phase 3C CRUD/draft/publish behavior remains unchanged
+- [x] No production `main` deployment occurs
 
 Lock rule:
 After owner localhost verification, freeze Phase 3D homepage/category-selection behavior. Phase 3E may add metadata/filter/search capabilities and Phase 3F may add manual ordering without changing the Phase 3D eligibility, fallback or RLS contract.
