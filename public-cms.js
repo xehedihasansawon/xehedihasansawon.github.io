@@ -221,6 +221,154 @@ const loadPublishedRealProjects = async () => {
 
 loadPublishedRealProjects();
 
+const renderPortfolioEngineHomepageProjects = (projects, categories) => {
+  if (!Array.isArray(projects) || !projects.length) return;
+
+  const grid = document.querySelector("#work .real-projects-grid");
+  if (!grid) return;
+
+  const categoryMap = new Map(
+    (Array.isArray(categories) ? categories : []).map((category) => [
+      category.id,
+      category.name
+    ])
+  );
+
+  const validProjects = projects.filter(
+    (project) =>
+      project &&
+      typeof project.title === "string" &&
+      project.title.trim() &&
+      isSafeImageSource(project.cover_image_url)
+  );
+
+  if (!validProjects.length) return;
+
+  const fragment = document.createDocumentFragment();
+
+  validProjects.slice(0, 4).forEach((project) => {
+    const hasLink = isSafeHref(project.action_href);
+    const card = document.createElement(hasLink ? "a" : "article");
+    card.className = "real-project-card real-project-split-card";
+    card.dataset.engineProject = project.slug || project.id;
+
+    if (hasLink) {
+      card.setAttribute("href", project.action_href.trim());
+    }
+
+    const thumb = document.createElement("div");
+    thumb.className = "real-project-thumb";
+
+    const image = document.createElement("img");
+    image.src = project.cover_image_url.trim();
+    image.alt =
+      typeof project.cover_image_alt === "string" && project.cover_image_alt.trim()
+        ? project.cover_image_alt.trim()
+        : project.title.trim() + " project cover";
+    image.loading = "lazy";
+    image.decoding = "async";
+    thumb.appendChild(image);
+
+    const details = document.createElement("div");
+    details.className = "real-project-details";
+
+    const category = document.createElement("small");
+    category.textContent =
+      categoryMap.get(project.category_id) || "Portfolio Project";
+
+    const title = document.createElement("strong");
+    title.textContent = project.title.trim();
+
+    const description = document.createElement("p");
+    description.textContent =
+      typeof project.summary === "string" && project.summary.trim()
+        ? project.summary.trim()
+        : "Selected portfolio project.";
+
+    const action = document.createElement("span");
+    const actionLabel =
+      typeof project.action_label === "string" && project.action_label.trim()
+        ? project.action_label.trim()
+        : "View project";
+    action.textContent = hasLink && !actionLabel.includes("↗")
+      ? actionLabel + " ↗"
+      : actionLabel;
+
+    details.append(category, title, description, action);
+    card.append(thumb, details);
+    fragment.appendChild(card);
+  });
+
+  grid.replaceChildren(fragment);
+  document.documentElement.dataset.portfolioEngineHome = "loaded";
+};
+
+const loadPortfolioEngineHomepageProjects = async () => {
+  try {
+    const projectsEndpoint = new URL(
+      "/rest/v1/portfolio_projects",
+      ADMIN_CONFIG.supabaseUrl
+    );
+    projectsEndpoint.searchParams.set(
+      "select",
+      "id,slug,title,summary,category_id,cover_image_url,cover_image_alt,action_label,action_href,is_featured,show_on_homepage,published_at,created_at"
+    );
+    projectsEndpoint.searchParams.set("show_on_homepage", "eq.true");
+    projectsEndpoint.searchParams.set("is_published", "eq.true");
+    projectsEndpoint.searchParams.set("visibility", "eq.public");
+    projectsEndpoint.searchParams.set(
+      "order",
+      "is_featured.desc,published_at.desc.nullslast,created_at.desc"
+    );
+    projectsEndpoint.searchParams.set("limit", "4");
+
+    const categoriesEndpoint = new URL(
+      "/rest/v1/portfolio_categories",
+      ADMIN_CONFIG.supabaseUrl
+    );
+    categoriesEndpoint.searchParams.set("select", "id,name");
+    categoriesEndpoint.searchParams.set("is_active", "eq.true");
+    categoriesEndpoint.searchParams.set("order", "name.asc");
+
+    const headers = {
+      apikey: ADMIN_CONFIG.supabaseAnonKey,
+      Accept: "application/json"
+    };
+
+    const [projectResponse, categoryResponse] = await Promise.all([
+      fetch(projectsEndpoint, { headers }),
+      fetch(categoriesEndpoint, { headers })
+    ]);
+
+    if (!projectResponse.ok) {
+      throw new Error(
+        `Portfolio Engine homepage request failed with status ${projectResponse.status}`
+      );
+    }
+
+    if (!categoryResponse.ok) {
+      throw new Error(
+        `Portfolio category request failed with status ${categoryResponse.status}`
+      );
+    }
+
+    const [projects, categories] = await Promise.all([
+      projectResponse.json(),
+      categoryResponse.json()
+    ]);
+
+    renderPortfolioEngineHomepageProjects(projects, categories);
+  } catch (error) {
+    // Existing Phase 2 cards remain the safe public fallback.
+    console.warn(
+      "Portfolio Engine homepage selection unavailable; using Phase 2 fallback.",
+      error
+    );
+  }
+};
+
+loadPortfolioEngineHomepageProjects();
+
 
 const applyDesignShowcase = (data) => {
   if (!data || typeof data !== "object") return;
