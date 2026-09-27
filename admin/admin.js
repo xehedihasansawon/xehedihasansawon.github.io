@@ -1,6 +1,7 @@
 import { ADMIN_CONFIG } from "./config.js";
 import { initMediaWorkflow } from "./media-workflow.js";
 import { initProjectManager } from "./project-manager.js";
+import { initHomepageSelection } from "./homepage-selection.js";
 
 const configPanel = document.querySelector("#configPanel");
 const loginPanel = document.querySelector("#loginPanel");
@@ -43,6 +44,7 @@ const sectionLayoutNavButton = document.querySelector("#sectionLayoutNavButton")
 const projectsNavButton = document.querySelector("#projectsNavButton");
 const mediaWorkflowNavButton = document.querySelector("#mediaWorkflowNavButton");
 const projectManagerNavButton = document.querySelector("#projectManagerNavButton");
+const homepageSelectionNavButton = document.querySelector("#homepageSelectionNavButton");
 const dashboard = document.querySelector("#dashboard");
 const homepageEditor = document.querySelector("#homepageEditor");
 const realProjectsEditor = document.querySelector("#realProjectsEditor");
@@ -58,6 +60,7 @@ const sectionLayoutEditor = document.querySelector("#sectionLayoutEditor");
 const portfolioFoundationEditor = document.querySelector("#portfolioFoundationEditor");
 const mediaWorkflowEditor = document.querySelector("#mediaWorkflowEditor");
 const projectManagerEditor = document.querySelector("#projectManagerEditor");
+const homepageSelectionEditor = document.querySelector("#homepageSelectionEditor");
 const cmsPageEyebrow = document.querySelector("#cmsPageEyebrow");
 const cmsPageTitle = document.querySelector("#cmsPageTitle");
 
@@ -678,6 +681,7 @@ if (!hasValidConfig) {
     const isPortfolioFoundation = view === "portfolio-foundation";
     const isMediaWorkflow = view === "media-workflow";
     const isProjectManager = view === "project-manager";
+    const isHomepageSelection = view === "homepage-selection";
 
     dashboard.hidden = !isDashboard;
     homepageEditor.hidden = !isHero;
@@ -694,6 +698,7 @@ if (!hasValidConfig) {
     portfolioFoundationEditor.hidden = !isPortfolioFoundation;
     mediaWorkflowEditor.hidden = !isMediaWorkflow;
     projectManagerEditor.hidden = !isProjectManager;
+    homepageSelectionEditor.hidden = !isHomepageSelection;
 
     dashboardNavLink?.classList.toggle("active", isDashboard);
     homepageNavButton?.classList.toggle("active", isHero);
@@ -710,8 +715,9 @@ if (!hasValidConfig) {
     projectsNavButton?.classList.toggle("active", isPortfolioFoundation);
     mediaWorkflowNavButton?.classList.toggle("active", isMediaWorkflow);
     projectManagerNavButton?.classList.toggle("active", isProjectManager);
+    homepageSelectionNavButton?.classList.toggle("active", isHomepageSelection);
 
-    [dashboardNavLink, homepageNavButton, realProjectsNavButton, designShowcaseNavButton, creativeServicesNavButton, digitalProjectsNavButton, aboutMeNavButton, skillsToolsNavButton, experienceCommunityNavButton, contactCmsNavButton, footerCmsNavButton, sectionLayoutNavButton, projectsNavButton, mediaWorkflowNavButton, projectManagerNavButton].forEach((item) => {
+    [dashboardNavLink, homepageNavButton, realProjectsNavButton, designShowcaseNavButton, creativeServicesNavButton, digitalProjectsNavButton, aboutMeNavButton, skillsToolsNavButton, experienceCommunityNavButton, contactCmsNavButton, footerCmsNavButton, sectionLayoutNavButton, projectsNavButton, mediaWorkflowNavButton, projectManagerNavButton, homepageSelectionNavButton].forEach((item) => {
       item?.removeAttribute("aria-current");
     });
 
@@ -771,6 +777,10 @@ if (!hasValidConfig) {
       projectManagerNavButton?.setAttribute("aria-current", "page");
       cmsPageEyebrow.textContent = "PORTFOLIO ENGINE";
       cmsPageTitle.textContent = "Project Manager";
+    } else if (isHomepageSelection) {
+      homepageSelectionNavButton?.setAttribute("aria-current", "page");
+      cmsPageEyebrow.textContent = "PORTFOLIO ENGINE";
+      cmsPageTitle.textContent = "Homepage Selection";
     } else {
       dashboardNavLink?.setAttribute("aria-current", "page");
       cmsPageEyebrow.textContent = "HOMEPAGE CMS";
@@ -5388,6 +5398,7 @@ if (!hasValidConfig) {
 
   initMediaWorkflow({ supabaseClient, showCmsView });
   initProjectManager({ supabaseClient, showCmsView });
+  initHomepageSelection({ supabaseClient, showCmsView });
 
   const checkAdminMembership = async (user) => {
     if (!user?.id) {
