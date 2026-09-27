@@ -1415,6 +1415,71 @@ Completed and locked modules:
 
 Phase 3 is complete. Phase 4 Case Studies may build on this locked Portfolio Engine foundation without changing locked Phase 3 contracts except for verified bug/security fixes.
 
+## Active module
+
+**Phase 4 — Dynamic Case Studies**
+
+Status: **ACTIVE · IMPLEMENTATION IN PROGRESS**
+
+Purpose:
+Turn Portfolio Engine projects into full reusable case-study pages while preserving the locked Phase 3 project, media, homepage, metadata and ordering contracts.
+
+Scope:
+- Keep Phase 2A–2K and Phase 3A–3F locked
+- Add migration `012_case_study_engine.sql`
+- Add one `portfolio_case_studies` row per Portfolio Engine project
+- RLS-first: allowlisted authenticated admin manages all case studies
+- Anonymous visitors can read only published case studies whose parent project is also published + public
+- Keep private/draft case studies admin-only
+- Reuse Phase 3B optimized Media Library images; source originals are never used
+- Add dedicated 04 Case Studies admin manager
+- Admin can set hero kicker, headline, lead, hero image and up to 8 summary facts
+- Admin can build up to 20 reusable sections
+- Supported section types: Text, Image, Gallery, Feature Cards
+- Sections can be reordered with simple Move Up / Move Down controls
+- Image and Gallery sections select optimized images from Media Library
+- Feature Cards accept reusable title + description items
+- Add related project and optional CTA label/link
+- Case study Save Draft / Publish / Unpublish workflow
+- Add reusable public route `project.html?slug=<project-slug>`
+- Dynamic case study page reuses the existing premium case-study visual language
+- Homepage and Project Explorer automatically link to the dynamic page when a published case study exists
+- Existing static `ssfc.html` and `biporjoy.html` remain untouched as safe fallbacks during Phase 4
+- Build a private MIUW ERP screenshot-based case study using demo-safe data
+- Build a Portfolio Website case study with selected screenshots and live link
+- Keep production `main` untouched
+
+Acceptance checklist:
+- [ ] Migration 012 applies successfully
+- [ ] 04 Case Studies navigation opens the manager
+- [ ] Projects and Media Library load
+- [ ] Existing case study loads when project is selected
+- [ ] Hero fields save and reload
+- [ ] Hero Media Library image saves and reloads
+- [ ] Summary facts save and reload
+- [ ] Text section add/edit/remove/reorder works
+- [ ] Image section add/edit/remove/reorder works
+- [ ] Gallery section add/edit/remove/reorder works
+- [ ] Feature Cards section add/edit/remove/reorder works
+- [ ] Section media uses optimized Phase 3B display images only
+- [ ] Save Draft persists admin-only content
+- [ ] Publish exposes only published + public parent projects
+- [ ] Unpublish hides the case study from anonymous visitors
+- [ ] Private parent project case study remains admin-only
+- [ ] `project.html?slug=...` renders hero, facts and sections
+- [ ] Case-study lightbox works
+- [ ] Related project renders safely when public
+- [ ] Optional CTA renders safely
+- [ ] Homepage Portfolio Engine card opens dynamic case study when published
+- [ ] Project Explorer card opens dynamic case study when published
+- [ ] Existing static SSFC/Biporjoy fallbacks remain unchanged
+- [ ] MIUW ERP private demo-safe case study is created
+- [ ] Portfolio Website case study with live link is created
+- [ ] No production `main` deployment occurs
+
+Lock rule:
+After owner localhost verification and the required MIUW + Portfolio case studies are created, freeze the Phase 4 reusable case-study schema, builder and public template.
+
 ## Planned Phase 3 sequence
 
 - **3A — Portfolio Data Foundation**
