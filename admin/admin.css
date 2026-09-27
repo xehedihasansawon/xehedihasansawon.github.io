@@ -3302,3 +3302,135 @@ button {
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+
+/* Phase 3F · Project ordering */
+.project-ordering-toolbar {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: minmax(180px,.7fr) minmax(220px,1fr) auto;
+  gap: 12px;
+  align-items: end;
+}
+.project-ordering-toolbar label {
+  display: grid;
+  gap: 7px;
+}
+.project-ordering-toolbar label > span {
+  color: #dfe7e3;
+  font-size: .68rem;
+  font-weight: 800;
+}
+.project-ordering-toolbar select {
+  width: 100%;
+  min-height: 43px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  color: #f5f8f6;
+  background: #06120f;
+  font: inherit;
+}
+.project-ordering-toolbar button {
+  width: auto;
+  min-height: 43px;
+}
+.project-ordering-list {
+  margin-top: 16px;
+  display: grid;
+  gap: 8px;
+}
+.project-ordering-row {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 30px 42px minmax(0,1fr) auto;
+  gap: 10px;
+  align-items: center;
+  padding: 11px 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #071611;
+  cursor: grab;
+  user-select: none;
+}
+.project-ordering-row:active {
+  cursor: grabbing;
+}
+.project-ordering-row.dragging {
+  opacity: .5;
+  border-color: rgba(226,29,42,.5);
+}
+.project-ordering-row.drag-over {
+  border-color: rgba(226,29,42,.72);
+  box-shadow: 0 0 0 3px rgba(226,29,42,.07);
+}
+.project-ordering-handle {
+  color: var(--muted-2);
+  font-size: .9rem;
+  font-weight: 900;
+  letter-spacing: -4px;
+}
+.project-ordering-number {
+  color: var(--red);
+  font-size: .62rem;
+  font-weight: 900;
+  letter-spacing: .05em;
+}
+.project-ordering-body {
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+}
+.project-ordering-body strong {
+  min-width: 0;
+  overflow: hidden;
+  color: #f5f8f6;
+  font-size: .76rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.project-ordering-body small {
+  color: var(--muted);
+  font-size: .59rem;
+}
+.project-ordering-controls {
+  display: flex;
+  gap: 6px;
+}
+.project-ordering-controls button {
+  width: 34px;
+  min-width: 34px;
+  min-height: 34px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: rgba(255,255,255,.02);
+  color: #dfe7e3;
+  font-size: .8rem;
+  font-weight: 900;
+}
+.project-ordering-controls button:hover:not(:disabled) {
+  border-color: rgba(226,29,42,.55);
+  color: #fff;
+}
+.project-ordering-controls button:disabled {
+  opacity: .28;
+  cursor: not-allowed;
+}
+@media (max-width: 760px) {
+  .project-ordering-toolbar {
+    grid-template-columns: 1fr;
+  }
+  .project-ordering-toolbar button {
+    width: 100%;
+  }
+  .project-ordering-row {
+    grid-template-columns: 24px 34px minmax(0,1fr);
+  }
+  .project-ordering-controls {
+    grid-column: 1 / -1;
+    justify-content: flex-end;
+  }
+}
