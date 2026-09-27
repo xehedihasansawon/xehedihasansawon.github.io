@@ -2,6 +2,7 @@ import { ADMIN_CONFIG } from "./config.js";
 import { initMediaWorkflow } from "./media-workflow.js";
 import { initProjectManager } from "./project-manager.js";
 import { initHomepageSelection } from "./homepage-selection.js";
+import { initProjectMetadata } from "./project-metadata.js";
 
 const configPanel = document.querySelector("#configPanel");
 const loginPanel = document.querySelector("#loginPanel");
@@ -45,6 +46,7 @@ const projectsNavButton = document.querySelector("#projectsNavButton");
 const mediaWorkflowNavButton = document.querySelector("#mediaWorkflowNavButton");
 const projectManagerNavButton = document.querySelector("#projectManagerNavButton");
 const homepageSelectionNavButton = document.querySelector("#homepageSelectionNavButton");
+const projectMetadataNavButton = document.querySelector("#projectMetadataNavButton");
 const dashboard = document.querySelector("#dashboard");
 const homepageEditor = document.querySelector("#homepageEditor");
 const realProjectsEditor = document.querySelector("#realProjectsEditor");
@@ -61,6 +63,7 @@ const portfolioFoundationEditor = document.querySelector("#portfolioFoundationEd
 const mediaWorkflowEditor = document.querySelector("#mediaWorkflowEditor");
 const projectManagerEditor = document.querySelector("#projectManagerEditor");
 const homepageSelectionEditor = document.querySelector("#homepageSelectionEditor");
+const projectMetadataEditor = document.querySelector("#projectMetadataEditor");
 const cmsPageEyebrow = document.querySelector("#cmsPageEyebrow");
 const cmsPageTitle = document.querySelector("#cmsPageTitle");
 
@@ -682,6 +685,7 @@ if (!hasValidConfig) {
     const isMediaWorkflow = view === "media-workflow";
     const isProjectManager = view === "project-manager";
     const isHomepageSelection = view === "homepage-selection";
+    const isProjectMetadata = view === "project-metadata";
 
     dashboard.hidden = !isDashboard;
     homepageEditor.hidden = !isHero;
@@ -699,6 +703,7 @@ if (!hasValidConfig) {
     mediaWorkflowEditor.hidden = !isMediaWorkflow;
     projectManagerEditor.hidden = !isProjectManager;
     homepageSelectionEditor.hidden = !isHomepageSelection;
+    projectMetadataEditor.hidden = !isProjectMetadata;
 
     dashboardNavLink?.classList.toggle("active", isDashboard);
     homepageNavButton?.classList.toggle("active", isHero);
@@ -716,8 +721,9 @@ if (!hasValidConfig) {
     mediaWorkflowNavButton?.classList.toggle("active", isMediaWorkflow);
     projectManagerNavButton?.classList.toggle("active", isProjectManager);
     homepageSelectionNavButton?.classList.toggle("active", isHomepageSelection);
+    projectMetadataNavButton?.classList.toggle("active", isProjectMetadata);
 
-    [dashboardNavLink, homepageNavButton, realProjectsNavButton, designShowcaseNavButton, creativeServicesNavButton, digitalProjectsNavButton, aboutMeNavButton, skillsToolsNavButton, experienceCommunityNavButton, contactCmsNavButton, footerCmsNavButton, sectionLayoutNavButton, projectsNavButton, mediaWorkflowNavButton, projectManagerNavButton, homepageSelectionNavButton].forEach((item) => {
+    [dashboardNavLink, homepageNavButton, realProjectsNavButton, designShowcaseNavButton, creativeServicesNavButton, digitalProjectsNavButton, aboutMeNavButton, skillsToolsNavButton, experienceCommunityNavButton, contactCmsNavButton, footerCmsNavButton, sectionLayoutNavButton, projectsNavButton, mediaWorkflowNavButton, projectManagerNavButton, homepageSelectionNavButton, projectMetadataNavButton].forEach((item) => {
       item?.removeAttribute("aria-current");
     });
 
@@ -781,6 +787,10 @@ if (!hasValidConfig) {
       homepageSelectionNavButton?.setAttribute("aria-current", "page");
       cmsPageEyebrow.textContent = "PORTFOLIO ENGINE";
       cmsPageTitle.textContent = "Homepage Selection";
+    } else if (isProjectMetadata) {
+      projectMetadataNavButton?.setAttribute("aria-current", "page");
+      cmsPageEyebrow.textContent = "PORTFOLIO ENGINE";
+      cmsPageTitle.textContent = "Tags & Search";
     } else {
       dashboardNavLink?.setAttribute("aria-current", "page");
       cmsPageEyebrow.textContent = "HOMEPAGE CMS";
@@ -5399,6 +5409,7 @@ if (!hasValidConfig) {
   initMediaWorkflow({ supabaseClient, showCmsView });
   initProjectManager({ supabaseClient, showCmsView });
   initHomepageSelection({ supabaseClient, showCmsView });
+  initProjectMetadata({ supabaseClient, showCmsView });
 
   const checkAdminMembership = async (user) => {
     if (!user?.id) {
