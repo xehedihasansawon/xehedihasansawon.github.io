@@ -1339,9 +1339,9 @@ Acceptance checklist:
 - [ ] Public Project Explorer loads published public projects only
 - [ ] Keyword search works
 - [ ] Category filter works
-- [ ] Tag filter works
-- [ ] Badge filter works
-- [ ] Combined filters work
+- [x] Tag filter works
+- [x] Badge filter works
+- [x] Combined filters work
 - [ ] Empty result state works
 - [ ] Locked Real Life Projects 2×2 section remains unchanged
 - [ ] Phase 3D homepage selection remains unchanged
