@@ -3434,3 +3434,20 @@ button {
     justify-content: flex-end;
   }
 }
+
+
+.project-ordering-toolbar-simple {
+  grid-template-columns: minmax(0,1fr) auto;
+}
+.project-ordering-toolbar-simple > p {
+  margin: 0;
+  align-self: center;
+  color: var(--muted);
+  font-size: .65rem;
+  line-height: 1.5;
+}
+@media (max-width: 760px) {
+  .project-ordering-toolbar-simple {
+    grid-template-columns: 1fr;
+  }
+}
