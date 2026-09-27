@@ -367,11 +367,9 @@ const renderRelatedProject = async (relatedProjectId) => {
     relatedHasCase = false;
   }
 
-  byId("caseNextTitle").replaceChildren(
-    createHeading(related.title || "Related Project").childNodes[0] || document.createTextNode("")
-  );
   const nextTitle = byId("caseNextTitle");
-  nextTitle.replaceChildren(...createHeading(related.title || "Related Project").childNodes);
+  const relatedHeading = createHeading(related.title || "Related Project");
+  nextTitle.replaceChildren(...relatedHeading.childNodes);
 
   byId("caseNextSummary").textContent =
     related.summary || "Explore another selected portfolio project.";
