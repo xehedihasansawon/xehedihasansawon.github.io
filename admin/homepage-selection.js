@@ -60,6 +60,9 @@ export const initHomepageSelection = ({ supabaseClient, showCmsView }) => {
         return a.is_featured ? -1 : 1;
       }
 
+      const orderDiff = (a.sort_order ?? 0) - (b.sort_order ?? 0);
+      if (orderDiff) return orderDiff;
+
       const aDate = Date.parse(a.published_at || a.created_at || 0) || 0;
       const bDate = Date.parse(b.published_at || b.created_at || 0) || 0;
       return bDate - aDate;
@@ -317,8 +320,9 @@ export const initHomepageSelection = ({ supabaseClient, showCmsView }) => {
         supabaseClient
           .from("portfolio_projects")
           .select(
-            "id,slug,title,summary,category_id,cover_image_url,cover_image_alt,action_label,action_href,is_featured,show_on_homepage,visibility,is_published,published_at,created_at"
+            "id,slug,title,summary,category_id,cover_image_url,cover_image_alt,action_label,action_href,is_featured,show_on_homepage,sort_order,visibility,is_published,published_at,created_at"
           )
+          .order("sort_order", { ascending: true })
           .order("published_at", { ascending: false, nullsFirst: false })
           .order("created_at", { ascending: false })
       ]);
