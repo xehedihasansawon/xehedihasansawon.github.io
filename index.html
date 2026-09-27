@@ -174,6 +174,52 @@
             </article>
           </div>
         </div>
+
+        <div id="projectExplorer" class="project-explorer" hidden>
+          <div class="project-explorer-head">
+            <div>
+              <p class="v2-eyebrow">Browse portfolio projects</p>
+              <h3>PROJECT <span>EXPLORER</span></h3>
+            </div>
+            <p id="projectExplorerStatus" aria-live="polite">Loading projects…</p>
+          </div>
+
+          <div class="project-explorer-controls">
+            <label class="project-explorer-search">
+              <span>Search</span>
+              <input id="projectExplorerSearch" type="search" placeholder="Search projects, categories or tags" autocomplete="off">
+            </label>
+
+            <label>
+              <span>Category</span>
+              <select id="projectExplorerCategory">
+                <option value="">All categories</option>
+              </select>
+            </label>
+
+            <label>
+              <span>Tag</span>
+              <select id="projectExplorerTag">
+                <option value="">All tags</option>
+              </select>
+            </label>
+
+            <label>
+              <span>Badge</span>
+              <select id="projectExplorerBadge">
+                <option value="">All badges</option>
+              </select>
+            </label>
+
+            <button id="projectExplorerReset" type="button">Reset filters</button>
+          </div>
+
+          <div id="projectExplorerGrid" class="project-explorer-grid"></div>
+          <div id="projectExplorerEmpty" class="project-explorer-empty" hidden>
+            <strong>No matching projects</strong>
+            <p>Try another search term or reset the filters.</p>
+          </div>
+        </div>
         </div>
       </div>
     </section>
