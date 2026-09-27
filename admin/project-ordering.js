@@ -4,20 +4,10 @@ export const initProjectOrdering = ({ supabaseClient, showCmsView }) => {
   const message = document.querySelector("#projectOrderingMessage");
   const refreshButton = document.querySelector("#projectOrderingRefreshButton");
   const count = document.querySelector("#projectOrderingCount");
-  const modeSelect = document.querySelector("#projectOrderingMode");
-  const categorySelect = document.querySelector("#projectOrderingCategory");
   const saveButton = document.querySelector("#projectOrderingSaveButton");
   const list = document.querySelector("#projectOrderingList");
 
-  if (
-    !navButton ||
-    !modeSelect ||
-    !categorySelect ||
-    !saveButton ||
-    !list
-  ) {
-    return;
-  }
+  if (!navButton || !saveButton || !list) return;
 
   let projects = [];
   let categories = [];
@@ -37,11 +27,7 @@ export const initProjectOrdering = ({ supabaseClient, showCmsView }) => {
   const categoryName = (id) =>
     categories.find((item) => item.id === id)?.name || "Uncategorized";
 
-  const getMode = () => modeSelect.value === "category" ? "category" : "global";
-
-  const getSelectedCategoryId = () => categorySelect.value;
-
-  const compareGlobal = (a, b) => {
+  const compareProjects = (a, b) => {
     const orderDiff = (a.sort_order ?? 0) - (b.sort_order ?? 0);
     if (orderDiff) return orderDiff;
 
@@ -50,51 +36,17 @@ export const initProjectOrdering = ({ supabaseClient, showCmsView }) => {
     return bDate - aDate;
   };
 
-  const compareCategory = (a, b) => {
-    const categoryDiff =
-      (a.category_sort_order ?? 0) - (b.category_sort_order ?? 0);
-    if (categoryDiff) return categoryDiff;
-
-    const globalDiff = (a.sort_order ?? 0) - (b.sort_order ?? 0);
-    if (globalDiff) return globalDiff;
-
-    const aDate = Date.parse(a.created_at || 0) || 0;
-    const bDate = Date.parse(b.created_at || 0) || 0;
-    return bDate - aDate;
-  };
-
-  const getScopeProjects = () => {
-    if (getMode() === "global") {
-      return [...projects].sort(compareGlobal);
-    }
-
-    const categoryId = getSelectedCategoryId();
-    if (!categoryId) return [];
-
-    return projects
-      .filter((project) =>
-        categoryId === "__none__"
-          ? !project.category_id
-          : project.category_id === categoryId
-      )
-      .sort(compareCategory);
-  };
-
   const setBusy = (isBusy) => {
     busy = isBusy;
 
     if (refreshButton) refreshButton.disabled = isBusy;
-    modeSelect.disabled = isBusy;
-    categorySelect.disabled = isBusy || getMode() !== "category";
     saveButton.disabled = isBusy || !dirty || !workingOrder.length;
 
     list.querySelectorAll("button").forEach((button) => {
-      button.disabled =
-        isBusy ||
-        button.dataset.boundary === "true";
+      button.disabled = isBusy || button.dataset.boundary === "true";
     });
 
-    list.querySelectorAll("[draggable='true']").forEach((row) => {
+    list.querySelectorAll("[draggable]").forEach((row) => {
       row.setAttribute("draggable", isBusy ? "false" : "true");
     });
   };
@@ -102,37 +54,7 @@ export const initProjectOrdering = ({ supabaseClient, showCmsView }) => {
   const setDirty = (value, note = "") => {
     dirty = value;
     saveButton.disabled = busy || !dirty || !workingOrder.length;
-
     if (note) setMessage(note);
-  };
-
-  const renderCategoryOptions = () => {
-    const current = categorySelect.value;
-    categorySelect.innerHTML = "";
-
-    const placeholder = document.createElement("option");
-    placeholder.value = "";
-    placeholder.textContent = "Select category";
-    categorySelect.appendChild(placeholder);
-
-    const uncategorized = document.createElement("option");
-    uncategorized.value = "__none__";
-    uncategorized.textContent = "Uncategorized";
-    categorySelect.appendChild(uncategorized);
-
-    categories.forEach((category) => {
-      const option = document.createElement("option");
-      option.value = category.id;
-      option.textContent =
-        category.name + (category.is_active ? "" : " · inactive");
-      categorySelect.appendChild(option);
-    });
-
-    if (
-      [...categorySelect.options].some((option) => option.value === current)
-    ) {
-      categorySelect.value = current;
-    }
   };
 
   const moveProject = (fromIndex, toIndex) => {
@@ -149,7 +71,7 @@ export const initProjectOrdering = ({ supabaseClient, showCmsView }) => {
     const [moved] = workingOrder.splice(fromIndex, 1);
     workingOrder.splice(toIndex, 0, moved);
 
-    setDirty(true, "Order changed locally. Save order when ready.");
+    setDirty(true, "Order changed. Press Save order when ready.");
     renderList();
   };
 
@@ -165,10 +87,7 @@ export const initProjectOrdering = ({ supabaseClient, showCmsView }) => {
     if (!workingOrder.length) {
       const empty = document.createElement("div");
       empty.className = "manager-empty";
-      empty.textContent =
-        getMode() === "category" && !getSelectedCategoryId()
-          ? "Select a category to arrange its projects."
-          : "No projects available in this ordering scope.";
+      empty.textContent = "No projects available to order.";
       list.appendChild(empty);
       saveButton.disabled = true;
       return;
@@ -295,12 +214,6 @@ export const initProjectOrdering = ({ supabaseClient, showCmsView }) => {
     saveButton.disabled = busy || !dirty;
   };
 
-  const resetWorkingOrder = () => {
-    workingOrder = getScopeProjects();
-    setDirty(false);
-    renderList();
-  };
-
   const loadData = async () => {
     setBusy(true);
     setState("Loading…");
@@ -310,13 +223,12 @@ export const initProjectOrdering = ({ supabaseClient, showCmsView }) => {
       const [categoryResult, projectResult] = await Promise.all([
         supabaseClient
           .from("portfolio_categories")
-          .select("id,name,slug,is_active,sort_order")
-          .order("sort_order", { ascending: true })
+          .select("id,name")
           .order("name", { ascending: true }),
         supabaseClient
           .from("portfolio_projects")
           .select(
-            "id,slug,title,category_id,visibility,is_published,sort_order,category_sort_order,created_at"
+            "id,slug,title,category_id,visibility,is_published,sort_order,created_at"
           )
           .order("sort_order", { ascending: true })
           .order("created_at", { ascending: false })
@@ -327,9 +239,8 @@ export const initProjectOrdering = ({ supabaseClient, showCmsView }) => {
 
       categories = categoryResult.data || [];
       projects = projectResult.data || [];
-
-      renderCategoryOptions();
-      resetWorkingOrder();
+      workingOrder = [...projects].sort(compareProjects);
+      dirty = false;
 
       setState("Ordering ready");
       setMessage(
@@ -349,40 +260,6 @@ export const initProjectOrdering = ({ supabaseClient, showCmsView }) => {
     }
   };
 
-  modeSelect.addEventListener("change", () => {
-    dirty = false;
-
-    if (getMode() === "global") {
-      categorySelect.value = "";
-      categorySelect.disabled = true;
-    } else {
-      categorySelect.disabled = false;
-    }
-
-    resetWorkingOrder();
-    setMessage(
-      getMode() === "global"
-        ? "Global ordering mode. Drag projects or use the arrow buttons."
-        : "Category ordering mode. Select a category first."
-    );
-    setBusy(false);
-  });
-
-  categorySelect.addEventListener("change", () => {
-    dirty = false;
-    resetWorkingOrder();
-
-    if (getSelectedCategoryId()) {
-      setMessage(
-        "Category ordering loaded. Drag projects or use the arrow buttons."
-      );
-    } else {
-      setMessage("Select a category to arrange its projects.");
-    }
-
-    setBusy(false);
-  });
-
   refreshButton?.addEventListener("click", loadData);
 
   saveButton.addEventListener("click", async () => {
@@ -391,9 +268,6 @@ export const initProjectOrdering = ({ supabaseClient, showCmsView }) => {
       return;
     }
 
-    const field =
-      getMode() === "category" ? "category_sort_order" : "sort_order";
-
     setBusy(true);
     saveButton.textContent = "Saving…";
     setMessage("Saving project order…");
@@ -401,27 +275,22 @@ export const initProjectOrdering = ({ supabaseClient, showCmsView }) => {
     try {
       for (let index = 0; index < workingOrder.length; index += 1) {
         const project = workingOrder[index];
-        const value = index;
 
         const result = await supabaseClient
           .from("portfolio_projects")
-          .update({ [field]: value })
+          .update({ sort_order: index })
           .eq("id", project.id);
 
         if (result.error) throw result.error;
 
-        project[field] = value;
+        project.sort_order = index;
 
         const source = projects.find((item) => item.id === project.id);
-        if (source) source[field] = value;
+        if (source) source.sort_order = index;
       }
 
       setDirty(false);
-      setMessage(
-        getMode() === "category"
-          ? "Category project order saved."
-          : "Global project order saved."
-      );
+      setMessage("Project order saved.");
       renderList();
     } catch (error) {
       console.error("Project ordering save failed:", error);
