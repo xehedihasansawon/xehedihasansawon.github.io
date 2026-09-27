@@ -414,6 +414,326 @@ const loadPortfolioEngineHomepageProjects = async () => {
 loadPortfolioEngineHomepageProjects();
 
 
+const initProjectExplorer = () => {
+  const root = byId("projectExplorer");
+  const searchInput = byId("projectExplorerSearch");
+  const categorySelect = byId("projectExplorerCategory");
+  const tagSelect = byId("projectExplorerTag");
+  const badgeSelect = byId("projectExplorerBadge");
+  const resetButton = byId("projectExplorerReset");
+  const status = byId("projectExplorerStatus");
+  const grid = byId("projectExplorerGrid");
+  const empty = byId("projectExplorerEmpty");
+
+  if (
+    !root ||
+    !searchInput ||
+    !categorySelect ||
+    !tagSelect ||
+    !badgeSelect ||
+    !resetButton ||
+    !status ||
+    !grid ||
+    !empty
+  ) {
+    return;
+  }
+
+  let projects = [];
+  let categories = [];
+  let categoryMap = new Map();
+
+  const normalize = (value) => String(value || "").trim().toLowerCase();
+
+  const uniqueValues = (items) => {
+    const seen = new Set();
+    const output = [];
+
+    items.forEach((value) => {
+      const clean = String(value || "").trim();
+      const key = clean.toLowerCase();
+      if (!clean || seen.has(key)) return;
+      seen.add(key);
+      output.push(clean);
+    });
+
+    return output.sort((a, b) => a.localeCompare(b));
+  };
+
+  const fillSelect = (select, firstLabel, values) => {
+    const current = select.value;
+    select.innerHTML = "";
+
+    const first = document.createElement("option");
+    first.value = "";
+    first.textContent = firstLabel;
+    select.appendChild(first);
+
+    values.forEach((value) => {
+      const option = document.createElement("option");
+      option.value = value;
+      option.textContent = value;
+      select.appendChild(option);
+    });
+
+    if ([...select.options].some((option) => option.value === current)) {
+      select.value = current;
+    }
+  };
+
+  const renderCard = (project) => {
+    const hasLink = isSafeHref(project.action_href);
+    const card = document.createElement(hasLink ? "a" : "article");
+    card.className = "project-explorer-card";
+
+    if (hasLink) {
+      card.href = project.action_href.trim();
+    }
+
+    const visual = document.createElement("div");
+    visual.className = "project-explorer-visual";
+
+    if (isSafeImageSource(project.cover_image_url)) {
+      const image = document.createElement("img");
+      image.src = project.cover_image_url.trim();
+      image.alt =
+        typeof project.cover_image_alt === "string" && project.cover_image_alt.trim()
+          ? project.cover_image_alt.trim()
+          : project.title + " project cover";
+      image.loading = "lazy";
+      image.decoding = "async";
+      visual.appendChild(image);
+    } else {
+      const noCover = document.createElement("span");
+      noCover.textContent = "PROJECT";
+      visual.appendChild(noCover);
+    }
+
+    const body = document.createElement("div");
+    body.className = "project-explorer-body";
+
+    const badgeRow = document.createElement("div");
+    badgeRow.className = "project-explorer-badges";
+
+    (Array.isArray(project.badges) ? project.badges : []).forEach((badge) => {
+      const chip = document.createElement("span");
+      chip.textContent = badge;
+      badgeRow.appendChild(chip);
+    });
+
+    const meta = document.createElement("small");
+    meta.textContent =
+      categoryMap.get(project.category_id) || "Portfolio Project";
+
+    const title = document.createElement("strong");
+    title.textContent = project.title || "Untitled Project";
+
+    const summary = document.createElement("p");
+    summary.textContent =
+      typeof project.summary === "string" && project.summary.trim()
+        ? project.summary.trim()
+        : "Selected portfolio project.";
+
+    const tagRow = document.createElement("div");
+    tagRow.className = "project-explorer-tags";
+
+    (Array.isArray(project.tags) ? project.tags : []).forEach((tag) => {
+      const chip = document.createElement("span");
+      chip.textContent = tag;
+      tagRow.appendChild(chip);
+    });
+
+    body.append(badgeRow, meta, title, summary, tagRow);
+
+    if (hasLink) {
+      const action = document.createElement("span");
+      action.className = "project-explorer-action";
+      const label =
+        typeof project.action_label === "string" && project.action_label.trim()
+          ? project.action_label.trim()
+          : "View project";
+      action.textContent = label.includes("↗") ? label : label + " ↗";
+      body.appendChild(action);
+    }
+
+    card.append(visual, body);
+    return card;
+  };
+
+  const applyFilters = () => {
+    const query = normalize(searchInput.value);
+    const categoryId = categorySelect.value;
+    const tag = normalize(tagSelect.value);
+    const badge = normalize(badgeSelect.value);
+
+    const filtered = projects.filter((project) => {
+      const categoryName = categoryMap.get(project.category_id) || "";
+      const tags = Array.isArray(project.tags) ? project.tags : [];
+      const badges = Array.isArray(project.badges) ? project.badges : [];
+
+      const searchText = [
+        project.title,
+        project.summary,
+        categoryName,
+        ...tags,
+        ...badges
+      ]
+        .map(normalize)
+        .join(" ");
+
+      const matchesSearch = !query || searchText.includes(query);
+      const matchesCategory = !categoryId || project.category_id === categoryId;
+      const matchesTag =
+        !tag || tags.some((value) => normalize(value) === tag);
+      const matchesBadge =
+        !badge || badges.some((value) => normalize(value) === badge);
+
+      return matchesSearch && matchesCategory && matchesTag && matchesBadge;
+    });
+
+    grid.replaceChildren();
+
+    filtered.forEach((project) => {
+      grid.appendChild(renderCard(project));
+    });
+
+    const hasResults = filtered.length > 0;
+    empty.hidden = hasResults;
+    grid.hidden = !hasResults;
+
+    status.textContent =
+      filtered.length +
+      (filtered.length === 1 ? " project" : " projects") +
+      (filtered.length === projects.length ? "" : " matched");
+
+    document.documentElement.dataset.projectExplorerFiltered = "true";
+  };
+
+  const load = async () => {
+    status.textContent = "Loading projects…";
+
+    try {
+      const projectsEndpoint = new URL(
+        "/rest/v1/portfolio_projects",
+        ADMIN_CONFIG.supabaseUrl
+      );
+      projectsEndpoint.searchParams.set(
+        "select",
+        "id,slug,title,summary,category_id,cover_image_url,cover_image_alt,action_label,action_href,tags,badges,published_at,created_at"
+      );
+      projectsEndpoint.searchParams.set("is_published", "eq.true");
+      projectsEndpoint.searchParams.set("visibility", "eq.public");
+      projectsEndpoint.searchParams.set(
+        "order",
+        "published_at.desc.nullslast,created_at.desc"
+      );
+
+      const categoriesEndpoint = new URL(
+        "/rest/v1/portfolio_categories",
+        ADMIN_CONFIG.supabaseUrl
+      );
+      categoriesEndpoint.searchParams.set("select", "id,name");
+      categoriesEndpoint.searchParams.set("is_active", "eq.true");
+      categoriesEndpoint.searchParams.set("order", "name.asc");
+
+      const headers = {
+        apikey: ADMIN_CONFIG.supabaseAnonKey,
+        Accept: "application/json"
+      };
+
+      const [projectResponse, categoryResponse] = await Promise.all([
+        fetch(projectsEndpoint, { headers }),
+        fetch(categoriesEndpoint, { headers })
+      ]);
+
+      if (!projectResponse.ok) {
+        throw new Error(
+          `Project Explorer request failed with status ${projectResponse.status}`
+        );
+      }
+
+      if (!categoryResponse.ok) {
+        throw new Error(
+          `Project Explorer category request failed with status ${categoryResponse.status}`
+        );
+      }
+
+      [projects, categories] = await Promise.all([
+        projectResponse.json(),
+        categoryResponse.json()
+      ]);
+
+      categoryMap = new Map(
+        categories.map((category) => [category.id, category.name])
+      );
+
+      if (!projects.length) {
+        root.hidden = true;
+        return;
+      }
+
+      fillSelect(
+        categorySelect,
+        "All categories",
+        categories.map((category) => category.name)
+      );
+
+      // Category options need ids for exact filtering.
+      categorySelect.innerHTML = "";
+      const allCategories = document.createElement("option");
+      allCategories.value = "";
+      allCategories.textContent = "All categories";
+      categorySelect.appendChild(allCategories);
+      categories.forEach((category) => {
+        const option = document.createElement("option");
+        option.value = category.id;
+        option.textContent = category.name;
+        categorySelect.appendChild(option);
+      });
+
+      fillSelect(
+        tagSelect,
+        "All tags",
+        uniqueValues(projects.flatMap((project) => project.tags || []))
+      );
+
+      fillSelect(
+        badgeSelect,
+        "All badges",
+        uniqueValues(projects.flatMap((project) => project.badges || []))
+      );
+
+      root.hidden = false;
+      applyFilters();
+      document.documentElement.dataset.projectExplorerCms = "loaded";
+    } catch (error) {
+      root.hidden = true;
+      console.warn("Project Explorer unavailable.", error);
+    }
+  };
+
+  [searchInput, categorySelect, tagSelect, badgeSelect].forEach((control) => {
+    control.addEventListener(
+      control === searchInput ? "input" : "change",
+      applyFilters
+    );
+  });
+
+  resetButton.addEventListener("click", () => {
+    searchInput.value = "";
+    categorySelect.value = "";
+    tagSelect.value = "";
+    badgeSelect.value = "";
+    applyFilters();
+    searchInput.focus();
+  });
+
+  load();
+};
+
+initProjectExplorer();
+
+
 const applyDesignShowcase = (data) => {
   if (!data || typeof data !== "object") return;
 
