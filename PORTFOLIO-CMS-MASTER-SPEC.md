@@ -1358,7 +1358,7 @@ Freeze Phase 3E metadata/search/filter behavior. Phase 3F may add manual project
 
 **Phase 3F — Drag-and-Drop Project Ordering**
 
-Status: **ACTIVE · IMPLEMENTATION IN PROGRESS**
+Status: **ACTIVE · IMPLEMENTATION COMPLETE · OWNER TEST PENDING**
 
 Purpose:
 Add deliberate manual ordering to Portfolio Engine projects while preserving locked Phase 3C CRUD, Phase 3D homepage eligibility/featured behavior and Phase 3E metadata/filter semantics.
