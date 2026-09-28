@@ -307,30 +307,66 @@ const renderSections = (sections) => {
   });
 };
 
-const updateSeo = (project, caseStudy, heroImage) => {
-  const title =
+const toAbsoluteUrl = (value) => {
+  const src = String(value || "").trim();
+  if (!src) return "";
+
+  try {
+    return new URL(src, window.location.href).toString();
+  } catch {
+    return "";
+  }
+};
+
+const updateSeo = (project, caseStudy, heroImage, seo = null) => {
+  const fallbackTitle =
     (caseStudy.headline || project.title || "Project") +
     " Case Study | MD Mehedi Hasan Sawon";
 
-  const description =
+  const fallbackDescription =
     caseStudy.lead ||
     project.summary ||
     "Project case study by MD Mehedi Hasan Sawon.";
+
+  const title = String(seo?.seo_title || "").trim() || fallbackTitle;
+  const description =
+    String(seo?.seo_description || "").trim() || fallbackDescription;
+
+  const customSocialImage = isSafeImage(seo?.social_image_url)
+    ? seo.social_image_url
+    : "";
+
+  const socialImage = toAbsoluteUrl(customSocialImage || heroImage);
+  const socialAlt =
+    String(seo?.social_image_alt || "").trim() ||
+    caseStudy.hero_image_alt ||
+    project.cover_image_alt ||
+    project.title ||
+    "Project preview";
 
   document.title = title;
 
   byId("caseMetaDescription")?.setAttribute("content", description);
   byId("caseOgTitle")?.setAttribute("content", title);
   byId("caseOgDescription")?.setAttribute("content", description);
+  byId("caseTwitterTitle")?.setAttribute("content", title);
+  byId("caseTwitterDescription")?.setAttribute("content", description);
 
-  if (heroImage) {
-    byId("caseOgImage")?.setAttribute("content", heroImage);
+  if (socialImage) {
+    byId("caseOgImage")?.setAttribute("content", socialImage);
+    byId("caseTwitterImage")?.setAttribute("content", socialImage);
   }
+
+  byId("caseOgImageAlt")?.setAttribute("content", socialAlt);
+  byId("caseTwitterImageAlt")?.setAttribute("content", socialAlt);
 
   const canonical = new URL(window.location.href);
   canonical.search = "";
   canonical.searchParams.set("slug", project.slug);
-  byId("caseCanonical")?.setAttribute("href", canonical.toString());
+  const canonicalUrl = canonical.toString();
+
+  byId("caseCanonical")?.setAttribute("href", canonicalUrl);
+  byId("caseOgUrl")?.setAttribute("content", canonicalUrl);
 };
 
 const renderRelatedProject = async (relatedProjectId) => {
@@ -397,7 +433,7 @@ const renderRelatedProject = async (relatedProjectId) => {
   section.hidden = false;
 };
 
-const renderCaseStudy = async (project, caseStudy) => {
+const renderCaseStudy = async (project, caseStudy, seo = null) => {
   const heroImage = isSafeImage(caseStudy.hero_image_url)
     ? caseStudy.hero_image_url
     : isSafeImage(project.cover_image_url)
@@ -500,11 +536,34 @@ const renderCaseStudy = async (project, caseStudy) => {
     byId("caseNext").hidden = true;
   }
 
-  updateSeo(project, caseStudy, heroImage);
+  updateSeo(project, caseStudy, heroImage, seo);
 
   loading.hidden = true;
   errorState.hidden = true;
   content.hidden = false;
+};
+
+const loadProjectSeo = async (projectId) => {
+  if (!projectId) return null;
+
+  try {
+    const endpoint = new URL(
+      "/rest/v1/portfolio_project_seo",
+      ADMIN_CONFIG.supabaseUrl
+    );
+    endpoint.searchParams.set(
+      "select",
+      "project_id,seo_title,seo_description,social_image_url,social_image_alt"
+    );
+    endpoint.searchParams.set("project_id", "eq." + projectId);
+    endpoint.searchParams.set("limit", "1");
+
+    const rows = await fetchJson(endpoint);
+    return rows[0] || null;
+  } catch {
+    // Phase 5C remains an additive layer; old case-study SEO fallback must still work.
+    return null;
+  }
 };
 
 const showError = () => {
@@ -561,7 +620,8 @@ const loadCaseStudy = async () => {
       return;
     }
 
-    await renderCaseStudy(project, caseStudy);
+    const seo = await loadProjectSeo(project.id);
+    await renderCaseStudy(project, caseStudy, seo);
   } catch (error) {
     console.warn("Dynamic case study unavailable.", error);
     showError();
