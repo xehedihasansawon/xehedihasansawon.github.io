@@ -9,6 +9,7 @@ import { initInquiryManager } from "./inquiry-manager.js";
 import { initAnalyticsDashboard } from "./analytics-dashboard.js";
 import { initSeoManager } from "./seo-manager.js?v=phase5c-seo-20260928-2";
 import { initTestimonialsManager } from "./testimonials-manager.js?v=phase5d-feedback-20260928-1";
+import { initCvManager } from "./cv-manager.js?v=phase5e-cv-20260928-1";
 
 const configPanel = document.querySelector("#configPanel");
 const loginPanel = document.querySelector("#loginPanel");
@@ -59,6 +60,7 @@ const inquiryNavButton = document.querySelector("#inquiryNavButton");
 const analyticsNavButton = document.querySelector("#analyticsNavButton");
 const seoNavButton = document.querySelector("#seoNavButton");
 const testimonialsNavButton = document.querySelector("#testimonialsNavButton");
+const cvManagerNavButton = document.querySelector("#cvManagerNavButton");
 const dashboard = document.querySelector("#dashboard");
 const homepageEditor = document.querySelector("#homepageEditor");
 const realProjectsEditor = document.querySelector("#realProjectsEditor");
@@ -82,6 +84,7 @@ const inquiryEditor = document.querySelector("#inquiryEditor");
 const analyticsEditor = document.querySelector("#analyticsEditor");
 const seoEditor = document.querySelector("#seoEditor");
 const testimonialsEditor = document.querySelector("#testimonialsEditor");
+const cvManagerEditor = document.querySelector("#cvManagerEditor");
 const cmsPageEyebrow = document.querySelector("#cmsPageEyebrow");
 const cmsPageTitle = document.querySelector("#cmsPageTitle");
 
@@ -710,6 +713,7 @@ if (!hasValidConfig) {
     const isAnalytics = view === "analytics";
     const isSeo = view === "seo";
     const isTestimonials = view === "testimonials";
+    const isCvManager = view === "cv-manager";
 
     dashboard.hidden = !isDashboard;
     homepageEditor.hidden = !isHero;
@@ -734,6 +738,7 @@ if (!hasValidConfig) {
     analyticsEditor.hidden = !isAnalytics;
     seoEditor.hidden = !isSeo;
     testimonialsEditor.hidden = !isTestimonials;
+    cvManagerEditor.hidden = !isCvManager;
 
     dashboardNavLink?.classList.toggle("active", isDashboard);
     homepageNavButton?.classList.toggle("active", isHero);
@@ -758,8 +763,9 @@ if (!hasValidConfig) {
     analyticsNavButton?.classList.toggle("active", isAnalytics);
     seoNavButton?.classList.toggle("active", isSeo);
     testimonialsNavButton?.classList.toggle("active", isTestimonials);
+    cvManagerNavButton?.classList.toggle("active", isCvManager);
 
-    [dashboardNavLink, homepageNavButton, realProjectsNavButton, designShowcaseNavButton, creativeServicesNavButton, digitalProjectsNavButton, aboutMeNavButton, skillsToolsNavButton, experienceCommunityNavButton, contactCmsNavButton, footerCmsNavButton, sectionLayoutNavButton, projectsNavButton, mediaWorkflowNavButton, projectManagerNavButton, homepageSelectionNavButton, projectMetadataNavButton, projectOrderingNavButton, caseStudiesNavButton, inquiryNavButton, analyticsNavButton, seoNavButton, testimonialsNavButton].forEach((item) => {
+    [dashboardNavLink, homepageNavButton, realProjectsNavButton, designShowcaseNavButton, creativeServicesNavButton, digitalProjectsNavButton, aboutMeNavButton, skillsToolsNavButton, experienceCommunityNavButton, contactCmsNavButton, footerCmsNavButton, sectionLayoutNavButton, projectsNavButton, mediaWorkflowNavButton, projectManagerNavButton, homepageSelectionNavButton, projectMetadataNavButton, projectOrderingNavButton, caseStudiesNavButton, inquiryNavButton, analyticsNavButton, seoNavButton, testimonialsNavButton, cvManagerNavButton].forEach((item) => {
       item?.removeAttribute("aria-current");
     });
 
@@ -851,6 +857,10 @@ if (!hasValidConfig) {
       testimonialsNavButton?.setAttribute("aria-current", "page");
       cmsPageEyebrow.textContent = "BUSINESS SYSTEM";
       cmsPageTitle.textContent = "Testimonials / Client Feedback";
+    } else if (isCvManager) {
+      cvManagerNavButton?.setAttribute("aria-current", "page");
+      cmsPageEyebrow.textContent = "BUSINESS SYSTEM";
+      cmsPageTitle.textContent = "Multiple Resume / CV Manager";
     } else {
       dashboardNavLink?.setAttribute("aria-current", "page");
       cmsPageEyebrow.textContent = "HOMEPAGE CMS";
@@ -5476,6 +5486,7 @@ if (!hasValidConfig) {
   initAnalyticsDashboard({ supabaseClient, showCmsView });
   initSeoManager({ supabaseClient, showCmsView });
   initTestimonialsManager({ supabaseClient, showCmsView });
+  initCvManager({ supabaseClient, showCmsView });
 
   const checkAdminMembership = async (user) => {
     if (!user?.id) {
