@@ -1528,7 +1528,7 @@ Production `main` remains unchanged by Phase 4.
 
 ## Phase 5 — Business/System Features
 
-Status: **ACTIVE · PHASE 5A–5C LOCKED · PHASE 5D IMPLEMENTED · OWNER TEST PENDING**
+Status: **ACTIVE · PHASE 5A–5D LOCKED**
 
 Purpose:
 Add the business-facing systems around the locked portfolio and case-study foundation without redesigning the approved Phase 2–4 presentation.
@@ -1720,7 +1720,7 @@ Do not lock Phase 5C until migration 016 is applied and one minimal save/reload/
 
 ### Phase 5D — Testimonials / Client Feedback
 
-Status: **IMPLEMENTED · OWNER TEST PASSED · LOCK APPROVAL PENDING**
+Status: **LOCKED / DONE**
 
 Scope:
 - Add migration `018_client_feedback_testimonials.sql`
@@ -1757,10 +1757,14 @@ Acceptance checklist:
 - [x] One localhost public feedback submission reaches Admin as Pending *(owner-verified: Test Client)*
 - [x] Admin approval makes that feedback visible publicly *(owner-verified on homepage Contact section)*
 - [x] Temporary Test Client feedback deleted after verification *(owner-confirmed cleanup)*
-- [ ] Phase 5D owner approval / lock
+- [x] Phase 5D owner approval / lock
+
+Owner approval: 2026-09-28
+
+Phase 5D is locked. Moderated client feedback intake, Admin review, explicit display consent, private-email protection and approved public testimonials are accepted as the stable baseline.
 
 Lock rule:
-Do not lock Phase 5D until migration 018 is applied and one minimal submit → Admin Pending → Approve → public testimonial flow is owner-verified. Later phases must not expose private client email or bypass moderation/consent.
+Freeze the Phase 5D feedback schema, moderation workflow, public consent gate and private-email protections. Later phases must not auto-publish feedback, expose client email publicly, or weaken Admin-only moderation except for a verified bug/security fix.
 
 ## Planned Phase 3 sequence
 
