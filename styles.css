@@ -6626,8 +6626,9 @@ html{
    PHASE 5A · CLIENT PROJECT INQUIRY
    ========================================================= */
 .contact-inquiry-panel{
-  margin-top:18px;
-  padding:18px;
+  width:min(100%,900px);
+  margin:22px auto 0;
+  padding:22px;
   border:1px solid rgba(218,241,222,.12);
   border-radius:18px;
   background:rgba(4,24,24,.42);
@@ -6755,7 +6756,11 @@ html{
   overflow:hidden !important;
 }
 @media (max-width:760px){
-  .contact-inquiry-panel{padding:15px}
+  .contact-inquiry-panel{
+    width:100%;
+    margin-top:18px;
+    padding:15px;
+  }
   .contact-inquiry-head{
     display:grid;
     gap:8px;
