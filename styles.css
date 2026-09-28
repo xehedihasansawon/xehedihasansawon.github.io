@@ -6875,3 +6875,210 @@ html{
     text-align:left;
   }
 }
+
+
+/* =========================================================
+   PHASE 5D · TESTIMONIALS / CLIENT FEEDBACK
+   ========================================================= */
+.contact-feedback-panel{
+  margin-top:22px;
+  padding:20px;
+  border:1px solid rgba(218,241,222,.10);
+  border-radius:16px;
+  background:rgba(4,27,26,.58);
+}
+.contact-feedback-head{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:18px;
+  margin-bottom:16px;
+}
+.contact-feedback-head h3{
+  margin:5px 0 0;
+  color:#f2f7f4;
+  font-size:clamp(22px,2.4vw,30px);
+  letter-spacing:-.03em;
+}
+.contact-feedback-head p{
+  max-width:420px;
+  margin:0;
+  color:#9fb3a9;
+  font-size:11px;
+  line-height:1.6;
+  text-align:right;
+}
+.approved-testimonials{
+  margin-bottom:16px;
+}
+.testimonial-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+}
+.testimonial-card{
+  min-width:0;
+  padding:17px;
+  display:grid;
+  align-content:space-between;
+  gap:18px;
+  border:1px solid rgba(218,241,222,.09);
+  border-radius:14px;
+  background:#061b1a;
+}
+.testimonial-quote{
+  margin:0;
+  color:#dce7e1;
+  font-size:13px;
+  line-height:1.7;
+}
+.testimonial-meta{
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:14px;
+  border:0;
+  padding:0;
+  background:transparent;
+}
+.testimonial-meta>div{
+  min-width:0;
+  display:grid;
+  gap:3px;
+}
+.testimonial-meta strong{
+  color:#f2f7f4;
+  font-size:12px;
+}
+.testimonial-meta span,
+.testimonial-meta small{
+  color:#8fa39a;
+  font-size:10px;
+}
+.testimonial-meta small{
+  max-width:42%;
+  text-align:right;
+}
+.feedback-submit-panel{
+  overflow:hidden;
+  border:1px solid rgba(218,241,222,.09);
+  border-radius:13px;
+  background:#061b1a;
+}
+.feedback-submit-panel summary{
+  min-height:52px;
+  padding:0 15px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  cursor:pointer;
+  list-style:none;
+  color:#e8f1ec;
+  font-size:12px;
+  font-weight:800;
+}
+.feedback-submit-panel summary::-webkit-details-marker{
+  display:none;
+}
+.feedback-submit-panel summary b{
+  color:#e21d2a;
+  font-size:20px;
+  line-height:1;
+  transition:transform .18s ease;
+}
+.feedback-submit-panel[open] summary b{
+  transform:rotate(45deg);
+}
+.feedback-public-form{
+  padding:16px;
+  border-top:1px solid rgba(218,241,222,.08);
+}
+.feedback-public-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+}
+.feedback-public-form label{
+  display:grid;
+  gap:6px;
+}
+.feedback-public-form label>span{
+  color:#dce7e1;
+  font-size:10px;
+  font-weight:800;
+}
+.feedback-public-form label>small{
+  color:#81968c;
+  font-size:9px;
+  line-height:1.5;
+}
+.feedback-public-form input,
+.feedback-public-form textarea{
+  width:100%;
+  min-height:42px;
+  padding:10px 11px;
+  border:1px solid rgba(218,241,222,.12);
+  border-radius:10px;
+  outline:none;
+  background:#041817;
+  color:#f3f8f5;
+  font:inherit;
+  font-size:12px;
+}
+.feedback-public-form textarea{
+  min-height:116px;
+  resize:vertical;
+  line-height:1.55;
+}
+.feedback-public-form input:focus,
+.feedback-public-form textarea:focus{
+  border-color:rgba(226,29,42,.65);
+  box-shadow:0 0 0 3px rgba(226,29,42,.07);
+}
+.feedback-public-span,
+.feedback-public-message{
+  grid-column:1/-1;
+}
+.feedback-public-message{
+  margin-top:12px;
+}
+.feedback-public-form .contact-inquiry-consent{
+  margin-top:12px;
+  display:flex;
+  align-items:flex-start;
+  grid-template-columns:none;
+}
+.feedback-public-form .contact-inquiry-consent input{
+  width:17px;
+  min-width:17px;
+  height:17px;
+  min-height:17px;
+  padding:0;
+}
+.feedback-public-form .contact-inquiry-actions{
+  margin-top:14px;
+}
+@media (max-width:720px){
+  .contact-feedback-head{
+    flex-direction:column;
+  }
+  .contact-feedback-head p{
+    text-align:left;
+  }
+  .testimonial-grid,
+  .feedback-public-grid{
+    grid-template-columns:1fr;
+  }
+  .feedback-public-span{
+    grid-column:auto;
+  }
+  .testimonial-meta{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+  .testimonial-meta small{
+    max-width:none;
+    text-align:left;
+  }
+}
