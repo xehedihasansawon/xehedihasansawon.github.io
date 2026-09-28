@@ -305,15 +305,80 @@ const fallbackMatchesEngineProject = (card, project) => {
   return false;
 };
 
+const applyStaticCaseStudyLinks = (
+  grid,
+  projects,
+  caseStudyProjectIds = new Set()
+) => {
+  if (!grid) return;
+
+  const publicCaseProjects = (Array.isArray(projects) ? projects : [])
+    .filter(
+      (project) =>
+        project?.id &&
+        project?.slug &&
+        caseStudyProjectIds.has(project.id)
+    );
+
+  if (!publicCaseProjects.length) return;
+
+  [...grid.children].forEach((card) => {
+    if (card.dataset?.engineProject) return;
+
+    const project = publicCaseProjects.find((item) =>
+      fallbackMatchesEngineProject(card, item)
+    );
+    if (!project) return;
+
+    const href = getProjectCaseHref(project, caseStudyProjectIds);
+    if (!isSafeHref(href)) return;
+
+    if (card.tagName === "A") {
+      card.setAttribute("href", href);
+      return;
+    }
+
+    const opener = card.querySelector(".real-project-open, .project-open");
+    if (!opener) return;
+
+    opener.dataset.dynamicCaseHref = href;
+    opener.removeAttribute("aria-haspopup");
+    opener.setAttribute(
+      "aria-label",
+      "View " + (project.title || "project") + " case study"
+    );
+
+    if (opener.dataset.dynamicCaseBound !== "true") {
+      opener.dataset.dynamicCaseBound = "true";
+      opener.addEventListener(
+        "click",
+        (event) => {
+          const nextHref = opener.dataset.dynamicCaseHref;
+          if (!isSafeHref(nextHref)) return;
+
+          event.preventDefault();
+          event.stopImmediatePropagation();
+          window.location.assign(nextHref);
+        },
+        { capture: true }
+      );
+    }
+
+    const action = card.querySelector('[data-cms-field="actionLabel"]');
+    if (action) action.textContent = "View project ↗";
+  });
+};
+
 const renderPortfolioEngineHomepageProjects = (
   projects,
   categories,
-  caseStudyProjectIds = new Set()
+  caseStudyProjectIds = new Set(),
+  publishedCaseStudyProjects = []
 ) => {
-  if (!Array.isArray(projects) || !projects.length) return;
-
   const grid = document.querySelector("#work .real-projects-grid");
   if (!grid) return;
+
+  const projectList = Array.isArray(projects) ? projects : [];
 
   const categoryMap = new Map(
     (Array.isArray(categories) ? categories : []).map((category) => [
@@ -322,7 +387,7 @@ const renderPortfolioEngineHomepageProjects = (
     ])
   );
 
-  const validProjects = projects.filter(
+  const validProjects = projectList.filter(
     (project) =>
       project &&
       typeof project.title === "string" &&
@@ -330,7 +395,14 @@ const renderPortfolioEngineHomepageProjects = (
       isSafeImageSource(project.cover_image_url)
   );
 
-  if (!validProjects.length) return;
+  if (!validProjects.length) {
+    applyStaticCaseStudyLinks(
+      grid,
+      publishedCaseStudyProjects,
+      caseStudyProjectIds
+    );
+    return;
+  }
 
   const fragment = document.createDocumentFragment();
 
@@ -401,6 +473,11 @@ const renderPortfolioEngineHomepageProjects = (
   });
 
   grid.replaceChildren(fragment);
+  applyStaticCaseStudyLinks(
+    grid,
+    publishedCaseStudyProjects,
+    caseStudyProjectIds
+  );
   grid.dataset.engineSelectedCount = String(selected.length);
   document.documentElement.dataset.portfolioEngineHome = "loaded";
 };
@@ -432,15 +509,28 @@ const loadPortfolioEngineHomepageProjects = async () => {
     categoriesEndpoint.searchParams.set("is_active", "eq.true");
     categoriesEndpoint.searchParams.set("order", "name.asc");
 
+    const publicProjectsEndpoint = new URL(
+      "/rest/v1/portfolio_projects",
+      ADMIN_CONFIG.supabaseUrl
+    );
+    publicProjectsEndpoint.searchParams.set(
+      "select",
+      "id,slug,title,action_href"
+    );
+    publicProjectsEndpoint.searchParams.set("is_published", "eq.true");
+    publicProjectsEndpoint.searchParams.set("visibility", "eq.public");
+
     const headers = {
       apikey: ADMIN_CONFIG.supabaseAnonKey,
       Accept: "application/json"
     };
 
-    const [projectResponse, categoryResponse] = await Promise.all([
-      fetch(projectsEndpoint, { headers }),
-      fetch(categoriesEndpoint, { headers })
-    ]);
+    const [projectResponse, categoryResponse, publicProjectsResponse] =
+      await Promise.all([
+        fetch(projectsEndpoint, { headers }),
+        fetch(categoriesEndpoint, { headers }),
+        fetch(publicProjectsEndpoint, { headers })
+      ]);
 
     if (!projectResponse.ok) {
       throw new Error(
@@ -454,16 +544,29 @@ const loadPortfolioEngineHomepageProjects = async () => {
       );
     }
 
-    const [projects, categories, caseStudyProjectIds] = await Promise.all([
-      projectResponse.json(),
-      categoryResponse.json(),
-      loadPublishedCaseStudyProjectIds()
-    ]);
+    if (!publicProjectsResponse.ok) {
+      throw new Error(
+        `Portfolio public project bridge request failed with status ${publicProjectsResponse.status}`
+      );
+    }
+
+    const [projects, categories, caseStudyProjectIds, publicProjects] =
+      await Promise.all([
+        projectResponse.json(),
+        categoryResponse.json(),
+        loadPublishedCaseStudyProjectIds(),
+        publicProjectsResponse.json()
+      ]);
+
+    const publishedCaseStudyProjects = (
+      Array.isArray(publicProjects) ? publicProjects : []
+    ).filter((project) => caseStudyProjectIds.has(project?.id));
 
     renderPortfolioEngineHomepageProjects(
       projects,
       categories,
-      caseStudyProjectIds
+      caseStudyProjectIds,
+      publishedCaseStudyProjects
     );
   } catch (error) {
     // Existing Phase 2 cards remain the safe public fallback.
