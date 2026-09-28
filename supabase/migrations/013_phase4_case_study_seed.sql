@@ -51,7 +51,7 @@ select
   'MIUW ERP',
   'Orders, inventory, sourcing, delivery, finance and reporting in one practical business workflow.',
   c.id,
-  'assets/case-portfolio-final.jpg',
+  'assets/case-miuw-final.jpg',
   'MIUW ERP business system case study cover',
   'Private case study',
   null,
@@ -92,7 +92,7 @@ select
   'Portfolio Website',
   'Personal brand, selected work, CMS content and practical digital systems presented in one responsive experience.',
   c.id,
-  'assets/case-miuw-final.jpg',
+  'assets/case-portfolio-final.jpg',
   'Mehedi portfolio website case study cover',
   'View live site',
   'https://xehedihasansawon.github.io/',
@@ -152,7 +152,7 @@ select
       'title','A practical dashboard direction',
       'body','The case study uses demo-safe visual material to communicate the workflow and interface direction.',
       'layout','wide',
-      'image_url','assets/case-portfolio-final.jpg',
+      'image_url','assets/case-miuw-final.jpg',
       'image_alt','MIUW ERP demo-safe business system preview'
     ),
     jsonb_build_object(
@@ -205,7 +205,7 @@ select
   'Personal Portfolio · Web Experience',
   'Portfolio Website',
   'A responsive personal portfolio that combines visual design, real-world work, project discovery, CMS content and practical digital systems in one consistent experience.',
-  'assets/case-miuw-final.jpg',
+  'assets/case-portfolio-final.jpg',
   'Mehedi portfolio website interface preview',
   jsonb_build_array(
     jsonb_build_object('label','ROLE','value','Designer · Builder'),
@@ -228,7 +228,7 @@ select
       'title','One visual system across the site',
       'body','Selected views show the dark green visual identity, red highlights, project presentation and consistent portfolio language.',
       'images',jsonb_build_array(
-        jsonb_build_object('url','assets/case-miuw-final.jpg','alt','Portfolio website selected screen'),
+        jsonb_build_object('url','assets/case-portfolio-final.jpg','alt','Portfolio website selected screen'),
         jsonb_build_object('url','assets/case-portfolio-v2.webp','alt','Portfolio website alternate selected screen')
       )
     ),
