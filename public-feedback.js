@@ -86,8 +86,6 @@ const loadTestimonials = async () => {
       "select",
       "id,client_name,client_role,company,project_label,feedback_text,sort_order,submitted_at"
     );
-    endpoint.searchParams.set("status", "eq.approved");
-    endpoint.searchParams.set("consent_public", "eq.true");
     endpoint.searchParams.set(
       "order",
       "sort_order.asc,submitted_at.desc"
