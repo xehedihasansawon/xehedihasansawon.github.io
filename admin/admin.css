@@ -4143,3 +4143,382 @@ button {
     margin-left:0;
   }
 }
+
+
+/* =========================================================
+   PHASE 5E · MULTIPLE RESUME / CV MANAGER
+   ========================================================= */
+.cv-manager-toolbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:14px;
+}
+.cv-manager-toolbar>strong{
+  color:var(--muted);
+  font-size:.68rem;
+}
+.cv-manager-toolbar-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.cv-manager-layout{
+  display:grid;
+  grid-template-columns:minmax(230px,.58fr) minmax(0,1.42fr);
+  gap:16px;
+  align-items:start;
+}
+.cv-manager-list-panel{
+  min-width:0;
+  padding:10px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:#071611;
+}
+.cv-manager-list{
+  display:grid;
+  gap:8px;
+}
+.cv-manager-list-item{
+  width:100%;
+  padding:12px;
+  display:grid;
+  gap:7px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:#06120f;
+  color:inherit;
+  text-align:left;
+  cursor:pointer;
+}
+.cv-manager-list-item:hover,
+.cv-manager-list-item.active{
+  border-color:var(--red);
+}
+.cv-manager-list-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+.cv-manager-list-top strong{
+  color:#f2f7f3;
+  font-size:.72rem;
+}
+.cv-manager-list-top span{
+  padding:4px 7px;
+  border-radius:999px;
+  background:rgba(240,74,67,.08);
+  color:#e4a6a2;
+  font-size:.52rem;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.06em;
+}
+.cv-manager-list-item small{
+  color:#8fa39a;
+  font-size:.6rem;
+  line-height:1.45;
+}
+.cv-manager-form{
+  margin-top:0;
+  padding:0;
+  border:0;
+  background:transparent;
+}
+.cv-form-section{
+  margin-bottom:14px;
+  padding:16px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:#071611;
+}
+.cv-manager-form select{
+  width:100%;
+  min-height:46px;
+  padding:0 13px;
+  border:1px solid var(--line);
+  border-radius:11px;
+  outline:none;
+  background:#071611;
+  color:#fff;
+  font:inherit;
+}
+.cv-entry-list{
+  display:grid;
+  gap:10px;
+}
+.cv-entry-row{
+  padding:12px;
+  display:grid;
+  gap:10px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:#06120f;
+}
+.cv-entry-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr .65fr;
+  gap:10px;
+}
+.cv-entry-row label{
+  display:grid;
+  gap:6px;
+}
+.cv-entry-row label>span{
+  color:#dfe7e3;
+  font-size:.65rem;
+  font-weight:800;
+}
+.cv-entry-row input,
+.cv-entry-row textarea{
+  width:100%;
+  min-height:44px;
+  padding:11px 12px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  outline:none;
+  background:#071611;
+  color:#fff;
+  font:inherit;
+}
+.cv-entry-row textarea{
+  min-height:88px;
+  resize:vertical;
+}
+.cv-entry-span{
+  grid-column:1/-1;
+}
+.cv-entry-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:7px;
+}
+.cv-entry-actions button{
+  min-width:38px;
+  min-height:34px;
+  padding:7px 10px;
+  border:1px solid var(--line);
+  border-radius:8px;
+  background:#0a2020;
+  color:#e8f1ec;
+  cursor:pointer;
+}
+.cv-entry-actions button:hover{
+  border-color:var(--red);
+}
+.cv-manager-save-actions{
+  margin-top:4px;
+  padding:16px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:#071611;
+}
+.cv-preview-editor-card{
+  overflow:visible;
+}
+.cv-preview-stage{
+  overflow:auto;
+  padding:18px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:#04110e;
+}
+.cv-preview-sheet{
+  width:min(210mm,100%);
+  min-height:297mm;
+  margin:0 auto;
+  padding:16mm 17mm;
+  background:#fff;
+  color:#17211c;
+  box-shadow:0 18px 60px rgba(0,0,0,.35);
+  font-family:Arial,Helvetica,sans-serif;
+}
+.cv-preview-header{
+  display:grid;
+  gap:5px;
+  padding-bottom:12px;
+  border-bottom:2px solid #b61e24;
+}
+.cv-preview-header h1{
+  margin:0;
+  color:#101713;
+  font-size:28px;
+  line-height:1.05;
+  letter-spacing:-.04em;
+}
+.cv-preview-header h2{
+  margin:0;
+  color:#b61e24;
+  font-size:13px;
+  font-weight:700;
+}
+.cv-preview-contact{
+  margin-top:4px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:5px 12px;
+  color:#526159;
+  font-size:8.8px;
+  line-height:1.4;
+}
+.cv-preview-section{
+  margin-top:15px;
+}
+.cv-preview-section>h3{
+  margin:0 0 7px;
+  color:#101713;
+  font-size:10.5px;
+  text-transform:uppercase;
+  letter-spacing:.12em;
+}
+.cv-preview-section>p{
+  margin:0;
+  color:#34423a;
+  font-size:9.4px;
+  line-height:1.55;
+}
+.cv-preview-timeline{
+  display:grid;
+  gap:10px;
+}
+.cv-preview-entry{
+  display:grid;
+  gap:3px;
+}
+.cv-preview-entry-top{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+}
+.cv-preview-entry-top strong{
+  color:#101713;
+  font-size:10px;
+}
+.cv-preview-entry-top span{
+  color:#69756f;
+  font-size:8.5px;
+  white-space:nowrap;
+}
+.cv-preview-entry>b{
+  color:#b61e24;
+  font-size:8.8px;
+}
+.cv-preview-entry>p{
+  margin:0;
+  color:#3d4a43;
+  font-size:8.9px;
+  line-height:1.5;
+  white-space:pre-line;
+}
+.cv-preview-chips,
+.cv-preview-inline-list,
+.cv-preview-list{
+  margin:0;
+  padding:0;
+  list-style:none;
+}
+.cv-preview-chips{
+  display:flex;
+  flex-wrap:wrap;
+  gap:5px;
+}
+.cv-preview-chips li{
+  padding:4px 7px;
+  border:1px solid #d8dfdb;
+  border-radius:999px;
+  color:#34423a;
+  font-size:8px;
+}
+.cv-preview-inline-list{
+  display:flex;
+  flex-wrap:wrap;
+  gap:4px 16px;
+}
+.cv-preview-inline-list li,
+.cv-preview-list li{
+  color:#34423a;
+  font-size:8.8px;
+  line-height:1.5;
+}
+.cv-preview-list{
+  display:grid;
+  gap:3px;
+}
+.cv-preview-sheet[data-template="compact"]{
+  padding:12mm 14mm;
+}
+.cv-preview-sheet[data-template="compact"] .cv-preview-section{
+  margin-top:11px;
+}
+.cv-preview-sheet[data-template="compact"] .cv-preview-timeline{
+  gap:7px;
+}
+.cv-preview-sheet[data-template="compact"] .cv-preview-header h1{
+  font-size:25px;
+}
+.cv-preview-sheet[data-template="europass"] .cv-preview-header{
+  border-bottom-color:#315c7a;
+}
+.cv-preview-sheet[data-template="europass"] .cv-preview-header h2,
+.cv-preview-sheet[data-template="europass"] .cv-preview-entry>b{
+  color:#315c7a;
+}
+.cv-preview-sheet[data-template="europass"] .cv-preview-section>h3{
+  padding-bottom:4px;
+  border-bottom:1px solid #d5dde2;
+  color:#315c7a;
+}
+@media (max-width:980px){
+  .cv-manager-layout{
+    grid-template-columns:1fr;
+  }
+}
+@media (max-width:700px){
+  .cv-manager-toolbar{
+    align-items:stretch;
+    flex-direction:column;
+  }
+  .cv-manager-toolbar-actions{
+    width:100%;
+  }
+  .cv-entry-grid{
+    grid-template-columns:1fr;
+  }
+  .cv-preview-stage{
+    padding:8px;
+  }
+  .cv-preview-sheet{
+    min-height:0;
+    padding:18px;
+  }
+}
+@media print{
+  @page{
+    size:A4;
+    margin:0;
+  }
+  body{
+    background:#fff !important;
+  }
+  body *{
+    visibility:hidden !important;
+  }
+  #cvPreview,
+  #cvPreview *{
+    visibility:visible !important;
+  }
+  #cvPreview{
+    position:absolute !important;
+    left:0 !important;
+    top:0 !important;
+    width:210mm !important;
+    min-height:297mm !important;
+    margin:0 !important;
+    padding:16mm 17mm !important;
+    box-shadow:none !important;
+  }
+}
