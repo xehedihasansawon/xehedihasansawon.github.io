@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./admin.css?v=phase5d-feedback-20260928-1">
+  <link rel="stylesheet" href="./admin.css?v=phase5e-cv-20260928-1">
 </head>
 <body>
   <main class="admin-shell">
@@ -251,12 +251,6 @@
             <small>Locked</small>
           </button>
 
-          <button class="nav-item" type="button" disabled>
-            <span class="nav-index">06</span>
-            <span>CV Manager</span>
-            <small>Later</small>
-          </button>
-
           <button id="inquiryNavButton" class="nav-item" type="button">
             <span class="nav-index">05A</span>
             <span>Inquiries</span>
@@ -278,6 +272,12 @@
           <button id="testimonialsNavButton" class="nav-item" type="button">
             <span class="nav-index">05D</span>
             <span>Testimonials</span>
+            <small>Locked</small>
+          </button>
+
+          <button id="cvManagerNavButton" class="nav-item" type="button">
+            <span class="nav-index">05E</span>
+            <span>CV Manager</span>
             <small>Active</small>
           </button>
 
@@ -336,18 +336,18 @@
         <div id="dashboard" class="dashboard-content">
           <section class="dashboard-hero">
             <div>
-              <p class="status-pill success">PHASE 5D ACTIVE</p>
-              <h3>Testimonials & Client Feedback is in development.</h3>
+              <p class="status-pill success">PHASE 5E ACTIVE</p>
+              <h3>Multiple Resume / CV Manager is in development.</h3>
               <p>
-                Phase 3, Phase 4 and Phase 5A–5C remain locked. Phase 5D adds
-                moderated client feedback and approved public testimonials.
+                Phase 3, Phase 4 and Phase 5A–5D remain locked. Phase 5E adds
+                private role-specific CV versions with preview and PDF printing.
               </p>
             </div>
 
             <div class="phase-card">
               <span>CURRENT MODULE</span>
-              <strong>Phase 5D</strong>
-              <p>Testimonials / Client Feedback</p>
+              <strong>Phase 5E</strong>
+              <p>Multiple Resume / CV Manager</p>
 
               <div class="foundation-stack" aria-live="polite">
                 <div class="foundation-check">
@@ -3109,16 +3109,225 @@
           </section>
         </div>
 
+        <div id="cvManagerEditor" class="editor-content" hidden>
+          <section class="editor-heading-card">
+            <div>
+              <p class="status-pill success">PHASE 5E ACTIVE</p>
+              <h3>Multiple Resume / CV Manager</h3>
+              <p>Create private role-specific CV versions, preview them in A4 format, duplicate variants and print or save them as PDF.</p>
+            </div>
+            <div class="editor-state">
+              <span>PRIVATE CV SYSTEM</span>
+              <strong>Admin-only resumes</strong>
+              <b id="cvManagerState">Ready</b>
+            </div>
+          </section>
+
+          <section class="editor-card">
+            <div class="editor-section-title">
+              <div>
+                <p class="eyebrow">CV LIBRARY</p>
+                <h3>Private resume versions</h3>
+              </div>
+              <button id="cvManagerRefreshButton" class="secondary-button" type="button">Refresh</button>
+            </div>
+
+            <p id="cvManagerMessage" class="form-message" role="status" aria-live="polite"></p>
+
+            <div class="portfolio-manager-note">
+              <strong>Private by design</strong>
+              <span>CV data is available only to your allowlisted Admin account. Nothing in Phase 5E is published to the portfolio or exposed to anonymous visitors.</span>
+            </div>
+          </section>
+
+          <section class="editor-card">
+            <div class="cv-manager-toolbar">
+              <strong id="cvManagerCount">0 CVs</strong>
+              <div class="cv-manager-toolbar-actions">
+                <button id="cvManagerNewButton" class="secondary-button" type="button">New CV</button>
+                <button id="cvManagerDuplicateButton" class="secondary-button" type="button" disabled>Duplicate</button>
+                <button id="cvManagerPrintButton" class="secondary-button" type="button" disabled>Print / Save PDF</button>
+              </div>
+            </div>
+
+            <div class="cv-manager-layout">
+              <aside class="cv-manager-list-panel">
+                <div id="cvManagerList" class="cv-manager-list"></div>
+              </aside>
+
+              <form id="cvManagerForm" class="cms-editor-form manager-form cv-manager-form" novalidate>
+                <input id="cvId" type="hidden">
+
+                <section class="cv-form-section">
+                  <div class="editor-section-title compact">
+                    <div>
+                      <p class="eyebrow">VERSION</p>
+                      <h3>CV identity</h3>
+                    </div>
+                  </div>
+
+                  <div class="editor-grid two">
+                    <label>
+                      <span>CV name</span>
+                      <input id="cvLabel" type="text" maxlength="80" placeholder="Graphic Designer CV" required>
+                      <small>Private internal name used to identify this version.</small>
+                    </label>
+
+                    <label>
+                      <span>Target role</span>
+                      <input id="cvTargetRole" type="text" maxlength="120" placeholder="Graphic Designer">
+                    </label>
+
+                    <label>
+                      <span>Template</span>
+                      <select id="cvTemplate">
+                        <option value="modern">Modern</option>
+                        <option value="compact">Compact</option>
+                        <option value="europass">Europass-style</option>
+                      </select>
+                    </label>
+
+                    <label>
+                      <span>Library order</span>
+                      <input id="cvSortOrder" type="number" min="0" step="1" value="0">
+                      <small>Lower numbers appear first in your Admin CV library.</small>
+                    </label>
+                  </div>
+                </section>
+
+                <section class="cv-form-section">
+                  <div class="editor-section-title compact">
+                    <div>
+                      <p class="eyebrow">PROFILE</p>
+                      <h3>Personal & contact information</h3>
+                    </div>
+                  </div>
+
+                  <div class="editor-grid two">
+                    <label>
+                      <span>Full name</span>
+                      <input id="cvFullName" type="text" maxlength="140" required>
+                    </label>
+                    <label>
+                      <span>Professional headline</span>
+                      <input id="cvHeadline" type="text" maxlength="180" placeholder="Graphic Designer · Brand & Digital Projects">
+                    </label>
+                    <label class="editor-grid-span">
+                      <span>Professional summary</span>
+                      <textarea id="cvSummary" rows="5" maxlength="1800" placeholder="Short role-focused profile summary"></textarea>
+                    </label>
+                    <label>
+                      <span>Location</span>
+                      <input id="cvLocation" type="text" maxlength="160">
+                    </label>
+                    <label>
+                      <span>Email</span>
+                      <input id="cvEmail" type="email" maxlength="254">
+                    </label>
+                    <label>
+                      <span>Phone</span>
+                      <input id="cvPhone" type="text" maxlength="80">
+                    </label>
+                    <label>
+                      <span>Website</span>
+                      <input id="cvWebsite" type="text" maxlength="500">
+                    </label>
+                    <label>
+                      <span>LinkedIn</span>
+                      <input id="cvLinkedin" type="text" maxlength="500">
+                    </label>
+                    <label>
+                      <span>Behance</span>
+                      <input id="cvBehance" type="text" maxlength="500">
+                    </label>
+                    <label>
+                      <span>GitHub</span>
+                      <input id="cvGithub" type="text" maxlength="500">
+                    </label>
+                  </div>
+                </section>
+
+                <section class="cv-form-section">
+                  <div class="editor-section-title compact">
+                    <div>
+                      <p class="eyebrow">EXPERIENCE</p>
+                      <h3>Work history</h3>
+                    </div>
+                    <button id="cvAddExperienceButton" class="secondary-button" type="button">Add experience</button>
+                  </div>
+                  <div id="cvExperienceList" class="cv-entry-list"></div>
+                </section>
+
+                <section class="cv-form-section">
+                  <div class="editor-section-title compact">
+                    <div>
+                      <p class="eyebrow">EDUCATION</p>
+                      <h3>Education history</h3>
+                    </div>
+                    <button id="cvAddEducationButton" class="secondary-button" type="button">Add education</button>
+                  </div>
+                  <div id="cvEducationList" class="cv-entry-list"></div>
+                </section>
+
+                <section class="cv-form-section">
+                  <div class="editor-section-title compact">
+                    <div>
+                      <p class="eyebrow">DETAILS</p>
+                      <h3>Skills, languages & certifications</h3>
+                    </div>
+                  </div>
+
+                  <div class="editor-grid two">
+                    <label>
+                      <span>Skills</span>
+                      <textarea id="cvSkills" rows="7" placeholder="One skill per line"></textarea>
+                      <small>One item per line.</small>
+                    </label>
+                    <label>
+                      <span>Languages</span>
+                      <textarea id="cvLanguages" rows="7" placeholder="Bangla — Native&#10;English — Professional"></textarea>
+                      <small>One item per line.</small>
+                    </label>
+                    <label class="editor-grid-span">
+                      <span>Courses & certifications</span>
+                      <textarea id="cvCertifications" rows="6" placeholder="One course or certification per line"></textarea>
+                    </label>
+                  </div>
+                </section>
+
+                <div class="manager-form-actions cv-manager-save-actions">
+                  <button id="cvManagerSaveButton" type="submit">Save CV</button>
+                  <button id="cvManagerDeleteButton" class="secondary-button danger-button" type="button" hidden>Delete permanently</button>
+                </div>
+              </form>
+            </div>
+          </section>
+
+          <section class="editor-card cv-preview-editor-card">
+            <div class="editor-section-title">
+              <div>
+                <p class="eyebrow">A4 PREVIEW</p>
+                <h3>Resume preview</h3>
+              </div>
+              <span>Use “Print / Save PDF” after saving the CV.</span>
+            </div>
+
+            <div class="cv-preview-stage">
+              <article id="cvPreview" class="cv-preview-sheet" data-template="modern" aria-label="CV preview"></article>
+            </div>
+          </section>
+        </div>
+
       </div>
     </section>
 
     <footer id="publicAdminFooter" class="admin-footer">
       <span>MEHEDI PORTFOLIO</span>
-      <span>Secure Admin · Phase 5D Active</span>
+      <span>Secure Admin · Phase 5E Active</span>
     </footer>
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script type="module" src="./admin.js?v=phase5d-feedback-20260928-1"></script>
+  <script type="module" src="./admin.js?v=phase5e-cv-20260928-1"></script>
 </body>
 </html>
