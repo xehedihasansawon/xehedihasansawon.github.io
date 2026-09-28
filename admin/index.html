@@ -263,10 +263,10 @@
             <small>Locked</small>
           </button>
 
-          <button class="nav-item" type="button" disabled>
-            <span class="nav-index">08</span>
+          <button id="analyticsNavButton" class="nav-item" type="button">
+            <span class="nav-index">05B</span>
             <span>Analytics</span>
-            <small>Later</small>
+            <small>Active</small>
           </button>
 
           <button class="nav-item" type="button" disabled>
@@ -324,17 +324,18 @@
         <div id="dashboard" class="dashboard-content">
           <section class="dashboard-hero">
             <div>
-              <p class="status-pill success">PHASE 5A COMPLETE</p>
-              <h3>Client Inquiry System is locked.</h3>
+              <p class="status-pill success">PHASE 5B ACTIVE</p>
+              <h3>Portfolio Analytics is ready for setup.</h3>
               <p>
-                Phase 3, Phase 4 and Phase 5A are complete and locked. Phase 5B Analytics is next.
+                Phase 3, Phase 4 and Phase 5A remain locked. Phase 5B adds privacy-friendly
+                visit, project-view and contact-click analytics.
               </p>
             </div>
 
             <div class="phase-card">
               <span>CURRENT MODULE</span>
-              <strong>Phase 5A Complete</strong>
-              <p>Client Project Inquiry Form locked</p>
+              <strong>Phase 5B</strong>
+              <p>Analytics Dashboard</p>
 
               <div class="foundation-stack" aria-live="polite">
                 <div class="foundation-check">
@@ -2763,12 +2764,101 @@
             </div>
           </section>
         </div>
+
+        <div id="analyticsEditor" class="editor-content" hidden>
+          <section class="editor-heading-card">
+            <div>
+              <p class="status-pill success">PHASE 5B ACTIVE</p>
+              <h3>Portfolio Analytics</h3>
+              <p>Privacy-friendly first-party analytics for visits, project views and contact actions.</p>
+            </div>
+            <div class="editor-state">
+              <span>ANALYTICS</span>
+              <strong>First-party event dashboard</strong>
+              <b id="analyticsState">Loading…</b>
+            </div>
+          </section>
+
+          <section class="editor-card">
+            <div class="editor-section-title">
+              <div>
+                <p class="eyebrow">TRAFFIC OVERVIEW</p>
+                <h3>Portfolio activity</h3>
+              </div>
+              <div class="analytics-toolbar">
+                <select id="analyticsRange" aria-label="Analytics date range">
+                  <option value="7">Last 7 days</option>
+                  <option value="30" selected>Last 30 days</option>
+                  <option value="90">Last 90 days</option>
+                </select>
+                <button id="analyticsRefreshButton" class="secondary-button" type="button">Refresh</button>
+              </div>
+            </div>
+
+            <p id="analyticsMessage" class="form-message" role="status" aria-live="polite"></p>
+
+            <div class="analytics-stat-grid">
+              <article class="analytics-stat-card">
+                <span>VISITS</span>
+                <strong id="analyticsVisits">0</strong>
+                <small>Anonymous browser sessions</small>
+              </article>
+              <article class="analytics-stat-card">
+                <span>PAGE VIEWS</span>
+                <strong id="analyticsPageViews">0</strong>
+                <small>Tracked public page loads</small>
+              </article>
+              <article class="analytics-stat-card">
+                <span>PROJECT VIEWS</span>
+                <strong id="analyticsProjectViews">0</strong>
+                <small>Case-study page views</small>
+              </article>
+              <article class="analytics-stat-card">
+                <span>CONTACT CLICKS</span>
+                <strong id="analyticsContactClicks">0</strong>
+                <small>Direct contact/profile actions</small>
+              </article>
+            </div>
+          </section>
+
+          <section class="analytics-split-grid">
+            <article class="editor-card">
+              <div class="editor-section-title compact">
+                <div>
+                  <p class="eyebrow">TOP PROJECTS</p>
+                  <h3>Most viewed case studies</h3>
+                </div>
+              </div>
+              <div id="analyticsTopProjects" class="analytics-rank-list"></div>
+              <div id="analyticsProjectsEmpty" class="manager-empty">No project views in this period.</div>
+            </article>
+
+            <article class="editor-card">
+              <div class="editor-section-title compact">
+                <div>
+                  <p class="eyebrow">CONTACT ACTIONS</p>
+                  <h3>Most used contact links</h3>
+                </div>
+              </div>
+              <div id="analyticsTopContacts" class="analytics-rank-list"></div>
+              <div id="analyticsContactsEmpty" class="manager-empty">No contact clicks in this period.</div>
+            </article>
+          </section>
+
+          <section class="editor-card">
+            <div class="portfolio-manager-note">
+              <strong>Privacy-first analytics</strong>
+              <span>No IP address, fingerprint, user agent, inquiry text, email or other client personal data is stored in the analytics table. Browser Do Not Track is respected.</span>
+            </div>
+          </section>
+        </div>
+
       </div>
     </section>
 
     <footer id="publicAdminFooter" class="admin-footer">
       <span>MEHEDI PORTFOLIO</span>
-      <span>Secure Admin · Phase 5A Complete</span>
+      <span>Secure Admin · Phase 5B Active</span>
     </footer>
   </main>
 
