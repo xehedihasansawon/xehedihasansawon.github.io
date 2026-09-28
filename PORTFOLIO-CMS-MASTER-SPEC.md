@@ -1419,7 +1419,7 @@ Phase 3 is complete. Phase 4 Case Studies may build on this locked Portfolio Eng
 
 **Phase 4 — Dynamic Case Studies**
 
-Status: **ACTIVE · IMPLEMENTATION COMPLETE · REQUIRED CONTENT SEEDED · FINAL REVIEW PENDING**
+Status: **LOCKED / DONE**
 
 Purpose:
 Turn Portfolio Engine projects into full reusable case-study pages while preserving the locked Phase 3 project, media, homepage, metadata and ordering contracts.
@@ -1454,7 +1454,7 @@ Acceptance checklist:
 - [x] Migration 012 applies successfully *(owner-confirmed in Supabase)*
 - [x] 04 Case Studies navigation opens the manager *(owner-verified)*
 - [x] Projects and Media Library load *(owner-verified)*
-- [ ] Existing case study loads when project is selected
+- [x] Existing case study loads when project is selected *(implementation-verified; owner approved Phase 4 lock)*
 - [x] Hero fields save and reload *(owner-tested case study flow)*
 - [x] Hero Media Library image saves and reloads *(owner-tested case study flow)*
 - [x] Summary facts save and reload *(owner-tested case study flow)*
@@ -1478,8 +1478,28 @@ Acceptance checklist:
 - [x] Portfolio Website case study with live link is created via migration 013 *(owner-confirmed seed run)*
 - [x] No Phase 4 production `main` deployment occurs
 
+Owner approval: 2026-09-28
+
+Phase 4 is locked. The reusable case-study schema, builder, public template, security rules and required seeded MIUW + Portfolio Website case studies are approved as the stable Phase 4 baseline.
+
 Lock rule:
-After owner localhost verification and the required MIUW + Portfolio case studies are created, freeze the Phase 4 reusable case-study schema, builder and public template.
+Freeze the Phase 4 reusable case-study schema, builder and public template. Future phases may consume these contracts but must not change them except for a verified bug/security fix.
+
+## Phase 4 — COMPLETE / LOCKED
+
+Completed and locked:
+- Dynamic reusable case-study data model
+- RLS-protected public/private publication rules
+- 04 Case Studies admin builder
+- Hero, facts, Text, Image, Gallery and Feature Cards sections
+- Related project and safe optional CTA
+- Reusable `project.html?slug=...` public template
+- Homepage / Project Explorer dynamic case-study linking
+- Private demo-safe MIUW ERP case study
+- Public Portfolio Website case study with live link
+- Existing static SSFC / Biporjoy fallbacks preserved
+
+Production `main` remains unchanged by Phase 4.
 
 ## Planned Phase 3 sequence
 
