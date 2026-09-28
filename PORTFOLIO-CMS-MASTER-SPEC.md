@@ -1459,9 +1459,9 @@ Acceptance checklist:
 - [x] Hero Media Library image saves and reloads *(owner-tested case study flow)*
 - [x] Summary facts save and reload *(owner-tested case study flow)*
 - [x] Text section add/edit/save works *(owner-tested; reorder/remove implementation-verified)*
-- [ ] Image section add/edit/remove/reorder works
-- [ ] Gallery section add/edit/remove/reorder works
-- [ ] Feature Cards section add/edit/remove/reorder works
+- [x] Image section add/edit/remove/reorder works *(static verified)*
+- [x] Gallery section add/edit/remove/reorder works *(static verified)*
+- [x] Feature Cards section add/edit/remove/reorder works *(static verified)*
 - [x] Section media uses optimized Phase 3B display images only *(implementation-verified)*
 - [x] Save Draft workflow implemented *(implementation-verified)*
 - [x] Publish exposes only published + public parent projects *(RLS/static verified)*
