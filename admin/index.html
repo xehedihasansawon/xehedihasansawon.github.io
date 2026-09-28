@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./admin.css?v=phase5e-cv-20260928-2">
+  <link rel="stylesheet" href="./admin.css?v=phase5e-cv-ref-20260928-1">
 </head>
 <body>
   <main class="admin-shell">
@@ -3209,6 +3209,11 @@
                       <input id="cvFullName" type="text" maxlength="140" required>
                     </label>
                     <label>
+                      <span>Profile photo URL / local asset</span>
+                      <input id="cvPhotoUrl" type="text" maxlength="1000" placeholder="assets/your-photo.png or https://...">
+                      <small>Optional. Use a local project image path or HTTPS image URL.</small>
+                    </label>
+                    <label>
                       <span>Professional headline</span>
                       <input id="cvHeadline" type="text" maxlength="180" placeholder="Graphic Designer · Brand & Digital Projects">
                     </label>
@@ -3328,6 +3333,6 @@
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script type="module" src="./admin.js?v=phase5e-cv-20260928-3"></script>
+  <script type="module" src="./admin.js?v=phase5e-cv-ref-20260928-1"></script>
 </body>
 </html>
