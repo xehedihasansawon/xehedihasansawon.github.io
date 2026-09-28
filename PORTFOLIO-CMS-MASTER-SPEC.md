@@ -1528,7 +1528,7 @@ Production `main` remains unchanged by Phase 4.
 
 ## Phase 5 — Business/System Features
 
-Status: **ACTIVE · PHASE 5A–5C LOCKED**
+Status: **ACTIVE · PHASE 5A–5C LOCKED · PHASE 5D IMPLEMENTED · OWNER TEST PENDING**
 
 Purpose:
 Add the business-facing systems around the locked portfolio and case-study foundation without redesigning the approved Phase 2–4 presentation.
@@ -1692,7 +1692,7 @@ Scope:
 - Production `main` remains untouched
 
 Acceptance checklist:
-- [ ] Migration 016 applies successfully in Supabase
+- [x] Migration 016 applies successfully in Supabase *(owner-confirmed)*
 - [x] SEO table schema and constraints implemented
 - [x] Public SEO read policy limited to public + published parent projects
 - [x] Anonymous SEO writes blocked
@@ -1717,6 +1717,49 @@ The current site is static GitHub Pages with client-side Supabase rendering. Pha
 
 Lock rule:
 Do not lock Phase 5C until migration 016 is applied and one minimal save/reload/public-metadata flow is owner-verified. Later phases must preserve the parent-project publication gate and admin-only write path.
+
+### Phase 5D — Testimonials / Client Feedback
+
+Status: **IMPLEMENTED · MIGRATION + OWNER TEST PENDING**
+
+Scope:
+- Add migration `018_client_feedback_testimonials.sql`
+- Add RLS-protected `portfolio_feedback` store
+- Anonymous visitors cannot directly insert/update/delete feedback rows
+- Public feedback submission uses validated `submit_portfolio_feedback` RPC
+- New public submissions always start `pending`; nothing auto-publishes
+- Lightweight honeypot, minimum-submit-time and duplicate friction are included
+- Client email is retained for Admin verification but is never exposed through the anonymous public column grant
+- Anonymous reads expose only approved + consented testimonials through RLS
+- Admin can create/edit feedback, review Pending / Approved / Hidden status, set public order and permanently delete
+- Approved testimonials render inside the existing Contact section so the locked Phase 2K homepage section-order contract remains unchanged
+- Public feedback form records explicit consent before a submission can become eligible for public display
+- No service-role key is exposed
+- Phase 5A–5C and Phase 2–4 locked behavior remains unchanged
+- Production `main` remains untouched
+
+Acceptance checklist:
+- [ ] Migration 018 applies successfully in Supabase
+- [x] Feedback schema, constraints and indexes implemented
+- [x] Anonymous direct table writes blocked
+- [x] Validated anonymous submission RPC implemented
+- [x] Public submissions forced to Pending
+- [x] Public read policy limited to Approved + display-consented feedback
+- [x] Client email excluded from anonymous SELECT grant
+- [x] Admin allowlist RLS implemented
+- [x] Public feedback form implemented
+- [x] Honeypot / timing / duplicate friction implemented
+- [x] Approved testimonial renderer implemented
+- [x] 05D Testimonials Admin module implemented
+- [x] Pending / Approved / Hidden workflow implemented
+- [x] Admin create/edit/order/delete workflow implemented
+- [x] Phase 2K top-level section ordering left unchanged
+- [ ] One localhost public feedback submission reaches Admin as Pending
+- [ ] Admin approval makes that feedback visible publicly
+- [ ] Phase 5D owner approval / lock
+
+Lock rule:
+Do not lock Phase 5D until migration 018 is applied and one minimal submit → Admin Pending → Approve → public testimonial flow is owner-verified. Later phases must not expose private client email or bypass moderation/consent.
 
 ## Planned Phase 3 sequence
 
