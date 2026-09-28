@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./admin.css?v=phase5c-seo-20260928-1">
+  <link rel="stylesheet" href="./admin.css?v=phase5c-seo-20260928-2">
 </head>
 <body>
   <main class="admin-shell">
@@ -2984,8 +2984,11 @@
             </section>
 
             <section class="editor-card">
-              <div class="manager-form-actions">
-                <button id="seoSaveButton" type="submit" disabled>Save project SEO</button>
+              <div class="seo-save-row">
+                <div class="manager-form-actions">
+                  <button id="seoSaveButton" type="submit" disabled>Save project SEO</button>
+                </div>
+                <p id="seoSaveMessage" class="form-message" role="status" aria-live="polite"></p>
               </div>
             </section>
           </form>
@@ -3001,6 +3004,6 @@
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script type="module" src="./admin.js?v=phase5c-seo-20260928-1"></script>
+  <script type="module" src="./admin.js?v=phase5c-seo-20260928-2"></script>
 </body>
 </html>
