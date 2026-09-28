@@ -48,6 +48,117 @@ const categoryMeta = (key) =>
   CV_CATEGORIES.find((item) => item.key === key) ||
   CV_CATEGORIES[CV_CATEGORIES.length - 1];
 
+const normalizeCategories = (value) =>
+  Array.isArray(value)
+    ? value
+        .map(clean)
+        .filter((item) => CV_CATEGORIES.some((category) => category.key === item))
+    : [];
+
+const normalizeTaggedValues = (items) =>
+  Array.isArray(items)
+    ? items
+        .slice(0, 100)
+        .map((item) => {
+          if (typeof item === "string") {
+            return { value: clean(item), categories: ["general"] };
+          }
+          return {
+            value: clean(item?.value),
+            categories: normalizeCategories(item?.categories)
+          };
+        })
+        .filter((item) => item.value)
+    : [];
+
+const normalizeMasterProfile = (value) => {
+  const source = value && typeof value === "object" ? value : {};
+  const personal =
+    source.personal && typeof source.personal === "object"
+      ? source.personal
+      : {};
+
+  const normalizeEducation = (items) =>
+    Array.isArray(items)
+      ? items
+          .slice(0, 20)
+          .map((item) => ({
+            qualification: clean(item?.qualification),
+            institution: clean(item?.institution),
+            period: clean(item?.period),
+            details: clean(item?.details)
+          }))
+          .filter((item) => Object.values(item).some(Boolean))
+      : [];
+
+  const normalizeExperiences = (items) =>
+    Array.isArray(items)
+      ? items
+          .slice(0, 40)
+          .map((item) => ({
+            role: clean(item?.role),
+            company: clean(item?.company),
+            period: clean(item?.period),
+            details: clean(item?.details),
+            categories: normalizeCategories(item?.categories)
+          }))
+          .filter((item) =>
+            [item.role, item.company, item.period, item.details].some(Boolean)
+          )
+      : [];
+
+  const normalizeRoleText = (input) => {
+    const output = {};
+    if (input && typeof input === "object") {
+      CV_CATEGORIES.forEach(({ key }) => {
+        const text = clean(input[key]);
+        if (text) output[key] = text;
+      });
+    }
+    return output;
+  };
+
+  return {
+    personal: {
+      fullName: clean(personal.fullName),
+      headline: clean(personal.headline),
+      location: clean(personal.location),
+      email: clean(personal.email),
+      phone: clean(personal.phone),
+      website: clean(personal.website),
+      linkedin: clean(personal.linkedin),
+      behance: clean(personal.behance),
+      github: clean(personal.github),
+      photoUrl: clean(personal.photoUrl)
+    },
+    education: normalizeEducation(source.education),
+    experiences: normalizeExperiences(source.experiences),
+    skills: normalizeTaggedValues(source.skills),
+    languages: Array.isArray(source.languages)
+      ? source.languages.map(clean).filter(Boolean).slice(0, 40)
+      : [],
+    certifications: normalizeTaggedValues(source.certifications),
+    headlines: normalizeRoleText(source.headlines),
+    summaries: normalizeRoleText(source.summaries)
+  };
+};
+
+const masterHasUsefulData = (profile) =>
+  Boolean(
+    profile.personal.fullName ||
+      profile.education.length ||
+      profile.experiences.length ||
+      profile.skills.length ||
+      profile.languages.length ||
+      profile.certifications.length
+  );
+
+const matchesCategory = (categories, categoryKey) => {
+  if (categoryKey === "general") return true;
+  const keys = Array.isArray(categories) ? categories : [];
+  return keys.includes(categoryKey) || keys.includes("general");
+};
+
 const emptyResume = () => ({
   personal: {
     fullName: "",
