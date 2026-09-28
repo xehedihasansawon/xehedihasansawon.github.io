@@ -6620,3 +6620,151 @@ html{
     min-height: 240px;
   }
 }
+
+
+/* =========================================================
+   PHASE 5A · CLIENT PROJECT INQUIRY
+   ========================================================= */
+.contact-inquiry-panel{
+  margin-top:18px;
+  padding:18px;
+  border:1px solid rgba(218,241,222,.12);
+  border-radius:18px;
+  background:rgba(4,24,24,.42);
+}
+.contact-inquiry-head{
+  display:flex;
+  justify-content:space-between;
+  gap:18px;
+  align-items:flex-end;
+  margin-bottom:16px;
+}
+.contact-inquiry-head h3{
+  margin:4px 0 0;
+  font-family:"Bebas Neue",Impact,sans-serif;
+  font-size:30px;
+  line-height:1;
+  letter-spacing:.02em;
+  color:#f4f8f5;
+}
+.contact-inquiry-head p{
+  max-width:420px;
+  margin:0;
+  font-size:12px;
+  line-height:1.6;
+  color:#aebfb6;
+}
+.contact-inquiry-form{
+  display:grid;
+  gap:14px;
+}
+.contact-inquiry-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+}
+.contact-inquiry-form label{
+  display:grid;
+  gap:7px;
+}
+.contact-inquiry-form label>span{
+  font-size:10px;
+  font-weight:800;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  color:#b9cac0;
+}
+.contact-inquiry-form input,
+.contact-inquiry-form select,
+.contact-inquiry-form textarea{
+  width:100%;
+  border:1px solid rgba(218,241,222,.14);
+  border-radius:10px;
+  background:#071f20;
+  color:#f1f7f3;
+  font:inherit;
+  outline:none;
+}
+.contact-inquiry-form input,
+.contact-inquiry-form select{
+  min-height:44px;
+  padding:0 12px;
+}
+.contact-inquiry-form textarea{
+  min-height:120px;
+  padding:12px;
+  resize:vertical;
+}
+.contact-inquiry-form input:focus,
+.contact-inquiry-form select:focus,
+.contact-inquiry-form textarea:focus{
+  border-color:#b61e24;
+}
+.contact-inquiry-consent{
+  grid-template-columns:auto 1fr !important;
+  align-items:start;
+  gap:9px !important;
+}
+.contact-inquiry-consent input{
+  width:16px;
+  min-height:16px;
+  height:16px;
+  margin-top:2px;
+}
+.contact-inquiry-consent span{
+  font-size:10px !important;
+  font-weight:600 !important;
+  line-height:1.5;
+  letter-spacing:0 !important;
+  text-transform:none !important;
+  color:#9fb2a8 !important;
+}
+.contact-inquiry-actions{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  min-height:46px;
+}
+.contact-inquiry-actions button{
+  min-height:44px;
+  padding:0 17px;
+  border:1px solid #b61e24;
+  border-radius:10px;
+  background:#b61e24;
+  color:#fff;
+  font-weight:800;
+  cursor:pointer;
+}
+.contact-inquiry-actions button:disabled{
+  opacity:.65;
+  cursor:wait;
+}
+#inquiryFormMessage{
+  margin:0;
+  font-size:11px;
+  line-height:1.5;
+  color:#aebfb6;
+}
+#inquiryFormMessage[data-state="success"]{color:#a8d9b6}
+#inquiryFormMessage[data-state="error"]{color:#f1a4a7}
+.contact-inquiry-trap{
+  position:absolute !important;
+  left:-9999px !important;
+  width:1px !important;
+  height:1px !important;
+  overflow:hidden !important;
+}
+@media (max-width:760px){
+  .contact-inquiry-panel{padding:15px}
+  .contact-inquiry-head{
+    display:grid;
+    gap:8px;
+    align-items:start;
+  }
+  .contact-inquiry-head h3{font-size:26px}
+  .contact-inquiry-grid{grid-template-columns:1fr}
+  .contact-inquiry-actions{
+    display:grid;
+    gap:8px;
+  }
+}
