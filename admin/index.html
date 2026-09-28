@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./admin.css?v=phase5c-seo-20260928-2">
+  <link rel="stylesheet" href="./admin.css?v=phase5d-feedback-20260928-1">
 </head>
 <body>
   <main class="admin-shell">
@@ -272,6 +272,12 @@
           <button id="seoNavButton" class="nav-item" type="button">
             <span class="nav-index">05C</span>
             <span>SEO Manager</span>
+            <small>Locked</small>
+          </button>
+
+          <button id="testimonialsNavButton" class="nav-item" type="button">
+            <span class="nav-index">05D</span>
+            <span>Testimonials</span>
             <small>Active</small>
           </button>
 
@@ -330,18 +336,18 @@
         <div id="dashboard" class="dashboard-content">
           <section class="dashboard-hero">
             <div>
-              <p class="status-pill success">PHASE 5C ACTIVE</p>
-              <h3>Per-Project SEO Manager is in development.</h3>
+              <p class="status-pill success">PHASE 5D ACTIVE</p>
+              <h3>Testimonials & Client Feedback is in development.</h3>
               <p>
-                Phase 3, Phase 4, Phase 5A and Phase 5B remain locked. Phase 5C adds
-                project-level search metadata and social preview controls.
+                Phase 3, Phase 4 and Phase 5A–5C remain locked. Phase 5D adds
+                moderated client feedback and approved public testimonials.
               </p>
             </div>
 
             <div class="phase-card">
               <span>CURRENT MODULE</span>
-              <strong>Phase 5C</strong>
-              <p>Per-Project SEO Manager</p>
+              <strong>Phase 5D</strong>
+              <p>Testimonials / Client Feedback</p>
 
               <div class="foundation-stack" aria-live="polite">
                 <div class="foundation-check">
@@ -2994,16 +3000,125 @@
           </form>
         </div>
 
+        <div id="testimonialsEditor" class="editor-content" hidden>
+          <section class="editor-heading-card">
+            <div>
+              <p class="status-pill success">PHASE 5D ACTIVE</p>
+              <h3>Testimonials / Client Feedback</h3>
+              <p>Review client submissions, keep private contact details protected, and publish only approved feedback with explicit display consent.</p>
+            </div>
+            <div class="editor-state">
+              <span>FEEDBACK MANAGER</span>
+              <strong>Moderated testimonials</strong>
+              <b id="testimonialsState">Ready</b>
+            </div>
+          </section>
+
+          <section class="editor-card">
+            <div class="editor-section-title">
+              <div>
+                <p class="eyebrow">CLIENT FEEDBACK</p>
+                <h3>Review & publish</h3>
+              </div>
+              <button id="testimonialsRefreshButton" class="secondary-button" type="button">Refresh</button>
+            </div>
+
+            <p id="testimonialsMessage" class="form-message" role="status" aria-live="polite"></p>
+
+            <div class="portfolio-manager-note">
+              <strong>Moderated public display</strong>
+              <span>New public submissions always start Pending. Client email stays private. Only Approved feedback with display consent can appear on the public portfolio.</span>
+            </div>
+          </section>
+
+          <section class="editor-card">
+            <div class="testimonial-admin-toolbar">
+              <label>
+                <span>View</span>
+                <select id="testimonialsFilter">
+                  <option value="all">All feedback</option>
+                  <option value="pending">Pending</option>
+                  <option value="approved">Approved</option>
+                  <option value="hidden">Hidden</option>
+                </select>
+              </label>
+              <strong id="testimonialsCount">0 items</strong>
+              <button id="testimonialNewButton" class="secondary-button" type="button">New testimonial</button>
+            </div>
+
+            <div class="testimonial-admin-layout">
+              <div class="testimonial-admin-list-panel">
+                <div id="testimonialsList" class="testimonial-admin-list"></div>
+              </div>
+
+              <form id="testimonialAdminForm" class="cms-editor-form manager-form testimonial-admin-form" novalidate>
+                <input id="testimonialId" type="hidden">
+
+                <div class="editor-grid two">
+                  <label>
+                    <span>Client name</span>
+                    <input id="testimonialName" type="text" maxlength="100" required>
+                  </label>
+                  <label>
+                    <span>Private email</span>
+                    <input id="testimonialEmail" type="email" maxlength="254" required>
+                    <small>Admin-only. Never exposed in the public testimonial API.</small>
+                  </label>
+                  <label>
+                    <span>Role</span>
+                    <input id="testimonialRole" type="text" maxlength="120" placeholder="Founder, Manager, Organizer…">
+                  </label>
+                  <label>
+                    <span>Company / team</span>
+                    <input id="testimonialCompany" type="text" maxlength="120">
+                  </label>
+                  <label class="editor-grid-span">
+                    <span>Project / context</span>
+                    <input id="testimonialProject" type="text" maxlength="160" placeholder="Brand identity, SSFC Season 4…">
+                  </label>
+                  <label class="editor-grid-span">
+                    <span>Feedback</span>
+                    <textarea id="testimonialFeedback" maxlength="1200" rows="6" required></textarea>
+                  </label>
+                  <label>
+                    <span>Status</span>
+                    <select id="testimonialStatus">
+                      <option value="pending">Pending</option>
+                      <option value="approved">Approved</option>
+                      <option value="hidden">Hidden</option>
+                    </select>
+                  </label>
+                  <label>
+                    <span>Public order</span>
+                    <input id="testimonialOrder" type="number" min="0" step="1" value="0">
+                    <small>Lower numbers appear first.</small>
+                  </label>
+                </div>
+
+                <label class="manager-check testimonial-consent-check">
+                  <input id="testimonialConsent" type="checkbox">
+                  <span>Client consented to public display.</span>
+                </label>
+
+                <div class="manager-form-actions testimonial-admin-actions">
+                  <button id="testimonialSaveButton" type="submit">Save feedback</button>
+                  <button id="testimonialDeleteButton" class="secondary-button danger-button" type="button" hidden>Delete permanently</button>
+                </div>
+              </form>
+            </div>
+          </section>
+        </div>
+
       </div>
     </section>
 
     <footer id="publicAdminFooter" class="admin-footer">
       <span>MEHEDI PORTFOLIO</span>
-      <span>Secure Admin · Phase 5C Active</span>
+      <span>Secure Admin · Phase 5D Active</span>
     </footer>
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script type="module" src="./admin.js?v=phase5c-seo-20260928-3"></script>
+  <script type="module" src="./admin.js?v=phase5d-feedback-20260928-1"></script>
 </body>
 </html>
