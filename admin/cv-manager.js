@@ -133,14 +133,20 @@ const makeExperienceRow = (data = {}) => {
   up.addEventListener("click", () => {
     const previous = row.previousElementSibling;
     if (previous) row.parentElement.insertBefore(row, previous);
+    row.closest("form")?.dispatchEvent(new Event("input", { bubbles: true }));
   });
 
   down.addEventListener("click", () => {
     const next = row.nextElementSibling;
     if (next) row.parentElement.insertBefore(next, row);
+    row.closest("form")?.dispatchEvent(new Event("input", { bubbles: true }));
   });
 
-  remove.addEventListener("click", () => row.remove());
+  remove.addEventListener("click", () => {
+    const form = row.closest("form");
+    row.remove();
+    form?.dispatchEvent(new Event("input", { bubbles: true }));
+  });
 
   actions.append(up, down, remove);
   row.append(grid, detailsWrap, actions);
@@ -189,14 +195,20 @@ const makeEducationRow = (data = {}) => {
   up.addEventListener("click", () => {
     const previous = row.previousElementSibling;
     if (previous) row.parentElement.insertBefore(row, previous);
+    row.closest("form")?.dispatchEvent(new Event("input", { bubbles: true }));
   });
 
   down.addEventListener("click", () => {
     const next = row.nextElementSibling;
     if (next) row.parentElement.insertBefore(next, row);
+    row.closest("form")?.dispatchEvent(new Event("input", { bubbles: true }));
   });
 
-  remove.addEventListener("click", () => row.remove());
+  remove.addEventListener("click", () => {
+    const form = row.closest("form");
+    row.remove();
+    form?.dispatchEvent(new Event("input", { bubbles: true }));
+  });
 
   actions.append(up, down, remove);
   row.append(grid, detailsWrap, actions);
@@ -280,16 +292,15 @@ export const initCvManager = ({ supabaseClient, showCmsView }) => {
 
   const setBusy = (value) => {
     busy = value;
-    [
-      refreshButton,
-      newButton,
-      duplicateButton,
-      deleteButton,
-      printButton,
-      saveButton
-    ].forEach((button) => {
+
+    [refreshButton, newButton, saveButton].forEach((button) => {
       if (button) button.disabled = value;
     });
+
+    if (duplicateButton) duplicateButton.disabled = value || !idInput.value;
+    if (deleteButton) deleteButton.disabled = value || !idInput.value;
+    if (printButton) printButton.disabled = value || !idInput.value;
+
     if (saveButton) saveButton.textContent = value ? "Saving…" : "Save CV";
   };
 
