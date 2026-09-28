@@ -650,6 +650,121 @@ export const initCvManager = ({ supabaseClient, showCmsView }) => {
     renderList();
   };
 
+  const loadMasterProfile = async ({ quiet = false } = {}) => {
+    setMasterState("Loading private Master Profile…");
+
+    try {
+      const { data, error } = await supabaseClient
+        .from("portfolio_cv_master_profiles")
+        .select("id,profile_data,updated_at")
+        .eq("id", 1)
+        .maybeSingle();
+
+      if (error) {
+        if (/portfolio_cv_master_profiles/i.test(error.message || "")) {
+          throw new Error(
+            "Master Profile table is missing. Run migration 021_private_cv_master_profile.sql first."
+          );
+        }
+        throw error;
+      }
+
+      masterProfile = normalizeMasterProfile(data?.profile_data || {});
+      masterReady = masterHasUsefulData(masterProfile);
+      masterBuildButton.disabled = !masterReady || busy;
+
+      if (masterReady) {
+        setMasterState("Master Profile ready · role-specific CV auto-build enabled", "ready");
+      } else {
+        setMasterState("Master Profile table ready · A–Z profile data not loaded yet", "empty");
+      }
+
+      renderCategoryLibrary();
+      if (!quiet && masterReady) {
+        setMessage("Private Master Profile refreshed.");
+      }
+
+      return masterReady;
+    } catch (error) {
+      console.error("CV Master Profile load failed:", error);
+      masterProfile = normalizeMasterProfile({});
+      masterReady = false;
+      masterBuildButton.disabled = true;
+      setMasterState(error?.message || "Could not load private Master Profile.", "error");
+      return false;
+    }
+  };
+
+  const applyMasterToForm = (categoryKey, { keepId = true } = {}) => {
+    if (!masterReady) return false;
+
+    const meta = categoryMeta(categoryKey);
+    const existingId = keepId ? idInput.value : "";
+
+    if (!keepId) {
+      resetForm(meta.key);
+    }
+
+    activeCategory = meta.key;
+    categoryInput.value = meta.key;
+    targetRoleInput.value = meta.role;
+    if (!existingId) labelInput.value = meta.label + " CV";
+
+    const current = normalizeResume(readForm().resume_data);
+    const personal = mergePersonal(current.personal, masterProfile.personal);
+
+    fullNameInput.value = personal.fullName;
+    photoUrlInput.value = personal.photoUrl;
+    headlineInput.value =
+      masterProfile.headlines[meta.key] ||
+      personal.headline ||
+      meta.role;
+    summaryInput.value = masterProfile.summaries[meta.key] || "";
+    locationInput.value = personal.location;
+    emailInput.value = personal.email;
+    phoneInput.value = personal.phone;
+    websiteInput.value = personal.website;
+    linkedinInput.value = personal.linkedin;
+    behanceInput.value = personal.behance;
+    githubInput.value = personal.github;
+
+    const experiences = masterProfile.experiences.filter((item) =>
+      matchesCategory(item.categories, meta.key)
+    );
+    experienceList.replaceChildren();
+    (experiences.length ? experiences : [{}]).forEach((item) => {
+      experienceList.append(makeExperienceRow(item));
+    });
+
+    educationList.replaceChildren();
+    (masterProfile.education.length ? masterProfile.education : [{}]).forEach(
+      (item) => {
+        educationList.append(makeEducationRow(item));
+      }
+    );
+
+    const skills = masterProfile.skills
+      .filter((item) => matchesCategory(item.categories, meta.key))
+      .map((item) => item.value);
+
+    const certifications = masterProfile.certifications
+      .filter((item) => matchesCategory(item.categories, meta.key))
+      .map((item) => item.value);
+
+    skillsInput.value = skills.join("\n");
+    languagesInput.value = masterProfile.languages.join("\n");
+    certificationsInput.value = certifications.join("\n");
+
+    if (existingId) idInput.value = existingId;
+
+    setState("Built from Master · " + meta.label);
+    setMessage("Relevant Master Profile data applied to this CV category.");
+    renderPreview(readForm());
+    renderCategoryLibrary();
+    renderList();
+    return true;
+  };
+
   const renderCategoryLibrary = () => {
     categoryLibrary.replaceChildren();
 
@@ -675,14 +790,27 @@ export const initCvManager = ({ supabaseClient, showCmsView }) => {
 
       button.append(
         top,
-        create("small", matching.length ? "Ready CV version" : "Create this CV")
+        create(
+          "small",
+          matching.length
+            ? "Ready CV version"
+            : masterReady
+              ? "Create from Master Profile"
+              : "Master Profile data required"
+        )
       );
 
-      button.addEventListener("click", () => {
+      button.addEventListener("click", async () => {
         activeCategory = meta.key;
 
         if (matching.length) {
           populate(matching[0]);
+          return;
+        }
+
+        if (masterReady) {
+          applyMasterToForm(meta.key, { keepId: false });
+          await save();
           return;
         }
 
@@ -994,6 +1122,8 @@ export const initCvManager = ({ supabaseClient, showCmsView }) => {
     setMessage("Loading private CV versions…");
 
     try {
+      await loadMasterProfile({ quiet: true });
+
       const { data, error } = await supabaseClient
         .from("portfolio_cvs")
         .select(
@@ -1200,7 +1330,31 @@ export const initCvManager = ({ supabaseClient, showCmsView }) => {
   });
 
   refreshButton?.addEventListener("click", load);
-  newButton?.addEventListener("click", () => resetForm(activeCategory));
+  masterRefreshButton?.addEventListener("click", async () => {
+    await loadMasterProfile();
+  });
+  masterBuildButton?.addEventListener("click", async () => {
+    if (!masterReady) return;
+
+    if (
+      idInput.value &&
+      !window.confirm(
+        "Refresh this saved CV from the Master Profile? Current role-specific CV content will be replaced by the latest matching Master data."
+      )
+    ) {
+      return;
+    }
+
+    applyMasterToForm(activeCategory, { keepId: Boolean(idInput.value) });
+    await save();
+  });
+  newButton?.addEventListener("click", () => {
+    if (masterReady) {
+      applyMasterToForm(activeCategory, { keepId: false });
+      return;
+    }
+    resetForm(activeCategory);
+  });
   duplicateButton?.addEventListener("click", duplicate);
   deleteButton?.addEventListener("click", remove);
   printButton?.addEventListener("click", () => {
