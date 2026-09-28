@@ -595,6 +595,84 @@
                 <a id="contactBehanceLink" href="https://www.behance.net/mehedihasan194" target="_blank" rel="noreferrer">Behance</a>
               </div>
             </div>
+          <div class="contact-inquiry-panel">
+            <div class="contact-inquiry-head">
+              <div>
+                <span class="contact-channel-label">Project inquiry</span>
+                <h3>Tell me what you’re building.</h3>
+              </div>
+              <p>Short brief is enough. I’ll reply using the email you provide.</p>
+            </div>
+
+            <form id="inquiryForm" class="contact-inquiry-form" novalidate>
+              <div class="contact-inquiry-grid">
+                <label>
+                  <span>Name</span>
+                  <input name="name" id="inquiryName" type="text" maxlength="100" autocomplete="name" required>
+                </label>
+                <label>
+                  <span>Email</span>
+                  <input name="email" id="inquiryEmail" type="email" maxlength="254" autocomplete="email" required>
+                </label>
+                <label>
+                  <span>Project type</span>
+                  <select name="project_type" id="inquiryProjectType" required>
+                    <option value="">Choose one</option>
+                    <option>Branding & Graphic Design</option>
+                    <option>Social Media / Campaign</option>
+                    <option>Sports Design</option>
+                    <option>Video Editing</option>
+                    <option>Website / Portfolio</option>
+                    <option>Business System / ERP</option>
+                    <option>Other</option>
+                  </select>
+                </label>
+                <label>
+                  <span>Budget</span>
+                  <select name="budget" id="inquiryBudget">
+                    <option value="">Not specified</option>
+                    <option>Discuss first</option>
+                    <option>Under $100</option>
+                    <option>$100–300</option>
+                    <option>$300–700</option>
+                    <option>$700+</option>
+                  </select>
+                </label>
+                <label>
+                  <span>Timeline</span>
+                  <select name="timeline" id="inquiryTimeline">
+                    <option value="">Not specified</option>
+                    <option>Flexible</option>
+                    <option>1–2 weeks</option>
+                    <option>2–4 weeks</option>
+                    <option>1–2 months</option>
+                    <option>Longer</option>
+                  </select>
+                </label>
+              </div>
+
+              <label class="contact-inquiry-message">
+                <span>Project brief</span>
+                <textarea name="message" id="inquiryMessage" rows="5" maxlength="3000" placeholder="What do you need, what is the goal, and anything I should know?" required></textarea>
+              </label>
+
+              <label class="contact-inquiry-consent">
+                <input name="consent" id="inquiryConsent" type="checkbox" required>
+                <span>I’m okay with these details being stored so you can reply to this inquiry.</span>
+              </label>
+
+              <label class="contact-inquiry-trap" aria-hidden="true">
+                <span>Website</span>
+                <input id="inquiryWebsite" name="company_website" type="text" tabindex="-1" autocomplete="off">
+              </label>
+
+              <div class="contact-inquiry-actions">
+                <button id="inquirySubmit" type="submit">Send project inquiry</button>
+                <p id="inquiryFormMessage" role="status" aria-live="polite"></p>
+              </div>
+            </form>
+          </div>
+
           </div>
         </div>
       </div>
@@ -695,5 +773,6 @@
 
   <script src="script.js?v=portfolio-quality-pass-20260925-3"></script>
   <script type="module" src="public-cms.js?v=phase2a-hero-20260925-1"></script>
+  <script type="module" src="public-inquiry.js?v=phase5a-inquiry-20260928-1"></script>
 </body>
 </html>
