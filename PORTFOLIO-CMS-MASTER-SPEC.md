@@ -1528,7 +1528,7 @@ Production `main` remains unchanged by Phase 4.
 
 ## Phase 5 — Business/System Features
 
-Status: **ACTIVE · PHASE 5A LOCKED · PHASE 5B NEXT**
+Status: **ACTIVE · PHASE 5A LOCKED · PHASE 5B IMPLEMENTED · OWNER TEST PENDING**
 
 Purpose:
 Add the business-facing systems around the locked portfolio and case-study foundation without redesigning the approved Phase 2–4 presentation.
@@ -1608,6 +1608,55 @@ Completed and locked:
 - Permanent delete action
 - End-to-end localhost submission verified
 - Production `main` remains untouched
+
+### Phase 5B — Analytics Dashboard
+
+Status: **IMPLEMENTED · MIGRATION + OWNER TEST PENDING**
+
+Scope:
+- Add migration `015_analytics_dashboard.sql`
+- Add private first-party `portfolio_analytics_events` store
+- Track only `page_view`, `project_view` and `contact_click` events
+- Store a random browser-session UUID, event key, public page path and optional project slug
+- Do not store IP address, user agent, fingerprint, query-string data, inquiry content, email or other client personal data
+- Respect browser Do Not Track
+- Anonymous visitors receive INSERT-only analytics access
+- Anonymous visitors cannot read analytics
+- Allowlisted authenticated admins receive read-only analytics access
+- Homepage tracks page views and direct contact/profile actions
+- Dynamic Portfolio Engine case-study pages track page/project views
+- Existing static SSFC and Biporjoy case-study pages receive additive analytics instrumentation without changing their visual/content contracts
+- Add dedicated `05B Analytics` Admin module
+- Dashboard filters: last 7 / 30 / 90 days
+- Dashboard metrics: Visits, Page Views, Project Views, Contact Clicks
+- Dashboard rankings: Top Projects and Top Contact Actions
+- Limit one dashboard request to the latest 5,000 events in the selected period
+- Phase 3, Phase 4 and Phase 5A remain locked
+- Production `main` remains untouched
+
+Acceptance checklist:
+- [ ] Migration 015 applies successfully in Supabase
+- [x] Analytics event schema and indexes are implemented
+- [x] Anonymous INSERT-only analytics grant is implemented
+- [x] Anonymous analytics SELECT access is not granted
+- [x] Admin allowlist read policy is implemented
+- [x] No personal client/inquiry data is included in the analytics payload
+- [x] Browser Do Not Track is respected
+- [x] Homepage page-view tracking is implemented
+- [x] Contact click tracking is implemented
+- [x] Dynamic case-study project-view tracking is implemented
+- [x] Static SSFC/Biporjoy project-view tracking is implemented
+- [x] 05B Analytics admin navigation is implemented
+- [x] 7 / 30 / 90 day range filter is implemented
+- [x] Visits / Page Views / Project Views / Contact Clicks totals are implemented
+- [x] Top Projects and Top Contact Actions are implemented
+- [ ] Localhost visit creates analytics data
+- [ ] Project view appears in Analytics Dashboard
+- [ ] Contact click appears in Analytics Dashboard
+- [ ] Phase 5B owner approval / lock
+
+Lock rule:
+Do not lock Phase 5B until migration 015 is applied and one minimal localhost analytics flow is visible in the Admin Dashboard. Later phases must not add personal client data or weaken analytics RLS.
 
 ## Planned Phase 3 sequence
 
