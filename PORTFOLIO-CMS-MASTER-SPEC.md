@@ -1720,7 +1720,7 @@ Do not lock Phase 5C until migration 016 is applied and one minimal save/reload/
 
 ### Phase 5D — Testimonials / Client Feedback
 
-Status: **IMPLEMENTED · MIGRATION + OWNER TEST PENDING**
+Status: **IMPLEMENTED · OWNER TEST PASSED · LOCK APPROVAL PENDING**
 
 Scope:
 - Add migration `018_client_feedback_testimonials.sql`
@@ -1756,6 +1756,7 @@ Acceptance checklist:
 - [x] Phase 2K top-level section ordering left unchanged
 - [x] One localhost public feedback submission reaches Admin as Pending *(owner-verified: Test Client)*
 - [x] Admin approval makes that feedback visible publicly *(owner-verified on homepage Contact section)*
+- [x] Temporary Test Client feedback deleted after verification *(owner-confirmed cleanup)*
 - [ ] Phase 5D owner approval / lock
 
 Lock rule:
