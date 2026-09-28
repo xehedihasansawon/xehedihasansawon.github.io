@@ -382,6 +382,9 @@ export const initCvManager = ({ supabaseClient, showCmsView }) => {
   const list = byId("cvManagerList");
   const count = byId("cvManagerCount");
   const categoryLibrary = byId("cvCategoryLibrary");
+  const masterState = byId("cvMasterState");
+  const masterRefreshButton = byId("cvMasterRefreshButton");
+  const masterBuildButton = byId("cvMasterBuildButton");
 
   const form = byId("cvManagerForm");
   const idInput = byId("cvId");
@@ -421,6 +424,9 @@ export const initCvManager = ({ supabaseClient, showCmsView }) => {
     !form ||
     !list ||
     !categoryLibrary ||
+    !masterState ||
+    !masterRefreshButton ||
+    !masterBuildButton ||
     !categoryInput ||
     !preview ||
     !experienceList ||
@@ -432,6 +438,8 @@ export const initCvManager = ({ supabaseClient, showCmsView }) => {
   let rows = [];
   let busy = false;
   let activeCategory = "graphic_design";
+  let masterProfile = normalizeMasterProfile({});
+  let masterReady = false;
 
   const setState = (value) => {
     if (state) state.textContent = value;
@@ -444,19 +452,36 @@ export const initCvManager = ({ supabaseClient, showCmsView }) => {
   const setBusy = (value) => {
     busy = value;
 
-    [refreshButton, newButton, saveButton].forEach((button) => {
+    [refreshButton, newButton, saveButton, masterRefreshButton].forEach((button) => {
       if (button) button.disabled = value;
     });
 
     if (duplicateButton) duplicateButton.disabled = value || !idInput.value;
     if (deleteButton) deleteButton.disabled = value || !idInput.value;
     if (printButton) printButton.disabled = value || !idInput.value;
+    if (masterBuildButton) {
+      masterBuildButton.disabled = value || !masterReady;
+    }
 
     if (saveButton) saveButton.textContent = value ? "Saving…" : "Save CV";
   };
 
   const selected = () =>
     rows.find((row) => row.id === idInput.value) || null;
+
+  const setMasterState = (value, tone = "") => {
+    masterState.textContent = value;
+    masterState.dataset.tone = tone;
+  };
+
+  const mergePersonal = (current, source) => {
+    const merged = { ...current };
+    Object.entries(source || {}).forEach(([key, value]) => {
+      const cleaned = clean(value);
+      if (cleaned) merged[key] = cleaned;
+    });
+    return merged;
+  };
 
   const readEntries = (container, keys) =>
     [...container.querySelectorAll(".cv-entry-row")].map((row) => {
