@@ -7,7 +7,7 @@ import { initProjectOrdering } from "./project-ordering.js";
 import { initCaseStudyManager } from "./case-study-manager.js";
 import { initInquiryManager } from "./inquiry-manager.js";
 import { initAnalyticsDashboard } from "./analytics-dashboard.js";
-import { initSeoManager } from "./seo-manager.js";
+import { initSeoManager } from "./seo-manager.js?v=phase5c-seo-20260928-2";
 
 const configPanel = document.querySelector("#configPanel");
 const loginPanel = document.querySelector("#loginPanel");
