@@ -6517,6 +6517,9 @@ html{
 
 
 /* Phase 4 · Dynamic Case Study */
+.dynamic-case-study-page [hidden] {
+  display: none !important;
+}
 .case-dynamic-state {
   min-height: 58vh;
   display: grid;
