@@ -7,6 +7,22 @@ const isSecureImageUrl = (value) => {
   return !url || /^https:\/\//i.test(url);
 };
 
+const resolvePreviewImage = (value) => {
+  const src = clean(value);
+  if (!src) return "";
+
+  if (/^https?:\/\//i.test(src) || src.startsWith("/")) {
+    return src;
+  }
+
+  try {
+    const siteRoot = new URL("../", window.location.href);
+    return new URL(src.replace(/^\.\//, ""), siteRoot).toString();
+  } catch {
+    return src;
+  }
+};
+
 export const initSeoManager = ({ supabaseClient, showCmsView }) => {
   const navButton = document.querySelector("#seoNavButton");
   const editor = document.querySelector("#seoEditor");
@@ -94,7 +110,9 @@ export const initSeoManager = ({ supabaseClient, showCmsView }) => {
     const title = clean(titleInput.value) || fallbackTitle(project);
     const description =
       clean(descriptionInput.value) || fallbackDescription(project);
-    const imageUrl = clean(socialImageInput.value) || clean(project.cover_image_url);
+    const imageUrl = resolvePreviewImage(
+      clean(socialImageInput.value) || clean(project.cover_image_url)
+    );
 
     if (previewTitle) previewTitle.textContent = title;
     if (previewDescription) previewDescription.textContent = description;
