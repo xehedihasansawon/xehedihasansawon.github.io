@@ -5,6 +5,7 @@ const DO_NOT_TRACK =
   window.doNotTrack === "1";
 
 const SESSION_KEY = "portfolio.analytics.session.v1";
+const EVENT_TYPES = new Set(["page_view", "project_view", "contact_click"]);
 
 const safePath = () =>
   String(window.location.pathname).slice(0, 500) || "/";
@@ -55,14 +56,22 @@ const track = async ({
   eventKey = "",
   projectSlug = null
 }) => {
-  if (DO_NOT_TRACK || !sessionId) return;
+  if (
+    DO_NOT_TRACK ||
+    !sessionId ||
+    !EVENT_TYPES.has(eventType) ||
+    !ADMIN_CONFIG.supabaseUrl ||
+    !ADMIN_CONFIG.supabaseAnonKey
+  ) {
+    return;
+  }
 
   const cleanKey = String(eventKey || "").trim().slice(0, 160);
   const cleanSlug = validSlug(projectSlug) ? projectSlug : null;
 
   try {
     const endpoint = new URL(
-      "/rest/v1/portfolio_analytics_events",
+      "/rest/v1/rpc/log_portfolio_analytics_event",
       ADMIN_CONFIG.supabaseUrl
     );
 
@@ -72,15 +81,14 @@ const track = async ({
       headers: {
         apikey: ADMIN_CONFIG.supabaseAnonKey,
         Authorization: "Bearer " + ADMIN_CONFIG.supabaseAnonKey,
-        "Content-Type": "application/json",
-        Prefer: "return=minimal"
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        event_type: eventType,
-        event_key: cleanKey,
-        page_path: safePath(),
-        project_slug: cleanSlug,
-        session_id: sessionId
+        p_event_type: eventType,
+        p_event_key: cleanKey,
+        p_page_path: safePath(),
+        p_project_slug: cleanSlug,
+        p_session_id: sessionId
       })
     });
   } catch {
