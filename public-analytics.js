@@ -7,8 +7,7 @@ const DO_NOT_TRACK =
 const SESSION_KEY = "portfolio.analytics.session.v1";
 
 const safePath = () =>
-  String(window.location.pathname + window.location.search)
-    .slice(0, 500) || "/";
+  String(window.location.pathname).slice(0, 500) || "/";
 
 const validSlug = (value) =>
   /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(String(value || ""));
