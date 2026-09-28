@@ -1528,7 +1528,7 @@ Production `main` remains unchanged by Phase 4.
 
 ## Phase 5 — Business/System Features
 
-Status: **ACTIVE · PHASE 5A LOCKED · PHASE 5B IMPLEMENTED · OWNER TEST PENDING**
+Status: **ACTIVE · PHASE 5A–5B LOCKED · PHASE 5C IMPLEMENTED · OWNER TEST PENDING**
 
 Purpose:
 Add the business-facing systems around the locked portfolio and case-study foundation without redesigning the approved Phase 2–4 presentation.
@@ -1611,52 +1611,109 @@ Completed and locked:
 
 ### Phase 5B — Analytics Dashboard
 
-Status: **IMPLEMENTED · MIGRATION + OWNER TEST PENDING**
+Status: **LOCKED / DONE**
 
 Scope:
-- Add migration `015_analytics_dashboard.sql`
-- Add private first-party `portfolio_analytics_events` store
-- Track only `page_view`, `project_view` and `contact_click` events
-- Store a random browser-session UUID, event key, public page path and optional project slug
-- Do not store IP address, user agent, fingerprint, query-string data, inquiry content, email or other client personal data
+- Migration `015_analytics_dashboard.sql`
+- Private first-party `portfolio_analytics_events` store
+- Track only `page_view`, `project_view` and `contact_click`
+- Random browser-session UUID only; no IP address, user agent, fingerprint, query-string data, inquiry content, email or other client personal data
 - Respect browser Do Not Track
-- Anonymous visitors receive INSERT-only analytics access
-- Anonymous visitors cannot read analytics
-- Allowlisted authenticated admins receive read-only analytics access
-- Homepage tracks page views and direct contact/profile actions
+- Anonymous visitors have no direct analytics table read/write access
+- Public events are accepted only through the validated `log_portfolio_analytics_event` RPC
+- Allowlisted authenticated admins receive read-only analytics table access
+- Homepage page views and direct contact/profile actions are instrumented
 - Dynamic Portfolio Engine case-study pages track page/project views
 - Existing static SSFC and Biporjoy case-study pages receive additive analytics instrumentation without changing their visual/content contracts
-- Add dedicated `05B Analytics` Admin module
-- Dashboard filters: last 7 / 30 / 90 days
-- Dashboard metrics: Visits, Page Views, Project Views, Contact Clicks
-- Dashboard rankings: Top Projects and Top Contact Actions
-- Limit one dashboard request to the latest 5,000 events in the selected period
+- Dedicated `05B Analytics` Admin module
+- Last 7 / 30 / 90 day filters
+- Visits, Page Views, Project Views and Contact Clicks totals
+- Top Projects and Top Contact Actions rankings
+- Dashboard query capped to the latest 5,000 events in the selected period
 - Phase 3, Phase 4 and Phase 5A remain locked
 - Production `main` remains untouched
 
 Acceptance checklist:
-- [ ] Migration 015 applies successfully in Supabase
-- [x] Analytics event schema and indexes are implemented
-- [x] Anonymous INSERT-only analytics grant is implemented
-- [x] Anonymous analytics SELECT access is not granted
-- [x] Admin allowlist read policy is implemented
-- [x] No personal client/inquiry data is included in the analytics payload
-- [x] Browser Do Not Track is respected
-- [x] Homepage page-view tracking is implemented
-- [x] Contact click tracking is implemented
-- [x] Dynamic case-study project-view tracking is implemented
-- [x] Static SSFC/Biporjoy project-view tracking is implemented
-- [x] 05B Analytics admin navigation is implemented
-- [x] 7 / 30 / 90 day range filter is implemented
-- [x] Visits / Page Views / Project Views / Contact Clicks totals are implemented
-- [x] Top Projects and Top Contact Actions are implemented
-- [ ] Localhost visit creates analytics data
-- [ ] Project view appears in Analytics Dashboard
-- [ ] Contact click appears in Analytics Dashboard
-- [ ] Phase 5B owner approval / lock
+- [x] Migration 015 applied successfully in Supabase *(owner-confirmed)*
+- [x] Analytics event schema and indexes implemented
+- [x] Anonymous direct table reads/writes blocked
+- [x] Validated public analytics RPC implemented
+- [x] Admin allowlist read policy implemented
+- [x] No personal client/inquiry data included in analytics payload
+- [x] Browser Do Not Track respected
+- [x] Homepage page-view tracking implemented
+- [x] Contact click tracking implemented *(static verified)*
+- [x] Dynamic case-study project-view tracking implemented *(static verified)*
+- [x] Static SSFC/Biporjoy project-view tracking implemented *(static verified)*
+- [x] 05B Analytics admin navigation implemented
+- [x] 7 / 30 / 90 day range filter implemented
+- [x] Visits / Page Views / Project Views / Contact Clicks totals implemented
+- [x] Top Projects and Top Contact Actions implemented
+- [x] Localhost visit created analytics data *(owner-verified: Visits 1 / Page Views 1)*
+- [x] Static/security audit passed
+- [x] Phase 5B owner approval / lock
+
+Owner approval: 2026-09-28
+
+Phase 5B is locked. The privacy-first event store, validated public logger and Admin Analytics Dashboard are approved as the stable analytics baseline.
 
 Lock rule:
-Do not lock Phase 5B until migration 015 is applied and one minimal localhost analytics flow is visible in the Admin Dashboard. Later phases must not add personal client data or weaken analytics RLS.
+Freeze the Phase 5B analytics schema, validated logger and Admin Dashboard behavior. Later phases must not add personal client data, restore anonymous direct table writes, or weaken analytics RLS except for a verified bug/security fix.
+
+## Phase 5B — COMPLETE / LOCKED
+
+Completed and locked:
+- Privacy-first first-party analytics
+- Validated public RPC event logging
+- Admin-only analytics read access
+- Visits / Page Views / Project Views / Contact Clicks
+- Top Projects / Top Contact Actions
+- 7 / 30 / 90 day views
+- Owner-verified localhost page-view flow
+- Production `main` remains untouched
+
+### Phase 5C — Per-Project SEO Manager
+
+Status: **IMPLEMENTED · MIGRATION + OWNER TEST PENDING**
+
+Scope:
+- Add migration `016_project_seo_manager.sql`
+- Add one-to-one `portfolio_project_seo` metadata rows keyed by existing Portfolio Engine projects
+- Reuse the locked `portfolio_projects.slug` and `cover_image_alt` fields instead of creating duplicate identity/accessibility fields
+- Store optional SEO title, meta description, social preview image URL and social image alt text
+- Public SEO rows are readable only when the parent project is `public` and `is_published = true`
+- Anonymous visitors receive no SEO write access
+- Allowlisted admins save slug + cover alt + SEO overrides atomically through `save_portfolio_project_seo`
+- Add dedicated `05C SEO Manager` Admin module
+- Admin project selector shows Public/Private and Live/Draft state
+- Blank SEO overrides safely fall back to the existing project/case-study title, summary and hero/cover image
+- Dynamic `project.html?slug=...` updates document title, meta description, canonical URL, Open Graph and Twitter metadata
+- Existing Phase 4 case-study rendering remains the fallback when Phase 5C data is missing/unavailable
+- Production `main` remains untouched
+
+Acceptance checklist:
+- [ ] Migration 016 applies successfully in Supabase
+- [x] SEO table schema and constraints implemented
+- [x] Public SEO read policy limited to public + published parent projects
+- [x] Anonymous SEO writes blocked
+- [x] Admin-only atomic save RPC implemented
+- [x] Existing Project Manager slug + cover alt reused
+- [x] 05C SEO Manager navigation/UI implemented
+- [x] SEO title / description / social image / social alt controls implemented
+- [x] Search/social preview card implemented in Admin
+- [x] Dynamic case-study metadata integration implemented
+- [x] Safe fallback to existing Phase 4 metadata implemented
+- [x] Static/security/syntax audit passed
+- [ ] Owner saves one project's SEO settings
+- [ ] Saved SEO values reload in Admin
+- [ ] Dynamic project page reflects saved title/description metadata
+- [ ] Phase 5C owner approval / lock
+
+Architecture note:
+The current site is static GitHub Pages with client-side Supabase rendering. Phase 5C updates runtime Open Graph/Twitter tags, but some social-unfurl crawlers do not execute JavaScript. Guaranteed platform-specific unfurls would require a later prerender/edge/static-page generation layer; this limitation does not expose private SEO rows or change the locked public case-study fallback.
+
+Lock rule:
+Do not lock Phase 5C until migration 016 is applied and one minimal save/reload/public-metadata flow is owner-verified. Later phases must preserve the parent-project publication gate and admin-only write path.
 
 ## Planned Phase 3 sequence
 
