@@ -6628,17 +6628,19 @@ html{
 .contact-inquiry-panel{
   position:relative;
   width:100%;
-  margin:18px 0 0;
-  padding:20px;
+  max-width:none;
+  box-sizing:border-box;
+  margin:16px 0 0;
+  padding:16px 18px;
   border:1px solid rgba(218,241,222,.11);
-  border-radius:14px;
-  background:rgba(4,24,24,.32);
+  border-radius:12px;
+  background:rgba(4,24,24,.28);
 }
 .contact-inquiry-panel::before{
   content:"";
   position:absolute;
-  top:20px;
-  bottom:20px;
+  top:16px;
+  bottom:16px;
   left:0;
   width:2px;
   border-radius:0 2px 2px 0;
@@ -6648,38 +6650,40 @@ html{
 .contact-inquiry-head{
   display:grid;
   grid-template-columns:minmax(0,1.15fr) minmax(260px,.85fr);
-  gap:28px;
+  gap:22px;
   align-items:end;
-  margin-bottom:18px;
-  padding:0 4px;
+  margin-bottom:14px;
+  padding:0 3px;
 }
 .contact-inquiry-head .contact-channel-label{
-  margin-bottom:7px;
+  margin-bottom:5px;
+  font-size:8px;
+  letter-spacing:.14em;
 }
 .contact-inquiry-head h3{
   margin:0;
   font-family:"Bebas Neue",Impact,sans-serif;
-  font-size:34px;
-  line-height:.98;
+  font-size:29px;
+  line-height:1;
   letter-spacing:.018em;
   color:#f4f8f5;
 }
 .contact-inquiry-head p{
   max-width:none;
   margin:0;
-  padding-bottom:2px;
-  font-size:11px;
-  line-height:1.55;
+  padding-bottom:1px;
+  font-size:10px;
+  line-height:1.45;
   color:#aebfb6;
 }
 .contact-inquiry-form{
   display:grid;
-  gap:13px;
+  gap:10px;
 }
 .contact-inquiry-grid{
   display:grid;
   grid-template-columns:repeat(6,minmax(0,1fr));
-  gap:12px;
+  gap:10px;
 }
 .contact-inquiry-grid>label:nth-child(1),
 .contact-inquiry-grid>label:nth-child(2){
@@ -6714,12 +6718,12 @@ html{
 }
 .contact-inquiry-form input,
 .contact-inquiry-form select{
-  min-height:46px;
-  padding:0 13px;
+  min-height:42px;
+  padding:0 12px;
 }
 .contact-inquiry-form textarea{
-  min-height:132px;
-  padding:13px;
+  min-height:105px;
+  padding:11px 12px;
   resize:vertical;
 }
 .contact-inquiry-form input:focus,
@@ -6800,8 +6804,8 @@ html{
 @media (max-width:760px){
   .contact-inquiry-panel{
     width:100%;
-    margin-top:16px;
-    padding:16px 15px;
+    margin-top:14px;
+    padding:15px;
   }
   .contact-inquiry-panel::before{
     top:16px;
@@ -6811,7 +6815,7 @@ html{
     padding-left:3px;
   }
   .contact-inquiry-head h3{
-    font-size:28px;
+    font-size:26px;
   }
   .contact-inquiry-grid{
     grid-template-columns:1fr;
