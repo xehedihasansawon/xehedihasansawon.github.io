@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./admin.css?v=phase5b-analytics-20260928-1">
+  <link rel="stylesheet" href="./admin.css?v=phase5c-seo-20260928-1">
 </head>
 <body>
   <main class="admin-shell">
@@ -266,6 +266,12 @@
           <button id="analyticsNavButton" class="nav-item" type="button">
             <span class="nav-index">05B</span>
             <span>Analytics</span>
+            <small>Locked</small>
+          </button>
+
+          <button id="seoNavButton" class="nav-item" type="button">
+            <span class="nav-index">05C</span>
+            <span>SEO Manager</span>
             <small>Active</small>
           </button>
 
@@ -324,18 +330,18 @@
         <div id="dashboard" class="dashboard-content">
           <section class="dashboard-hero">
             <div>
-              <p class="status-pill success">PHASE 5B ACTIVE</p>
-              <h3>Portfolio Analytics is ready for setup.</h3>
+              <p class="status-pill success">PHASE 5C ACTIVE</p>
+              <h3>Per-Project SEO Manager is in development.</h3>
               <p>
-                Phase 3, Phase 4 and Phase 5A remain locked. Phase 5B adds privacy-friendly
-                visit, project-view and contact-click analytics.
+                Phase 3, Phase 4, Phase 5A and Phase 5B remain locked. Phase 5C adds
+                project-level search metadata and social preview controls.
               </p>
             </div>
 
             <div class="phase-card">
               <span>CURRENT MODULE</span>
-              <strong>Phase 5B</strong>
-              <p>Analytics Dashboard</p>
+              <strong>Phase 5C</strong>
+              <p>Per-Project SEO Manager</p>
 
               <div class="foundation-stack" aria-live="polite">
                 <div class="foundation-check">
@@ -2853,16 +2859,148 @@
           </section>
         </div>
 
+        <div id="seoEditor" class="editor-content" hidden>
+          <section class="editor-heading-card">
+            <div>
+              <p class="status-pill success">PHASE 5C ACTIVE</p>
+              <h3>Per-Project SEO Manager</h3>
+              <p>Manage each Portfolio Engine project's URL slug, search metadata, image alt text and optional social preview.</p>
+            </div>
+            <div class="editor-state">
+              <span>SEO MANAGER</span>
+              <strong>Project metadata</strong>
+              <b id="seoState">Select a project</b>
+            </div>
+          </section>
+
+          <section class="editor-card">
+            <div class="editor-section-title">
+              <div>
+                <p class="eyebrow">PROJECT SEO</p>
+                <h3>Search & social metadata</h3>
+              </div>
+              <button id="seoRefreshButton" class="secondary-button" type="button">Refresh / discard</button>
+            </div>
+
+            <p id="seoMessage" class="form-message" role="status" aria-live="polite"></p>
+
+            <div class="portfolio-manager-note">
+              <strong>Safe fallback behavior</strong>
+              <span>Leave optional SEO fields blank to keep using the existing project/case-study title, summary and cover image. Only public + published projects expose SEO rows publicly.</span>
+            </div>
+          </section>
+
+          <form id="seoForm" class="cms-editor-form manager-form" novalidate>
+            <section class="editor-card">
+              <div class="editor-section-title">
+                <div>
+                  <p class="eyebrow">PROJECT IDENTITY</p>
+                  <h3>URL & image accessibility</h3>
+                </div>
+                <span id="seoProjectState">No project selected</span>
+              </div>
+
+              <div class="editor-grid two">
+                <label>
+                  <span>Project</span>
+                  <select id="seoProjectSelect">
+                    <option value="">Select a project</option>
+                  </select>
+                  <small>Select an existing Portfolio Engine project.</small>
+                </label>
+
+                <label>
+                  <span>URL slug</span>
+                  <input id="seoProjectSlug" type="text" maxlength="120" autocomplete="off" placeholder="portfolio-website">
+                  <small>Lowercase letters, numbers and hyphens only.</small>
+                </label>
+
+                <label class="editor-grid-span">
+                  <span>Project cover alt text</span>
+                  <input id="seoCoverAlt" type="text" maxlength="220" placeholder="Describe the project cover image">
+                  <small>This reuses the existing locked Project Manager cover-alt field.</small>
+                </label>
+              </div>
+            </section>
+
+            <section class="editor-card">
+              <div class="editor-section-title">
+                <div>
+                  <p class="eyebrow">SEARCH RESULT</p>
+                  <h3>Title & description</h3>
+                </div>
+                <span>Optional overrides</span>
+              </div>
+
+              <div class="editor-grid two">
+                <label class="editor-grid-span">
+                  <span>SEO title</span>
+                  <input id="seoTitle" type="text" maxlength="70" placeholder="Leave blank to use the project/case-study title">
+                  <small>Recommended: clear project title plus your name or role.</small>
+                </label>
+
+                <label class="editor-grid-span">
+                  <span>Meta description</span>
+                  <textarea id="seoDescription" maxlength="180" rows="4" placeholder="Leave blank to use the existing project/case-study summary"></textarea>
+                  <small>Short summary shown by search engines when they choose to use it.</small>
+                </label>
+              </div>
+            </section>
+
+            <section class="editor-card">
+              <div class="editor-section-title">
+                <div>
+                  <p class="eyebrow">SOCIAL PREVIEW</p>
+                  <h3>Share card image</h3>
+                </div>
+                <span>Optional custom image</span>
+              </div>
+
+              <div class="editor-grid two">
+                <label>
+                  <span>Social image HTTPS URL</span>
+                  <input id="seoSocialImageUrl" type="url" maxlength="1200" placeholder="https://...">
+                  <small>Leave blank to use the case-study hero/project cover.</small>
+                </label>
+
+                <label>
+                  <span>Social image alt text</span>
+                  <input id="seoSocialImageAlt" type="text" maxlength="220" placeholder="Describe the social preview image">
+                  <small>Falls back to the project cover alt text when blank.</small>
+                </label>
+              </div>
+
+              <div class="seo-preview-card" aria-label="SEO preview">
+                <div class="seo-preview-media">
+                  <img id="seoPreviewImage" src="" alt="" hidden>
+                  <div id="seoPreviewImageEmpty" class="seo-preview-empty">PROJECT PREVIEW</div>
+                </div>
+                <div class="seo-preview-copy">
+                  <small id="seoPreviewUrl"></small>
+                  <strong id="seoPreviewTitle">Select a project</strong>
+                  <p id="seoPreviewDescription">SEO preview will appear here.</p>
+                </div>
+              </div>
+            </section>
+
+            <section class="editor-card">
+              <div class="manager-form-actions">
+                <button id="seoSaveButton" type="submit" disabled>Save project SEO</button>
+              </div>
+            </section>
+          </form>
+        </div>
+
       </div>
     </section>
 
     <footer id="publicAdminFooter" class="admin-footer">
       <span>MEHEDI PORTFOLIO</span>
-      <span>Secure Admin · Phase 5B Active</span>
+      <span>Secure Admin · Phase 5C Active</span>
     </footer>
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script type="module" src="./admin.js?v=phase5b-analytics-20260928-1"></script>
+  <script type="module" src="./admin.js?v=phase5c-seo-20260928-1"></script>
 </body>
 </html>
