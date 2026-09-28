@@ -4008,3 +4008,138 @@ button {
     flex-direction:column;
   }
 }
+
+
+/* =========================================================
+   PHASE 5D · TESTIMONIALS / CLIENT FEEDBACK ADMIN
+   ========================================================= */
+.testimonial-admin-toolbar{
+  display:flex;
+  align-items:flex-end;
+  gap:10px;
+  margin-bottom:14px;
+}
+.testimonial-admin-toolbar label{
+  display:grid;
+  gap:6px;
+}
+.testimonial-admin-toolbar label>span{
+  color:#dfe7e3;
+  font-size:.67rem;
+  font-weight:800;
+}
+.testimonial-admin-toolbar select{
+  min-height:40px;
+  padding:0 11px;
+  border:1px solid var(--line);
+  border-radius:9px;
+  background:#06120f;
+  color:#eef6f1;
+}
+.testimonial-admin-toolbar strong{
+  margin-left:auto;
+  align-self:center;
+  color:var(--muted);
+  font-size:.66rem;
+}
+.testimonial-admin-layout{
+  display:grid;
+  grid-template-columns:minmax(260px,.72fr) minmax(0,1.35fr);
+  gap:16px;
+}
+.testimonial-admin-list-panel{
+  min-width:0;
+  padding:10px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:#071611;
+}
+.testimonial-admin-list{
+  display:grid;
+  gap:8px;
+}
+.testimonial-list-item{
+  width:100%;
+  padding:12px;
+  display:grid;
+  gap:7px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:#06120f;
+  color:inherit;
+  text-align:left;
+  cursor:pointer;
+}
+.testimonial-list-item:hover,
+.testimonial-list-item.active{
+  border-color:var(--red);
+}
+.testimonial-list-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+.testimonial-list-top strong{
+  color:#f2f7f3;
+  font-size:.73rem;
+}
+.testimonial-list-top span{
+  padding:4px 7px;
+  border-radius:999px;
+  background:rgba(240,74,67,.08);
+  color:#e4a6a2;
+  font-size:.54rem;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.07em;
+}
+.testimonial-list-item small{
+  color:#8fa39a;
+  font-size:.59rem;
+  line-height:1.4;
+}
+.testimonial-list-item p{
+  margin:0;
+  color:#bdcbc4;
+  font-size:.63rem;
+  line-height:1.5;
+}
+.testimonial-admin-form{
+  margin-top:0;
+  padding:16px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:#071611;
+}
+.testimonial-admin-form select{
+  width:100%;
+  min-height:46px;
+  padding:0 13px;
+  border:1px solid var(--line);
+  border-radius:11px;
+  outline:none;
+  background:#071611;
+  color:#fff;
+  font:inherit;
+}
+.testimonial-consent-check{
+  margin-top:2px;
+}
+.testimonial-admin-actions{
+  margin-top:4px;
+}
+@media (max-width:900px){
+  .testimonial-admin-layout{
+    grid-template-columns:1fr;
+  }
+}
+@media (max-width:620px){
+  .testimonial-admin-toolbar{
+    align-items:stretch;
+    flex-direction:column;
+  }
+  .testimonial-admin-toolbar strong{
+    margin-left:0;
+  }
+}
