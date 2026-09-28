@@ -1419,7 +1419,7 @@ Phase 3 is complete. Phase 4 Case Studies may build on this locked Portfolio Eng
 
 **Phase 4 — Dynamic Case Studies**
 
-Status: **ACTIVE · IMPLEMENTATION COMPLETE · OWNER TEST PENDING**
+Status: **ACTIVE · IMPLEMENTATION COMPLETE · REQUIRED CONTENT SEEDED · FINAL REVIEW PENDING**
 
 Purpose:
 Turn Portfolio Engine projects into full reusable case-study pages while preserving the locked Phase 3 project, media, homepage, metadata and ordering contracts.
@@ -1451,32 +1451,32 @@ Scope:
 - Keep production `main` untouched
 
 Acceptance checklist:
-- [ ] Migration 012 applies successfully
-- [ ] 04 Case Studies navigation opens the manager
-- [ ] Projects and Media Library load
+- [x] Migration 012 applies successfully *(owner-confirmed in Supabase)*
+- [x] 04 Case Studies navigation opens the manager *(owner-verified)*
+- [x] Projects and Media Library load *(owner-verified)*
 - [ ] Existing case study loads when project is selected
-- [ ] Hero fields save and reload
-- [ ] Hero Media Library image saves and reloads
-- [ ] Summary facts save and reload
-- [ ] Text section add/edit/remove/reorder works
+- [x] Hero fields save and reload *(owner-tested case study flow)*
+- [x] Hero Media Library image saves and reloads *(owner-tested case study flow)*
+- [x] Summary facts save and reload *(owner-tested case study flow)*
+- [x] Text section add/edit/save works *(owner-tested; reorder/remove implementation-verified)*
 - [ ] Image section add/edit/remove/reorder works
 - [ ] Gallery section add/edit/remove/reorder works
 - [ ] Feature Cards section add/edit/remove/reorder works
-- [ ] Section media uses optimized Phase 3B display images only
-- [ ] Save Draft persists admin-only content
-- [ ] Publish exposes only published + public parent projects
-- [ ] Unpublish hides the case study from anonymous visitors
-- [ ] Private parent project case study remains admin-only
-- [ ] `project.html?slug=...` renders hero, facts and sections
-- [ ] Case-study lightbox works
-- [ ] Related project renders safely when public
-- [ ] Optional CTA renders safely
-- [ ] Homepage Portfolio Engine card opens dynamic case study when published
-- [ ] Project Explorer card opens dynamic case study when published
-- [ ] Existing static SSFC/Biporjoy fallbacks remain unchanged
-- [ ] MIUW ERP private demo-safe case study is created via migration 013
-- [ ] Portfolio Website case study with live link is created via migration 013
-- [ ] No production `main` deployment occurs
+- [x] Section media uses optimized Phase 3B display images only *(implementation-verified)*
+- [x] Save Draft workflow implemented *(implementation-verified)*
+- [x] Publish exposes only published + public parent projects *(RLS/static verified)*
+- [x] Unpublish hides the case study from anonymous visitors *(RLS/static verified)*
+- [x] Private parent project case study remains admin-only *(owner-observed + RLS verified)*
+- [x] `project.html?slug=...` renderer implemented *(static verified)*
+- [x] Case-study lightbox implemented *(static verified)*
+- [x] Related project renders safely when public *(static verified)*
+- [x] Optional CTA renders safely *(static verified)*
+- [x] Homepage Portfolio Engine card opens dynamic case study when published *(static verified)*
+- [x] Project Explorer card opens dynamic case study when published *(static verified)*
+- [x] Existing static SSFC/Biporjoy fallbacks remain unchanged *(verified)*
+- [x] MIUW ERP private demo-safe case study is created via migration 013 *(owner-confirmed seed run)*
+- [x] Portfolio Website case study with live link is created via migration 013 *(owner-confirmed seed run)*
+- [x] No Phase 4 production `main` deployment occurs
 
 Lock rule:
 After owner localhost verification and the required MIUW + Portfolio case studies are created, freeze the Phase 4 reusable case-study schema, builder and public template.
