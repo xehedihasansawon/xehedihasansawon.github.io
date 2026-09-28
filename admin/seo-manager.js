@@ -39,6 +39,7 @@ export const initSeoManager = ({ supabaseClient, showCmsView }) => {
   const socialImageInput = document.querySelector("#seoSocialImageUrl");
   const socialAltInput = document.querySelector("#seoSocialImageAlt");
   const saveButton = document.querySelector("#seoSaveButton");
+  const saveMessage = document.querySelector("#seoSaveMessage");
   const previewTitle = document.querySelector("#seoPreviewTitle");
   const previewDescription = document.querySelector("#seoPreviewDescription");
   const previewUrl = document.querySelector("#seoPreviewUrl");
@@ -73,11 +74,16 @@ export const initSeoManager = ({ supabaseClient, showCmsView }) => {
     if (message) message.textContent = value;
   };
 
+  const setSaveMessage = (value = "") => {
+    if (saveMessage) saveMessage.textContent = value;
+  };
+
   const setBusy = (value) => {
     busy = value;
     projectSelect.disabled = value;
     refreshButton.disabled = value;
     saveButton.disabled = value || !projectSelect.value;
+    saveButton.textContent = value ? "Saving…" : "Save project SEO";
   };
 
   const currentProject = () =>
@@ -212,6 +218,7 @@ export const initSeoManager = ({ supabaseClient, showCmsView }) => {
     setBusy(true);
     setState("Loading…");
     setMessage("Loading project SEO settings…");
+    setSaveMessage("");
 
     try {
       const [projectsResult, seoResult] = await Promise.all([
@@ -320,12 +327,14 @@ export const initSeoManager = ({ supabaseClient, showCmsView }) => {
     if (validation) {
       setState("Check fields");
       setMessage(validation);
+      setSaveMessage(validation);
       return false;
     }
 
     setBusy(true);
     setState("Saving…");
     setMessage("Saving project SEO…");
+    setSaveMessage("Saving…");
 
     const payload = {
       p_project_id: project.id,
@@ -366,17 +375,20 @@ export const initSeoManager = ({ supabaseClient, showCmsView }) => {
       renderProjectOptions(project.id);
       populateForm();
       setState("SEO saved");
-      setMessage(
+      const successMessage =
         project.visibility === "public" && project.is_published
-          ? "Saved. The public dynamic case-study page now uses these SEO settings."
-          : "Saved. These settings stay non-public until the parent project is public and published."
-      );
+          ? "Saved successfully. Public project SEO is updated."
+          : "Saved successfully. SEO stays private until the project is public and published.";
+      setMessage(successMessage);
+      setSaveMessage(successMessage);
 
       return true;
     } catch (error) {
       console.error("SEO save failed:", error);
       setState("Save failed");
-      setMessage(error?.message || "Could not save project SEO.");
+      const errorMessage = error?.message || "Could not save project SEO.";
+      setMessage(errorMessage);
+      setSaveMessage(errorMessage);
       return false;
     } finally {
       setBusy(false);
