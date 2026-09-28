@@ -635,7 +635,11 @@ export const initCvManager = ({ supabaseClient, showCmsView }) => {
     sidebar.append(identity);
 
     const addSidebarSection = (title, items, className = "") => {
-      const values = items.filter((item) => clean(item.value || item));
+      const values = items.filter((item) =>
+        typeof item === "string"
+          ? Boolean(clean(item))
+          : Boolean(clean(item?.value))
+      );
       if (!values.length) return;
 
       const section = create("section", "", "cv-modern-side-section");
