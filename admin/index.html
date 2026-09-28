@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./admin.css?v=phase5e-cv-ref-20260928-1">
+  <link rel="stylesheet" href="./admin.css?v=phase5e-category-20260928-1">
 </head>
 <body>
   <main class="admin-shell">
@@ -3140,6 +3140,17 @@
             </div>
           </section>
 
+          <section class="editor-card cv-category-card">
+            <div class="editor-section-title">
+              <div>
+                <p class="eyebrow">CV CATEGORIES</p>
+                <h3>Choose the job type</h3>
+                <p>Pick a role category to open the matching CV version quickly.</p>
+              </div>
+            </div>
+            <div id="cvCategoryLibrary" class="cv-category-library" aria-label="CV categories"></div>
+          </section>
+
           <section class="editor-card">
             <div class="cv-manager-toolbar">
               <strong id="cvManagerCount">0 CVs</strong>
@@ -3176,6 +3187,21 @@
                     <label>
                       <span>Target role</span>
                       <input id="cvTargetRole" type="text" maxlength="120" placeholder="Graphic Designer">
+                    </label>
+
+                    <label>
+                      <span>CV category</span>
+                      <select id="cvCategory">
+                        <option value="graphic_design">Graphic Design</option>
+                        <option value="video_editing">Video Editing</option>
+                        <option value="event_management">Event Management</option>
+                        <option value="computer_admin">Computer Operator / Admin</option>
+                        <option value="hospitality">Hotel / Waiter / Service</option>
+                        <option value="customer_travel">Customer Service / Travel</option>
+                        <option value="ecommerce">E-commerce / Product Listing</option>
+                        <option value="operations">Shop / Operations</option>
+                        <option value="general">General / Full CV</option>
+                      </select>
                     </label>
 
                     <label>
@@ -3333,6 +3359,6 @@
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script type="module" src="./admin.js?v=phase5e-cv-ref-20260928-1"></script>
+  <script type="module" src="./admin.js?v=phase5e-category-20260928-1"></script>
 </body>
 </html>
