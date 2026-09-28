@@ -9,7 +9,7 @@ import { initInquiryManager } from "./inquiry-manager.js";
 import { initAnalyticsDashboard } from "./analytics-dashboard.js";
 import { initSeoManager } from "./seo-manager.js?v=phase5c-seo-20260928-2";
 import { initTestimonialsManager } from "./testimonials-manager.js?v=phase5d-feedback-20260928-1";
-import { initCvManager } from "./cv-manager.js?v=phase5e-cv-20260928-3";
+import { initCvManager } from "./cv-manager.js?v=phase5e-cv-ref-20260928-1";
 
 const configPanel = document.querySelector("#configPanel");
 const loginPanel = document.querySelector("#loginPanel");
