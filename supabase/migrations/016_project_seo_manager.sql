@@ -14,7 +14,7 @@ create table if not exists public.portfolio_project_seo (
       social_image_url is null
       or (
         char_length(social_image_url) <= 1200
-        and social_image_url ~ '^https://'
+        and social_image_url ~* '^https://'
       )
     ),
   social_image_alt text not null default ''
@@ -135,7 +135,7 @@ begin
   if v_social_image_url is not null
      and (
        char_length(v_social_image_url) > 1200
-       or v_social_image_url !~ '^https://'
+       or v_social_image_url !~* '^https://'
      ) then
     raise exception 'Social image must use a secure HTTPS URL.';
   end if;
