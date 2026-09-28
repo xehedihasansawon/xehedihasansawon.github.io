@@ -1,4 +1,5 @@
 const SECTION_TYPES = new Set(["text", "image", "gallery", "cards"]);
+const CURRENT_HERO_VALUE = "__current_hero__";
 
 const makeLocalId = () =>
   globalThis.crypto?.randomUUID?.() ||
@@ -606,8 +607,25 @@ export const initCaseStudyManager = ({ supabaseClient, showCmsView }) => {
     ctaLabelInput.value = record?.cta_label || "";
     ctaHrefInput.value = record?.cta_href || "";
 
+    [...heroMediaSelect.options]
+      .filter((option) => option.value === CURRENT_HERO_VALUE)
+      .forEach((option) => option.remove());
+
     const heroMedia = getMediaByUrl(record?.hero_image_url || "");
-    heroMediaSelect.value = heroMedia?.id || "";
+    const existingHeroUrl = cleanText(record?.hero_image_url || "", 1200);
+
+    if (existingHeroUrl && !heroMedia) {
+      const currentHeroOption = document.createElement("option");
+      currentHeroOption.value = CURRENT_HERO_VALUE;
+      currentHeroOption.textContent = "Keep current existing hero";
+      heroMediaSelect.insertBefore(
+        currentHeroOption,
+        heroMediaSelect.options[1] || null
+      );
+      heroMediaSelect.value = CURRENT_HERO_VALUE;
+    } else {
+      heroMediaSelect.value = heroMedia?.id || "";
+    }
 
     facts = normalizeFacts(record?.facts || []);
     sections = normalizeSections(record?.sections || []);
@@ -703,14 +721,25 @@ export const initCaseStudyManager = ({ supabaseClient, showCmsView }) => {
     }
 
     const heroMedia = getMediaById(heroMediaSelect.value);
+    const preserveExistingHero =
+      heroMediaSelect.value === CURRENT_HERO_VALUE &&
+      Boolean(selectedCaseStudy?.hero_image_url) &&
+      !getMediaByUrl(selectedCaseStudy.hero_image_url);
 
     return {
       project_id: project.id,
       kicker: cleanText(kickerInput.value, 120),
       headline: cleanText(headlineInput.value, 220),
       lead: cleanText(leadInput.value, 1200),
-      hero_image_url: heroMedia?.display_url || null,
-      hero_image_alt: cleanText(heroMedia?.alt_text || "", 220),
+      hero_image_url: heroMedia?.display_url ||
+        (preserveExistingHero
+          ? cleanText(selectedCaseStudy.hero_image_url, 1200)
+          : null),
+      hero_image_alt: heroMedia
+        ? cleanText(heroMedia.alt_text || "", 220)
+        : preserveExistingHero
+          ? cleanText(selectedCaseStudy.hero_image_alt || "", 220)
+          : "",
       facts: normalizeFacts(facts),
       sections: normalizeSections(sections),
       related_project_id: relatedSelect.value || null,
