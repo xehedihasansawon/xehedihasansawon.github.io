@@ -1526,6 +1526,69 @@ Completed and locked:
 
 Production `main` remains unchanged by Phase 4.
 
+## Phase 5 — Business/System Features
+
+Status: **ACTIVE · PHASE 5A IMPLEMENTED · OWNER TEST PENDING**
+
+Purpose:
+Add the business-facing systems around the locked portfolio and case-study foundation without redesigning the approved Phase 2–4 presentation.
+
+Locked sequence:
+- **5A — Client Project Inquiry Form**
+- **5B — Analytics Dashboard**
+- **5C — Per-Project SEO Manager**
+- **5D — Testimonials / Client Feedback**
+- **5E — Multiple Resume / CV Manager**
+- **5F — Availability Status Control**
+- **5G — Custom CTA Manager**
+- **5H — Branded 404 / Empty States / Maintenance Mode**
+
+### Phase 5A — Client Project Inquiry Form
+
+Status: **IMPLEMENTED · MIGRATION + OWNER TEST PENDING**
+
+Scope:
+- Add migration `014_client_inquiry_system.sql`
+- Add RLS-protected `portfolio_inquiries` inbox
+- Anonymous visitors receive INSERT-only access to the allowed inquiry fields
+- Anonymous visitors cannot read, update or delete inquiries
+- Allowlisted authenticated admins can securely read/manage inquiries
+- Public Contact section receives a compact project inquiry form
+- Fields: Name, Email, Project Type, Budget, Timeline and Project Brief
+- Explicit reply/storage consent is required
+- Add a hidden honeypot and minimum-submit-time check as lightweight spam friction
+- Add dedicated `05A Inquiries` Admin navigation
+- Admin Inbox supports New / Read / Replied / Archived
+- Opening a New inquiry marks it Read
+- Admin can save private notes, update status and permanently delete an inquiry
+- No service-role key
+- No public inquiry data is exposed
+- Phase 2 Contact CMS layout/content contract remains intact; the inquiry panel is an additive business feature
+- Phase 3 and Phase 4 remain locked
+- Production `main` remains untouched
+
+Acceptance checklist:
+- [ ] Migration 014 applies successfully in Supabase
+- [x] Public inquiry form markup is implemented
+- [x] Public submission module is implemented
+- [x] Required field and email validation are implemented
+- [x] Consent gate is implemented
+- [x] Honeypot + minimum-submit-time friction is implemented
+- [x] Anonymous INSERT-only database grant is defined
+- [x] Anonymous SELECT/UPDATE/DELETE access is not granted
+- [x] Admin allowlist RLS is defined
+- [x] 05A Inquiries admin panel is implemented
+- [x] New / Read / Replied / Archived workflow is implemented
+- [x] Admin private notes are implemented
+- [x] Admin permanent delete action is implemented
+- [ ] One localhost inquiry submission is owner-verified
+- [ ] Submitted inquiry appears in Admin Inbox
+- [ ] Status/note update is owner-verified
+- [ ] Phase 5A owner approval / lock
+
+Lock rule:
+Do not lock Phase 5A until migration 014 is applied and one end-to-end localhost submission reaches the secure Admin Inbox. Later Phase 5 modules must not weaken inquiry RLS or expose private inquiry content.
+
 ## Planned Phase 3 sequence
 
 - **3A — Portfolio Data Foundation**
