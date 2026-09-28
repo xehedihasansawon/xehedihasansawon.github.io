@@ -1768,7 +1768,7 @@ Freeze the Phase 5D feedback schema, moderation workflow, public consent gate an
 
 ### Phase 5E — Multiple Resume / CV Manager
 
-Status: **IMPLEMENTED · MIGRATION + OWNER TEST PENDING**
+Status: **IMPLEMENTED · CATEGORY UPGRADE ACTIVE · MIGRATION 020 + OWNER TEST PENDING**
 
 Scope:
 - Add migration `019_multiple_cv_manager.sql`
@@ -1776,7 +1776,10 @@ Scope:
 - Anonymous/public roles receive no CV table privileges and no public RLS policy
 - Allowlisted authenticated Admin receives CRUD access only through the existing Admin security model
 - Support multiple named CV versions for different target roles
-- CV fields include private version name, target role, template, library order, profile/contact details, professional summary, skills, languages and courses/certifications
+- Add migration `020_cv_category_library.sql` and private role-category key on each CV
+- Add one-click CV Category Library for Graphic Design, Video Editing, Event Management, Computer Operator/Admin, Hotel/Waiter/Service, Customer Service/Travel, E-commerce/Product Listing, Shop/Operations and General/Full CV
+- Category click opens an existing matching CV immediately, or prepares a new category-specific version when none exists
+- CV fields include private version name, target role, category, template, library order, profile/contact details, professional summary, skills, languages and courses/certifications
 - Support multiple reorderable Experience entries
 - Support multiple reorderable Education entries
 - Support Modern, Compact and Europass-style presentation variants
@@ -1788,12 +1791,15 @@ Scope:
 - Production `main` remains untouched
 
 Acceptance checklist:
-- [ ] Migration 019 applies successfully in Supabase
+- [x] Migration 019 applies successfully in Supabase *(owner-verified 2026-09-28)*
+- [ ] Migration 020 applies successfully in Supabase
 - [x] Private CV schema and constraints implemented
 - [x] Anonymous/public CV access blocked
 - [x] Admin allowlist RLS implemented
 - [x] 05E CV Manager Admin navigation implemented
 - [x] Multiple named CV versions implemented
+- [x] Role-based CV Category Library implemented
+- [x] Category-aware create/load/save/duplicate workflow implemented
 - [x] Modern / Compact / Europass-style template selection implemented
 - [x] Profile/contact + summary fields implemented
 - [x] Skills / Languages / Certifications fields implemented
@@ -1804,14 +1810,16 @@ Acceptance checklist:
 - [x] Private A4 preview implemented
 - [x] Print / Save PDF workflow implemented
 - [x] No Phase 5E public-site exposure added
-- [ ] Owner creates and saves one CV version
-- [ ] Saved CV reloads correctly
-- [ ] Duplicate creates a second independent CV version
-- [ ] Print / Save PDF preview opens correctly
+- [x] Owner creates and saves one CV version *(Graphic Designer CV)*
+- [x] Saved CV reloads correctly
+- [x] Duplicate creates a second independent CV version
+- [ ] Category Library loads after migration 020 and existing Graphic Designer CV appears under Graphic Design
+- [ ] Event Management category can be selected
+- [ ] Print / Save PDF preview opens as a clean A4 CV after the latest template/print redesign
 - [ ] Phase 5E owner approval / lock
 
 Lock rule:
-Do not lock Phase 5E until migration 019 is applied and one minimal create → reload → duplicate → print-preview flow is owner-verified. Later phases must preserve Admin-only CV privacy unless the owner explicitly chooses to build a public resume feature.
+Do not lock Phase 5E until migration 020 is applied and the role-category → CV open → print-preview flow is owner-verified. The category library must support the owner's intended workflow: choose the job type, open only the relevant CV, then Print / Save PDF for application use. Later phases must preserve Admin-only CV privacy unless the owner explicitly chooses to build a public resume feature.
 
 ## Planned Phase 3 sequence
 
