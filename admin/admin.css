@@ -5166,3 +5166,53 @@ button {
     grid-template-columns:1fr;
   }
 }
+
+
+/* Phase 5E · Private CV Master Profile */
+.cv-master-card .editor-section-title{
+  align-items:flex-start;
+}
+.cv-master-actions{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+  gap:8px;
+}
+.cv-master-status-row{
+  margin-top:12px;
+  padding:12px 14px;
+  display:grid;
+  gap:5px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:#06120f;
+}
+.cv-master-state{
+  color:#dfeae4;
+  font-size:.68rem;
+  font-weight:800;
+  line-height:1.45;
+}
+.cv-master-state[data-tone="ready"]{
+  color:#9fd9bd;
+}
+.cv-master-state[data-tone="empty"]{
+  color:#d9b98f;
+}
+.cv-master-state[data-tone="error"]{
+  color:#ef918b;
+}
+.cv-master-status-row small{
+  color:#81968c;
+  font-size:.58rem;
+  line-height:1.5;
+}
+@media (max-width:760px){
+  .cv-master-card .editor-section-title{
+    display:grid;
+    gap:12px;
+  }
+  .cv-master-actions{
+    justify-content:flex-start;
+  }
+}
