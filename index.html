@@ -41,7 +41,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=phase5a-inquiry-20260928-9">
+  <link rel="stylesheet" href="styles.css?v=phase5d-feedback-20260928-1">
   <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
 </head>
 <body class="home-v2">
@@ -597,6 +597,73 @@
             </div>
           </div>
 
+          <div class="contact-feedback-panel">
+            <div class="contact-feedback-head">
+              <div>
+                <span class="contact-channel-label">Client feedback</span>
+                <h3>What collaborators say.</h3>
+              </div>
+              <p>Feedback is reviewed before anything appears publicly.</p>
+            </div>
+
+            <div id="approvedTestimonials" class="approved-testimonials" hidden>
+              <div id="testimonialGrid" class="testimonial-grid"></div>
+            </div>
+
+            <details class="feedback-submit-panel">
+              <summary>
+                <span>Worked with me? Share feedback</span>
+                <b aria-hidden="true">+</b>
+              </summary>
+
+              <form id="feedbackForm" class="feedback-public-form" novalidate>
+                <div class="feedback-public-grid">
+                  <label>
+                    <span>Name</span>
+                    <input name="client_name" type="text" maxlength="100" autocomplete="name" required>
+                  </label>
+                  <label>
+                    <span>Email</span>
+                    <input name="client_email" type="email" maxlength="254" autocomplete="email" required>
+                    <small>Your email stays private and is never shown in testimonials.</small>
+                  </label>
+                  <label>
+                    <span>Role</span>
+                    <input name="client_role" type="text" maxlength="120" placeholder="Founder, Manager, Organizer…">
+                  </label>
+                  <label>
+                    <span>Company / team</span>
+                    <input name="company" type="text" maxlength="120">
+                  </label>
+                  <label class="feedback-public-span">
+                    <span>Project / context</span>
+                    <input name="project_label" type="text" maxlength="160" placeholder="What did we work on together?">
+                  </label>
+                </div>
+
+                <label class="feedback-public-message">
+                  <span>Your feedback</span>
+                  <textarea name="feedback_text" rows="5" maxlength="1200" placeholder="Share a short, specific note about the work or collaboration." required></textarea>
+                </label>
+
+                <label class="contact-inquiry-consent">
+                  <input name="consent_public" type="checkbox" required>
+                  <span>I’m okay with this feedback being stored and, if approved, displayed publicly on this portfolio. My email will remain private.</span>
+                </label>
+
+                <label aria-hidden="true" hidden>
+                  <span>Website</span>
+                  <input name="website" type="text" tabindex="-1" autocomplete="off">
+                </label>
+
+                <div class="contact-inquiry-actions">
+                  <button id="feedbackSubmit" type="submit">Send feedback</button>
+                  <p id="feedbackFormMessage" role="status" aria-live="polite"></p>
+                </div>
+              </form>
+            </details>
+          </div>
+
           <div class="contact-inquiry-panel">
             <div class="contact-inquiry-head">
               <div>
@@ -774,6 +841,7 @@
   <script src="script.js?v=portfolio-quality-pass-20260925-3"></script>
   <script type="module" src="public-cms.js?v=phase2a-hero-20260925-1"></script>
   <script type="module" src="public-inquiry.js?v=phase5a-inquiry-20260928-1"></script>
+  <script type="module" src="public-feedback.js?v=phase5d-feedback-20260928-1"></script>
   <script type="module" src="public-analytics.js?v=phase5b-analytics-20260928-2"></script>
 </body>
 </html>
