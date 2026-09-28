@@ -1,5 +1,21 @@
 const clean = (value) => String(value || "").trim();
 
+const isSafeCvImageSource = (value) => {
+  const src = clean(value);
+  if (!src) return false;
+  if (
+    src.startsWith("/") ||
+    src.startsWith("./") ||
+    src.startsWith("../") ||
+    /^[a-z0-9_-]+\//i.test(src)
+  ) return true;
+  try {
+    return new URL(src).protocol === "https:";
+  } catch {
+    return false;
+  }
+};
+
 const splitLines = (value) =>
   String(value || "")
     .split("\n")
@@ -27,7 +43,8 @@ const emptyResume = () => ({
     website: "",
     linkedin: "",
     behance: "",
-    github: ""
+    github: "",
+    photoUrl: ""
   },
   skills: [],
   languages: [],
@@ -65,7 +82,8 @@ const normalizeResume = (value) => {
       website: clean(personal.website),
       linkedin: clean(personal.linkedin),
       behance: clean(personal.behance),
-      github: clean(personal.github)
+      github: clean(personal.github),
+      photoUrl: clean(personal.photoUrl)
     },
     skills: Array.isArray(source.skills)
       ? source.skills.map(clean).filter(Boolean).slice(0, 60)
@@ -254,6 +272,7 @@ export const initCvManager = ({ supabaseClient, showCmsView }) => {
   const linkedinInput = byId("cvLinkedin");
   const behanceInput = byId("cvBehance");
   const githubInput = byId("cvGithub");
+  const photoUrlInput = byId("cvPhotoUrl");
 
   const skillsInput = byId("cvSkills");
   const languagesInput = byId("cvLanguages");
@@ -334,7 +353,8 @@ export const initCvManager = ({ supabaseClient, showCmsView }) => {
         website: clean(websiteInput.value),
         linkedin: clean(linkedinInput.value),
         behance: clean(behanceInput.value),
-        github: clean(githubInput.value)
+        github: clean(githubInput.value),
+        photoUrl: clean(photoUrlInput.value)
       },
       skills: splitLines(skillsInput.value),
       languages: splitLines(languagesInput.value),
@@ -380,6 +400,10 @@ export const initCvManager = ({ supabaseClient, showCmsView }) => {
     if (p.location.length > 160) return "Location is too long.";
     if (p.email.length > 254) return "Email is too long.";
     if (p.phone.length > 80) return "Phone is too long.";
+    if (p.photoUrl.length > 1000) return "Profile photo URL is too long.";
+    if (p.photoUrl && !isSafeCvImageSource(p.photoUrl)) {
+      return "Profile photo must use HTTPS or a local project asset path.";
+    }
 
     return "";
   };
@@ -426,6 +450,7 @@ export const initCvManager = ({ supabaseClient, showCmsView }) => {
     linkedinInput.value = resume.personal.linkedin;
     behanceInput.value = resume.personal.behance;
     githubInput.value = resume.personal.github;
+    photoUrlInput.value = resume.personal.photoUrl;
 
     skillsInput.value = resume.skills.join("\n");
     languagesInput.value = resume.languages.join("\n");
@@ -616,10 +641,6 @@ export const initCvManager = ({ supabaseClient, showCmsView }) => {
       return;
     }
 
-    const layout = create("div", "", "cv-modern-layout");
-    const sidebar = create("aside", "", "cv-modern-sidebar");
-    const main = create("div", "", "cv-modern-main");
-
     const fullName = resume.personal.fullName || "Your Name";
     const nameParts = fullName.split(/\s+/).filter(Boolean);
     const initials = (
@@ -627,115 +648,78 @@ export const initCvManager = ({ supabaseClient, showCmsView }) => {
       (nameParts.length > 1 ? nameParts[nameParts.length - 1][0] : "")
     ).toUpperCase();
 
-    const identity = create("div", "", "cv-modern-identity");
-    identity.append(
-      create("div", initials || "CV", "cv-modern-monogram"),
-      create("span", "CURRICULUM VITAE", "cv-modern-identity-label")
-    );
-    sidebar.append(identity);
+    const layout = create("div", "", "cv-ref-layout");
+    const main = create("div", "", "cv-ref-main");
+    const sidebar = create("aside", "", "cv-ref-sidebar");
+    const hero = create("header", "", "cv-ref-hero");
 
-    const addSidebarSection = (title, items, className = "") => {
-      const values = items.filter((item) =>
-        typeof item === "string"
-          ? Boolean(clean(item))
-          : Boolean(clean(item?.value))
-      );
-      if (!values.length) return;
+    const photoWrap = create("div", "", "cv-ref-photo-wrap");
+    if (isSafeCvImageSource(resume.personal.photoUrl)) {
+      const photo = document.createElement("img");
+      photo.className = "cv-ref-photo";
+      photo.src = resume.personal.photoUrl;
+      photo.alt = fullName + " profile photo";
+      photoWrap.append(photo);
+    } else {
+      photoWrap.append(create("span", initials || "CV", "cv-ref-photo-fallback"));
+    }
 
-      const section = create("section", "", "cv-modern-side-section");
-      section.append(create("h3", title));
-
-      const list = create("div", "", className || "cv-modern-side-list");
-
-      values.forEach((item) => {
-        if (typeof item === "string") {
-          list.append(create("span", item));
-          return;
-        }
-
-        const row = create("div", "", "cv-modern-contact-row");
-        if (item.label) row.append(create("small", item.label));
-        row.append(create("strong", item.value));
-        list.append(row);
-      });
-
-      section.append(list);
-      sidebar.append(section);
-    };
-
-    addSidebarSection("Contact", [
-      { label: "Location", value: resume.personal.location },
-      { label: "Email", value: resume.personal.email },
-      { label: "Phone", value: resume.personal.phone },
-      { label: "Website", value: resume.personal.website },
-      { label: "LinkedIn", value: resume.personal.linkedin },
-      { label: "Behance", value: resume.personal.behance },
-      { label: "GitHub", value: resume.personal.github }
-    ]);
-
-    addSidebarSection(
-      "Skills",
-      resume.skills,
-      "cv-modern-skill-list"
-    );
-
-    addSidebarSection(
-      "Languages",
-      resume.languages,
-      "cv-modern-side-list"
-    );
-
-    addSidebarSection(
-      "Courses & Certifications",
-      resume.certifications,
-      "cv-modern-side-list"
-    );
-
-    const header = create("header", "", "cv-modern-header");
-    header.append(
-      create(
-        "span",
-        payload.target_role || "PROFESSIONAL CV",
-        "cv-modern-role-kicker"
-      ),
+    const heroBand = create("div", "", "cv-ref-hero-band");
+    const heroCopy = create("div", "", "cv-ref-hero-copy");
+    heroCopy.append(
+      create("span", payload.target_role || "PROFESSIONAL CV", "cv-ref-kicker"),
       create("h1", fullName),
       create(
         "h2",
         resume.personal.headline ||
           payload.target_role ||
           "Professional headline"
-      ),
-      create("div", "", "cv-modern-header-rule")
+      )
     );
-    main.append(header);
 
-    if (resume.personal.summary) {
-      const section = create("section", "", "cv-modern-main-section");
-      section.append(
-        create("h3", "Profile"),
-        create("p", resume.personal.summary)
-      );
-      main.append(section);
+    const heroContacts = [
+      resume.personal.phone ? "☎  " + resume.personal.phone : "",
+      resume.personal.email ? "✉  " + resume.personal.email : ""
+    ].filter(Boolean);
+
+    if (heroContacts.length) {
+      const contactLine = create("div", "", "cv-ref-hero-contact");
+      heroContacts.forEach((item) => contactLine.append(create("span", item)));
+      heroCopy.append(contactLine);
     }
 
-    const modernExperience = renderTimelineSection(
+    heroBand.append(heroCopy);
+    hero.append(photoWrap, heroBand);
+
+    const addMainSection = (title, node) => {
+      if (!node) return;
+      const section = create("section", "", "cv-ref-main-section");
+      section.append(create("h3", title), node);
+      main.append(section);
+    };
+
+    if (resume.personal.summary) {
+      addMainSection("Profile", create("p", resume.personal.summary));
+    }
+
+    const experience = renderTimelineSection(
       "Experience",
       resume.experience,
       "experience"
     );
-    if (modernExperience) {
-      modernExperience.classList.add("cv-modern-main-section");
-      main.append(modernExperience);
+    if (experience) {
+      const body = experience.querySelector(".cv-preview-timeline");
+      if (body) addMainSection("Experience", body);
     }
 
-    const modernEducation = renderTimelineSection(
+    const education = renderTimelineSection(
       "Education",
       resume.education,
       "education"
     );
-    if (modernEducation) {
-      modernEducation.classList.add("cv-modern-main-section");
-      main.append(modernEducation);
+    if (education) {
+      const body = education.querySelector(".cv-preview-timeline");
+      if (body) addMainSection("Education", body);
     }
 
     if (
@@ -743,18 +727,44 @@ export const initCvManager = ({ supabaseClient, showCmsView }) => {
       !resume.experience.length &&
       !resume.education.length
     ) {
-      const empty = create("section", "", "cv-modern-empty");
+      const empty = create("div", "", "cv-ref-empty");
       empty.append(
-        create("span", "ROLE-FOCUSED RESUME"),
+        create("strong", "BUILD YOUR ROLE-FOCUSED CV"),
         create(
           "p",
-          "Add your profile summary, experience and education to build this CV version."
+          "Add your summary, experience and education. The main CV content will build here automatically."
         )
       );
       main.append(empty);
     }
 
-    layout.append(sidebar, main);
+    const addSideSection = (title, values, className = "") => {
+      const cleanValues = values.map(clean).filter(Boolean);
+      if (!cleanValues.length) return;
+
+      const section = create("section", "", "cv-ref-side-section");
+      section.append(create("h3", title));
+      const list = create("ul", "", className || "cv-ref-side-list");
+      cleanValues.forEach((item) => list.append(create("li", item)));
+      section.append(list);
+      sidebar.append(section);
+    };
+
+    addSideSection("Language Skills", resume.languages);
+    addSideSection("Skills & Abilities", resume.skills, "cv-ref-skill-list");
+    addSideSection("Courses & Certifications", resume.certifications);
+
+    const profileLinks = [
+      resume.personal.location ? "Location · " + resume.personal.location : "",
+      resume.personal.website ? "Website · " + resume.personal.website : "",
+      resume.personal.linkedin ? "LinkedIn · " + resume.personal.linkedin : "",
+      resume.personal.behance ? "Behance · " + resume.personal.behance : "",
+      resume.personal.github ? "GitHub · " + resume.personal.github : ""
+    ].filter(Boolean);
+
+    addSideSection("Professional Links", profileLinks);
+
+    layout.append(main, sidebar, hero);
     preview.append(layout);
   };
   const load = async () => {
