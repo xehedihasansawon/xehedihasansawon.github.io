@@ -257,10 +257,10 @@
             <small>Later</small>
           </button>
 
-          <button class="nav-item" type="button" disabled>
-            <span class="nav-index">07</span>
-            <span>Messages</span>
-            <small>Later</small>
+          <button id="inquiryNavButton" class="nav-item" type="button">
+            <span class="nav-index">05A</span>
+            <span>Inquiries</span>
+            <small>Active</small>
           </button>
 
           <button class="nav-item" type="button" disabled>
@@ -2673,12 +2673,103 @@
             </form>
           </section>
         </div>
+
+        <div id="inquiryEditor" class="editor-content" hidden>
+          <section class="editor-heading-card">
+            <div>
+              <p class="status-pill success">PHASE 5A ACTIVE</p>
+              <h3>Client Inquiry Inbox</h3>
+              <p>Receive project briefs from the public portfolio and manage them securely from Admin.</p>
+            </div>
+            <div class="editor-state">
+              <span>INBOX</span>
+              <strong>Client project inquiries</strong>
+              <b id="inquiryState">Loading…</b>
+            </div>
+          </section>
+
+          <section class="editor-card">
+            <div class="editor-section-title">
+              <div>
+                <p class="eyebrow">PROJECT INQUIRIES</p>
+                <h3>Inbox</h3>
+              </div>
+              <div class="inquiry-toolbar">
+                <select id="inquiryStatusFilter" aria-label="Filter inquiries by status">
+                  <option value="all">All</option>
+                  <option value="new">New</option>
+                  <option value="read">Read</option>
+                  <option value="replied">Replied</option>
+                  <option value="archived">Archived</option>
+                </select>
+                <button id="inquiryRefreshButton" class="secondary-button" type="button">Refresh</button>
+              </div>
+            </div>
+
+            <p id="inquiryMessage" class="form-message" role="status" aria-live="polite"></p>
+
+            <div class="inquiry-manager">
+              <aside class="inquiry-list-panel">
+                <div id="inquiryList" class="inquiry-list"></div>
+                <div id="inquiryEmpty" class="manager-empty">No inquiries in this filter.</div>
+              </aside>
+
+              <section class="inquiry-detail-panel">
+                <div id="inquiryDetailEmpty" class="manager-empty">
+                  Select an inquiry to read the full brief.
+                </div>
+
+                <div id="inquiryDetail" hidden>
+                  <div class="inquiry-detail-head">
+                    <div>
+                      <span class="eyebrow">CLIENT</span>
+                      <h3 id="inquiryDetailName">—</h3>
+                    </div>
+                    <label>
+                      <span>Status</span>
+                      <select id="inquiryDetailStatus">
+                        <option value="new">New</option>
+                        <option value="read">Read</option>
+                        <option value="replied">Replied</option>
+                        <option value="archived">Archived</option>
+                      </select>
+                    </label>
+                  </div>
+
+                  <div class="inquiry-detail-meta">
+                    <a id="inquiryDetailEmail" href="#">—</a>
+                    <span id="inquiryDetailMeta">—</span>
+                    <span>Received <b id="inquiryDetailCreated">—</b></span>
+                    <span>Source <b id="inquiryDetailSource">—</b></span>
+                  </div>
+
+                  <div class="inquiry-brief">
+                    <span class="eyebrow">PROJECT BRIEF</span>
+                    <p id="inquiryDetailMessage"></p>
+                  </div>
+
+                  <label class="inquiry-notes-field">
+                    <span>Admin notes</span>
+                    <textarea id="inquiryAdminNotes" rows="5" maxlength="3000" placeholder="Private notes about follow-up, quote, next action…"></textarea>
+                  </label>
+
+                  <div class="manager-form-actions">
+                    <button id="inquirySaveButton" type="button" disabled>Save status & note</button>
+                    <button id="inquiryDeleteButton" class="secondary-button danger-button" type="button" disabled>Delete inquiry</button>
+                  </div>
+
+                  <p id="inquiryActionMessage" class="form-message" role="status" aria-live="polite"></p>
+                </div>
+              </section>
+            </div>
+          </section>
+        </div>
       </div>
     </section>
 
     <footer id="publicAdminFooter" class="admin-footer">
       <span>MEHEDI PORTFOLIO</span>
-      <span>Secure Admin · Phase 4 Complete</span>
+      <span>Secure Admin · Phase 5A Active</span>
     </footer>
   </main>
 
