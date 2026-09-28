@@ -7,6 +7,7 @@ import { initProjectOrdering } from "./project-ordering.js";
 import { initCaseStudyManager } from "./case-study-manager.js";
 import { initInquiryManager } from "./inquiry-manager.js";
 import { initAnalyticsDashboard } from "./analytics-dashboard.js";
+import { initSeoManager } from "./seo-manager.js";
 
 const configPanel = document.querySelector("#configPanel");
 const loginPanel = document.querySelector("#loginPanel");
@@ -55,6 +56,7 @@ const projectOrderingNavButton = document.querySelector("#projectOrderingNavButt
 const caseStudiesNavButton = document.querySelector("#caseStudiesNavButton");
 const inquiryNavButton = document.querySelector("#inquiryNavButton");
 const analyticsNavButton = document.querySelector("#analyticsNavButton");
+const seoNavButton = document.querySelector("#seoNavButton");
 const dashboard = document.querySelector("#dashboard");
 const homepageEditor = document.querySelector("#homepageEditor");
 const realProjectsEditor = document.querySelector("#realProjectsEditor");
@@ -76,6 +78,7 @@ const projectOrderingEditor = document.querySelector("#projectOrderingEditor");
 const caseStudiesEditor = document.querySelector("#caseStudiesEditor");
 const inquiryEditor = document.querySelector("#inquiryEditor");
 const analyticsEditor = document.querySelector("#analyticsEditor");
+const seoEditor = document.querySelector("#seoEditor");
 const cmsPageEyebrow = document.querySelector("#cmsPageEyebrow");
 const cmsPageTitle = document.querySelector("#cmsPageTitle");
 
@@ -702,6 +705,7 @@ if (!hasValidConfig) {
     const isCaseStudies = view === "case-studies";
     const isInquiries = view === "inquiries";
     const isAnalytics = view === "analytics";
+    const isSeo = view === "seo";
 
     dashboard.hidden = !isDashboard;
     homepageEditor.hidden = !isHero;
@@ -724,6 +728,7 @@ if (!hasValidConfig) {
     caseStudiesEditor.hidden = !isCaseStudies;
     inquiryEditor.hidden = !isInquiries;
     analyticsEditor.hidden = !isAnalytics;
+    seoEditor.hidden = !isSeo;
 
     dashboardNavLink?.classList.toggle("active", isDashboard);
     homepageNavButton?.classList.toggle("active", isHero);
@@ -746,8 +751,9 @@ if (!hasValidConfig) {
     caseStudiesNavButton?.classList.toggle("active", isCaseStudies);
     inquiryNavButton?.classList.toggle("active", isInquiries);
     analyticsNavButton?.classList.toggle("active", isAnalytics);
+    seoNavButton?.classList.toggle("active", isSeo);
 
-    [dashboardNavLink, homepageNavButton, realProjectsNavButton, designShowcaseNavButton, creativeServicesNavButton, digitalProjectsNavButton, aboutMeNavButton, skillsToolsNavButton, experienceCommunityNavButton, contactCmsNavButton, footerCmsNavButton, sectionLayoutNavButton, projectsNavButton, mediaWorkflowNavButton, projectManagerNavButton, homepageSelectionNavButton, projectMetadataNavButton, projectOrderingNavButton, caseStudiesNavButton, inquiryNavButton, analyticsNavButton].forEach((item) => {
+    [dashboardNavLink, homepageNavButton, realProjectsNavButton, designShowcaseNavButton, creativeServicesNavButton, digitalProjectsNavButton, aboutMeNavButton, skillsToolsNavButton, experienceCommunityNavButton, contactCmsNavButton, footerCmsNavButton, sectionLayoutNavButton, projectsNavButton, mediaWorkflowNavButton, projectManagerNavButton, homepageSelectionNavButton, projectMetadataNavButton, projectOrderingNavButton, caseStudiesNavButton, inquiryNavButton, analyticsNavButton, seoNavButton].forEach((item) => {
       item?.removeAttribute("aria-current");
     });
 
@@ -831,6 +837,10 @@ if (!hasValidConfig) {
       analyticsNavButton?.setAttribute("aria-current", "page");
       cmsPageEyebrow.textContent = "BUSINESS SYSTEM";
       cmsPageTitle.textContent = "Analytics Dashboard";
+    } else if (isSeo) {
+      seoNavButton?.setAttribute("aria-current", "page");
+      cmsPageEyebrow.textContent = "BUSINESS SYSTEM";
+      cmsPageTitle.textContent = "Per-Project SEO";
     } else {
       dashboardNavLink?.setAttribute("aria-current", "page");
       cmsPageEyebrow.textContent = "HOMEPAGE CMS";
@@ -5454,6 +5464,7 @@ if (!hasValidConfig) {
   initCaseStudyManager({ supabaseClient, showCmsView });
   initInquiryManager({ supabaseClient, showCmsView });
   initAnalyticsDashboard({ supabaseClient, showCmsView });
+  initSeoManager({ supabaseClient, showCmsView });
 
   const checkAdminMembership = async (user) => {
     if (!user?.id) {
