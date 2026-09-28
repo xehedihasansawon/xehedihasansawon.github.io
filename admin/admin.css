@@ -3791,3 +3791,137 @@ button {
     display:grid;
   }
 }
+
+
+/* =========================================================
+   PHASE 5B · ANALYTICS DASHBOARD
+   ========================================================= */
+.analytics-toolbar{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.analytics-toolbar select{
+  min-height:40px;
+  padding:0 11px;
+  border:1px solid rgba(213,229,218,.14);
+  border-radius:9px;
+  background:#0a2020;
+  color:#eef6f1;
+}
+.analytics-stat-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:12px;
+  margin-top:16px;
+}
+.analytics-stat-card{
+  min-width:0;
+  padding:16px;
+  border:1px solid rgba(213,229,218,.1);
+  border-radius:13px;
+  background:rgba(6,26,26,.38);
+}
+.analytics-stat-card>span{
+  display:block;
+  margin-bottom:8px;
+  color:#8fa39a;
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:.1em;
+}
+.analytics-stat-card>strong{
+  display:block;
+  margin-bottom:5px;
+  color:#f1f7f3;
+  font-size:30px;
+  line-height:1;
+}
+.analytics-stat-card>small{
+  color:#8fa39a;
+  font-size:10.5px;
+  line-height:1.45;
+}
+.analytics-split-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+}
+.analytics-rank-list{
+  display:grid;
+  gap:10px;
+}
+.analytics-rank-item{
+  display:grid;
+  grid-template-columns:34px 1fr;
+  gap:10px;
+  align-items:center;
+  padding:10px 0;
+  border-bottom:1px solid rgba(213,229,218,.07);
+}
+.analytics-rank-item:last-child{
+  border-bottom:0;
+}
+.analytics-rank-number{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:30px;
+  border:1px solid rgba(213,229,218,.1);
+  border-radius:8px;
+  color:#8fa39a;
+  font-size:9px;
+  font-weight:800;
+}
+.analytics-rank-copy{
+  min-width:0;
+}
+.analytics-rank-copy>div:first-child{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:7px;
+}
+.analytics-rank-copy strong{
+  min-width:0;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  color:#eaf3ed;
+  font-size:12px;
+}
+.analytics-rank-copy span{
+  color:#b8c9bf;
+  font-size:11px;
+  font-weight:800;
+}
+.analytics-rank-bar{
+  height:5px;
+  overflow:hidden;
+  border-radius:999px;
+  background:rgba(213,229,218,.06);
+}
+.analytics-rank-bar i{
+  display:block;
+  height:100%;
+  border-radius:inherit;
+  background:#b61e24;
+}
+@media (max-width:980px){
+  .analytics-stat-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+  .analytics-split-grid{
+    grid-template-columns:1fr;
+  }
+}
+@media (max-width:620px){
+  .analytics-toolbar{
+    align-items:stretch;
+    flex-direction:column;
+  }
+  .analytics-stat-grid{
+    grid-template-columns:1fr;
+  }
+}
