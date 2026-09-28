@@ -1528,7 +1528,7 @@ Production `main` remains unchanged by Phase 4.
 
 ## Phase 5 — Business/System Features
 
-Status: **ACTIVE · PHASE 5A–5B LOCKED · PHASE 5C IMPLEMENTED · OWNER TEST PENDING**
+Status: **ACTIVE · PHASE 5A–5C LOCKED**
 
 Purpose:
 Add the business-facing systems around the locked portfolio and case-study foundation without redesigning the approved Phase 2–4 presentation.
@@ -1674,7 +1674,7 @@ Completed and locked:
 
 ### Phase 5C — Per-Project SEO Manager
 
-Status: **IMPLEMENTED · MIGRATION + OWNER TEST PENDING**
+Status: **LOCKED / DONE**
 
 Scope:
 - Add migration `016_project_seo_manager.sql`
@@ -1710,7 +1710,7 @@ Acceptance checklist:
 - [x] Runtime title/meta/OG/Twitter application is code-audit verified
 - [x] Verified Phase 4 MIUW/Portfolio cover mapping bug fixed through migration 017
 - [x] Verified dynamic case-study hidden-state error flicker fixed
-- [ ] Phase 5C owner approval / lock
+- [x] Phase 5C owner approval / lock
 
 Architecture note:
 The current site is static GitHub Pages with client-side Supabase rendering. Phase 5C updates runtime Open Graph/Twitter tags, but some social-unfurl crawlers do not execute JavaScript. Guaranteed platform-specific unfurls would require a later prerender/edge/static-page generation layer; this limitation does not expose private SEO rows or change the locked public case-study fallback.
