@@ -1739,7 +1739,7 @@ Scope:
 - Production `main` remains untouched
 
 Acceptance checklist:
-- [ ] Migration 018 applies successfully in Supabase
+- [x] Migration 018 applies successfully in Supabase *(owner-confirmed)*
 - [x] Feedback schema, constraints and indexes implemented
 - [x] Anonymous direct table writes blocked
 - [x] Validated anonymous submission RPC implemented
@@ -1754,8 +1754,8 @@ Acceptance checklist:
 - [x] Pending / Approved / Hidden workflow implemented
 - [x] Admin create/edit/order/delete workflow implemented
 - [x] Phase 2K top-level section ordering left unchanged
-- [ ] One localhost public feedback submission reaches Admin as Pending
-- [ ] Admin approval makes that feedback visible publicly
+- [x] One localhost public feedback submission reaches Admin as Pending *(owner-verified: Test Client)*
+- [x] Admin approval makes that feedback visible publicly *(owner-verified on homepage Contact section)*
 - [ ] Phase 5D owner approval / lock
 
 Lock rule:
