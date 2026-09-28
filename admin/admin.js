@@ -5,6 +5,7 @@ import { initHomepageSelection } from "./homepage-selection.js";
 import { initProjectMetadata } from "./project-metadata.js";
 import { initProjectOrdering } from "./project-ordering.js";
 import { initCaseStudyManager } from "./case-study-manager.js";
+import { initInquiryManager } from "./inquiry-manager.js";
 
 const configPanel = document.querySelector("#configPanel");
 const loginPanel = document.querySelector("#loginPanel");
@@ -51,6 +52,7 @@ const homepageSelectionNavButton = document.querySelector("#homepageSelectionNav
 const projectMetadataNavButton = document.querySelector("#projectMetadataNavButton");
 const projectOrderingNavButton = document.querySelector("#projectOrderingNavButton");
 const caseStudiesNavButton = document.querySelector("#caseStudiesNavButton");
+const inquiryNavButton = document.querySelector("#inquiryNavButton");
 const dashboard = document.querySelector("#dashboard");
 const homepageEditor = document.querySelector("#homepageEditor");
 const realProjectsEditor = document.querySelector("#realProjectsEditor");
@@ -70,6 +72,7 @@ const homepageSelectionEditor = document.querySelector("#homepageSelectionEditor
 const projectMetadataEditor = document.querySelector("#projectMetadataEditor");
 const projectOrderingEditor = document.querySelector("#projectOrderingEditor");
 const caseStudiesEditor = document.querySelector("#caseStudiesEditor");
+const inquiryEditor = document.querySelector("#inquiryEditor");
 const cmsPageEyebrow = document.querySelector("#cmsPageEyebrow");
 const cmsPageTitle = document.querySelector("#cmsPageTitle");
 
@@ -694,6 +697,7 @@ if (!hasValidConfig) {
     const isProjectMetadata = view === "project-metadata";
     const isProjectOrdering = view === "project-ordering";
     const isCaseStudies = view === "case-studies";
+    const isInquiries = view === "inquiries";
 
     dashboard.hidden = !isDashboard;
     homepageEditor.hidden = !isHero;
@@ -714,6 +718,7 @@ if (!hasValidConfig) {
     projectMetadataEditor.hidden = !isProjectMetadata;
     projectOrderingEditor.hidden = !isProjectOrdering;
     caseStudiesEditor.hidden = !isCaseStudies;
+    inquiryEditor.hidden = !isInquiries;
 
     dashboardNavLink?.classList.toggle("active", isDashboard);
     homepageNavButton?.classList.toggle("active", isHero);
@@ -734,8 +739,9 @@ if (!hasValidConfig) {
     projectMetadataNavButton?.classList.toggle("active", isProjectMetadata);
     projectOrderingNavButton?.classList.toggle("active", isProjectOrdering);
     caseStudiesNavButton?.classList.toggle("active", isCaseStudies);
+    inquiryNavButton?.classList.toggle("active", isInquiries);
 
-    [dashboardNavLink, homepageNavButton, realProjectsNavButton, designShowcaseNavButton, creativeServicesNavButton, digitalProjectsNavButton, aboutMeNavButton, skillsToolsNavButton, experienceCommunityNavButton, contactCmsNavButton, footerCmsNavButton, sectionLayoutNavButton, projectsNavButton, mediaWorkflowNavButton, projectManagerNavButton, homepageSelectionNavButton, projectMetadataNavButton, projectOrderingNavButton, caseStudiesNavButton].forEach((item) => {
+    [dashboardNavLink, homepageNavButton, realProjectsNavButton, designShowcaseNavButton, creativeServicesNavButton, digitalProjectsNavButton, aboutMeNavButton, skillsToolsNavButton, experienceCommunityNavButton, contactCmsNavButton, footerCmsNavButton, sectionLayoutNavButton, projectsNavButton, mediaWorkflowNavButton, projectManagerNavButton, homepageSelectionNavButton, projectMetadataNavButton, projectOrderingNavButton, caseStudiesNavButton, inquiryNavButton].forEach((item) => {
       item?.removeAttribute("aria-current");
     });
 
@@ -811,6 +817,10 @@ if (!hasValidConfig) {
       caseStudiesNavButton?.setAttribute("aria-current", "page");
       cmsPageEyebrow.textContent = "CASE STUDIES";
       cmsPageTitle.textContent = "Dynamic Case Studies";
+    } else if (isInquiries) {
+      inquiryNavButton?.setAttribute("aria-current", "page");
+      cmsPageEyebrow.textContent = "BUSINESS SYSTEM";
+      cmsPageTitle.textContent = "Client Inquiries";
     } else {
       dashboardNavLink?.setAttribute("aria-current", "page");
       cmsPageEyebrow.textContent = "HOMEPAGE CMS";
@@ -5432,6 +5442,7 @@ if (!hasValidConfig) {
   initProjectMetadata({ supabaseClient, showCmsView });
   initProjectOrdering({ supabaseClient, showCmsView });
   initCaseStudyManager({ supabaseClient, showCmsView });
+  initInquiryManager({ supabaseClient, showCmsView });
 
   const checkAdminMembership = async (user) => {
     if (!user?.id) {
