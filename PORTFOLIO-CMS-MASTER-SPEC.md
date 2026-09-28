@@ -1568,7 +1568,7 @@ Scope:
 - Production `main` remains untouched
 
 Acceptance checklist:
-- [ ] Migration 014 applies successfully in Supabase
+- [x] Migration 014 applies successfully in Supabase *(owner-confirmed)*
 - [x] Public inquiry form markup is implemented
 - [x] Public submission module is implemented
 - [x] Required field and email validation are implemented
