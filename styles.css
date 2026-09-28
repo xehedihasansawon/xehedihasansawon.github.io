@@ -6627,10 +6627,10 @@ html{
    ========================================================= */
 .contact-inquiry-panel{
   position:relative;
-  width:100%;
-  max-width:none;
+  width:min(100%,840px);
+  max-width:840px;
   box-sizing:border-box;
-  margin:16px 0 0;
+  margin:16px auto 0;
   padding:18px 20px 16px;
   border:1px solid rgba(218,241,222,.11);
   border-radius:18px;
