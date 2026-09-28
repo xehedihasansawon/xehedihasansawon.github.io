@@ -1528,7 +1528,7 @@ Production `main` remains unchanged by Phase 4.
 
 ## Phase 5 — Business/System Features
 
-Status: **ACTIVE · PHASE 5A–5D LOCKED**
+Status: **ACTIVE · PHASE 5A–5D LOCKED · PHASE 5E IMPLEMENTED · OWNER TEST PENDING**
 
 Purpose:
 Add the business-facing systems around the locked portfolio and case-study foundation without redesigning the approved Phase 2–4 presentation.
@@ -1765,6 +1765,53 @@ Phase 5D is locked. Moderated client feedback intake, Admin review, explicit dis
 
 Lock rule:
 Freeze the Phase 5D feedback schema, moderation workflow, public consent gate and private-email protections. Later phases must not auto-publish feedback, expose client email publicly, or weaken Admin-only moderation except for a verified bug/security fix.
+
+### Phase 5E — Multiple Resume / CV Manager
+
+Status: **IMPLEMENTED · MIGRATION + OWNER TEST PENDING**
+
+Scope:
+- Add migration `019_multiple_cv_manager.sql`
+- Add private Admin-only `portfolio_cvs` store
+- Anonymous/public roles receive no CV table privileges and no public RLS policy
+- Allowlisted authenticated Admin receives CRUD access only through the existing Admin security model
+- Support multiple named CV versions for different target roles
+- CV fields include private version name, target role, template, library order, profile/contact details, professional summary, skills, languages and courses/certifications
+- Support multiple reorderable Experience entries
+- Support multiple reorderable Education entries
+- Support Modern, Compact and Europass-style presentation variants
+- Support duplicate CV version workflow for fast role-specific customization
+- Add live Admin A4 preview
+- Add browser Print / Save PDF workflow
+- CV content is not added to the public homepage, public navigation, public API or anonymous Supabase grants
+- Phase 5A–5D and Phase 2–4 locked behavior remains unchanged
+- Production `main` remains untouched
+
+Acceptance checklist:
+- [ ] Migration 019 applies successfully in Supabase
+- [x] Private CV schema and constraints implemented
+- [x] Anonymous/public CV access blocked
+- [x] Admin allowlist RLS implemented
+- [x] 05E CV Manager Admin navigation implemented
+- [x] Multiple named CV versions implemented
+- [x] Modern / Compact / Europass-style template selection implemented
+- [x] Profile/contact + summary fields implemented
+- [x] Skills / Languages / Certifications fields implemented
+- [x] Multiple Experience entries implemented
+- [x] Multiple Education entries implemented
+- [x] Experience/Education reordering implemented
+- [x] Duplicate CV version workflow implemented
+- [x] Private A4 preview implemented
+- [x] Print / Save PDF workflow implemented
+- [x] No Phase 5E public-site exposure added
+- [ ] Owner creates and saves one CV version
+- [ ] Saved CV reloads correctly
+- [ ] Duplicate creates a second independent CV version
+- [ ] Print / Save PDF preview opens correctly
+- [ ] Phase 5E owner approval / lock
+
+Lock rule:
+Do not lock Phase 5E until migration 019 is applied and one minimal create → reload → duplicate → print-preview flow is owner-verified. Later phases must preserve Admin-only CV privacy unless the owner explicitly chooses to build a public resume feature.
 
 ## Planned Phase 3 sequence
 
