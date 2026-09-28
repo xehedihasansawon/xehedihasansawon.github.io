@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./admin.css?v=phase5e-category-20260928-1">
+  <link rel="stylesheet" href="./admin.css?v=phase5e-master-20260928-1">
 </head>
 <body>
   <main class="admin-shell">
@@ -3140,6 +3140,24 @@
             </div>
           </section>
 
+          <section class="editor-card cv-master-card">
+            <div class="editor-section-title">
+              <div>
+                <p class="eyebrow">MASTER PROFILE</p>
+                <h3>Your private A–Z CV source</h3>
+                <p>Work history, education, skills, languages and certifications live once here. Category CVs use only the relevant items.</p>
+              </div>
+              <div class="cv-master-actions">
+                <button id="cvMasterRefreshButton" class="secondary-button" type="button">Refresh Master</button>
+                <button id="cvMasterBuildButton" class="secondary-button" type="button" disabled>Refresh selected CV from Master</button>
+              </div>
+            </div>
+            <div class="cv-master-status-row">
+              <span id="cvMasterState" class="cv-master-state">Checking private Master Profile…</span>
+              <small>Master data stays Admin-only in Supabase and is not published on the portfolio.</small>
+            </div>
+          </section>
+
           <section class="editor-card cv-category-card">
             <div class="editor-section-title">
               <div>
@@ -3359,6 +3377,6 @@
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script type="module" src="./admin.js?v=phase5e-category-20260928-1"></script>
+  <script type="module" src="./admin.js?v=phase5e-master-20260928-1"></script>
 </body>
 </html>
