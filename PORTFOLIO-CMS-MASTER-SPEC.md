@@ -1528,7 +1528,7 @@ Production `main` remains unchanged by Phase 4.
 
 ## Phase 5 — Business/System Features
 
-Status: **ACTIVE · PHASE 5A IMPLEMENTED · OWNER TEST PENDING**
+Status: **ACTIVE · PHASE 5A LOCKED · PHASE 5B NEXT**
 
 Purpose:
 Add the business-facing systems around the locked portfolio and case-study foundation without redesigning the approved Phase 2–4 presentation.
@@ -1545,7 +1545,7 @@ Locked sequence:
 
 ### Phase 5A — Client Project Inquiry Form
 
-Status: **IMPLEMENTED · MIGRATION + OWNER TEST PENDING**
+Status: **LOCKED / DONE**
 
 Scope:
 - Add migration `014_client_inquiry_system.sql`
@@ -1581,13 +1581,33 @@ Acceptance checklist:
 - [x] New / Read / Replied / Archived workflow is implemented
 - [x] Admin private notes are implemented
 - [x] Admin permanent delete action is implemented
-- [ ] One localhost inquiry submission is owner-verified
-- [ ] Submitted inquiry appears in Admin Inbox
-- [ ] Status/note update is owner-verified
-- [ ] Phase 5A owner approval / lock
+- [x] One localhost inquiry submission is owner-verified
+- [x] Submitted inquiry appears in Admin Inbox
+- [x] Status transition from New to Read is owner-verified; private note save remains implementation-verified
+- [x] Phase 5A owner approval / lock
+
+Owner approval: 2026-09-28
+
+Phase 5A is locked. Public submission, secure Admin Inbox delivery, and the New → Read workflow were owner-verified end-to-end.
 
 Lock rule:
-Do not lock Phase 5A until migration 014 is applied and one end-to-end localhost submission reaches the secure Admin Inbox. Later Phase 5 modules must not weaken inquiry RLS or expose private inquiry content.
+Freeze the Phase 5A inquiry schema, public form contract, RLS permissions and Admin Inbox workflow. Later Phase 5 modules must not weaken inquiry RLS or expose private inquiry content. Only verified bug/security fixes may change this module.
+
+## Phase 5A — COMPLETE / LOCKED
+
+Completed and locked:
+- Secure public inquiry submission
+- Anonymous INSERT-only access
+- Admin allowlist read/manage access
+- Name / Email / Project Type / Budget / Timeline / Brief fields
+- Consent requirement
+- Honeypot + minimum-submit-time friction
+- Admin Inquiry Inbox
+- New / Read / Replied / Archived workflow
+- Private admin notes
+- Permanent delete action
+- End-to-end localhost submission verified
+- Production `main` remains untouched
 
 ## Planned Phase 3 sequence
 
