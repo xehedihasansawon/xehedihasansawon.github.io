@@ -32,6 +32,22 @@ const create = (tag, text = "", className = "") => {
   return element;
 };
 
+const CV_CATEGORIES = [
+  { key: "graphic_design", label: "Graphic Design", role: "Graphic Designer" },
+  { key: "video_editing", label: "Video Editing", role: "Video Editor" },
+  { key: "event_management", label: "Event Management", role: "Event Coordinator / Event Management" },
+  { key: "computer_admin", label: "Computer Operator / Admin", role: "Computer Operator / Administrative Support" },
+  { key: "hospitality", label: "Hotel / Waiter / Service", role: "Waiter / Hospitality Staff" },
+  { key: "customer_travel", label: "Customer Service / Travel", role: "Customer Service / Travel Support" },
+  { key: "ecommerce", label: "E-commerce / Product Listing", role: "E-commerce / Product Listing Assistant" },
+  { key: "operations", label: "Shop / Operations", role: "Shop / Operations Assistant" },
+  { key: "general", label: "General / Full CV", role: "General Professional CV" }
+];
+
+const categoryMeta = (key) =>
+  CV_CATEGORIES.find((item) => item.key === key) ||
+  CV_CATEGORIES[CV_CATEGORIES.length - 1];
+
 const emptyResume = () => ({
   personal: {
     fullName: "",
@@ -254,11 +270,13 @@ export const initCvManager = ({ supabaseClient, showCmsView }) => {
   const printButton = byId("cvManagerPrintButton");
   const list = byId("cvManagerList");
   const count = byId("cvManagerCount");
+  const categoryLibrary = byId("cvCategoryLibrary");
 
   const form = byId("cvManagerForm");
   const idInput = byId("cvId");
   const labelInput = byId("cvLabel");
   const targetRoleInput = byId("cvTargetRole");
+  const categoryInput = byId("cvCategory");
   const templateInput = byId("cvTemplate");
   const orderInput = byId("cvSortOrder");
 
@@ -291,6 +309,8 @@ export const initCvManager = ({ supabaseClient, showCmsView }) => {
     !editor ||
     !form ||
     !list ||
+    !categoryLibrary ||
+    !categoryInput ||
     !preview ||
     !experienceList ||
     !educationList
@@ -300,6 +320,7 @@ export const initCvManager = ({ supabaseClient, showCmsView }) => {
 
   let rows = [];
   let busy = false;
+  let activeCategory = "graphic_design";
 
   const setState = (value) => {
     if (state) state.textContent = value;
@@ -340,6 +361,7 @@ export const initCvManager = ({ supabaseClient, showCmsView }) => {
   const readForm = () => ({
     label: clean(labelInput.value),
     target_role: clean(targetRoleInput.value),
+    category_key: categoryInput.value,
     template_key: templateInput.value,
     sort_order: Number.parseInt(orderInput.value || "0", 10),
     resume_data: {
@@ -383,6 +405,10 @@ export const initCvManager = ({ supabaseClient, showCmsView }) => {
       return "Target role is too long.";
     }
 
+    if (!CV_CATEGORIES.some((item) => item.key === payload.category_key)) {
+      return "Choose a valid CV category.";
+    }
+
     if (!["modern", "compact", "europass"].includes(payload.template_key)) {
       return "Choose a valid CV template.";
     }
@@ -408,21 +434,31 @@ export const initCvManager = ({ supabaseClient, showCmsView }) => {
     return "";
   };
 
-  const resetForm = () => {
+  const resetForm = (categoryKey = activeCategory) => {
     form.reset();
     idInput.value = "";
+
+    const meta = categoryMeta(categoryKey);
+    activeCategory = meta.key;
+    categoryInput.value = meta.key;
+    labelInput.value = meta.label + " CV";
+    targetRoleInput.value = meta.role;
     templateInput.value = "modern";
     orderInput.value = "0";
+
     experienceList.replaceChildren();
     educationList.replaceChildren();
     experienceList.append(makeExperienceRow());
     educationList.append(makeEducationRow());
+
     deleteButton.hidden = true;
     duplicateButton.disabled = true;
     printButton.disabled = true;
-    setState("New CV");
-    setMessage("Create a private CV version. Nothing here is public.");
+
+    setState("New " + meta.label + " CV");
+    setMessage("No saved version in this category yet. Create it once, then it stays ready for PDF export.");
     renderPreview(readForm());
+    renderCategoryLibrary();
     renderList();
   };
 
@@ -437,6 +473,8 @@ export const initCvManager = ({ supabaseClient, showCmsView }) => {
     idInput.value = row.id;
     labelInput.value = row.label || "";
     targetRoleInput.value = row.target_role || "";
+    activeCategory = row.category_key || "general";
+    categoryInput.value = activeCategory;
     templateInput.value = row.template_key || "modern";
     orderInput.value = String(row.sort_order ?? 0);
 
@@ -472,26 +510,73 @@ export const initCvManager = ({ supabaseClient, showCmsView }) => {
     setState("Editing " + row.label);
     setMessage("Private Admin-only CV loaded.");
     renderPreview(readForm());
+    renderCategoryLibrary();
     renderList();
+  };
+
+  const renderCategoryLibrary = () => {
+    categoryLibrary.replaceChildren();
+
+    CV_CATEGORIES.forEach((meta) => {
+      const matching = rows
+        .filter((row) => (row.category_key || "general") === meta.key)
+        .sort(
+          (a, b) =>
+            (a.sort_order ?? 0) - (b.sort_order ?? 0) ||
+            String(a.label || "").localeCompare(String(b.label || ""))
+        );
+
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "cv-category-button";
+      if (activeCategory === meta.key) button.classList.add("active");
+
+      const top = create("span", "", "cv-category-button-top");
+      top.append(
+        create("strong", meta.label),
+        create("b", String(matching.length))
+      );
+
+      button.append(
+        top,
+        create("small", matching.length ? "Ready CV version" : "Create this CV")
+      );
+
+      button.addEventListener("click", () => {
+        activeCategory = meta.key;
+
+        if (matching.length) {
+          populate(matching[0]);
+          return;
+        }
+
+        resetForm(meta.key);
+      });
+
+      categoryLibrary.append(button);
+    });
   };
 
   const renderList = () => {
     list.replaceChildren();
 
-    const ordered = [...rows].sort(
-      (a, b) =>
-        (a.sort_order ?? 0) - (b.sort_order ?? 0) ||
-        String(a.label || "").localeCompare(String(b.label || ""))
-    );
+    const ordered = rows
+      .filter((row) => (row.category_key || "general") === activeCategory)
+      .sort(
+        (a, b) =>
+          (a.sort_order ?? 0) - (b.sort_order ?? 0) ||
+          String(a.label || "").localeCompare(String(b.label || ""))
+      );
 
+    const meta = categoryMeta(activeCategory);
     count.textContent =
-      ordered.length + (ordered.length === 1 ? " CV" : " CVs");
+      meta.label + " · " + ordered.length + (ordered.length === 1 ? " CV" : " CVs");
 
     if (!ordered.length) {
       list.append(
         create(
           "div",
-          "No CV versions yet. Create your first private CV.",
+          "No saved " + categoryMeta(activeCategory).label + " CV yet.",
           "manager-empty"
         )
       );
@@ -776,7 +861,7 @@ export const initCvManager = ({ supabaseClient, showCmsView }) => {
       const { data, error } = await supabaseClient
         .from("portfolio_cvs")
         .select(
-          "id,label,target_role,template_key,resume_data,sort_order,created_at,updated_at"
+          "id,label,target_role,category_key,template_key,resume_data,sort_order,created_at,updated_at"
         )
         .order("sort_order", { ascending: true })
         .order("updated_at", { ascending: false });
@@ -791,13 +876,17 @@ export const initCvManager = ({ supabaseClient, showCmsView }) => {
       }
 
       rows = data || [];
+      renderCategoryLibrary();
       renderList();
 
       const current = selected();
       if (current) {
         populate(current);
       } else if (rows.length) {
-        populate(rows[0]);
+        const firstGraphic =
+          rows.find((row) => (row.category_key || "general") === "graphic_design") ||
+          rows[0];
+        populate(firstGraphic);
       } else {
         resetForm();
         setState("Ready");
@@ -841,7 +930,7 @@ export const initCvManager = ({ supabaseClient, showCmsView }) => {
           .update(payload)
           .eq("id", idInput.value)
           .select(
-            "id,label,target_role,template_key,resume_data,sort_order,created_at,updated_at"
+            "id,label,target_role,category_key,template_key,resume_data,sort_order,created_at,updated_at"
           )
           .single();
       } else {
@@ -849,7 +938,7 @@ export const initCvManager = ({ supabaseClient, showCmsView }) => {
           .from("portfolio_cvs")
           .insert(payload)
           .select(
-            "id,label,target_role,template_key,resume_data,sort_order,created_at,updated_at"
+            "id,label,target_role,category_key,template_key,resume_data,sort_order,created_at,updated_at"
           )
           .single();
       }
@@ -903,12 +992,13 @@ export const initCvManager = ({ supabaseClient, showCmsView }) => {
         .insert({
           label,
           target_role: row.target_role || "",
+          category_key: row.category_key || "general",
           template_key: row.template_key || "modern",
           resume_data: normalizeResume(row.resume_data),
           sort_order: (row.sort_order ?? 0) + 1
         })
         .select(
-          "id,label,target_role,template_key,resume_data,sort_order,created_at,updated_at"
+          "id,label,target_role,category_key,template_key,resume_data,sort_order,created_at,updated_at"
         )
         .single();
 
@@ -974,7 +1064,7 @@ export const initCvManager = ({ supabaseClient, showCmsView }) => {
   });
 
   refreshButton?.addEventListener("click", load);
-  newButton?.addEventListener("click", resetForm);
+  newButton?.addEventListener("click", () => resetForm(activeCategory));
   duplicateButton?.addEventListener("click", duplicate);
   deleteButton?.addEventListener("click", remove);
   printButton?.addEventListener("click", () => {
@@ -993,7 +1083,14 @@ export const initCvManager = ({ supabaseClient, showCmsView }) => {
   });
 
   form.addEventListener("input", updatePreview);
-  form.addEventListener("change", updatePreview);
+  form.addEventListener("change", (event) => {
+    if (event.target === categoryInput) {
+      activeCategory = categoryInput.value;
+      renderCategoryLibrary();
+      renderList();
+    }
+    updatePreview();
+  });
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
     await save();
