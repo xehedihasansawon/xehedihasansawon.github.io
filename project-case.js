@@ -46,16 +46,27 @@ const isSafeImage = (value) => {
   const src = String(value || "").trim();
   if (!src) return false;
 
+  const lower = src.toLowerCase();
+  if (
+    lower.startsWith("javascript:") ||
+    lower.startsWith("data:") ||
+    lower.startsWith("vbscript:") ||
+    src.startsWith("//")
+  ) {
+    return false;
+  }
+
   if (
     src.startsWith("/") ||
     src.startsWith("./") ||
-    src.startsWith("../")
+    src.startsWith("../") ||
+    /^[a-z0-9_-]+\//i.test(src)
   ) {
     return true;
   }
 
   try {
-    return ["https:", "http:"].includes(new URL(src).protocol);
+    return new URL(src).protocol === "https:";
   } catch {
     return false;
   }
@@ -82,7 +93,7 @@ const createHeading = (text, level = "h2") => {
 
   if (!clean) return heading;
 
-  const words = clean.split(/s+/);
+  const words = clean.split(/\s+/);
   if (words.length === 1) {
     const accent = document.createElement("span");
     accent.textContent = words[0];
