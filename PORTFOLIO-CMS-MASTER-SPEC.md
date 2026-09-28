@@ -1238,7 +1238,7 @@ After owner verification, freeze the Phase 3C category/project CRUD and draft/pu
 
 **Phase 3D — Featured Homepage / Category Selection**
 
-Status: **LOCKED / DONE**
+Status: **LOCKED / DONE · FINAL RE-AUDIT PASS**
 
 Purpose:
 Connect the locked Phase 3C Portfolio Engine to the locked Phase 2 Real Life Projects homepage design without changing the public visual system.
@@ -1347,6 +1347,31 @@ Acceptance checklist:
 - [x] Phase 3D homepage selection remains unchanged
 - [x] No production `main` deployment occurs
 
+Final bugfix re-audit: 2026-09-28 — **PASS**
+
+Verified bugfixes before final lock:
+- Public case-study renderer now accepts safe repository-relative image paths such as `assets/...` while rejecting dangerous schemes
+- Case-study heading parsing now uses real whitespace splitting (`/\\s+/`)
+- Admin preserves an existing non-Media-Library hero image instead of silently clearing it on Save/Publish, while still allowing the owner to switch to project cover or a Media Library image
+- Existing homepage fallback project cards now open a published dynamic case study when a matching public Portfolio Engine project exists, even when that project is not selected for dynamic homepage replacement
+
+Final re-audit verified:
+- Phase 4 executable JavaScript syntax passes static parsing
+- Public/admin DOM references are present
+- Public and admin Phase 4 CSS blocks are balanced
+- Case Study admin wiring is connected
+- Text, Image, Gallery and Feature Cards are supported
+- Facts/section limits remain enforced
+- Draft, Publish and Unpublish flows remain wired
+- RLS requires a published case study plus a published public parent project for anonymous access
+- Authenticated management remains restricted through `admin_users`
+- No service-role credential is used by Phase 4 executable code
+- MIUW remains private/demo-safe and Portfolio Website remains public with its live link
+- Project Explorer and homepage dynamic-case linking are both present
+- Production `main` remains untouched by Phase 4
+
+Final owner lock after bugfix re-audit: 2026-09-28
+
 Owner approval: 2026-09-28
 
 Phase 3E is locked. Future phases may consume project tags, badges and public discovery metadata but must not change the established metadata normalization, public-only discovery or filter semantics unless a verified bug/security issue requires it.
@@ -1432,7 +1457,7 @@ Scope:
 - RLS-first: allowlisted authenticated admin manages all case studies
 - Anonymous visitors can read only published case studies whose parent project is also published + public
 - Keep private/draft case studies admin-only
-- Reuse Phase 3B optimized Media Library images; source originals are never used
+- Reuse Phase 3B optimized Media Library images for admin-selected case-study media; seeded demo records may reference existing optimized repository assets; source originals are never used
 - Add dedicated 04 Case Studies admin manager
 - Admin can set hero kicker, headline, lead, hero image and up to 8 summary facts
 - Admin can build up to 20 reusable sections
@@ -1462,7 +1487,7 @@ Acceptance checklist:
 - [x] Image section add/edit/remove/reorder works *(static verified)*
 - [x] Gallery section add/edit/remove/reorder works *(static verified)*
 - [x] Feature Cards section add/edit/remove/reorder works *(static verified)*
-- [x] Section media uses optimized Phase 3B display images only *(implementation-verified)*
+- [x] Admin-selected section media uses optimized Phase 3B display images; seeded demo media uses existing optimized repository assets only *(re-audit verified)*
 - [x] Save Draft workflow implemented *(implementation-verified)*
 - [x] Publish exposes only published + public parent projects *(RLS/static verified)*
 - [x] Unpublish hides the case study from anonymous visitors *(RLS/static verified)*
