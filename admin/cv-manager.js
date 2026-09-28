@@ -508,94 +508,251 @@ export const initCvManager = ({ supabaseClient, showCmsView }) => {
     preview.replaceChildren();
     preview.dataset.template = payload.template_key || "modern";
 
-    const header = create("header", "", "cv-preview-header");
+    const renderTimelineSection = (title, items, type) => {
+      if (!items.length) return null;
+
+      const body = create("div", "", "cv-preview-timeline");
+
+      items.forEach((item) => {
+        const card = create("article", "", "cv-preview-entry");
+        const top = create("div", "", "cv-preview-entry-top");
+
+        if (type === "experience") {
+          top.append(
+            create("strong", item.role || "Role"),
+            create("span", item.period)
+          );
+          card.append(top);
+          if (item.company) card.append(create("b", item.company));
+        } else {
+          top.append(
+            create("strong", item.qualification || "Qualification"),
+            create("span", item.period)
+          );
+          card.append(top);
+          if (item.institution) card.append(create("b", item.institution));
+        }
+
+        if (item.details) card.append(create("p", item.details));
+        body.append(card);
+      });
+
+      return previewSection(title, body);
+    };
+
+    const renderStandardPreview = () => {
+      const header = create("header", "", "cv-preview-header");
+      header.append(
+        create("h1", resume.personal.fullName || "Your Name"),
+        create(
+          "h2",
+          resume.personal.headline ||
+            payload.target_role ||
+            "Professional headline"
+        )
+      );
+
+      const contacts = [
+        resume.personal.location,
+        resume.personal.email,
+        resume.personal.phone,
+        resume.personal.website,
+        resume.personal.linkedin,
+        resume.personal.behance,
+        resume.personal.github
+      ].filter(Boolean);
+
+      if (contacts.length) {
+        const meta = create("div", "", "cv-preview-contact");
+        contacts.forEach((item) => meta.append(create("span", item)));
+        header.append(meta);
+      }
+
+      preview.append(header);
+
+      if (resume.personal.summary) {
+        const section = previewSection(
+          "Profile",
+          create("p", resume.personal.summary)
+        );
+        if (section) preview.append(section);
+      }
+
+      const experience = renderTimelineSection(
+        "Experience",
+        resume.experience,
+        "experience"
+      );
+      if (experience) preview.append(experience);
+
+      const education = renderTimelineSection(
+        "Education",
+        resume.education,
+        "education"
+      );
+      if (education) preview.append(education);
+
+      if (resume.skills.length) {
+        const wrap = create("div");
+        appendList(wrap, resume.skills, "cv-preview-chips");
+        preview.append(previewSection("Skills", wrap));
+      }
+
+      if (resume.languages.length) {
+        const wrap = create("div");
+        appendList(wrap, resume.languages, "cv-preview-inline-list");
+        preview.append(previewSection("Languages", wrap));
+      }
+
+      if (resume.certifications.length) {
+        const wrap = create("div");
+        appendList(wrap, resume.certifications, "cv-preview-list");
+        preview.append(previewSection("Courses & Certifications", wrap));
+      }
+    };
+
+    if (payload.template_key !== "modern") {
+      renderStandardPreview();
+      return;
+    }
+
+    const layout = create("div", "", "cv-modern-layout");
+    const sidebar = create("aside", "", "cv-modern-sidebar");
+    const main = create("div", "", "cv-modern-main");
+
+    const fullName = resume.personal.fullName || "Your Name";
+    const nameParts = fullName.split(/\s+/).filter(Boolean);
+    const initials = (
+      (nameParts[0]?.[0] || "M") +
+      (nameParts.length > 1 ? nameParts[nameParts.length - 1][0] : "")
+    ).toUpperCase();
+
+    const identity = create("div", "", "cv-modern-identity");
+    identity.append(
+      create("div", initials || "CV", "cv-modern-monogram"),
+      create("span", "CURRICULUM VITAE", "cv-modern-identity-label")
+    );
+    sidebar.append(identity);
+
+    const addSidebarSection = (title, items, className = "") => {
+      const values = items.filter((item) => clean(item.value || item));
+      if (!values.length) return;
+
+      const section = create("section", "", "cv-modern-side-section");
+      section.append(create("h3", title));
+
+      const list = create("div", "", className || "cv-modern-side-list");
+
+      values.forEach((item) => {
+        if (typeof item === "string") {
+          list.append(create("span", item));
+          return;
+        }
+
+        const row = create("div", "", "cv-modern-contact-row");
+        if (item.label) row.append(create("small", item.label));
+        row.append(create("strong", item.value));
+        list.append(row);
+      });
+
+      section.append(list);
+      sidebar.append(section);
+    };
+
+    addSidebarSection("Contact", [
+      { label: "Location", value: resume.personal.location },
+      { label: "Email", value: resume.personal.email },
+      { label: "Phone", value: resume.personal.phone },
+      { label: "Website", value: resume.personal.website },
+      { label: "LinkedIn", value: resume.personal.linkedin },
+      { label: "Behance", value: resume.personal.behance },
+      { label: "GitHub", value: resume.personal.github }
+    ]);
+
+    addSidebarSection(
+      "Skills",
+      resume.skills,
+      "cv-modern-skill-list"
+    );
+
+    addSidebarSection(
+      "Languages",
+      resume.languages,
+      "cv-modern-side-list"
+    );
+
+    addSidebarSection(
+      "Courses & Certifications",
+      resume.certifications,
+      "cv-modern-side-list"
+    );
+
+    const header = create("header", "", "cv-modern-header");
     header.append(
-      create("h1", resume.personal.fullName || "Your Name"),
+      create(
+        "span",
+        payload.target_role || "PROFESSIONAL CV",
+        "cv-modern-role-kicker"
+      ),
+      create("h1", fullName),
       create(
         "h2",
         resume.personal.headline ||
           payload.target_role ||
           "Professional headline"
-      )
+      ),
+      create("div", "", "cv-modern-header-rule")
     );
-
-    const contacts = [
-      resume.personal.location,
-      resume.personal.email,
-      resume.personal.phone,
-      resume.personal.website,
-      resume.personal.linkedin,
-      resume.personal.behance,
-      resume.personal.github
-    ].filter(Boolean);
-
-    if (contacts.length) {
-      const meta = create("div", "", "cv-preview-contact");
-      contacts.forEach((item) => meta.append(create("span", item)));
-      header.append(meta);
-    }
-
-    preview.append(header);
+    main.append(header);
 
     if (resume.personal.summary) {
-      const body = create("p", resume.personal.summary);
-      const section = previewSection("Profile", body);
-      if (section) preview.append(section);
+      const section = create("section", "", "cv-modern-main-section");
+      section.append(
+        create("h3", "Profile"),
+        create("p", resume.personal.summary)
+      );
+      main.append(section);
     }
 
-    if (resume.experience.length) {
-      const body = create("div", "", "cv-preview-timeline");
-      resume.experience.forEach((item) => {
-        const card = create("article", "", "cv-preview-entry");
-        const top = create("div", "", "cv-preview-entry-top");
-        top.append(
-          create("strong", item.role || "Role"),
-          create("span", item.period)
-        );
-        card.append(top);
-        if (item.company) card.append(create("b", item.company));
-        if (item.details) card.append(create("p", item.details));
-        body.append(card);
-      });
-      preview.append(previewSection("Experience", body));
+    const modernExperience = renderTimelineSection(
+      "Experience",
+      resume.experience,
+      "experience"
+    );
+    if (modernExperience) {
+      modernExperience.classList.add("cv-modern-main-section");
+      main.append(modernExperience);
     }
 
-    if (resume.education.length) {
-      const body = create("div", "", "cv-preview-timeline");
-      resume.education.forEach((item) => {
-        const card = create("article", "", "cv-preview-entry");
-        const top = create("div", "", "cv-preview-entry-top");
-        top.append(
-          create("strong", item.qualification || "Qualification"),
-          create("span", item.period)
-        );
-        card.append(top);
-        if (item.institution) card.append(create("b", item.institution));
-        if (item.details) card.append(create("p", item.details));
-        body.append(card);
-      });
-      preview.append(previewSection("Education", body));
+    const modernEducation = renderTimelineSection(
+      "Education",
+      resume.education,
+      "education"
+    );
+    if (modernEducation) {
+      modernEducation.classList.add("cv-modern-main-section");
+      main.append(modernEducation);
     }
 
-    if (resume.skills.length) {
-      const wrap = create("div");
-      appendList(wrap, resume.skills, "cv-preview-chips");
-      preview.append(previewSection("Skills", wrap));
+    if (
+      !resume.personal.summary &&
+      !resume.experience.length &&
+      !resume.education.length
+    ) {
+      const empty = create("section", "", "cv-modern-empty");
+      empty.append(
+        create("span", "ROLE-FOCUSED RESUME"),
+        create(
+          "p",
+          "Add your profile summary, experience and education to build this CV version."
+        )
+      );
+      main.append(empty);
     }
 
-    if (resume.languages.length) {
-      const wrap = create("div");
-      appendList(wrap, resume.languages, "cv-preview-inline-list");
-      preview.append(previewSection("Languages", wrap));
-    }
-
-    if (resume.certifications.length) {
-      const wrap = create("div");
-      appendList(wrap, resume.certifications, "cv-preview-list");
-      preview.append(previewSection("Courses & Certifications", wrap));
-    }
+    layout.append(sidebar, main);
+    preview.append(layout);
   };
-
   const load = async () => {
     setBusy(true);
     setState("Loading…");
