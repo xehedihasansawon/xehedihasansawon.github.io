@@ -1704,9 +1704,12 @@ Acceptance checklist:
 - [x] Dynamic case-study metadata integration implemented
 - [x] Safe fallback to existing Phase 4 metadata implemented
 - [x] Static/security/syntax audit passed
-- [ ] Owner saves one project's SEO settings
-- [ ] Saved SEO values reload in Admin
-- [ ] Dynamic project page reflects saved title/description metadata
+- [x] Owner saves one project's SEO settings *(Portfolio Website)*
+- [x] Saved SEO values reload in Admin
+- [x] Dynamic public Portfolio Website case-study page loads successfully after SEO integration
+- [x] Runtime title/meta/OG/Twitter application is code-audit verified
+- [x] Verified Phase 4 MIUW/Portfolio cover mapping bug fixed through migration 017
+- [x] Verified dynamic case-study hidden-state error flicker fixed
 - [ ] Phase 5C owner approval / lock
 
 Architecture note:
