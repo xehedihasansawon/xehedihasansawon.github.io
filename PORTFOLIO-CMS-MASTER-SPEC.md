@@ -1427,6 +1427,7 @@ Turn Portfolio Engine projects into full reusable case-study pages while preserv
 Scope:
 - Keep Phase 2A–2K and Phase 3A–3F locked
 - Add migration `012_case_study_engine.sql`
+- Add idempotent content seed `013_phase4_case_study_seed.sql` for the required MIUW + Portfolio Website case studies
 - Add one `portfolio_case_studies` row per Portfolio Engine project
 - RLS-first: allowlisted authenticated admin manages all case studies
 - Anonymous visitors can read only published case studies whose parent project is also published + public
@@ -1473,8 +1474,8 @@ Acceptance checklist:
 - [ ] Homepage Portfolio Engine card opens dynamic case study when published
 - [ ] Project Explorer card opens dynamic case study when published
 - [ ] Existing static SSFC/Biporjoy fallbacks remain unchanged
-- [ ] MIUW ERP private demo-safe case study is created
-- [ ] Portfolio Website case study with live link is created
+- [ ] MIUW ERP private demo-safe case study is created via migration 013
+- [ ] Portfolio Website case study with live link is created via migration 013
 - [ ] No production `main` deployment occurs
 
 Lock rule:
