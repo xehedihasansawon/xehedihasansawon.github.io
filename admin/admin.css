@@ -6167,3 +6167,93 @@ button {
   font-size:9.8px !important;
   line-height:1.48 !important;
 }
+
+
+/* =========================================================
+   PHASE 5F · AVAILABILITY STATUS CONTROL
+   ========================================================= */
+.availability-presets{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:10px;
+}
+.availability-presets>button{
+  min-height:108px;
+  padding:15px;
+  display:grid;
+  grid-template-columns:auto 1fr;
+  align-content:start;
+  align-items:center;
+  gap:8px 10px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:#071611;
+  color:#f2f7f3;
+  text-align:left;
+  cursor:pointer;
+  transition:border-color .18s ease,transform .18s ease,background .18s ease;
+}
+.availability-presets>button:hover{
+  transform:translateY(-1px);
+  border-color:rgba(240,74,67,.55);
+}
+.availability-presets>button.active{
+  border-color:var(--red);
+  background:#0a1d17;
+  box-shadow:inset 3px 0 0 var(--red);
+}
+.availability-presets>button strong{
+  font-size:.72rem;
+}
+.availability-presets>button small{
+  grid-column:1 / -1;
+  color:#82978c;
+  font-size:.58rem;
+  line-height:1.5;
+}
+.availability-dot{
+  width:9px;
+  height:9px;
+  flex:0 0 9px;
+  border-radius:50%;
+  background:#22c55e;
+  box-shadow:0 0 0 4px rgba(34,197,94,.08);
+}
+.availability-dot[data-status="limited"]{
+  background:#f59e0b;
+  box-shadow:0 0 0 4px rgba(245,158,11,.08);
+}
+.availability-dot[data-status="busy"]{
+  background:#ef4444;
+  box-shadow:0 0 0 4px rgba(239,68,68,.08);
+}
+.availability-dot[data-status="unavailable"]{
+  background:#94a3b8;
+  box-shadow:0 0 0 4px rgba(148,163,184,.08);
+}
+.availability-live-preview{
+  margin-top:16px;
+  min-height:56px;
+  padding:14px 16px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  border:1px solid var(--line);
+  border-radius:13px;
+  background:#06130f;
+}
+.availability-live-preview strong{
+  color:#e8f1ec;
+  font-size:.72rem;
+  line-height:1.45;
+}
+@media (max-width:980px){
+  .availability-presets{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+}
+@media (max-width:560px){
+  .availability-presets{
+    grid-template-columns:1fr;
+  }
+}
