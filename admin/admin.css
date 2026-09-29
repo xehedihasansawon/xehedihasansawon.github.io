@@ -6462,3 +6462,16 @@ button {
     justify-content:flex-start;
   }
 }
+
+
+/* =========================================================
+   PHASE 6D — ADMIN FOCUS BASELINE
+   ========================================================= */
+.admin-shell a:focus-visible,
+.admin-shell button:focus-visible,
+.admin-shell input:focus-visible,
+.admin-shell select:focus-visible,
+.admin-shell textarea:focus-visible{
+  outline:2px solid #E21D2A;
+  outline-offset:2px;
+}
