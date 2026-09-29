@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./admin.css?v=phase5f-availability-20260929-1">
+  <link rel="stylesheet" href="./admin.css?v=phase5g-cta-20260929-1">
 </head>
 <body>
   <main class="admin-shell">
@@ -287,6 +287,12 @@
             <small>Locked</small>
           </button>
 
+          <button id="ctaManagerNavButton" class="nav-item" type="button">
+            <span class="nav-index">05G</span>
+            <span>Custom CTA</span>
+            <small>Active</small>
+          </button>
+
           <button class="nav-item" type="button" disabled>
             <span class="nav-index">09</span>
             <span>Settings</span>
@@ -342,17 +348,17 @@
         <div id="dashboard" class="dashboard-content">
           <section class="dashboard-hero">
             <div>
-              <p class="status-pill success">PHASE 5F LOCKED</p>
-              <h3>Availability Status Control is locked.</h3>
+              <p class="status-pill success">PHASE 5G ACTIVE</p>
+              <h3>Custom CTA Manager is in development.</h3>
               <p>
-                Phase 3, Phase 4 and Phase 5A–5F are locked. Phase 5G has not started.
+                Phase 3, Phase 4 and Phase 5A–5F remain locked. Phase 5G adds one optional reusable CTA block before Contact.
               </p>
             </div>
 
             <div class="phase-card">
-              <span>LATEST LOCKED MODULE</span>
-              <strong>Phase 5F</strong>
-              <p>Availability Status Control</p>
+              <span>CURRENT MODULE</span>
+              <strong>Phase 5G</strong>
+              <p>Custom CTA Manager</p>
 
               <div class="foundation-stack" aria-live="polite">
                 <div class="foundation-check">
@@ -3468,16 +3474,178 @@
           </section>
         </div>
 
+
+        <div id="ctaManagerEditor" class="editor-content" hidden>
+          <section class="editor-heading-card">
+            <div>
+              <p class="status-pill success">PHASE 5G ACTIVE</p>
+              <h3>Custom CTA Manager</h3>
+              <p>Create one optional CTA block for the public portfolio without changing the locked Hero or Contact CMS.</p>
+            </div>
+            <div class="editor-state">
+              <span>PUBLIC CTA</span>
+              <strong>Before Contact</strong>
+              <b id="ctaManagerState">Ready</b>
+            </div>
+          </section>
+
+          <section class="editor-card">
+            <div class="editor-section-title">
+              <div>
+                <p class="eyebrow">QUICK START</p>
+                <h3>CTA presets</h3>
+                <p>Load a starting point, then edit any text or link before saving.</p>
+              </div>
+              <button id="ctaManagerRefreshButton" class="secondary-button" type="button">Refresh</button>
+            </div>
+
+            <p id="ctaManagerMessage" class="form-message" role="status" aria-live="polite"></p>
+
+            <div class="cta-preset-grid" aria-label="CTA presets">
+              <button type="button" data-cta-preset="project" aria-pressed="false">
+                <strong>Start a Project</strong>
+                <small>Direct visitors toward your project/contact flow.</small>
+              </button>
+              <button type="button" data-cta-preset="design" aria-pressed="false">
+                <strong>Creative Support</strong>
+                <small>Design-focused call to action for potential clients.</small>
+              </button>
+              <button type="button" data-cta-preset="inquiry" aria-pressed="false">
+                <strong>Short Brief</strong>
+                <small>Send visitors straight to the project inquiry form.</small>
+              </button>
+            </div>
+          </section>
+
+          <section class="editor-card">
+            <form id="ctaManagerForm" class="cms-editor-form manager-form" novalidate>
+              <div class="editor-section-title">
+                <div>
+                  <p class="eyebrow">CTA SETTINGS</p>
+                  <h3>Content & behavior</h3>
+                </div>
+                <span>Independent from Hero + Contact CMS</span>
+              </div>
+
+              <div class="editor-grid two">
+                <label class="admin-checkbox-row">
+                  <input id="ctaEnabled" type="checkbox">
+                  <span>Show Custom CTA on public portfolio</span>
+                </label>
+
+                <label>
+                  <span>Style</span>
+                  <select id="ctaStyleKey">
+                    <option value="accent">Accent</option>
+                    <option value="dark">Dark</option>
+                    <option value="outline">Outline</option>
+                  </select>
+                </label>
+
+                <label>
+                  <span>Eyebrow</span>
+                  <input id="ctaEyebrow" type="text" maxlength="80" required>
+                </label>
+
+                <label>
+                  <span>Last updated</span>
+                  <input id="ctaUpdatedAt" type="text" value="—" readonly>
+                </label>
+
+                <label class="editor-grid-span">
+                  <span>Title</span>
+                  <input id="ctaTitle" type="text" maxlength="140" required>
+                </label>
+
+                <label class="editor-grid-span">
+                  <span>Description</span>
+                  <textarea id="ctaDescription" rows="4" maxlength="320" required></textarea>
+                </label>
+              </div>
+
+              <div class="cta-manager-button-grid">
+                <section class="cta-manager-button-card">
+                  <div>
+                    <p class="eyebrow">PRIMARY BUTTON</p>
+                    <h4>Main action</h4>
+                  </div>
+                  <label>
+                    <span>Button label</span>
+                    <input id="ctaPrimaryLabel" type="text" maxlength="50" required>
+                  </label>
+                  <label>
+                    <span>Link / anchor</span>
+                    <input id="ctaPrimaryHref" type="text" maxlength="500" placeholder="#contact or https://..." required>
+                  </label>
+                  <label class="admin-checkbox-row compact">
+                    <input id="ctaPrimaryNewTab" type="checkbox">
+                    <span>Open in new tab</span>
+                  </label>
+                </section>
+
+                <section class="cta-manager-button-card">
+                  <div>
+                    <p class="eyebrow">SECONDARY BUTTON</p>
+                    <h4>Optional second action</h4>
+                  </div>
+                  <label class="admin-checkbox-row compact">
+                    <input id="ctaSecondaryEnabled" type="checkbox" checked>
+                    <span>Show secondary button</span>
+                  </label>
+                  <label>
+                    <span>Button label</span>
+                    <input id="ctaSecondaryLabel" type="text" maxlength="50">
+                  </label>
+                  <label>
+                    <span>Link / anchor</span>
+                    <input id="ctaSecondaryHref" type="text" maxlength="500" placeholder="#work or https://...">
+                  </label>
+                  <label class="admin-checkbox-row compact">
+                    <input id="ctaSecondaryNewTab" type="checkbox">
+                    <span>Open in new tab</span>
+                  </label>
+                </section>
+              </div>
+
+              <div class="cta-manager-preview-wrap">
+                <div class="editor-section-title">
+                  <div>
+                    <p class="eyebrow">LIVE PREVIEW</p>
+                    <h3>Custom CTA</h3>
+                  </div>
+                  <span id="ctaPreviewVisibility">PUBLIC CTA · OFF</span>
+                </div>
+
+                <div id="ctaManagerPreview" class="cta-manager-preview" data-style="accent" data-enabled="false">
+                  <div class="cta-manager-preview-copy">
+                    <span id="ctaPreviewEyebrow">READY WHEN YOU ARE</span>
+                    <strong id="ctaPreviewTitle">Have a project in mind?</strong>
+                    <p id="ctaPreviewDescription">Tell me what you are building and I will help shape the right creative or digital direction.</p>
+                  </div>
+                  <div class="cta-manager-preview-actions">
+                    <a id="ctaPreviewPrimary" href="#contact">Start a project</a>
+                    <a id="ctaPreviewSecondary" href="#work">View selected work</a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="manager-form-actions">
+                <button id="ctaManagerSaveButton" type="submit">Save live CTA</button>
+              </div>
+            </form>
+          </section>
+        </div>
+
       </div>
     </section>
 
     <footer id="publicAdminFooter" class="admin-footer">
       <span>MEHEDI PORTFOLIO</span>
-      <span>Secure Admin · Phase 5F Locked</span>
+      <span>Secure Admin · Phase 5G Active</span>
     </footer>
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script type="module" src="./admin.js?v=phase5f-availability-20260929-1"></script>
+  <script type="module" src="./admin.js?v=phase5g-cta-20260929-1"></script>
 </body>
 </html>
