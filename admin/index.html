@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./admin.css?v=phase5e-smartfill-v7-20260929-1">
+  <link rel="stylesheet" href="./admin.css?v=phase5f-availability-20260929-1">
 </head>
 <body>
   <main class="admin-shell">
@@ -281,6 +281,12 @@
             <small>Locked</small>
           </button>
 
+          <button id="availabilityNavButton" class="nav-item" type="button">
+            <span class="nav-index">05F</span>
+            <span>Availability</span>
+            <small>Active</small>
+          </button>
+
           <button class="nav-item" type="button" disabled>
             <span class="nav-index">09</span>
             <span>Settings</span>
@@ -336,17 +342,17 @@
         <div id="dashboard" class="dashboard-content">
           <section class="dashboard-hero">
             <div>
-              <p class="status-pill success">PHASE 5E LOCKED</p>
-              <h3>Multiple Resume / CV Manager is locked.</h3>
+              <p class="status-pill success">PHASE 5F ACTIVE</p>
+              <h3>Availability Status Control is in development.</h3>
               <p>
-                Phase 3, Phase 4 and Phase 5A–5E are locked. Phase 5F has not started.
+                Phase 3, Phase 4 and Phase 5A–5E remain locked. Phase 5F adds one live availability control for the public Hero and Contact status.
               </p>
             </div>
 
             <div class="phase-card">
-              <span>LATEST LOCKED MODULE</span>
-              <strong>Phase 5E</strong>
-              <p>Multiple Resume / CV Manager</p>
+              <span>CURRENT MODULE</span>
+              <strong>Phase 5F</strong>
+              <p>Availability Status Control</p>
 
               <div class="foundation-stack" aria-live="polite">
                 <div class="foundation-check">
@@ -3366,16 +3372,112 @@
           </section>
         </div>
 
+
+        <div id="availabilityEditor" class="editor-content" hidden>
+          <section class="editor-heading-card">
+            <div>
+              <p class="status-pill success">PHASE 5F ACTIVE</p>
+              <h3>Availability Status Control</h3>
+              <p>Update one live status and keep the public Hero and Contact availability message synchronized.</p>
+            </div>
+            <div class="editor-state">
+              <span>LIVE PORTFOLIO STATUS</span>
+              <strong>Hero + Contact</strong>
+              <b id="availabilityState">Ready</b>
+            </div>
+          </section>
+
+          <section class="editor-card">
+            <div class="editor-section-title">
+              <div>
+                <p class="eyebrow">STATUS PRESETS</p>
+                <h3>Choose your availability</h3>
+                <p>Pick a preset, adjust the public text if needed, then save.</p>
+              </div>
+              <button id="availabilityRefreshButton" class="secondary-button" type="button">Refresh</button>
+            </div>
+
+            <p id="availabilityMessage" class="form-message" role="status" aria-live="polite"></p>
+
+            <div class="availability-presets" aria-label="Availability presets">
+              <button type="button" data-availability-preset="available" aria-pressed="false">
+                <span class="availability-dot" data-status="available"></span>
+                <strong>Available</strong>
+                <small>Open for freelance and remote projects</small>
+              </button>
+              <button type="button" data-availability-preset="limited" aria-pressed="false">
+                <span class="availability-dot" data-status="limited"></span>
+                <strong>Limited</strong>
+                <small>Select projects only</small>
+              </button>
+              <button type="button" data-availability-preset="busy" aria-pressed="false">
+                <span class="availability-dot" data-status="busy"></span>
+                <strong>Busy</strong>
+                <small>Booked, but inquiries can still come in</small>
+              </button>
+              <button type="button" data-availability-preset="unavailable" aria-pressed="false">
+                <span class="availability-dot" data-status="unavailable"></span>
+                <strong>Unavailable</strong>
+                <small>Not accepting new work right now</small>
+              </button>
+            </div>
+          </section>
+
+          <section class="editor-card">
+            <form id="availabilityForm" class="cms-editor-form manager-form" novalidate>
+              <div class="editor-section-title">
+                <div>
+                  <p class="eyebrow">PUBLIC MESSAGE</p>
+                  <h3>Live availability text</h3>
+                </div>
+                <span>Maximum 120 characters</span>
+              </div>
+
+              <div class="editor-grid two">
+                <label>
+                  <span>Status</span>
+                  <select id="availabilityStatusKey">
+                    <option value="available">Available</option>
+                    <option value="limited">Limited</option>
+                    <option value="busy">Busy</option>
+                    <option value="unavailable">Unavailable</option>
+                  </select>
+                </label>
+
+                <label>
+                  <span>Last updated</span>
+                  <input id="availabilityUpdatedAt" type="text" value="—" readonly>
+                </label>
+
+                <label class="editor-grid-span">
+                  <span>Public status text</span>
+                  <input id="availabilityStatusText" type="text" maxlength="120" required>
+                  <small>This exact text appears in both the Hero and Contact status labels.</small>
+                </label>
+              </div>
+
+              <div class="availability-live-preview" id="availabilityPreview" data-status="available">
+                <span id="availabilityPreviewDot" class="availability-dot" data-status="available"></span>
+                <strong id="availabilityPreviewText">Available for freelance & remote projects</strong>
+              </div>
+
+              <div class="manager-form-actions">
+                <button id="availabilitySaveButton" type="submit">Save live status</button>
+              </div>
+            </form>
+          </section>
+        </div>
+
       </div>
     </section>
 
     <footer id="publicAdminFooter" class="admin-footer">
       <span>MEHEDI PORTFOLIO</span>
-      <span>Secure Admin · Phase 5E Locked</span>
+      <span>Secure Admin · Phase 5F Active</span>
     </footer>
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script type="module" src="./admin.js?v=phase5e-smartfill-v7-20260929-1"></script>
+  <script type="module" src="./admin.js?v=phase5f-availability-20260929-1"></script>
 </body>
 </html>
