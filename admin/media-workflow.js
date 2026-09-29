@@ -3,6 +3,8 @@ export const initMediaWorkflow = ({ supabaseClient, showCmsView }) => {
   const state = document.querySelector("#mediaWorkflowState");
   const message = document.querySelector("#mediaWorkflowMessage");
   const refreshButton = document.querySelector("#mediaWorkflowRefreshButton");
+  const optimizePublishedButton = document.querySelector("#mediaOptimizePublishedButton");
+  const optimizePublishedStatus = document.querySelector("#mediaPublishedOptimizeStatus");
   const storageDot = document.querySelector("#mediaStorageDot");
   const storageStatus = document.querySelector("#mediaStorageStatus");
   const metadataDot = document.querySelector("#mediaMetadataDot");
@@ -56,6 +58,251 @@ export const initMediaWorkflow = ({ supabaseClient, showCmsView }) => {
 
   const setUploadStatus = (value = "") => {
     if (uploadStatus) uploadStatus.textContent = value;
+  };
+
+  const setOptimizePublishedStatus = (value = "") => {
+    if (optimizePublishedStatus) optimizePublishedStatus.textContent = value;
+  };
+
+  const LIVE_IMAGE_CONTENT_KEYS = [
+    "homepage.hero",
+    "homepage.real-life-projects",
+    "homepage.design-showcase"
+  ];
+
+  const isSupabasePortfolioMediaUrl = (value) => {
+    const src = String(value || "").trim();
+    if (!src || src.includes("/phase6d-optimized/")) return false;
+
+    try {
+      const url = new URL(src);
+      return (
+        url.protocol === "https:" &&
+        url.hostname.endsWith(".supabase.co") &&
+        url.pathname.includes("/storage/v1/object/public/portfolio-media/")
+      );
+    } catch {
+      return false;
+    }
+  };
+
+  const collectImageSrcValues = (node, values = new Set()) => {
+    if (!node || typeof node !== "object") return values;
+
+    if (Array.isArray(node)) {
+      node.forEach((item) => collectImageSrcValues(item, values));
+      return values;
+    }
+
+    Object.entries(node).forEach(([key, value]) => {
+      if (key === "imageSrc" && typeof value === "string" && isSupabasePortfolioMediaUrl(value)) {
+        values.add(value.trim());
+        return;
+      }
+      collectImageSrcValues(value, values);
+    });
+
+    return values;
+  };
+
+  const replaceImageSrcValues = (node, replacements) => {
+    if (Array.isArray(node)) {
+      return node.map((item) => replaceImageSrcValues(item, replacements));
+    }
+
+    if (!node || typeof node !== "object") return node;
+
+    const next = {};
+    Object.entries(node).forEach(([key, value]) => {
+      if (key === "imageSrc" && typeof value === "string" && replacements.has(value.trim())) {
+        next[key] = replacements.get(value.trim());
+      } else {
+        next[key] = replaceImageSrcValues(value, replacements);
+      }
+    });
+    return next;
+  };
+
+  const loadBlobImage = async (blob) => {
+    const objectUrl = URL.createObjectURL(blob);
+    try {
+      const image = await new Promise((resolve, reject) => {
+        const preview = new Image();
+        preview.onload = () => resolve(preview);
+        preview.onerror = () => reject(new Error("Could not decode a live CMS image."));
+        preview.src = objectUrl;
+      });
+      return {
+        image,
+        width: image.naturalWidth || image.width,
+        height: image.naturalHeight || image.height
+      };
+    } finally {
+      URL.revokeObjectURL(objectUrl);
+    }
+  };
+
+  const optimizeRemoteCmsImage = async (sourceUrl) => {
+    const response = await fetch(sourceUrl, { cache: "no-store" });
+    if (!response.ok) {
+      throw new Error("Could not download a live CMS image for optimization.");
+    }
+
+    const sourceBlob = await response.blob();
+    if (!/^image\/(jpeg|png|webp)$/i.test(sourceBlob.type || "")) {
+      return null;
+    }
+
+    if (sourceBlob.size <= 180 * 1024) {
+      return null;
+    }
+
+    const loaded = await loadBlobImage(sourceBlob);
+    if (!loaded.width || !loaded.height) return null;
+
+    const maxWidth = 1600;
+    const width = Math.min(loaded.width, maxWidth);
+    const height = Math.max(1, Math.round(loaded.height * (width / loaded.width)));
+
+    const canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
+
+    const context = canvas.getContext("2d", { alpha: true });
+    if (!context) throw new Error("Canvas is unavailable in this browser.");
+
+    context.imageSmoothingEnabled = true;
+    context.imageSmoothingQuality = "high";
+    context.drawImage(loaded.image, 0, 0, loaded.width, loaded.height, 0, 0, width, height);
+
+    const optimizedBlob = await canvasToBlob(canvas, "image/webp", 0.82);
+    if (optimizedBlob.size >= sourceBlob.size * 0.9) {
+      return null;
+    }
+
+    const uniquePart =
+      globalThis.crypto?.randomUUID?.() ||
+      Math.random().toString(36).slice(2, 12);
+    const objectPath = `phase6d-optimized/${Date.now()}-${uniquePart}.webp`;
+
+    const upload = await supabaseClient.storage
+      .from(BUCKET)
+      .upload(objectPath, optimizedBlob, {
+        cacheControl: "31536000",
+        contentType: "image/webp",
+        upsert: false
+      });
+
+    if (upload.error) throw upload.error;
+
+    const publicResult = supabaseClient.storage.from(BUCKET).getPublicUrl(objectPath);
+    const publicUrl = publicResult?.data?.publicUrl;
+    if (!publicUrl) {
+      await supabaseClient.storage.from(BUCKET).remove([objectPath]);
+      throw new Error("Storage did not return an optimized image URL.");
+    }
+
+    return {
+      sourceUrl,
+      publicUrl,
+      objectPath,
+      sourceBytes: sourceBlob.size,
+      optimizedBytes: optimizedBlob.size
+    };
+  };
+
+  const optimizePublishedCmsImages = async () => {
+    if (!optimizePublishedButton) return;
+
+    optimizePublishedButton.disabled = true;
+    const originalLabel = optimizePublishedButton.textContent;
+    optimizePublishedButton.textContent = "Optimizing…";
+    setOptimizePublishedStatus("Scanning live Hero, Real Life Projects and Design Showcase images…");
+
+    const uploadedPaths = [];
+
+    try {
+      const result = await supabaseClient
+        .from("cms_content_entries")
+        .select("content_key,draft_data,published_data")
+        .in("content_key", LIVE_IMAGE_CONTENT_KEYS);
+
+      if (result.error) throw result.error;
+
+      const rows = Array.isArray(result.data) ? result.data : [];
+      const urls = new Set();
+
+      rows.forEach((row) => {
+        collectImageSrcValues(row.draft_data, urls);
+        collectImageSrcValues(row.published_data, urls);
+      });
+
+      if (!urls.size) {
+        setOptimizePublishedStatus("No live Supabase CMS images need optimization.");
+        return;
+      }
+
+      const replacements = new Map();
+      let totalSourceBytes = 0;
+      let totalOptimizedBytes = 0;
+      let processed = 0;
+
+      for (const sourceUrl of urls) {
+        processed += 1;
+        setOptimizePublishedStatus(
+          `Optimizing image ${processed} of ${urls.size}…`
+        );
+
+        const optimized = await optimizeRemoteCmsImage(sourceUrl);
+        if (!optimized) continue;
+
+        replacements.set(sourceUrl, optimized.publicUrl);
+        uploadedPaths.push(optimized.objectPath);
+        totalSourceBytes += optimized.sourceBytes;
+        totalOptimizedBytes += optimized.optimizedBytes;
+      }
+
+      if (!replacements.size) {
+        setOptimizePublishedStatus("Current live CMS images are already small enough.");
+        return;
+      }
+
+      for (const row of rows) {
+        const nextDraft = replaceImageSrcValues(row.draft_data, replacements);
+        const nextPublished = replaceImageSrcValues(row.published_data, replacements);
+
+        const update = await supabaseClient
+          .from("cms_content_entries")
+          .update({
+            draft_data: nextDraft,
+            published_data: nextPublished
+          })
+          .eq("content_key", row.content_key);
+
+        if (update.error) throw update.error;
+      }
+
+      const savedBytes = Math.max(0, totalSourceBytes - totalOptimizedBytes);
+      setOptimizePublishedStatus(
+        `Optimized ${replacements.size} live image${replacements.size === 1 ? "" : "s"} ✓ Saved about ${formatBytes(savedBytes)}. Refresh the public site, then run Lighthouse again.`
+      );
+    } catch (error) {
+      console.error("Live CMS image optimization failed:", error);
+
+      if (uploadedPaths.length) {
+        const cleanup = await supabaseClient.storage.from(BUCKET).remove(uploadedPaths);
+        if (cleanup.error) {
+          console.warn("Phase 6D optimizer cleanup failed:", cleanup.error);
+        }
+      }
+
+      setOptimizePublishedStatus(
+        error?.message || "Could not optimize current live CMS images."
+      );
+    } finally {
+      optimizePublishedButton.disabled = false;
+      optimizePublishedButton.textContent = originalLabel;
+    }
   };
 
   const setCheck = (dot, labelElement, checkState, label) => {
@@ -735,6 +982,8 @@ export const initMediaWorkflow = ({ supabaseClient, showCmsView }) => {
       uploadButton.textContent = "Optimize & upload";
     }
   });
+
+  optimizePublishedButton?.addEventListener("click", optimizePublishedCmsImages);
 
   uploadButton.disabled = true;
   renderLibrary([]);
