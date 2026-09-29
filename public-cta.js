@@ -65,6 +65,31 @@ const applyLink = (element, label, href, newTab) => {
   return true;
 };
 
+const ensureCtaBeforeContact = () => {
+  const section = byId("customCtaSection");
+  const contact = byId("contact");
+  const main = contact?.parentElement;
+
+  if (!section || !contact || !main) return;
+
+  if (section.nextElementSibling !== contact) {
+    main.insertBefore(section, contact);
+  }
+};
+
+const observeSectionOrder = () => {
+  const main = document.querySelector("main");
+  if (!main) return;
+
+  ensureCtaBeforeContact();
+
+  const observer = new MutationObserver(() => {
+    ensureCtaBeforeContact();
+  });
+
+  observer.observe(main, { childList: true });
+};
+
 const applyCta = (row) => {
   const section = byId("customCtaSection");
   const card = byId("customCtaCard");
@@ -133,6 +158,7 @@ const applyCta = (row) => {
   }
 
   section.hidden = false;
+  ensureCtaBeforeContact();
   document.documentElement.dataset.customCta = "loaded";
 };
 
@@ -174,4 +200,5 @@ const loadCta = async () => {
   }
 };
 
+observeSectionOrder();
 loadCta();
