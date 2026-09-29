@@ -1528,7 +1528,7 @@ Production `main` remains unchanged by Phase 4.
 
 ## Phase 5 — Business/System Features
 
-Status: **ACTIVE · PHASE 5A–5F LOCKED · PHASE 5G IMPLEMENTED · OWNER TEST PENDING**
+Status: **ACTIVE · PHASE 5A–5G LOCKED · NEXT PHASE 5H NOT STARTED**
 
 Purpose:
 Add the business-facing systems around the locked portfolio and case-study foundation without redesigning the approved Phase 2–4 presentation.
@@ -1894,7 +1894,7 @@ Freeze the Phase 5F schema/migration 022, singleton availability architecture, p
 
 ### Phase 5G — Custom CTA Manager
 
-Status: **IMPLEMENTED · MIGRATION 023 + OWNER TEST PENDING**
+Status: **LOCKED / DONE · FINAL RE-AUDIT PASS**
 
 Scope:
 - Add migration `023_custom_cta_manager.sql`
@@ -1916,7 +1916,7 @@ Scope:
 - Production `main` remains untouched
 
 Acceptance checklist:
-- [ ] Migration 023 applies successfully in Supabase
+- [x] Migration 023 applies successfully in Supabase *(owner-verified 2026-09-29)*
 - [x] CTA schema + singleton constraint implemented
 - [x] Public read limited to CTA rendering fields
 - [x] Admin allowlist update policy implemented
@@ -1933,15 +1933,19 @@ Acceptance checklist:
 - [x] Responsive public CTA styling implemented
 - [x] Existing Hero / Contact / Availability behavior preserved
 - [x] Phase 5F remains locked
-- [ ] Owner loads 05G after migration 023
-- [ ] Owner enables CTA and saves one preset/custom version
-- [ ] Public CTA appears before Contact with matching content/buttons
-- [ ] Owner tests CTA off → public block hides
-- [ ] Owner restores preferred final CTA state
-- [ ] Phase 5G owner approval / lock
+- [x] Owner loads 05G after migration 023
+- [x] Owner enables CTA and saves the Start a Project version
+- [x] Public CTA appears immediately before Contact with matching content/buttons *(owner-verified after Section Order placement fix)*
+- [x] Owner tests CTA off → public block hides
+- [x] Owner accepts the current live CTA state at lock time; visibility/content remain editable operational settings
+- [x] Phase 5G owner approval / lock *(2026-09-29)*
+
+Owner approval: 2026-09-29
+
+Phase 5G is locked. The accepted baseline includes the singleton Custom CTA source, on/off visibility, Accent/Dark/Outline styles, editable CTA copy, primary/secondary button controls, safe-link validation, Admin presets/live preview, responsive public rendering, and the Section Order-safe placement immediately before Contact.
 
 Lock rule:
-Do not lock Phase 5G until migration 023 is applied and one Admin enable/save → public CTA render → disable/hide flow is owner-verified. Later phases must preserve the singleton CTA source, public-read/admin-write security boundary, safe-link validation and independent placement before Contact unless the owner explicitly requests a Phase 5G change.
+Freeze the Phase 5G schema/migration 023, singleton CTA architecture, public-read/admin-write security boundary, safe-link validation, CTA style keys, independent public block, and automatic placement immediately before Contact. CTA content, visibility, style and button values remain operational settings and may still be changed from the locked module. Later phases must not redesign or weaken Phase 5G except for a verified bug/security fix or explicit owner request to unlock it.
 
 ## Planned Phase 3 sequence
 
