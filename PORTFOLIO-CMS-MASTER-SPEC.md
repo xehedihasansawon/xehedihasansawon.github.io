@@ -2021,6 +2021,59 @@ Completed modules:
 
 All Phase 5 modules are now owner-approved and locked on `phase02-polish`. Production `main` remains untouched.
 
+## Phase 6 — Motion & Final Polish
+
+Status: **ACTIVE · PHASE 6A OWNER TEST PENDING**
+
+Phase 6 sequence:
+- **6A — Homepage Motion Foundation**
+- **6B — Case Study / System Page Motion Polish**
+- **6C — Responsive & Mobile Final Audit**
+- **6D — Accessibility & Performance Final Audit**
+- **6E — Release Readiness / Live Deployment Checkpoint**
+
+Build and lock one Phase 6 module at a time. Phase 1–5H remain locked.
+
+### Phase 6A — Homepage Motion Foundation
+
+Status: **IMPLEMENTED · STATIC/SAFETY AUDIT PENDING · OWNER TEST PENDING**
+
+Purpose:
+Add subtle premium motion to the existing homepage without redesigning, reordering or changing any locked CMS content contract.
+
+Scope:
+- Add standalone `motion.css`
+- Add standalone `public-motion.js`
+- Add a subtle staged Hero entrance
+- Add one-time viewport reveal for homepage sections below the Hero
+- Add light opacity staggering for existing project/service/tool/experience/contact cards
+- Preserve all existing hover interactions instead of overriding card transforms
+- Respect `prefers-reduced-motion: reduce`
+- Use progressive enhancement: unsupported/reduced-motion browsers keep normal visible content
+- No new database table, migration, external dependency, analytics event or public data access
+- Existing Phase 1–5H source modules remain locked
+- Production `main` remains untouched
+
+Acceptance checklist:
+- [x] Motion stylesheet created
+- [x] Motion controller created
+- [x] Homepage integration added
+- [x] Hero staged entrance implemented
+- [x] Section viewport reveal implemented
+- [x] Card opacity stagger implemented without taking over card hover transforms
+- [x] Reduced-motion bypass implemented
+- [x] IntersectionObserver fallback leaves the normal site visible
+- [ ] Final static/safety audit
+- [ ] Owner verifies Hero load motion on localhost
+- [ ] Owner verifies section reveal while scrolling
+- [ ] Owner confirms motion feels subtle/premium rather than distracting
+- [ ] Phase 6A owner approval / lock
+
+Owner approval: Pending
+
+Lock rule:
+Do not lock Phase 6A until the minimum owner visual test confirms the Hero entrance and scroll reveals. After approval, freeze the motion timing/behavior baseline; later Phase 6 modules may extend motion to other public pages but must not redesign locked homepage sections without explicit owner approval.
+
 ## Planned Phase 3 sequence
 
 - **3A — Portfolio Data Foundation**
