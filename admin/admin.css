@@ -5672,3 +5672,134 @@ button {
 .cv-preview-sheet[data-template="modern"][data-density="compact"] .cv-ref-link-row span{
   font-size:7px;
 }
+
+
+/* =========================================================
+   PHASE 5E · ADAPTIVE A4 V5 · DENSE, READABLE, NO FAKE GAPS
+   ========================================================= */
+.cv-preview-sheet[data-template="modern"][data-density="spacious"] .cv-ref-main,
+.cv-preview-sheet[data-template="modern"][data-density="spacious"] .cv-ref-sidebar{
+  justify-content:flex-start !important;
+}
+
+.cv-preview-sheet[data-template="modern"][data-density="spacious"] .cv-ref-main{
+  gap:5mm !important;
+  padding-top:65mm !important;
+  padding-bottom:11mm !important;
+}
+
+.cv-preview-sheet[data-template="modern"][data-density="spacious"] .cv-ref-sidebar{
+  gap:6mm !important;
+  padding-top:65mm !important;
+  padding-bottom:11mm !important;
+}
+
+.cv-preview-sheet[data-template="modern"][data-density="spacious"] .cv-ref-main-section{
+  margin:0 !important;
+}
+
+.cv-preview-sheet[data-template="modern"][data-density="spacious"] .cv-ref-main-section>h3{
+  margin-bottom:3.4mm !important;
+  padding:2.5mm 4mm !important;
+  font-size:11px !important;
+}
+
+.cv-preview-sheet[data-template="modern"][data-density="spacious"] .cv-ref-main-section>p{
+  font-size:11px !important;
+  line-height:1.58 !important;
+}
+
+.cv-preview-sheet[data-template="modern"][data-density="spacious"] .cv-preview-timeline{
+  gap:4.4mm !important;
+}
+
+.cv-preview-sheet[data-template="modern"][data-density="spacious"] .cv-preview-entry{
+  padding-left:4.2mm !important;
+}
+
+.cv-preview-sheet[data-template="modern"][data-density="spacious"] .cv-preview-entry-top strong{
+  font-size:11px !important;
+}
+
+.cv-preview-sheet[data-template="modern"][data-density="spacious"] .cv-preview-entry-top span{
+  font-size:8.6px !important;
+}
+
+.cv-preview-sheet[data-template="modern"][data-density="spacious"] .cv-preview-entry>b{
+  font-size:9.5px !important;
+}
+
+.cv-preview-sheet[data-template="modern"][data-density="spacious"] .cv-preview-entry>p{
+  font-size:10px !important;
+  line-height:1.5 !important;
+}
+
+.cv-preview-sheet[data-template="modern"][data-density="spacious"] .cv-ref-focus-list{
+  gap:2.5mm 5mm !important;
+}
+
+.cv-preview-sheet[data-template="modern"][data-density="spacious"] .cv-ref-focus-list li{
+  font-size:10px !important;
+  line-height:1.48 !important;
+}
+
+.cv-preview-sheet[data-template="modern"][data-density="spacious"] .cv-ref-side-section{
+  gap:3mm !important;
+}
+
+.cv-preview-sheet[data-template="modern"][data-density="spacious"] .cv-ref-side-section>h3{
+  padding:2.35mm 2.8mm !important;
+  font-size:9.4px !important;
+}
+
+.cv-preview-sheet[data-template="modern"][data-density="spacious"] .cv-ref-side-list,
+.cv-preview-sheet[data-template="modern"][data-density="spacious"] .cv-ref-skill-list{
+  gap:2.3mm !important;
+}
+
+.cv-preview-sheet[data-template="modern"][data-density="spacious"] .cv-ref-side-list li,
+.cv-preview-sheet[data-template="modern"][data-density="spacious"] .cv-ref-skill-list li{
+  font-size:9.35px !important;
+  line-height:1.42 !important;
+}
+
+.cv-preview-sheet[data-template="modern"][data-density="spacious"] .cv-ref-tool-list{
+  gap:2mm !important;
+}
+
+.cv-preview-sheet[data-template="modern"][data-density="spacious"] .cv-ref-tool-list li{
+  min-height:10mm !important;
+  font-size:8.7px !important;
+}
+
+.cv-preview-sheet[data-template="modern"][data-density="spacious"] .cv-ref-link-list{
+  gap:2.5mm !important;
+}
+
+.cv-preview-sheet[data-template="modern"][data-density="spacious"] .cv-ref-link-row small{
+  font-size:7px !important;
+}
+
+.cv-preview-sheet[data-template="modern"][data-density="spacious"] .cv-ref-link-row span{
+  font-size:8.6px !important;
+  line-height:1.4 !important;
+}
+
+.cv-preview-sheet[data-template="modern"][data-density="spacious"] .cv-ref-main-section[data-section="education"] .cv-preview-entry-top strong{
+  font-size:10.4px !important;
+}
+
+.cv-preview-sheet[data-template="modern"][data-density="spacious"] .cv-ref-main-section[data-section="education"] .cv-preview-entry>p{
+  font-size:9.3px !important;
+  line-height:1.4 !important;
+}
+
+.cv-preview-sheet[data-template="modern"][data-density="balanced"] .cv-ref-main{
+  gap:4.2mm !important;
+}
+.cv-preview-sheet[data-template="modern"][data-density="balanced"] .cv-ref-sidebar{
+  gap:5mm !important;
+}
+.cv-preview-sheet[data-template="modern"][data-density="balanced"] .cv-ref-main-section{
+  margin:0 !important;
+}
