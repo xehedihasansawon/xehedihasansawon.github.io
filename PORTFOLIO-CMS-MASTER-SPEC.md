@@ -2121,7 +2121,7 @@ Phase 6B is locked. Freeze the accepted case-study/system-page motion baseline, 
 
 ### Phase 6C — Responsive & Mobile Final Audit
 
-Status: **STATIC RESPONSIVE AUDIT PASS · OWNER MOBILE TEST PENDING**
+Status: **STATIC RESPONSIVE AUDIT PASS · OWNER MOBILE TEST PASS · APPROVAL PENDING**
 
 Purpose:
 Run the final responsive/mobile verification across the locked portfolio, case-study, system-state and Admin surfaces without redesigning approved modules.
@@ -2161,11 +2161,11 @@ Acceptance checklist:
 - [x] Admin responsive shell audit passes
 - [x] Fixed-width horizontal-overflow static scan passes
 - [x] Production `main` remains untouched
-- [ ] Owner verifies homepage at mobile width
-- [ ] Owner verifies case-study at mobile width
-- [ ] Owner verifies Admin dashboard/mobile menu at mobile width
-- [ ] Owner verifies branded 404 at mobile width
-- [ ] Any owner-observed responsive issue is fixed and re-tested *(mobile nav overlap fix committed; SSFC mobile test exposed stale stylesheet cache, public styles cache-bust committed; owner re-test pending)*
+- [x] Owner verifies homepage at mobile width *(owner-verified 2026-09-29)*
+- [x] Owner verifies case-study at mobile width *(SSFC owner-verified 2026-09-29)*
+- [x] Owner verifies Admin dashboard/mobile menu at mobile width *(owner-verified 2026-09-29)*
+- [x] Owner verifies branded 404 at mobile width *(owner-verified 2026-09-29)*
+- [x] Any owner-observed responsive issue is fixed and re-tested *(mobile nav overlap + stale public stylesheet cache fixed and owner re-tested 2026-09-29)*
 - [ ] Phase 6C owner approval / lock
 
 Owner approval: Pending
