@@ -1528,7 +1528,7 @@ Production `main` remains unchanged by Phase 4.
 
 ## Phase 5 — Business/System Features
 
-Status: **ACTIVE · PHASE 5A–5G LOCKED · NEXT PHASE 5H NOT STARTED**
+Status: **ACTIVE · PHASE 5A–5G LOCKED · PHASE 5H OWNER TEST PENDING**
 
 Purpose:
 Add the business-facing systems around the locked portfolio and case-study foundation without redesigning the approved Phase 2–4 presentation.
@@ -1946,6 +1946,61 @@ Phase 5G is locked. The accepted baseline includes the singleton Custom CTA sour
 
 Lock rule:
 Freeze the Phase 5G schema/migration 023, singleton CTA architecture, public-read/admin-write security boundary, safe-link validation, CTA style keys, independent public block, and automatic placement immediately before Contact. CTA content, visibility, style and button values remain operational settings and may still be changed from the locked module. Later phases must not redesign or weaken Phase 5G except for a verified bug/security fix or explicit owner request to unlock it.
+
+### Phase 5H — Branded 404 / Empty States / Maintenance Mode
+
+Status: **IMPLEMENTED · STATIC/SECURITY AUDIT PASS · OWNER TEST PENDING**
+
+Scope:
+- Add migration `024_branded_system_states.sql`
+- Add singleton `portfolio_system_state` maintenance configuration
+- Public/anonymous users can read only the fields required to render maintenance state
+- Only allowlisted authenticated Admin can update maintenance settings
+- Maintenance mode is off by default
+- Public system-state renderer fails open: if state loading fails, the normal portfolio remains accessible
+- Reject unsafe maintenance button URLs in database constraints and browser validation
+- Add `05H System States` Admin navigation and manager
+- Add editable maintenance eyebrow, title, message, button label and button link
+- Add live Admin maintenance preview and explicit on/off control
+- Add dedicated branded `404.html`
+- Add branded Project Explorer no-results state
+- Add branded dynamic case-study unavailable state without changing the locked case-study data contract
+- Apply maintenance mode across homepage, dynamic case-study page, SSFC and Biporjoy public pages
+- Include branded 404 in Vite build input
+- Keep Phase 5A–5G behavior unchanged
+- Production `main` remains untouched
+
+Acceptance checklist:
+- [x] Migration 024 implementation complete
+- [x] Singleton system-state schema + `id = 1` guard implemented
+- [x] Public read limited to maintenance rendering fields
+- [x] Admin allowlist update policy implemented
+- [x] Anonymous INSERT / UPDATE / DELETE grants are not present
+- [x] Unsafe URL checks implemented in DB + Admin + public renderer
+- [x] 05H System States Admin navigation implemented
+- [x] Maintenance on/off control implemented
+- [x] Editable maintenance copy/action implemented
+- [x] Admin live maintenance preview implemented
+- [x] Branded 404 page implemented
+- [x] Branded Project Explorer no-results state implemented
+- [x] Branded dynamic case-study unavailable state implemented
+- [x] Public maintenance renderer is fail-open
+- [x] Homepage / dynamic case / SSFC / Biporjoy integration implemented
+- [x] Static JavaScript syntax audit passes for new Phase 5H modules and Admin integration
+- [x] Admin HTML structure / unique Phase 5H IDs audit passes
+- [x] Phase 5H CSS brace/structure audit passes
+- [x] Phase 5A–5G source modules remain unchanged
+- [ ] Owner applies migration 024 in Supabase
+- [ ] Owner opens 05H System States and confirms default Maintenance OFF state loads
+- [ ] Owner verifies branded 404 preview
+- [ ] Owner enables Maintenance, saves, and verifies the public maintenance screen
+- [ ] Owner disables Maintenance again and confirms the normal public site returns
+- [ ] Phase 5H owner approval / lock
+
+Owner approval: Pending
+
+Lock rule:
+Do not lock Phase 5H until the minimum owner test confirms migration 024, Admin state loading, branded 404, maintenance ON public rendering and maintenance OFF recovery. After approval, freeze the system-state schema/security boundary, fail-open behavior and branded fallback contracts. Maintenance content and on/off state remain operational settings.
 
 ## Planned Phase 3 sequence
 
