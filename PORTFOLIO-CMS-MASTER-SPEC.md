@@ -2023,7 +2023,7 @@ All Phase 5 modules are now owner-approved and locked on `phase02-polish`. Produ
 
 ## Phase 6 — Motion & Final Polish
 
-Status: **ACTIVE · PHASE 6A OWNER TEST PENDING**
+Status: **ACTIVE · PHASE 6A LOCKED · NEXT PHASE 6B NOT STARTED**
 
 Phase 6 sequence:
 - **6A — Homepage Motion Foundation**
@@ -2036,7 +2036,7 @@ Build and lock one Phase 6 module at a time. Phase 1–5H remain locked.
 
 ### Phase 6A — Homepage Motion Foundation
 
-Status: **IMPLEMENTED · STATIC/SAFETY AUDIT PASS · OWNER TEST PENDING**
+Status: **LOCKED / DONE · STATIC/SAFETY + OWNER VISUAL TEST PASS**
 
 Purpose:
 Add subtle premium motion to the existing homepage without redesigning, reordering or changing any locked CMS content contract.
@@ -2064,15 +2064,15 @@ Acceptance checklist:
 - [x] Reduced-motion bypass implemented
 - [x] IntersectionObserver fallback leaves the normal site visible
 - [x] Final static/safety audit passes: JS syntax, CSS structure, reduced-motion fallback, no network/storage access, homepage refs exactly once, card hover transforms preserved, and `main` untouched
-- [ ] Owner verifies Hero load motion on localhost
-- [ ] Owner verifies section reveal while scrolling
-- [ ] Owner confirms motion feels subtle/premium rather than distracting
-- [ ] Phase 6A owner approval / lock
+- [x] Owner verifies Hero load motion on localhost *(owner-verified 2026-09-29)*
+- [x] Owner verifies section reveal while scrolling *(owner-verified 2026-09-29)*
+- [x] Owner confirms motion feels subtle/premium rather than distracting *(owner-approved 2026-09-29)*
+- [x] Phase 6A owner approval / lock *(2026-09-29)*
 
-Owner approval: Pending
+Owner approval: 2026-09-29
 
 Lock rule:
-Do not lock Phase 6A until the minimum owner visual test confirms the Hero entrance and scroll reveals. After approval, freeze the motion timing/behavior baseline; later Phase 6 modules may extend motion to other public pages but must not redesign locked homepage sections without explicit owner approval.
+Phase 6A is locked. Freeze the accepted homepage motion timing/behavior baseline, reduced-motion fallback and progressive-enhancement approach. Later Phase 6 modules may extend motion to other public pages but must not redesign locked homepage sections or alter Phase 6A behavior except for a verified bug/accessibility issue or explicit owner request to unlock it.
 
 ## Planned Phase 3 sequence
 
