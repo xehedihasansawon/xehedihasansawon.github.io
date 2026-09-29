@@ -2150,6 +2150,7 @@ Static audit result:
 - No responsive code patch was required by static inspection before owner visual testing
 - Owner mobile screenshot later exposed a real CSS cascade issue: late scoped desktop navigation rules overrode the generic mobile hide rule at <=900px
 - Targeted fix now force-hides desktop nav/CTA and force-shows the hamburger for both homepage and case-study pages at <=900px
+- Public page stylesheet query strings were bumped after the owner SSFC test showed the case-study page could retain the pre-fix cached CSS
 
 Acceptance checklist:
 - [x] Viewport metadata audit passes
@@ -2164,7 +2165,7 @@ Acceptance checklist:
 - [ ] Owner verifies case-study at mobile width
 - [ ] Owner verifies Admin dashboard/mobile menu at mobile width
 - [ ] Owner verifies branded 404 at mobile width
-- [ ] Any owner-observed responsive issue is fixed and re-tested *(verified mobile nav overlap found; CSS fix committed, owner re-test pending)*
+- [ ] Any owner-observed responsive issue is fixed and re-tested *(mobile nav overlap fix committed; SSFC mobile test exposed stale stylesheet cache, public styles cache-bust committed; owner re-test pending)*
 - [ ] Phase 6C owner approval / lock
 
 Owner approval: Pending
