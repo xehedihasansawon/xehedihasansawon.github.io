@@ -704,7 +704,8 @@ if (!hasValidConfig) {
         globalThis.crypto?.randomUUID?.() ||
         Math.random().toString(36).slice(2, 12);
 
-      const optimized = await optimizeCmsUploadImage(file, 1600);\n      const objectPath = `hero/${Date.now()}-${uniquePart}.${optimized.extension}`;
+      const optimized = await optimizeCmsUploadImage(file, 1600);
+      const objectPath = `hero/${Date.now()}-${uniquePart}.${optimized.extension}`;
 
       const { error: uploadError } = await supabaseClient.storage
         .from(HERO_MEDIA_BUCKET)
@@ -1499,7 +1500,8 @@ if (!hasValidConfig) {
         globalThis.crypto?.randomUUID?.() ||
         Math.random().toString(36).slice(2, 12);
 
-      const optimized = await optimizeCmsUploadImage(file, 1600);\n      const objectPath = `homepage-projects/${key}/${Date.now()}-${uniquePart}.${optimized.extension}`;
+      const optimized = await optimizeCmsUploadImage(file, 1600);
+      const objectPath = `homepage-projects/${key}/${Date.now()}-${uniquePart}.${optimized.extension}`;
 
       const { error: uploadError } = await supabaseClient.storage
         .from(HERO_MEDIA_BUCKET)
@@ -2026,7 +2028,8 @@ if (!hasValidConfig) {
         globalThis.crypto?.randomUUID?.() ||
         Math.random().toString(36).slice(2, 12);
 
-      const optimized = await optimizeCmsUploadImage(file, 1600);\n      const objectPath = `design-showcase/${key}/${Date.now()}-${uniquePart}.${optimized.extension}`;
+      const optimized = await optimizeCmsUploadImage(file, 1600);
+      const objectPath = `design-showcase/${key}/${Date.now()}-${uniquePart}.${optimized.extension}`;
 
       const { error: uploadError } = await supabaseClient.storage
         .from(HERO_MEDIA_BUCKET)
