@@ -48,6 +48,39 @@ const categoryMeta = (key) =>
   CV_CATEGORIES.find((item) => item.key === key) ||
   CV_CATEGORIES[CV_CATEGORIES.length - 1];
 
+const CV_TOOL_NAMES = new Set([
+  "Adobe Photoshop",
+  "Adobe Illustrator",
+  "Adobe Premiere Pro",
+  "CapCut",
+  "Microsoft Word",
+  "Microsoft Excel",
+  "Microsoft PowerPoint",
+  "VS Code / GitHub / Supabase",
+  "SAP / ETS Production Workflow"
+]);
+
+const formatCvLink = (value) => {
+  const raw = clean(value);
+  if (!raw) return "";
+
+  try {
+    const url = new URL(/^https?:\/\//i.test(raw) ? raw : "https://" + raw);
+    const host = url.hostname.replace(/^www\./i, "");
+    const path = url.pathname.replace(/\/$/, "");
+    return host + (path && path !== "/" ? path : "");
+  } catch {
+    return raw.replace(/^https?:\/\//i, "").replace(/^www\./i, "");
+  }
+};
+
+const relevanceRank = (categories, categoryKey) => {
+  const keys = Array.isArray(categories) ? categories : [];
+  if (keys.includes(categoryKey)) return 0;
+  if (keys.includes("general")) return 1;
+  return 2;
+};
+
 const normalizeCategories = (value) =>
   Array.isArray(value)
     ? value
@@ -728,31 +761,51 @@ export const initCvManager = ({ supabaseClient, showCmsView }) => {
     behanceInput.value = personal.behance;
     githubInput.value = personal.github;
 
-    const experiences = masterProfile.experiences.filter((item) =>
-      matchesCategory(item.categories, meta.key)
-    );
+    const roleSpecific = meta.key !== "general";
+    const experiences = masterProfile.experiences
+      .filter((item) => matchesCategory(item.categories, meta.key))
+      .sort(
+        (a, b) =>
+          relevanceRank(a.categories, meta.key) -
+          relevanceRank(b.categories, meta.key)
+      )
+      .slice(0, roleSpecific ? 4 : 10);
+
     experienceList.replaceChildren();
     (experiences.length ? experiences : [{}]).forEach((item) => {
       experienceList.append(makeExperienceRow(item));
     });
 
+    const education = masterProfile.education.slice(0, roleSpecific ? 3 : 6);
     educationList.replaceChildren();
-    (masterProfile.education.length ? masterProfile.education : [{}]).forEach(
-      (item) => {
-        educationList.append(makeEducationRow(item));
-      }
-    );
+    (education.length ? education : [{}]).forEach((item) => {
+      educationList.append(makeEducationRow(item));
+    });
 
     const skills = masterProfile.skills
       .filter((item) => matchesCategory(item.categories, meta.key))
+      .sort(
+        (a, b) =>
+          relevanceRank(a.categories, meta.key) -
+          relevanceRank(b.categories, meta.key)
+      )
+      .slice(0, roleSpecific ? 9 : 18)
       .map((item) => item.value);
 
     const certifications = masterProfile.certifications
       .filter((item) => matchesCategory(item.categories, meta.key))
+      .sort(
+        (a, b) =>
+          relevanceRank(a.categories, meta.key) -
+          relevanceRank(b.categories, meta.key)
+      )
+      .slice(0, roleSpecific ? 5 : 10)
       .map((item) => item.value);
 
     skillsInput.value = skills.join("\n");
-    languagesInput.value = masterProfile.languages.join("\n");
+    languagesInput.value = masterProfile.languages
+      .slice(0, roleSpecific ? 4 : 8)
+      .join("\n");
     certificationsInput.value = certifications.join("\n");
 
     if (existingId) idInput.value = existingId;
@@ -1028,7 +1081,8 @@ export const initCvManager = ({ supabaseClient, showCmsView }) => {
 
     const heroContacts = [
       resume.personal.phone ? "☎  " + resume.personal.phone : "",
-      resume.personal.email ? "✉  " + resume.personal.email : ""
+      resume.personal.email ? "✉  " + resume.personal.email : "",
+      resume.personal.location ? "⌖  " + resume.personal.location : ""
     ].filter(Boolean);
 
     if (heroContacts.length) {
@@ -1043,6 +1097,7 @@ export const initCvManager = ({ supabaseClient, showCmsView }) => {
     const addMainSection = (title, node) => {
       if (!node) return;
       const section = create("section", "", "cv-ref-main-section");
+      section.dataset.section = title.toLowerCase().replace(/\s+/g, "-");
       section.append(create("h3", title), node);
       main.append(section);
     };
@@ -1099,19 +1154,41 @@ export const initCvManager = ({ supabaseClient, showCmsView }) => {
       sidebar.append(section);
     };
 
+    const tools = resume.skills.filter((item) => CV_TOOL_NAMES.has(item));
+    const coreSkills = resume.skills.filter((item) => !CV_TOOL_NAMES.has(item));
+
     addSideSection("Language Skills", resume.languages);
-    addSideSection("Skills & Abilities", resume.skills, "cv-ref-skill-list");
+    addSideSection("Creative / Work Tools", tools, "cv-ref-tool-list");
+    addSideSection("Core Skills", coreSkills, "cv-ref-skill-list");
     addSideSection("Courses & Certifications", resume.certifications);
 
-    const profileLinks = [
-      resume.personal.location ? "Location · " + resume.personal.location : "",
-      resume.personal.website ? "Website · " + resume.personal.website : "",
-      resume.personal.linkedin ? "LinkedIn · " + resume.personal.linkedin : "",
-      resume.personal.behance ? "Behance · " + resume.personal.behance : "",
-      resume.personal.github ? "GitHub · " + resume.personal.github : ""
-    ].filter(Boolean);
+    const addLinkSection = (items) => {
+      const cleanItems = items.filter((item) => clean(item.value));
+      if (!cleanItems.length) return;
 
-    addSideSection("Professional Links", profileLinks);
+      const section = create("section", "", "cv-ref-side-section cv-ref-links-section");
+      section.append(create("h3", "Professional Links"));
+      const list = create("div", "", "cv-ref-link-list");
+
+      cleanItems.forEach((item) => {
+        const row = create("div", "", "cv-ref-link-row");
+        row.append(
+          create("small", item.label),
+          create("span", formatCvLink(item.value))
+        );
+        list.append(row);
+      });
+
+      section.append(list);
+      sidebar.append(section);
+    };
+
+    addLinkSection([
+      { label: "Portfolio", value: resume.personal.website },
+      { label: "LinkedIn", value: resume.personal.linkedin },
+      { label: "Behance", value: resume.personal.behance },
+      { label: "GitHub", value: resume.personal.github }
+    ]);
 
     layout.append(main, sidebar, hero);
     preview.append(layout);
