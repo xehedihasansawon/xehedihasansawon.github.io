@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./admin.css?v=phase5g-cta-20260929-1">
+  <link rel="stylesheet" href="./system-state-manager.css?v=phase5h-states-20260929-1">
 </head>
 <body>
   <main class="admin-shell">
@@ -293,6 +294,12 @@
             <small>Locked</small>
           </button>
 
+          <button id="systemStatesNavButton" class="nav-item" type="button">
+            <span class="nav-index">05H</span>
+            <span>System States</span>
+            <small>Active</small>
+          </button>
+
           <button class="nav-item" type="button" disabled>
             <span class="nav-index">09</span>
             <span>Settings</span>
@@ -348,10 +355,10 @@
         <div id="dashboard" class="dashboard-content">
           <section class="dashboard-hero">
             <div>
-              <p class="status-pill success">PHASE 5G LOCKED</p>
-              <h3>Custom CTA Manager is locked.</h3>
+              <p class="status-pill">PHASE 5H ACTIVE</p>
+              <h3>Branded System States are in progress.</h3>
               <p>
-                Phase 3, Phase 4 and Phase 5A–5G are locked. Phase 5H has not started.
+                Phase 3, Phase 4 and Phase 5A–5G remain locked. Phase 5H is the only active module.
               </p>
             </div>
 
@@ -3636,16 +3643,134 @@
           </section>
         </div>
 
+        <div id="systemStatesEditor" class="editor-content" hidden>
+          <section class="editor-heading-card">
+            <div>
+              <p class="status-pill">PHASE 5H ACTIVE</p>
+              <h3>Branded System States</h3>
+              <p>Control maintenance mode and review the branded 404 / empty-state system without changing locked portfolio modules.</p>
+            </div>
+            <div class="editor-state">
+              <span>PUBLIC SYSTEM</span>
+              <strong>404 · Empty · Maintenance</strong>
+              <b id="systemStatesState">Ready</b>
+            </div>
+          </section>
+
+          <section class="editor-card">
+            <div class="editor-section-title">
+              <div>
+                <p class="eyebrow">MAINTENANCE MODE</p>
+                <h3>Public site control</h3>
+                <p>Keep this off during normal operation. Turn it on only when you intentionally want visitors to see the maintenance screen.</p>
+              </div>
+              <button id="systemStatesRefreshButton" class="secondary-button" type="button">Refresh</button>
+            </div>
+
+            <p id="systemStatesMessage" class="form-message" role="status" aria-live="polite"></p>
+
+            <form id="systemStatesForm" class="cms-editor-form manager-form" novalidate>
+              <div class="editor-grid two">
+                <label class="admin-checkbox-row editor-grid-span">
+                  <input id="maintenanceEnabled" type="checkbox">
+                  <span>Enable maintenance mode on public portfolio pages</span>
+                </label>
+
+                <label>
+                  <span>Eyebrow</span>
+                  <input id="maintenanceEyebrow" type="text" maxlength="80" required>
+                </label>
+
+                <label>
+                  <span>Last updated</span>
+                  <input id="systemStatesUpdatedAt" type="text" value="—" readonly>
+                </label>
+
+                <label class="editor-grid-span">
+                  <span>Title</span>
+                  <input id="maintenanceTitle" type="text" maxlength="140" required>
+                </label>
+
+                <label class="editor-grid-span">
+                  <span>Message</span>
+                  <textarea id="maintenanceMessage" rows="4" maxlength="320" required></textarea>
+                </label>
+
+                <label>
+                  <span>Button label</span>
+                  <input id="maintenanceButtonLabel" type="text" maxlength="50" required>
+                </label>
+
+                <label>
+                  <span>Button link</span>
+                  <input id="maintenanceButtonHref" type="text" maxlength="500" placeholder="index.html" required>
+                </label>
+              </div>
+
+              <div id="maintenanceAdminPreview" class="maintenance-admin-preview" data-enabled="false">
+                <div class="editor-section-title">
+                  <div>
+                    <p class="eyebrow">LIVE PREVIEW</p>
+                    <h3>Maintenance screen</h3>
+                  </div>
+                  <span id="maintenancePreviewStatus">PUBLIC SITE · NORMAL</span>
+                </div>
+
+                <div class="maintenance-admin-preview-copy">
+                  <span id="maintenancePreviewEyebrow">PORTFOLIO UPDATE</span>
+                  <strong id="maintenancePreviewTitle">A short maintenance break.</strong>
+                  <p id="maintenancePreviewMessage">I am making a few updates to the portfolio. Please check back shortly.</p>
+                  <a id="maintenancePreviewButton" href="index.html">Back to home →</a>
+                </div>
+              </div>
+
+              <div class="manager-form-actions">
+                <button id="systemStatesSaveButton" type="submit">Save system state</button>
+              </div>
+            </form>
+          </section>
+
+          <section class="editor-card">
+            <div class="editor-section-title">
+              <div>
+                <p class="eyebrow">BRANDED FALLBACKS</p>
+                <h3>404 & empty states</h3>
+                <p>These fallbacks are code-controlled so they stay consistent and cannot expose private CMS data.</p>
+              </div>
+            </div>
+
+            <div class="system-preview-grid">
+              <article class="system-preview-card">
+                <span class="system-preview-code">404</span>
+                <strong>Page not found</strong>
+                <p>A dedicated branded page keeps lost visitors inside the portfolio instead of showing a generic browser/GitHub error.</p>
+                <a href="../404.html" target="_blank" rel="noopener">Open 404 preview ↗</a>
+              </article>
+
+              <article class="system-preview-card">
+                <span class="system-preview-code">Ø</span>
+                <strong>Empty / unavailable</strong>
+                <p>Project search with no matches and unavailable dynamic case studies use the same branded fallback language and styling.</p>
+              </article>
+            </div>
+
+            <div class="system-state-note">
+              <strong>Fail-open safety</strong>
+              <span>If the system-state request fails, the normal public portfolio stays visible instead of accidentally blocking visitors.</span>
+            </div>
+          </section>
+        </div>
+
       </div>
     </section>
 
     <footer id="publicAdminFooter" class="admin-footer">
       <span>MEHEDI PORTFOLIO</span>
-      <span>Secure Admin · Phase 5G Locked</span>
+      <span>Secure Admin · Phase 5H Active</span>
     </footer>
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script type="module" src="./admin.js?v=phase5g-cta-20260929-1"></script>
+  <script type="module" src="./admin.js?v=phase5h-states-20260929-1"></script>
 </body>
 </html>
