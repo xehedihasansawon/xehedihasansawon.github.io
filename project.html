@@ -28,6 +28,7 @@
   <link rel="stylesheet" href="case-motion.css?v=phase6b-case-motion-20260929-1">
 </head>
 <body class="case-study-page dynamic-case-study-page">
+  <a class="skip-link" href="#main-content">Skip to main content</a>
   <header class="topbar">
     <div class="shell nav">
       <a class="signature" href="index.html#home" aria-label="Home">Mhs<span>.</span></a>
@@ -43,7 +44,7 @@
 
       <a class="outline-pill desktop-cta" href="index.html#contact">Let's Work Together <span>→</span></a>
 
-      <button class="menu-button" id="menuButton" aria-label="Open menu" aria-controls="mobileNav" aria-expanded="false">
+      <button type="button" class="menu-button" id="menuButton" aria-label="Open menu" aria-controls="mobileNav" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
     </div>
@@ -58,15 +59,15 @@
     </nav>
   </header>
 
-  <main>
-    <section id="caseLoading" class="case-dynamic-state section-line">
+  <main id="main-content">
+    <section id="caseLoading" class="case-dynamic-state section-line" role="status" aria-live="polite">
       <div class="shell">
         <p class="case-eyebrow">Case Study</p>
         <h1>Loading project…</h1>
       </div>
     </section>
 
-    <section id="caseError" class="case-dynamic-state section-line" hidden>
+    <section id="caseError" class="case-dynamic-state section-line" role="alert" hidden>
       <div class="shell">
         <p class="case-eyebrow">Case Study</p>
         <h1>PROJECT NOT AVAILABLE</h1>
@@ -129,7 +130,7 @@
   </footer>
 
   <dialog id="caseLightbox" class="case-lightbox" aria-label="Project artwork preview">
-    <button class="dialog-close" id="caseLightboxClose" aria-label="Close image">×</button>
+    <button type="button" class="dialog-close" id="caseLightboxClose" aria-label="Close image">×</button>
     <img id="caseLightboxImage" src="" alt="" loading="lazy" decoding="async">
   </dialog>
 
