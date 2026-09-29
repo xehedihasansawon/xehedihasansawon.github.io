@@ -2023,7 +2023,7 @@ All Phase 5 modules are now owner-approved and locked on `phase02-polish`. Produ
 
 ## Phase 6 — Motion & Final Polish
 
-Status: **ACTIVE · PHASE 6A–6B LOCKED · PHASE 6C OWNER TEST PENDING**
+Status: **ACTIVE · PHASE 6A–6C LOCKED · NEXT PHASE 6D NOT STARTED**
 
 Phase 6 sequence:
 - **6A — Homepage Motion Foundation**
@@ -2121,7 +2121,7 @@ Phase 6B is locked. Freeze the accepted case-study/system-page motion baseline, 
 
 ### Phase 6C — Responsive & Mobile Final Audit
 
-Status: **STATIC RESPONSIVE AUDIT PASS · OWNER MOBILE TEST PASS · APPROVAL PENDING**
+Status: **LOCKED / DONE · STATIC RESPONSIVE + OWNER MOBILE TEST PASS**
 
 Purpose:
 Run the final responsive/mobile verification across the locked portfolio, case-study, system-state and Admin surfaces without redesigning approved modules.
@@ -2166,12 +2166,12 @@ Acceptance checklist:
 - [x] Owner verifies Admin dashboard/mobile menu at mobile width *(owner-verified 2026-09-29)*
 - [x] Owner verifies branded 404 at mobile width *(owner-verified 2026-09-29)*
 - [x] Any owner-observed responsive issue is fixed and re-tested *(mobile nav overlap + stale public stylesheet cache fixed and owner re-tested 2026-09-29)*
-- [ ] Phase 6C owner approval / lock
+- [x] Phase 6C owner approval / lock *(2026-09-29)*
 
-Owner approval: Pending
+Owner approval: 2026-09-29
 
 Lock rule:
-Do not lock Phase 6C until the minimum owner mobile visual test covers the homepage, one case-study, Admin shell/menu and branded 404. If a responsive bug is observed, patch only that verified issue, re-audit, then request owner approval.
+Phase 6C is locked. Freeze the accepted responsive/mobile baseline, including the <=900px public navigation fix and public stylesheet cache-bust baseline. Later phases may fix verified accessibility/performance/release issues without redesigning locked layouts or changing Phase 6C responsive behavior except for a verified bug or explicit owner request to unlock it.
 
 ## Planned Phase 3 sequence
 
