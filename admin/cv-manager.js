@@ -947,11 +947,15 @@ export const initCvManager = ({ supabaseClient, showCmsView }) => {
         if (type === "experience") {
           let displayRole = item.role || "Role";
 
+          let displayDetails = item.details || "";
+
           if (
             payload.category_key === "video_editing" &&
             /graphic designer.*visual content creator/i.test(displayRole)
           ) {
             displayRole = "Freelance Video Editor & Visual Content Creator";
+            displayDetails =
+              "Edited short-form and promotional video content using Adobe Premiere Pro and CapCut, supported by graphic design and visual communication skills for social media content.";
           }
 
           top.append(
@@ -960,6 +964,9 @@ export const initCvManager = ({ supabaseClient, showCmsView }) => {
           );
           card.append(top);
           if (item.company) card.append(create("b", item.company));
+          if (displayDetails) {
+            card.append(create("p", displayDetails));
+          }
         } else {
           top.append(
             create("strong", item.qualification || "Qualification"),
@@ -969,7 +976,9 @@ export const initCvManager = ({ supabaseClient, showCmsView }) => {
           if (item.institution) card.append(create("b", item.institution));
         }
 
-        if (item.details) card.append(create("p", item.details));
+        if (type !== "experience" && item.details) {
+          card.append(create("p", item.details));
+        }
         body.append(card);
       });
 
@@ -1129,6 +1138,16 @@ export const initCvManager = ({ supabaseClient, showCmsView }) => {
       if (body) addMainSection("Experience", body);
     }
 
+    if (payload.category_key === "video_editing") {
+      const focus = create("ul", "", "cv-ref-focus-list");
+      [
+        "Short-form & promotional video content",
+        "Social media content editing",
+        "Graphic design support for stronger visual communication"
+      ].forEach((item) => focus.append(create("li", item)));
+      addMainSection("Creative Focus", focus);
+    }
+
     const education = renderTimelineSection(
       "Education",
       resume.education,
@@ -1173,7 +1192,6 @@ export const initCvManager = ({ supabaseClient, showCmsView }) => {
     addSideSection("Language Skills", resume.languages);
     addSideSection("Creative / Work Tools", tools, "cv-ref-tool-list");
     addSideSection("Core Skills", coreSkills, "cv-ref-skill-list");
-    addSideSection("Courses & Certifications", resume.certifications);
 
     const addLinkSection = (items) => {
       const cleanItems = items.filter((item) => clean(item.value));
@@ -1202,6 +1220,8 @@ export const initCvManager = ({ supabaseClient, showCmsView }) => {
       { label: "Behance", value: resume.personal.behance },
       { label: "GitHub", value: resume.personal.github }
     ]);
+
+    addSideSection("Courses & Certifications", resume.certifications);
 
     layout.append(main, sidebar, hero);
     preview.append(layout);
