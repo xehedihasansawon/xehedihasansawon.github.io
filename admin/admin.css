@@ -5432,3 +5432,55 @@ button {
     height:297mm !important;
   }
 }
+
+
+/* Phase 5E · Modern CV V4.1 readability & balance */
+.cv-ref-main{
+  padding-top:68mm;
+}
+.cv-ref-sidebar{
+  padding-top:68mm;
+}
+.cv-ref-hero{
+  height:59mm;
+}
+.cv-ref-photo-wrap{
+  top:6mm;
+  width:46mm;
+  height:46mm;
+}
+.cv-ref-hero-band{
+  top:18mm;
+  min-height:27mm;
+}
+.cv-ref-hero-copy h1{
+  font-size:25px;
+}
+.cv-ref-hero-copy h2{
+  font-size:9.8px;
+}
+.cv-ref-hero-contact span{
+  font-size:7.6px;
+}
+.cv-ref-main-section>p{
+  font-size:9.6px;
+  line-height:1.58;
+}
+.cv-ref-main .cv-preview-entry-top strong{
+  font-size:9.7px;
+}
+.cv-ref-main .cv-preview-entry>b{
+  font-size:8.5px;
+}
+.cv-ref-main .cv-preview-entry>p{
+  font-size:8.95px;
+  line-height:1.48;
+}
+.cv-ref-side-list li,
+.cv-ref-skill-list li,
+.cv-ref-tool-list li{
+  font-size:8.3px;
+}
+.cv-ref-link-row span{
+  font-size:7.6px;
+}
