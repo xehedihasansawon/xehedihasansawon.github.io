@@ -930,10 +930,73 @@ export const initCvManager = ({ supabaseClient, showCmsView }) => {
     return section;
   };
 
+  const estimateCvDensity = (resume, payload) => {
+    const experienceChars = resume.experience.reduce(
+      (sum, item) =>
+        sum +
+        clean(item.role).length +
+        clean(item.company).length +
+        clean(item.period).length +
+        clean(item.details).length,
+      0
+    );
+
+    const educationChars = resume.education.reduce(
+      (sum, item) =>
+        sum +
+        clean(item.qualification).length +
+        clean(item.institution).length +
+        clean(item.period).length +
+        clean(item.details).length,
+      0
+    );
+
+    const linkCount = [
+      resume.personal.website,
+      resume.personal.linkedin,
+      resume.personal.behance,
+      resume.personal.github
+    ].filter(Boolean).length;
+
+    let score =
+      resume.experience.length * 3.2 +
+      resume.education.length * 1.45 +
+      resume.skills.length * 0.72 +
+      resume.languages.length * 0.52 +
+      resume.certifications.length * 0.72 +
+      linkCount * 0.48 +
+      clean(resume.personal.summary).length / 105 +
+      experienceChars / 175 +
+      educationChars / 230;
+
+    if (payload.category_key === "video_editing") score += 1.4;
+
+    if (score < 23) return "spacious";
+    if (score < 36) return "balanced";
+    return "compact";
+  };
+
+  const enforceOnePageDensity = (layout) => {
+    const order = ["spacious", "balanced", "compact"];
+    let index = Math.max(0, order.indexOf(preview.dataset.density || "balanced"));
+
+    const fits = () => {
+      const available = preview.clientHeight || layout.clientHeight;
+      return layout.scrollHeight <= available + 3;
+    };
+
+    while (!fits() && index < order.length - 1) {
+      index += 1;
+      preview.dataset.density = order[index];
+      void layout.offsetHeight;
+    }
+  };
+
   const renderPreview = (payload) => {
     const resume = normalizeResume(payload.resume_data);
     preview.replaceChildren();
     preview.dataset.template = payload.template_key || "modern";
+    preview.dataset.density = estimateCvDensity(resume, payload);
 
     const renderTimelineSection = (title, items, type) => {
       if (!items.length) return null;
@@ -1225,6 +1288,10 @@ export const initCvManager = ({ supabaseClient, showCmsView }) => {
 
     layout.append(main, sidebar, hero);
     preview.append(layout);
+
+    requestAnimationFrame(() => {
+      enforceOnePageDensity(layout);
+    });
   };
   const load = async () => {
     setBusy(true);
