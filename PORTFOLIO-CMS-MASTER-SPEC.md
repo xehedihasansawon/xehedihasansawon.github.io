@@ -2036,7 +2036,7 @@ Build and lock one Phase 6 module at a time. Phase 1–5H remain locked.
 
 ### Phase 6A — Homepage Motion Foundation
 
-Status: **IMPLEMENTED · STATIC/SAFETY AUDIT PENDING · OWNER TEST PENDING**
+Status: **IMPLEMENTED · STATIC/SAFETY AUDIT PASS · OWNER TEST PENDING**
 
 Purpose:
 Add subtle premium motion to the existing homepage without redesigning, reordering or changing any locked CMS content contract.
@@ -2063,7 +2063,7 @@ Acceptance checklist:
 - [x] Card opacity stagger implemented without taking over card hover transforms
 - [x] Reduced-motion bypass implemented
 - [x] IntersectionObserver fallback leaves the normal site visible
-- [ ] Final static/safety audit
+- [x] Final static/safety audit passes: JS syntax, CSS structure, reduced-motion fallback, no network/storage access, homepage refs exactly once, card hover transforms preserved, and `main` untouched
 - [ ] Owner verifies Hero load motion on localhost
 - [ ] Owner verifies section reveal while scrolling
 - [ ] Owner confirms motion feels subtle/premium rather than distracting
