@@ -10,7 +10,8 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(rootDir, 'index.html'),
-        admin: resolve(rootDir, 'admin/index.html')
+        admin: resolve(rootDir, 'admin/index.html'),
+        notFound: resolve(rootDir, '404.html')
       }
     }
   }
