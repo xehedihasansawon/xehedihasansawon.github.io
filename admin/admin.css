@@ -5521,3 +5521,154 @@ button {
 .cv-ref-main-section[data-section="education"]{
   margin-top:-1mm;
 }
+
+
+/* =========================================================
+   PHASE 5E · ADAPTIVE A4 AUTO-FILL ENGINE
+   ========================================================= */
+.cv-preview-sheet[data-template="modern"][data-density="spacious"] .cv-ref-main,
+.cv-preview-sheet[data-template="modern"][data-density="spacious"] .cv-ref-sidebar{
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+}
+
+.cv-preview-sheet[data-template="modern"][data-density="spacious"] .cv-ref-main{
+  padding-top:66mm;
+  padding-bottom:12mm;
+}
+.cv-preview-sheet[data-template="modern"][data-density="spacious"] .cv-ref-sidebar{
+  padding-top:66mm;
+  padding-bottom:11mm;
+}
+
+.cv-preview-sheet[data-template="modern"][data-density="spacious"] .cv-ref-hero-copy h1{
+  font-size:27px;
+}
+.cv-preview-sheet[data-template="modern"][data-density="spacious"] .cv-ref-hero-copy h2{
+  font-size:10.4px;
+}
+.cv-preview-sheet[data-template="modern"][data-density="spacious"] .cv-ref-hero-contact span{
+  font-size:8px;
+}
+
+.cv-preview-sheet[data-template="modern"][data-density="spacious"] .cv-ref-main-section{
+  margin-bottom:6.4mm;
+}
+.cv-preview-sheet[data-template="modern"][data-density="spacious"] .cv-ref-main-section>h3{
+  padding:2.35mm 3.8mm;
+  font-size:10.2px;
+  margin-bottom:3.6mm;
+}
+.cv-preview-sheet[data-template="modern"][data-density="spacious"] .cv-ref-main-section>p{
+  font-size:10.35px;
+  line-height:1.62;
+}
+.cv-preview-sheet[data-template="modern"][data-density="spacious"] .cv-preview-timeline{
+  gap:4.2mm;
+}
+.cv-preview-sheet[data-template="modern"][data-density="spacious"] .cv-preview-entry-top strong{
+  font-size:10.35px;
+}
+.cv-preview-sheet[data-template="modern"][data-density="spacious"] .cv-preview-entry-top span{
+  font-size:7.9px;
+}
+.cv-preview-sheet[data-template="modern"][data-density="spacious"] .cv-preview-entry>b{
+  font-size:8.95px;
+}
+.cv-preview-sheet[data-template="modern"][data-density="spacious"] .cv-preview-entry>p{
+  font-size:9.55px;
+  line-height:1.52;
+}
+.cv-preview-sheet[data-template="modern"][data-density="spacious"] .cv-ref-focus-list li{
+  font-size:9.35px;
+}
+
+.cv-preview-sheet[data-template="modern"][data-density="spacious"] .cv-ref-side-section{
+  gap:2.9mm;
+}
+.cv-preview-sheet[data-template="modern"][data-density="spacious"] .cv-ref-side-section>h3{
+  padding:2.3mm 2.8mm;
+  font-size:8.9px;
+}
+.cv-preview-sheet[data-template="modern"][data-density="spacious"] .cv-ref-side-list li,
+.cv-preview-sheet[data-template="modern"][data-density="spacious"] .cv-ref-skill-list li,
+.cv-preview-sheet[data-template="modern"][data-density="spacious"] .cv-ref-tool-list li{
+  font-size:8.9px;
+  line-height:1.45;
+}
+.cv-preview-sheet[data-template="modern"][data-density="spacious"] .cv-ref-tool-list li{
+  min-height:9mm;
+  font-size:8px;
+}
+.cv-preview-sheet[data-template="modern"][data-density="spacious"] .cv-ref-link-row small{
+  font-size:6.6px;
+}
+.cv-preview-sheet[data-template="modern"][data-density="spacious"] .cv-ref-link-row span{
+  font-size:8px;
+  line-height:1.4;
+}
+
+.cv-preview-sheet[data-template="modern"][data-density="balanced"] .cv-ref-main,
+.cv-preview-sheet[data-template="modern"][data-density="balanced"] .cv-ref-sidebar{
+  display:flex;
+  flex-direction:column;
+}
+.cv-preview-sheet[data-template="modern"][data-density="balanced"] .cv-ref-main{
+  gap:1.2mm;
+}
+.cv-preview-sheet[data-template="modern"][data-density="balanced"] .cv-ref-sidebar{
+  gap:5.5mm;
+}
+
+.cv-preview-sheet[data-template="modern"][data-density="compact"] .cv-ref-main{
+  padding-top:64mm;
+}
+.cv-preview-sheet[data-template="modern"][data-density="compact"] .cv-ref-sidebar{
+  padding-top:64mm;
+  gap:4.5mm;
+}
+.cv-preview-sheet[data-template="modern"][data-density="compact"] .cv-ref-main-section{
+  margin-bottom:4.7mm;
+}
+.cv-preview-sheet[data-template="modern"][data-density="compact"] .cv-ref-main-section>h3{
+  margin-bottom:2.7mm;
+  padding:1.8mm 3.2mm;
+  font-size:8.8px;
+}
+.cv-preview-sheet[data-template="modern"][data-density="compact"] .cv-ref-main-section>p{
+  font-size:8.85px;
+  line-height:1.48;
+}
+.cv-preview-sheet[data-template="modern"][data-density="compact"] .cv-preview-timeline{
+  gap:3mm;
+}
+.cv-preview-sheet[data-template="modern"][data-density="compact"] .cv-preview-entry-top strong{
+  font-size:9px;
+}
+.cv-preview-sheet[data-template="modern"][data-density="compact"] .cv-preview-entry>b{
+  font-size:8px;
+}
+.cv-preview-sheet[data-template="modern"][data-density="compact"] .cv-preview-entry>p{
+  font-size:8.2px;
+  line-height:1.42;
+}
+.cv-preview-sheet[data-template="modern"][data-density="compact"] .cv-ref-side-section{
+  gap:2.2mm;
+}
+.cv-preview-sheet[data-template="modern"][data-density="compact"] .cv-ref-side-section>h3{
+  padding:1.8mm 2.4mm;
+  font-size:7.9px;
+}
+.cv-preview-sheet[data-template="modern"][data-density="compact"] .cv-ref-side-list li,
+.cv-preview-sheet[data-template="modern"][data-density="compact"] .cv-ref-skill-list li,
+.cv-preview-sheet[data-template="modern"][data-density="compact"] .cv-ref-tool-list li{
+  font-size:7.7px;
+}
+.cv-preview-sheet[data-template="modern"][data-density="compact"] .cv-ref-tool-list li{
+  min-height:7mm;
+  font-size:6.9px;
+}
+.cv-preview-sheet[data-template="modern"][data-density="compact"] .cv-ref-link-row span{
+  font-size:7px;
+}
