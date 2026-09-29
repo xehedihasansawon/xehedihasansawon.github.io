@@ -2023,7 +2023,7 @@ All Phase 5 modules are now owner-approved and locked on `phase02-polish`. Produ
 
 ## Phase 6 — Motion & Final Polish
 
-Status: **ACTIVE · PHASE 6A LOCKED · PHASE 6B OWNER TEST PENDING**
+Status: **ACTIVE · PHASE 6A–6B LOCKED · NEXT PHASE 6C NOT STARTED**
 
 Phase 6 sequence:
 - **6A — Homepage Motion Foundation**
@@ -2076,9 +2076,7 @@ Phase 6A is locked. Freeze the accepted homepage motion timing/behavior baseline
 
 ### Phase 6B — Case Study / System Page Motion Polish
 
-### Phase 6B — Case Study / System Page Motion Polish
-
-Status: **IMPLEMENTED · STATIC/SAFETY AUDIT PASS · OWNER TEST PENDING**
+Status: **LOCKED / DONE · STATIC/SAFETY + OWNER VISUAL TEST PASS**
 
 Purpose:
 Extend the accepted Phase 6 motion language to case-study and branded system pages without redesigning or changing any locked CMS/data contract.
@@ -2110,16 +2108,16 @@ Acceptance checklist:
 - [x] Reduced-motion bypass implemented
 - [x] IntersectionObserver fallback leaves normal content visible
 - [x] Final static/safety audit passes: JS syntax, CSS structure, reduced-motion/progressive fallbacks, no network/storage access, refs exactly once, dynamic registration safety, hover transforms preserved, homepage normal scope unaffected, and `main` untouched
-- [ ] Owner verifies one static case-study Hero + scroll motion
-- [ ] Owner verifies dynamic project case-study motion
-- [ ] Owner verifies branded 404 entrance
-- [ ] Owner confirms motion feels consistent with Phase 6A
-- [ ] Phase 6B owner approval / lock
+- [x] Owner verifies one static case-study Hero + scroll motion *(SSFC owner-verified 2026-09-29)*
+- [x] Owner verifies dynamic project case-study motion *(Portfolio Website owner-verified 2026-09-29)*
+- [x] Owner verifies branded 404 entrance *(owner-accepted 2026-09-29)*
+- [x] Owner confirms motion feels consistent with Phase 6A *(owner-approved 2026-09-29)*
+- [x] Phase 6B owner approval / lock *(2026-09-29)*
 
-Owner approval: Pending
+Owner approval: 2026-09-29
 
 Lock rule:
-Do not lock Phase 6B until the minimum owner visual test confirms one static case-study, the dynamic project case and the branded 404. After approval, freeze the accepted case/system motion baseline; later Phase 6 modules may fix verified responsive/accessibility/performance issues without redesigning locked content.
+Phase 6B is locked. Freeze the accepted case-study/system-page motion baseline, reduced-motion fallback, dynamic-section registration behavior and branded system-page entrance behavior. Later Phase 6 modules may fix verified responsive/accessibility/performance issues without redesigning locked content or altering Phase 6B behavior except for a verified bug or explicit owner request to unlock it.
 
 ## Planned Phase 3 sequence
 
