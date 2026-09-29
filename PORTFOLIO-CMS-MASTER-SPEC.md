@@ -1949,7 +1949,7 @@ Freeze the Phase 5G schema/migration 023, singleton CTA architecture, public-rea
 
 ### Phase 5H — Branded 404 / Empty States / Maintenance Mode
 
-Status: **IMPLEMENTED · STATIC/SECURITY AUDIT PASS · OWNER TEST PENDING**
+Status: **LOCKED / DONE · FINAL STATIC/SECURITY + OWNER TEST PASS**
 
 Scope:
 - Add migration `024_branded_system_states.sql`
@@ -1990,17 +1990,36 @@ Acceptance checklist:
 - [x] Admin HTML structure / unique Phase 5H IDs audit passes
 - [x] Phase 5H CSS brace/structure audit passes
 - [x] Phase 5A–5G source modules remain unchanged
-- [ ] Owner applies migration 024 in Supabase
-- [ ] Owner opens 05H System States and confirms default Maintenance OFF state loads
-- [ ] Owner verifies branded 404 preview
-- [ ] Owner enables Maintenance, saves, and verifies the public maintenance screen
-- [ ] Owner disables Maintenance again and confirms the normal public site returns
-- [ ] Phase 5H owner approval / lock
+- [x] Owner applies migration 024 in Supabase *(owner-verified 2026-09-29)*
+- [x] Owner opens 05H System States and confirms default Maintenance OFF state loads *(owner-verified)*
+- [x] Owner verifies branded 404 preview *(owner-verified)*
+- [x] Owner enables Maintenance, saves, and verifies the public maintenance screen *(owner-verified)*
+- [x] Owner disables Maintenance again and confirms the normal public site returns *(owner-verified)*
+- [x] Owner verifies branded Project Explorer no-results state *(owner-verified)*
+- [x] Phase 5H owner approval / lock *(2026-09-29)*
 
-Owner approval: Pending
+Owner approval: 2026-09-29
+
+Phase 5H is locked. The accepted baseline includes the singleton maintenance state, Admin maintenance controls/live preview, branded 404, branded empty/unavailable states, public fail-open behavior, safe-link validation, and verified Maintenance ON → OFF recovery.
 
 Lock rule:
-Do not lock Phase 5H until the minimum owner test confirms migration 024, Admin state loading, branded 404, maintenance ON public rendering and maintenance OFF recovery. After approval, freeze the system-state schema/security boundary, fail-open behavior and branded fallback contracts. Maintenance content and on/off state remain operational settings.
+Freeze the Phase 5H schema/migration 024, public-read/admin-write security boundary, fail-open behavior, safe-link validation and branded fallback contracts. Maintenance copy, button values and on/off state remain operational settings and may still be changed from the locked module. Later phases must not redesign or weaken Phase 5H except for a verified bug/security fix or explicit owner request to unlock it.
+
+## Phase 5 completion
+
+**Phase 5 — Business/System Features — COMPLETE / LOCKED**
+
+Completed modules:
+- Phase 5A — Client Inquiry
+- Phase 5B — Analytics
+- Phase 5C — SEO Manager
+- Phase 5D — Testimonials / Client Feedback
+- Phase 5E — Multiple Resume / CV Manager
+- Phase 5F — Availability Status Control
+- Phase 5G — Custom CTA Manager
+- Phase 5H — Branded 404 / Empty States / Maintenance Mode
+
+All Phase 5 modules are now owner-approved and locked on `phase02-polish`. Production `main` remains untouched.
 
 ## Planned Phase 3 sequence
 
