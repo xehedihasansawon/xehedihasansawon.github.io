@@ -128,7 +128,9 @@ const applyText = (id, value) => {
 const applyHero = (hero) => {
   if (!hero || typeof hero !== "object") return;
 
-  applyText("heroStatusText", hero.statusText);
+  if (document.documentElement.dataset.availabilityLoaded !== "true") {
+    applyText("heroStatusText", hero.statusText);
+  }
   applyText("heroEyebrow", hero.eyebrow);
   applyText("heroNameLine1", hero.nameLine1);
   applyText("heroNameLine2", hero.nameLine2);
@@ -1434,7 +1436,9 @@ loadPublishedExperienceCommunity();
 const applyContact = (data) => {
   if (!data || typeof data !== "object") return;
 
-  applyText("contactStatusText", data.statusText);
+  if (document.documentElement.dataset.availabilityLoaded !== "true") {
+    applyText("contactStatusText", data.statusText);
+  }
   applyText("contactKicker", data.kicker);
   applyText("contactTitleMain", data.titleMain);
   applyText("contactTitleAccent", data.titleAccent);
