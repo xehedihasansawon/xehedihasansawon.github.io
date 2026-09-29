@@ -11,6 +11,7 @@ import { initSeoManager } from "./seo-manager.js?v=phase5c-seo-20260928-2";
 import { initTestimonialsManager } from "./testimonials-manager.js?v=phase5d-feedback-20260928-1";
 import { initCvManager } from "./cv-manager.js?v=phase5e-smartfill-v7-20260929-1";
 import { initAvailabilityManager } from "./availability-manager.js?v=phase5f-availability-20260929-1";
+import { initCtaManager } from "./cta-manager.js?v=phase5g-cta-20260929-1";
 
 const configPanel = document.querySelector("#configPanel");
 const loginPanel = document.querySelector("#loginPanel");
@@ -63,6 +64,7 @@ const seoNavButton = document.querySelector("#seoNavButton");
 const testimonialsNavButton = document.querySelector("#testimonialsNavButton");
 const cvManagerNavButton = document.querySelector("#cvManagerNavButton");
 const availabilityNavButton = document.querySelector("#availabilityNavButton");
+const ctaManagerNavButton = document.querySelector("#ctaManagerNavButton");
 const dashboard = document.querySelector("#dashboard");
 const homepageEditor = document.querySelector("#homepageEditor");
 const realProjectsEditor = document.querySelector("#realProjectsEditor");
@@ -88,6 +90,7 @@ const seoEditor = document.querySelector("#seoEditor");
 const testimonialsEditor = document.querySelector("#testimonialsEditor");
 const cvManagerEditor = document.querySelector("#cvManagerEditor");
 const availabilityEditor = document.querySelector("#availabilityEditor");
+const ctaManagerEditor = document.querySelector("#ctaManagerEditor");
 const cmsPageEyebrow = document.querySelector("#cmsPageEyebrow");
 const cmsPageTitle = document.querySelector("#cmsPageTitle");
 
@@ -718,6 +721,7 @@ if (!hasValidConfig) {
     const isTestimonials = view === "testimonials";
     const isCvManager = view === "cv-manager";
     const isAvailability = view === "availability";
+    const isCustomCta = view === "custom-cta";
 
     dashboard.hidden = !isDashboard;
     homepageEditor.hidden = !isHero;
@@ -744,6 +748,7 @@ if (!hasValidConfig) {
     testimonialsEditor.hidden = !isTestimonials;
     cvManagerEditor.hidden = !isCvManager;
     availabilityEditor.hidden = !isAvailability;
+    ctaManagerEditor.hidden = !isCustomCta;
 
     dashboardNavLink?.classList.toggle("active", isDashboard);
     homepageNavButton?.classList.toggle("active", isHero);
@@ -770,8 +775,9 @@ if (!hasValidConfig) {
     testimonialsNavButton?.classList.toggle("active", isTestimonials);
     cvManagerNavButton?.classList.toggle("active", isCvManager);
     availabilityNavButton?.classList.toggle("active", isAvailability);
+    ctaManagerNavButton?.classList.toggle("active", isCustomCta);
 
-    [dashboardNavLink, homepageNavButton, realProjectsNavButton, designShowcaseNavButton, creativeServicesNavButton, digitalProjectsNavButton, aboutMeNavButton, skillsToolsNavButton, experienceCommunityNavButton, contactCmsNavButton, footerCmsNavButton, sectionLayoutNavButton, projectsNavButton, mediaWorkflowNavButton, projectManagerNavButton, homepageSelectionNavButton, projectMetadataNavButton, projectOrderingNavButton, caseStudiesNavButton, inquiryNavButton, analyticsNavButton, seoNavButton, testimonialsNavButton, cvManagerNavButton, availabilityNavButton].forEach((item) => {
+    [dashboardNavLink, homepageNavButton, realProjectsNavButton, designShowcaseNavButton, creativeServicesNavButton, digitalProjectsNavButton, aboutMeNavButton, skillsToolsNavButton, experienceCommunityNavButton, contactCmsNavButton, footerCmsNavButton, sectionLayoutNavButton, projectsNavButton, mediaWorkflowNavButton, projectManagerNavButton, homepageSelectionNavButton, projectMetadataNavButton, projectOrderingNavButton, caseStudiesNavButton, inquiryNavButton, analyticsNavButton, seoNavButton, testimonialsNavButton, cvManagerNavButton, availabilityNavButton, ctaManagerNavButton].forEach((item) => {
       item?.removeAttribute("aria-current");
     });
 
@@ -871,6 +877,10 @@ if (!hasValidConfig) {
       availabilityNavButton?.setAttribute("aria-current", "page");
       cmsPageEyebrow.textContent = "BUSINESS SYSTEM";
       cmsPageTitle.textContent = "Availability Status Control";
+    } else if (isCustomCta) {
+      ctaManagerNavButton?.setAttribute("aria-current", "page");
+      cmsPageEyebrow.textContent = "BUSINESS SYSTEM";
+      cmsPageTitle.textContent = "Custom CTA Manager";
     } else {
       dashboardNavLink?.setAttribute("aria-current", "page");
       cmsPageEyebrow.textContent = "HOMEPAGE CMS";
@@ -5498,6 +5508,7 @@ if (!hasValidConfig) {
   initTestimonialsManager({ supabaseClient, showCmsView });
   initCvManager({ supabaseClient, showCmsView });
   initAvailabilityManager({ supabaseClient, showCmsView });
+  initCtaManager({ supabaseClient, showCmsView });
 
   const checkAdminMembership = async (user) => {
     if (!user?.id) {
