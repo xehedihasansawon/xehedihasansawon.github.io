@@ -1528,7 +1528,7 @@ Production `main` remains unchanged by Phase 4.
 
 ## Phase 5 — Business/System Features
 
-Status: **ACTIVE · PHASE 5A–5F LOCKED · NEXT PHASE 5G NOT STARTED**
+Status: **ACTIVE · PHASE 5A–5F LOCKED · PHASE 5G IMPLEMENTED · OWNER TEST PENDING**
 
 Purpose:
 Add the business-facing systems around the locked portfolio and case-study foundation without redesigning the approved Phase 2–4 presentation.
@@ -1891,6 +1891,57 @@ Phase 5F is locked. The accepted baseline includes the singleton availability so
 
 Lock rule:
 Freeze the Phase 5F schema/migration 022, singleton availability architecture, public-read/admin-write security boundary, status keys, Hero/Contact synchronization behavior, fallback behavior and accepted Admin UI. The availability value itself remains an operational setting and can still be changed at any time from the locked module. Later phases must not redesign or weaken Phase 5F except for a verified bug/security fix or explicit owner request to unlock it.
+
+### Phase 5G — Custom CTA Manager
+
+Status: **IMPLEMENTED · MIGRATION 023 + OWNER TEST PENDING**
+
+Scope:
+- Add migration `023_custom_cta_manager.sql`
+- Add singleton `portfolio_custom_cta` store
+- Public/anonymous users can read only the CTA fields needed to render the public block
+- Only allowlisted authenticated Admin can update CTA content/settings
+- Add on/off visibility control
+- Add three presentation variants: Accent, Dark and Outline
+- Add editable eyebrow, title and description
+- Add primary button label/link/new-tab control
+- Add optional secondary button label/link/new-tab control
+- Add three Admin presets: Start a Project, Creative Support and Short Brief
+- Add live Admin CTA preview
+- Add one independent public CTA block immediately before the locked Contact section
+- Keep Hero CMS, Contact CMS, Availability Status and Section Order behavior unchanged
+- CTA is hidden by default until the owner intentionally enables it
+- Public renderer rejects unsafe button URLs and keeps the CTA hidden if the primary action is invalid
+- Phase 5A–5F locked behavior remains unchanged
+- Production `main` remains untouched
+
+Acceptance checklist:
+- [ ] Migration 023 applies successfully in Supabase
+- [x] CTA schema + singleton constraint implemented
+- [x] Public read limited to CTA rendering fields
+- [x] Admin allowlist update policy implemented
+- [x] Unsafe URL checks implemented in DB constraints + Admin + public renderer
+- [x] 05G Custom CTA Admin navigation implemented
+- [x] CTA on/off control implemented
+- [x] Accent / Dark / Outline styles implemented
+- [x] Custom eyebrow / title / description implemented
+- [x] Primary action controls implemented
+- [x] Optional secondary action controls implemented
+- [x] CTA presets implemented
+- [x] Admin live preview implemented
+- [x] Public CTA block implemented before Contact
+- [x] Responsive public CTA styling implemented
+- [x] Existing Hero / Contact / Availability behavior preserved
+- [x] Phase 5F remains locked
+- [ ] Owner loads 05G after migration 023
+- [ ] Owner enables CTA and saves one preset/custom version
+- [ ] Public CTA appears before Contact with matching content/buttons
+- [ ] Owner tests CTA off → public block hides
+- [ ] Owner restores preferred final CTA state
+- [ ] Phase 5G owner approval / lock
+
+Lock rule:
+Do not lock Phase 5G until migration 023 is applied and one Admin enable/save → public CTA render → disable/hide flow is owner-verified. Later phases must preserve the singleton CTA source, public-read/admin-write security boundary, safe-link validation and independent placement before Contact unless the owner explicitly requests a Phase 5G change.
 
 ## Planned Phase 3 sequence
 
