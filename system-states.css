@@ -1,0 +1,266 @@
+/* Phase 5H · Branded 404 / Empty States / Maintenance Mode */
+
+.system-empty-state {
+  min-height: 220px;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 10px;
+  padding: 32px;
+  border: 1px solid rgba(240, 74, 67, 0.38);
+  border-radius: 22px;
+  background: #071b1b;
+  text-align: center;
+}
+
+.system-empty-state[hidden] {
+  display: none !important;
+}
+
+.system-empty-state-marker {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 4px;
+  border: 1px solid rgba(240, 74, 67, 0.55);
+  border-radius: 14px;
+  color: #f04a43;
+  background: rgba(240, 74, 67, 0.06);
+  font-family: Inter, system-ui, sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.05em;
+}
+
+.system-empty-state strong {
+  color: #f6f8f7;
+  font-size: clamp(1.1rem, 2vw, 1.35rem);
+}
+
+.system-empty-state p {
+  max-width: 520px;
+  margin: 0;
+  color: #9dafaa;
+  line-height: 1.65;
+}
+
+.system-case-empty {
+  min-height: min(620px, 72vh);
+  display: grid;
+  align-content: center;
+  justify-items: start;
+  gap: 14px;
+}
+
+.system-case-empty .system-empty-state-marker {
+  margin-bottom: 6px;
+}
+
+.maintenance-mode-active {
+  overflow: hidden !important;
+}
+
+.portfolio-maintenance-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  min-height: 100dvh;
+  overflow: auto;
+  display: grid;
+  place-items: center;
+  padding: clamp(22px, 5vw, 64px);
+  background: #041819;
+  color: #f7f8f7;
+  font-family: Inter, system-ui, sans-serif;
+}
+
+.portfolio-maintenance-card {
+  width: min(860px, 100%);
+  padding: clamp(30px, 6vw, 72px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-top: 3px solid #f04a43;
+  border-radius: 28px;
+  background: #082223;
+  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.28);
+}
+
+.portfolio-maintenance-brand,
+.phase5h-page-brand {
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(240, 74, 67, 0.58);
+  border-radius: 16px;
+  color: #f04a43;
+  background: rgba(240, 74, 67, 0.06);
+  font-weight: 800;
+  letter-spacing: -0.05em;
+}
+
+.portfolio-maintenance-eyebrow,
+.phase5h-page-eyebrow {
+  margin: 34px 0 10px;
+  color: #f04a43;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.portfolio-maintenance-card h1,
+.phase5h-page-card h1 {
+  max-width: 760px;
+  margin: 0;
+  color: #f7f8f7;
+  font-family: "Bebas Neue", Inter, sans-serif;
+  font-size: clamp(3.2rem, 9vw, 7.2rem);
+  font-weight: 400;
+  line-height: 0.9;
+  letter-spacing: 0.01em;
+}
+
+.portfolio-maintenance-message,
+.phase5h-page-message {
+  max-width: 650px;
+  margin: 22px 0 0;
+  color: #aebfba;
+  font-size: clamp(1rem, 2vw, 1.12rem);
+  line-height: 1.72;
+}
+
+.portfolio-maintenance-button,
+.phase5h-page-button {
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  margin-top: 28px;
+  padding: 0 20px;
+  border: 1px solid #f04a43;
+  border-radius: 999px;
+  color: #fff;
+  background: #f04a43;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 160ms ease, background 160ms ease;
+}
+
+.portfolio-maintenance-button:hover,
+.phase5h-page-button:hover {
+  transform: translateY(-2px);
+  background: #d93d37;
+}
+
+.portfolio-maintenance-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin-top: 44px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: #7f9690;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.phase5h-page {
+  min-height: 100dvh;
+  margin: 0;
+  display: grid;
+  place-items: center;
+  padding: clamp(22px, 5vw, 64px);
+  background: #041819;
+  color: #f7f8f7;
+  font-family: Inter, system-ui, sans-serif;
+}
+
+.phase5h-page-card {
+  width: min(980px, 100%);
+  padding: clamp(30px, 6vw, 72px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-top: 3px solid #f04a43;
+  border-radius: 28px;
+  background: #082223;
+}
+
+.phase5h-error-code {
+  display: block;
+  margin: 28px 0 -4px;
+  color: #f04a43;
+  font-family: "Bebas Neue", Inter, sans-serif;
+  font-size: clamp(5.8rem, 22vw, 13rem);
+  line-height: 0.72;
+  letter-spacing: -0.03em;
+}
+
+.phase5h-page-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.phase5h-page-button.secondary {
+  margin-top: 0;
+  border-color: rgba(255, 255, 255, 0.22);
+  color: #f7f8f7;
+  background: transparent;
+}
+
+.phase5h-page-button.secondary:hover {
+  border-color: #f04a43;
+  background: rgba(240, 74, 67, 0.06);
+}
+
+.phase5h-page-button:first-child {
+  margin-top: 0;
+}
+
+.phase5h-page-footer {
+  margin-top: 48px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: #7f9690;
+  font-size: 0.8rem;
+}
+
+@media (max-width: 680px) {
+  .system-empty-state {
+    min-height: 190px;
+    padding: 24px 18px;
+    border-radius: 18px;
+  }
+
+  .portfolio-maintenance-card,
+  .phase5h-page-card {
+    padding: 28px 22px;
+    border-radius: 22px;
+  }
+
+  .portfolio-maintenance-card h1,
+  .phase5h-page-card h1 {
+    line-height: 0.96;
+  }
+
+  .portfolio-maintenance-meta {
+    display: grid;
+  }
+
+  .phase5h-page-actions {
+    display: grid;
+  }
+
+  .phase5h-page-button {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portfolio-maintenance-button,
+  .phase5h-page-button {
+    transition: none;
+  }
+}
