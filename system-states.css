@@ -264,3 +264,11 @@
     transition: none;
   }
 }
+
+
+/* PHASE 6D — SYSTEM STATE FOCUS */
+.phase5h-page a:focus-visible,
+.portfolio-maintenance-screen a:focus-visible{
+  outline:2px solid #ff4949;
+  outline-offset:3px;
+}
