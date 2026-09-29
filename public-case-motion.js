@@ -86,16 +86,18 @@
 
   scan(document);
 
-  const mutationObserver = new MutationObserver(records => {
-    records.forEach(record => {
-      record.addedNodes.forEach(node => {
-        if (node instanceof Element) scan(node);
+  if ('MutationObserver' in window) {
+    const mutationObserver = new MutationObserver(records => {
+      records.forEach(record => {
+        record.addedNodes.forEach(node => {
+          if (node instanceof Element) scan(node);
+        });
       });
     });
-  });
 
-  mutationObserver.observe(document.body, {
-    childList: true,
-    subtree: true
-  });
+    mutationObserver.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+  }
 })();
