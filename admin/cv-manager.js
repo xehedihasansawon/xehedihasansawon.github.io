@@ -996,7 +996,7 @@ export const initCvManager = ({ supabaseClient, showCmsView }) => {
     if (!column || !column.lastElementChild) return;
 
     const levels = ["normal", "roomy", "full", "max"];
-    const targetFree = 26;
+    const targetFree = 10;
     let accepted = "normal";
 
     const freeSpace = () => {
