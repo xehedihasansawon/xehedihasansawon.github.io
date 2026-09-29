@@ -2023,7 +2023,7 @@ All Phase 5 modules are now owner-approved and locked on `phase02-polish`. Produ
 
 ## Phase 6 — Motion & Final Polish
 
-Status: **ACTIVE · PHASE 6A–6B LOCKED · NEXT PHASE 6C NOT STARTED**
+Status: **ACTIVE · PHASE 6A–6B LOCKED · PHASE 6C OWNER TEST PENDING**
 
 Phase 6 sequence:
 - **6A — Homepage Motion Foundation**
@@ -2118,6 +2118,57 @@ Owner approval: 2026-09-29
 
 Lock rule:
 Phase 6B is locked. Freeze the accepted case-study/system-page motion baseline, reduced-motion fallback, dynamic-section registration behavior and branded system-page entrance behavior. Later Phase 6 modules may fix verified responsive/accessibility/performance issues without redesigning locked content or altering Phase 6B behavior except for a verified bug or explicit owner request to unlock it.
+
+### Phase 6C — Responsive & Mobile Final Audit
+
+Status: **STATIC RESPONSIVE AUDIT PASS · OWNER MOBILE TEST PENDING**
+
+Purpose:
+Run the final responsive/mobile verification across the locked portfolio, case-study, system-state and Admin surfaces without redesigning approved modules.
+
+Scope:
+- Audit viewport metadata across homepage, dynamic case study, SSFC, Biporjoy, branded 404 and Admin
+- Audit homepage mobile navigation and major section stacking
+- Audit Real Life Projects and Project Explorer narrow layouts
+- Audit project-detail dialog narrow viewport behavior
+- Audit static and dynamic case-study layout stacking
+- Audit branded system-state mobile breakpoint
+- Audit Admin mobile shell/off-canvas navigation and narrow editor breakpoints
+- Check for hard fixed CSS widths larger than 760px that could force horizontal overflow
+- Make targeted responsive fixes only when a verified issue is found
+- Keep Phase 1–6B content/design contracts locked
+- Production `main` remains untouched
+
+Static audit result:
+- All audited HTML surfaces include `width=device-width` viewport metadata
+- Homepage mobile navigation and one-column project/search layouts are present
+- Project-detail dialog uses narrow viewport constraints
+- Case-study Hero, summary and dynamic gallery stack at mobile breakpoints
+- Branded system-state mobile breakpoint is present
+- Admin responsive shell includes mobile menu and narrow layout breakpoints
+- No exact fixed `width: Npx` declaration above 760px was found in the audited public/Admin CSS
+- No responsive code patch was required by static inspection before owner visual testing
+
+Acceptance checklist:
+- [x] Viewport metadata audit passes
+- [x] Homepage mobile breakpoint audit passes
+- [x] Project Explorer/dialog responsive audit passes
+- [x] Static/dynamic case-study responsive audit passes
+- [x] Branded system-state responsive audit passes
+- [x] Admin responsive shell audit passes
+- [x] Fixed-width horizontal-overflow static scan passes
+- [x] Production `main` remains untouched
+- [ ] Owner verifies homepage at mobile width
+- [ ] Owner verifies case-study at mobile width
+- [ ] Owner verifies Admin dashboard/mobile menu at mobile width
+- [ ] Owner verifies branded 404 at mobile width
+- [ ] Any owner-observed responsive issue is fixed and re-tested
+- [ ] Phase 6C owner approval / lock
+
+Owner approval: Pending
+
+Lock rule:
+Do not lock Phase 6C until the minimum owner mobile visual test covers the homepage, one case-study, Admin shell/menu and branded 404. If a responsive bug is observed, patch only that verified issue, re-audit, then request owner approval.
 
 ## Planned Phase 3 sequence
 
