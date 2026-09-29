@@ -992,6 +992,58 @@ export const initCvManager = ({ supabaseClient, showCmsView }) => {
     }
   };
 
+  const tuneColumnFill = (column) => {
+    if (!column || !column.lastElementChild) return;
+
+    const levels = ["normal", "roomy", "full", "max"];
+    const targetFree = 26;
+    let accepted = "normal";
+
+    const freeSpace = () => {
+      const columnRect = column.getBoundingClientRect();
+      const lastRect = column.lastElementChild.getBoundingClientRect();
+      return columnRect.bottom - lastRect.bottom;
+    };
+
+    const overflows = () => freeSpace() < 8;
+
+    column.dataset.fill = "normal";
+    void column.offsetHeight;
+
+    for (const level of levels.slice(1)) {
+      const before = accepted;
+      column.dataset.fill = level;
+      void column.offsetHeight;
+
+      if (overflows()) {
+        column.dataset.fill = before;
+        void column.offsetHeight;
+        break;
+      }
+
+      accepted = level;
+      if (freeSpace() <= targetFree) break;
+    }
+  };
+
+  const tuneModernFill = (main, sidebar, layout) => {
+    enforceOnePageDensity(layout);
+    tuneColumnFill(main);
+    tuneColumnFill(sidebar);
+
+    const previewRect = preview.getBoundingClientRect();
+    const layoutRect = layout.getBoundingClientRect();
+
+    if (layoutRect.bottom > previewRect.bottom + 2) {
+      main.dataset.fill = "normal";
+      sidebar.dataset.fill = "normal";
+      preview.dataset.density = "compact";
+      void layout.offsetHeight;
+      tuneColumnFill(main);
+      tuneColumnFill(sidebar);
+    }
+  };
+
   const renderPreview = (payload) => {
     const resume = normalizeResume(payload.resume_data);
     preview.replaceChildren();
@@ -1290,7 +1342,7 @@ export const initCvManager = ({ supabaseClient, showCmsView }) => {
     preview.append(layout);
 
     requestAnimationFrame(() => {
-      enforceOnePageDensity(layout);
+      tuneModernFill(main, sidebar, layout);
     });
   };
   const load = async () => {
