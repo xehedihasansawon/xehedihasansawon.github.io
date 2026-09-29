@@ -945,8 +945,17 @@ export const initCvManager = ({ supabaseClient, showCmsView }) => {
         const top = create("div", "", "cv-preview-entry-top");
 
         if (type === "experience") {
+          let displayRole = item.role || "Role";
+
+          if (
+            payload.category_key === "video_editing" &&
+            /graphic designer.*visual content creator/i.test(displayRole)
+          ) {
+            displayRole = "Freelance Video Editor & Visual Content Creator";
+          }
+
           top.append(
-            create("strong", item.role || "Role"),
+            create("strong", displayRole),
             create("span", item.period)
           );
           card.append(top);
@@ -1056,10 +1065,14 @@ export const initCvManager = ({ supabaseClient, showCmsView }) => {
     const hero = create("header", "", "cv-ref-hero");
 
     const photoWrap = create("div", "", "cv-ref-photo-wrap");
-    if (isSafeCvImageSource(resume.personal.photoUrl)) {
+    const photoSource = isSafeCvImageSource(resume.personal.photoUrl)
+      ? resume.personal.photoUrl
+      : "../assets/hero-visual.jpg";
+
+    if (isSafeCvImageSource(photoSource)) {
       const photo = document.createElement("img");
       photo.className = "cv-ref-photo";
-      photo.src = resume.personal.photoUrl;
+      photo.src = photoSource;
       photo.alt = fullName + " profile photo";
       photoWrap.append(photo);
     } else {
