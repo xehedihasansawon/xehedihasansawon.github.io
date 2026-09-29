@@ -436,6 +436,84 @@ if (!hasValidConfig) {
     "image/webp": "webp"
   });
 
+  const optimizeCmsUploadImage = async (file, maxWidth = 1600) => {
+    if (!file) throw new Error("Choose an image first.");
+
+    const sourceUrl = URL.createObjectURL(file);
+
+    try {
+      const image = await new Promise((resolve, reject) => {
+        const preview = new Image();
+        preview.onload = () => resolve(preview);
+        preview.onerror = () => reject(new Error("Could not read this image."));
+        preview.src = sourceUrl;
+      });
+
+      const sourceWidth = image.naturalWidth || image.width;
+      const sourceHeight = image.naturalHeight || image.height;
+
+      if (!sourceWidth || !sourceHeight) {
+        throw new Error("Could not read image dimensions.");
+      }
+
+      const width = Math.min(sourceWidth, maxWidth);
+      const height = Math.max(1, Math.round(sourceHeight * (width / sourceWidth)));
+
+      const canvas = document.createElement("canvas");
+      canvas.width = width;
+      canvas.height = height;
+
+      const context = canvas.getContext("2d", { alpha: true });
+      if (!context) throw new Error("Canvas is unavailable in this browser.");
+
+      context.imageSmoothingEnabled = true;
+      context.imageSmoothingQuality = "high";
+      context.drawImage(image, 0, 0, sourceWidth, sourceHeight, 0, 0, width, height);
+
+      const optimizedBlob = await new Promise((resolve, reject) => {
+        canvas.toBlob(
+          (blob) => {
+            if (!blob) {
+              reject(new Error("Could not optimize this image."));
+              return;
+            }
+            resolve(blob);
+          },
+          "image/webp",
+          0.82
+        );
+      });
+
+      if (
+        file.type === "image/webp" &&
+        file.size <= 220 * 1024 &&
+        sourceWidth <= maxWidth
+      ) {
+        return {
+          blob: file,
+          extension: "webp",
+          contentType: "image/webp"
+        };
+      }
+
+      if (optimizedBlob.size >= file.size && sourceWidth <= maxWidth) {
+        return {
+          blob: file,
+          extension: HERO_ALLOWED_IMAGE_TYPES[file.type] || "webp",
+          contentType: file.type || "image/webp"
+        };
+      }
+
+      return {
+        blob: optimizedBlob,
+        extension: "webp",
+        contentType: "image/webp"
+      };
+    } finally {
+      URL.revokeObjectURL(sourceUrl);
+    }
+  };
+
   const heroDefaults = Object.freeze({
     statusText: "Available for freelance and remote projects",
     eyebrow: "Graphic Designer • Brand Creator • Digital Systems",
@@ -619,20 +697,20 @@ if (!hasValidConfig) {
     }
 
     setHeroImageUploadBusy(true);
-    setHeroImageUploadStatus("Uploading image…");
+    setHeroImageUploadStatus("Optimizing & uploading image…");
 
     try {
       const uniquePart =
         globalThis.crypto?.randomUUID?.() ||
         Math.random().toString(36).slice(2, 12);
 
-      const objectPath = `hero/${Date.now()}-${uniquePart}.${extension}`;
+      const optimized = await optimizeCmsUploadImage(file, 1600);\n      const objectPath = `hero/${Date.now()}-${uniquePart}.${optimized.extension}`;
 
       const { error: uploadError } = await supabaseClient.storage
         .from(HERO_MEDIA_BUCKET)
-        .upload(objectPath, file, {
+        .upload(objectPath, optimized.blob, {
           cacheControl: "31536000",
-          contentType: file.type,
+          contentType: optimized.contentType,
           upsert: false
         });
 
@@ -1414,20 +1492,20 @@ if (!hasValidConfig) {
       return;
     }
 
-    setStatus("Uploading…");
+    setStatus("Optimizing & uploading…");
 
     try {
       const uniquePart =
         globalThis.crypto?.randomUUID?.() ||
         Math.random().toString(36).slice(2, 12);
 
-      const objectPath = `homepage-projects/${key}/${Date.now()}-${uniquePart}.${extension}`;
+      const optimized = await optimizeCmsUploadImage(file, 1600);\n      const objectPath = `homepage-projects/${key}/${Date.now()}-${uniquePart}.${optimized.extension}`;
 
       const { error: uploadError } = await supabaseClient.storage
         .from(HERO_MEDIA_BUCKET)
-        .upload(objectPath, file, {
+        .upload(objectPath, optimized.blob, {
           cacheControl: "31536000",
-          contentType: file.type,
+          contentType: optimized.contentType,
           upsert: false
         });
 
@@ -1941,20 +2019,20 @@ if (!hasValidConfig) {
       return;
     }
 
-    setStatus("Uploading…");
+    setStatus("Optimizing & uploading…");
 
     try {
       const uniquePart =
         globalThis.crypto?.randomUUID?.() ||
         Math.random().toString(36).slice(2, 12);
 
-      const objectPath = `design-showcase/${key}/${Date.now()}-${uniquePart}.${extension}`;
+      const optimized = await optimizeCmsUploadImage(file, 1600);\n      const objectPath = `design-showcase/${key}/${Date.now()}-${uniquePart}.${optimized.extension}`;
 
       const { error: uploadError } = await supabaseClient.storage
         .from(HERO_MEDIA_BUCKET)
-        .upload(objectPath, file, {
+        .upload(objectPath, optimized.blob, {
           cacheControl: "31536000",
-          contentType: file.type,
+          contentType: optimized.contentType,
           upsert: false
         });
 
