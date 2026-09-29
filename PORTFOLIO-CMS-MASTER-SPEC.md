@@ -2076,7 +2076,9 @@ Phase 6A is locked. Freeze the accepted homepage motion timing/behavior baseline
 
 ### Phase 6B — Case Study / System Page Motion Polish
 
-Status: **IMPLEMENTED · STATIC/SAFETY AUDIT PENDING · OWNER TEST PENDING**
+### Phase 6B — Case Study / System Page Motion Polish
+
+Status: **IMPLEMENTED · STATIC/SAFETY AUDIT PASS · OWNER TEST PENDING**
 
 Purpose:
 Extend the accepted Phase 6 motion language to case-study and branded system pages without redesigning or changing any locked CMS/data contract.
@@ -2107,7 +2109,7 @@ Acceptance checklist:
 - [x] Dynamic section registration implemented
 - [x] Reduced-motion bypass implemented
 - [x] IntersectionObserver fallback leaves normal content visible
-- [ ] Final static/safety audit
+- [x] Final static/safety audit passes: JS syntax, CSS structure, reduced-motion/progressive fallbacks, no network/storage access, refs exactly once, dynamic registration safety, hover transforms preserved, homepage normal scope unaffected, and `main` untouched
 - [ ] Owner verifies one static case-study Hero + scroll motion
 - [ ] Owner verifies dynamic project case-study motion
 - [ ] Owner verifies branded 404 entrance
