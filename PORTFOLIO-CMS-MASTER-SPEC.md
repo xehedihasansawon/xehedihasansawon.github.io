@@ -1094,6 +1094,12 @@ Scope delivered:
 - No project attachment/migration yet
 - Existing Phase 2 public project rendering remains unchanged
 - Production `main` remains untouched
+- First owner Lighthouse mobile run: Performance 60 · Accessibility 96
+- Lighthouse `Improve image delivery` exposed ~11.9 MB potential savings, dominated by legacy Supabase-hosted CMS Hero / Real Life Projects / Design Showcase uploads
+- Added a one-click Admin Media Workflow optimizer that re-encodes only current Supabase CMS `imageSrc` assets above the threshold to WebP (max 1600 px, quality 82), uploads unique optimized copies, updates both draft + published JSON, and leaves originals untouched
+- Added cleanup for newly uploaded optimized files if the CMS update fails
+- Future direct Hero / Real Life Projects / Design Showcase uploads now optimize in-browser before Storage upload
+- Static syntax/security audit passes for the new optimizer path; no new table, migration, public permission or secret was introduced
 
 Verified during this checkpoint:
 - Migration 011 ran successfully in Supabase
@@ -2175,7 +2181,7 @@ Phase 6C is locked. Freeze the accepted responsive/mobile baseline, including th
 
 ### Phase 6D — Accessibility & Performance Final Audit
 
-Status: **STATIC ACCESSIBILITY/PERFORMANCE AUDIT PASS · OWNER RUNTIME TEST PENDING**
+Status: **STATIC AUDIT PASS · LIGHTHOUSE ISSUE FOUND · IMAGE OPTIMIZER OWNER TEST PENDING**
 
 Purpose:
 Run the final accessibility and performance pass across the locked public portfolio, case-study, branded system-state and Admin surfaces without redesigning approved content.
@@ -2228,7 +2234,8 @@ Acceptance checklist:
 - [x] CSS structure + public JS syntax audit passes
 - [x] Phase 1–6C contracts remain intact
 - [x] Production `main` remains untouched
-- [ ] Owner runs one homepage Lighthouse check for Performance + Accessibility
+- [x] Owner runs initial homepage Lighthouse check *(Mobile: Performance 60 · Accessibility 96; image-delivery issue identified 2026-09-29)*
+- [ ] Owner runs one-click live CMS image optimizer from Media Workflow and re-tests Lighthouse
 - [ ] Owner keyboard-tabs through homepage top navigation/CTA and confirms visible focus
 - [ ] Any owner-observed accessibility/performance issue is fixed and re-tested
 - [ ] Phase 6D owner approval / lock
