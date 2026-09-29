@@ -7107,3 +7107,168 @@ html{
   background:#94a3b8;
   box-shadow:0 0 10px rgba(148,163,184,.28);
 }
+
+
+/* =========================================================
+   PHASE 5G · PUBLIC CUSTOM CTA
+   ========================================================= */
+.custom-cta-section[hidden]{
+  display:none !important;
+}
+.custom-cta-section{
+  padding:18px 0 10px;
+}
+.custom-cta-card{
+  position:relative;
+  min-height:150px;
+  padding:28px 32px;
+  display:grid;
+  grid-template-columns:minmax(0,1.35fr) auto;
+  align-items:center;
+  gap:28px;
+  overflow:hidden;
+  border:1px solid rgba(218,241,222,.13);
+  border-radius:18px;
+  background:#071d1c;
+}
+.custom-cta-card::before{
+  content:"";
+  position:absolute;
+  inset:0 auto 0 0;
+  width:4px;
+  background:#c9202a;
+}
+.custom-cta-card[data-style="dark"]{
+  border-color:rgba(218,241,222,.11);
+  background:#081817;
+}
+.custom-cta-card[data-style="dark"]::before{
+  background:#658276;
+}
+.custom-cta-card[data-style="outline"]{
+  border-color:rgba(201,32,42,.6);
+  background:#061817;
+}
+.custom-cta-card[data-style="outline"]::before{
+  background:#c9202a;
+}
+.custom-cta-copy{
+  display:grid;
+  gap:8px;
+}
+.custom-cta-eyebrow{
+  color:#e3565d;
+  font-size:9px;
+  line-height:1;
+  font-weight:900;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+.custom-cta-card[data-style="dark"] .custom-cta-eyebrow{
+  color:#9db5aa;
+}
+.custom-cta-copy h2{
+  margin:0;
+  max-width:760px;
+  color:#f2f7f4;
+  font-family:"Bebas Neue",Impact,sans-serif;
+  font-size:44px;
+  line-height:.98;
+  letter-spacing:.018em;
+}
+.custom-cta-copy p{
+  max-width:710px;
+  margin:0;
+  color:#9db0a6;
+  font-size:12px;
+  line-height:1.62;
+}
+.custom-cta-actions{
+  min-width:max-content;
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+  gap:9px;
+}
+.custom-cta-actions a{
+  min-height:42px;
+  padding:0 17px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:999px;
+  text-decoration:none;
+  font-size:10px;
+  line-height:1;
+  font-weight:800;
+  transition:transform .18s ease,border-color .18s ease,background .18s ease,color .18s ease;
+}
+.custom-cta-actions a:hover{
+  transform:translateY(-1px);
+}
+.custom-cta-primary{
+  border:1px solid #c9202a;
+  background:#c9202a;
+  color:#fff;
+}
+.custom-cta-primary:hover{
+  background:#dc2933;
+}
+.custom-cta-secondary{
+  border:1px solid rgba(218,241,222,.18);
+  background:transparent;
+  color:#e9f2ed;
+}
+.custom-cta-secondary:hover{
+  border-color:rgba(218,241,222,.34);
+  background:rgba(255,255,255,.025);
+}
+.custom-cta-card[data-style="dark"] .custom-cta-primary{
+  border-color:#315347;
+  background:#17342a;
+}
+.custom-cta-card[data-style="dark"] .custom-cta-primary:hover{
+  background:#1e4034;
+}
+.custom-cta-card[data-style="outline"] .custom-cta-primary{
+  background:transparent;
+  color:#f47a80;
+}
+.custom-cta-card[data-style="outline"] .custom-cta-primary:hover{
+  background:rgba(201,32,42,.08);
+}
+@media (max-width:900px){
+  .custom-cta-card{
+    grid-template-columns:1fr;
+    align-items:start;
+    gap:20px;
+  }
+  .custom-cta-actions{
+    min-width:0;
+    justify-content:flex-start;
+  }
+}
+@media (max-width:560px){
+  .custom-cta-section{
+    padding:14px 0 6px;
+  }
+  .custom-cta-card{
+    min-height:0;
+    padding:24px 20px;
+    border-radius:16px;
+  }
+  .custom-cta-copy h2{
+    font-size:36px;
+  }
+  .custom-cta-copy p{
+    font-size:11px;
+  }
+  .custom-cta-actions{
+    display:grid;
+    grid-template-columns:1fr;
+  }
+  .custom-cta-actions a{
+    width:100%;
+    box-sizing:border-box;
+  }
+}
