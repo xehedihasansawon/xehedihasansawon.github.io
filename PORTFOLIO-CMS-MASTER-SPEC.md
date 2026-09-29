@@ -1790,6 +1790,7 @@ Scope:
 - Add live Admin A4 preview
 - Add browser Print / Save PDF workflow
 - Modern CV V4 polish: compact hero, separated Tools/Core Skills, cleaner professional links, tighter education, role-specific content caps and one-page print target
+- Adaptive A4 Auto-Fill engine: Spacious / Balanced / Compact density modes automatically resize typography and distribute sections based on CV content, then fall back to tighter density if the rendered sheet would overflow
 - CV content is not added to the public homepage, public navigation, public API or anonymous Supabase grants
 - Phase 5A–5D and Phase 2–4 locked behavior remains unchanged
 - Production `main` remains untouched
@@ -1820,6 +1821,9 @@ Acceptance checklist:
 - [x] Modern CV V4 role-focused layout polish implemented
 - [x] Tools/Core Skills split + clean professional links implemented
 - [x] Role-specific content caps implemented for one-page targeting
+- [x] Adaptive A4 Auto-Fill density engine implemented
+- [x] Live edit → auto re-balance workflow implemented
+- [x] Overflow fallback from Spacious → Balanced → Compact implemented
 - [x] Print / Save PDF workflow implemented
 - [x] No Phase 5E public-site exposure added
 - [x] Owner creates and saves one CV version *(Graphic Designer CV)*
