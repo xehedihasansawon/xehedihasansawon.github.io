@@ -1528,7 +1528,7 @@ Production `main` remains unchanged by Phase 4.
 
 ## Phase 5 — Business/System Features
 
-Status: **ACTIVE · PHASE 5A–5E LOCKED · NEXT PHASE 5F NOT STARTED**
+Status: **ACTIVE · PHASE 5A–5E LOCKED · PHASE 5F IMPLEMENTED · OWNER TEST PENDING**
 
 Purpose:
 Add the business-facing systems around the locked portfolio and case-study foundation without redesigning the approved Phase 2–4 presentation.
@@ -1844,6 +1844,49 @@ Phase 5E is locked. The accepted baseline includes the private Master Profile, r
 
 Lock rule:
 Freeze the Phase 5E CV schema, migrations 019–021, Admin-only privacy model, Master Profile architecture, category keys/filtering workflow, CV CRUD/duplicate/print behavior, and accepted Smart Fill V7 presentation baseline. Later phases must not expose CV/Master Profile data publicly, weaken RLS, or redesign/change Phase 5E behavior except for a verified bug/security fix or explicit owner request to unlock Phase 5E.
+
+### Phase 5F — Availability Status Control
+
+Status: **IMPLEMENTED · MIGRATION 022 + OWNER TEST PENDING**
+
+Scope:
+- Add migration `022_availability_status_control.sql`
+- Add singleton `portfolio_availability` status store
+- Public/anonymous users can read only the live availability fields needed by the portfolio
+- Only allowlisted authenticated Admin can update the live status
+- Add four status modes: Available, Limited, Busy and Unavailable
+- Add customizable public status text
+- Add 05F Availability Admin module with presets, live preview, refresh and save
+- Synchronize one live availability message across the public Hero and Contact status labels
+- Change Hero/Contact indicator color by status: green, amber, red or gray
+- Keep existing Hero CMS and Contact CMS copy as safe fallback when Phase 5F is unavailable
+- Phase 5F availability takes precedence over the older Hero/Contact availability text fields after it loads
+- Phase 5A–5E locked behavior remains unchanged
+- Production `main` remains untouched
+
+Acceptance checklist:
+- [ ] Migration 022 applies successfully in Supabase
+- [x] Availability schema + singleton constraint implemented
+- [x] Public read is limited to availability status fields
+- [x] Admin allowlist update policy implemented
+- [x] 05F Availability Admin navigation implemented
+- [x] Available / Limited / Busy / Unavailable presets implemented
+- [x] Custom public text implemented
+- [x] Admin live preview implemented
+- [x] Public Hero synchronization implemented
+- [x] Public Contact synchronization implemented
+- [x] Status indicator color mapping implemented
+- [x] Existing Hero/Contact CMS fallback preserved
+- [x] Phase 5E CV Manager remains locked
+- [ ] Owner loads 05F after migration 022
+- [ ] Owner saves one non-default status
+- [ ] Public Hero shows the saved status text/color
+- [ ] Public Contact shows the same saved status text/color
+- [ ] Owner restores preferred final availability state
+- [ ] Phase 5F owner approval / lock
+
+Lock rule:
+Do not lock Phase 5F until migration 022 is applied and one Admin save → public Hero → public Contact synchronization flow is owner-verified. Later phases must preserve the singleton status source, public-read/admin-write security boundary and Hero/Contact synchronization unless the owner explicitly requests a Phase 5F change.
 
 ## Planned Phase 3 sequence
 
