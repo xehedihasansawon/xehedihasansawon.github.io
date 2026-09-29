@@ -2023,7 +2023,7 @@ All Phase 5 modules are now owner-approved and locked on `phase02-polish`. Produ
 
 ## Phase 6 — Motion & Final Polish
 
-Status: **ACTIVE · PHASE 6A LOCKED · NEXT PHASE 6B NOT STARTED**
+Status: **ACTIVE · PHASE 6A LOCKED · PHASE 6B OWNER TEST PENDING**
 
 Phase 6 sequence:
 - **6A — Homepage Motion Foundation**
@@ -2073,6 +2073,51 @@ Owner approval: 2026-09-29
 
 Lock rule:
 Phase 6A is locked. Freeze the accepted homepage motion timing/behavior baseline, reduced-motion fallback and progressive-enhancement approach. Later Phase 6 modules may extend motion to other public pages but must not redesign locked homepage sections or alter Phase 6A behavior except for a verified bug/accessibility issue or explicit owner request to unlock it.
+
+### Phase 6B — Case Study / System Page Motion Polish
+
+Status: **IMPLEMENTED · STATIC/SAFETY AUDIT PENDING · OWNER TEST PENDING**
+
+Purpose:
+Extend the accepted Phase 6 motion language to case-study and branded system pages without redesigning or changing any locked CMS/data contract.
+
+Scope:
+- Add standalone `case-motion.css`
+- Add standalone `public-case-motion.js`
+- Add subtle staged case-study Hero entrance
+- Add one-time scroll reveal for summary/content/next-project/footer sections
+- Add light opacity staggering for role cards, artwork buttons, format blocks and dynamic gallery items
+- Support dynamically rendered case-study sections through a MutationObserver registration pass
+- Add subtle branded 404 entrance motion
+- Add subtle maintenance-card entrance motion wherever the system-state screen is rendered
+- Respect `prefers-reduced-motion: reduce`
+- Use progressive enhancement: unsupported/reduced-motion browsers keep normal visible content
+- No new database table, migration, dependency, analytics event or public data access
+- Keep Phase 1–6A behavior/content contracts unchanged
+- Production `main` remains untouched
+
+Acceptance checklist:
+- [x] Case/system motion stylesheet created
+- [x] Case-study motion controller created
+- [x] Dynamic project case page integration added
+- [x] SSFC static case-study integration added
+- [x] Biporjoy static case-study integration added
+- [x] Branded 404 motion integration added
+- [x] Maintenance-card motion CSS integrated across public pages
+- [x] Dynamic section registration implemented
+- [x] Reduced-motion bypass implemented
+- [x] IntersectionObserver fallback leaves normal content visible
+- [ ] Final static/safety audit
+- [ ] Owner verifies one static case-study Hero + scroll motion
+- [ ] Owner verifies dynamic project case-study motion
+- [ ] Owner verifies branded 404 entrance
+- [ ] Owner confirms motion feels consistent with Phase 6A
+- [ ] Phase 6B owner approval / lock
+
+Owner approval: Pending
+
+Lock rule:
+Do not lock Phase 6B until the minimum owner visual test confirms one static case-study, the dynamic project case and the branded 404. After approval, freeze the accepted case/system motion baseline; later Phase 6 modules may fix verified responsive/accessibility/performance issues without redesigning locked content.
 
 ## Planned Phase 3 sequence
 
