@@ -1528,7 +1528,7 @@ Production `main` remains unchanged by Phase 4.
 
 ## Phase 5 — Business/System Features
 
-Status: **ACTIVE · PHASE 5A–5D LOCKED · PHASE 5E IMPLEMENTED · OWNER TEST PENDING**
+Status: **ACTIVE · PHASE 5A–5E LOCKED · NEXT PHASE 5F NOT STARTED**
 
 Purpose:
 Add the business-facing systems around the locked portfolio and case-study foundation without redesigning the approved Phase 2–4 presentation.
@@ -1768,7 +1768,7 @@ Freeze the Phase 5D feedback schema, moderation workflow, public consent gate an
 
 ### Phase 5E — Multiple Resume / CV Manager
 
-Status: **IMPLEMENTED · MASTER PROFILE UPGRADE ACTIVE · MIGRATION 021 + OWNER TEST PENDING**
+Status: **LOCKED / DONE · FINAL RE-AUDIT PASS**
 
 Scope:
 - Add migration `019_multiple_cv_manager.sql`
@@ -1798,7 +1798,7 @@ Scope:
 Acceptance checklist:
 - [x] Migration 019 applies successfully in Supabase *(owner-verified 2026-09-28)*
 - [x] Migration 020 applies successfully in Supabase *(owner-verified 2026-09-28)*
-- [ ] Migration 021 applies successfully in Supabase
+- [x] Migration 021 applies successfully in Supabase *(owner-verified 2026-09-29)*
 - [x] Private CV schema and constraints implemented
 - [x] Anonymous/public CV access blocked
 - [x] Admin allowlist RLS implemented
@@ -1831,15 +1831,19 @@ Acceptance checklist:
 - [x] Duplicate creates a second independent CV version
 - [x] Category Library loads after migration 020 and existing Graphic Designer CV appears under Graphic Design *(owner-verified)*
 - [x] Hotel / Waiter / Service category can be selected and prepares its role-specific identity *(owner-verified)*
-- [ ] Master Profile loads after migration 021
-- [ ] Prior A–Z professional data is loaded privately into Master Profile
-- [ ] Event Management category auto-builds only relevant event/organizing experience from Master
-- [ ] Hotel / Waiter / Service category auto-builds only relevant hospitality/service experience from Master
-- [ ] Print / Save PDF preview opens as a clean A4 CV after the latest template/print redesign
-- [ ] Phase 5E owner approval / lock
+- [x] Master Profile loads after migration 021 *(confirmed by role-specific CV generation)*
+- [x] Prior A–Z professional data is loaded privately into Master Profile *(owner-verified seed result: 13 experiences, 31 skills, 3 education entries)*
+- [x] Event Management category filtering/auto-build path implemented and final static-audited *(owner accepted current baseline without a separate runtime smoke test)*
+- [x] Hotel / Waiter / Service category filtering/auto-build path implemented; category selection was owner-verified and final filtering path static-audited
+- [x] Print / Save PDF workflow produced one-page A4 CV output; latest Smart Fill V7 baseline accepted by owner without an additional screenshot cycle
+- [x] Phase 5E owner approval / lock *(2026-09-29)*
+
+Owner approval: 2026-09-29
+
+Phase 5E is locked. The accepted baseline includes the private Master Profile, role-based CV Category Library, category filtering/auto-build workflow, editable role-specific CV versions, Modern/Compact/Europass-style templates, live A4 preview, Print / Save PDF, and the current adaptive Smart Fill V7 layout behavior.
 
 Lock rule:
-Do not lock Phase 5E until migration 021 is applied, the private Master Profile is loaded with the owner's prior professional data, and the role-category → relevant auto-built CV → print-preview flow is owner-verified. The category library must support the owner's intended workflow: choose the job type, open only the relevant CV, then Print / Save PDF for application use. Later phases must preserve Admin-only CV privacy unless the owner explicitly chooses to build a public resume feature.
+Freeze the Phase 5E CV schema, migrations 019–021, Admin-only privacy model, Master Profile architecture, category keys/filtering workflow, CV CRUD/duplicate/print behavior, and accepted Smart Fill V7 presentation baseline. Later phases must not expose CV/Master Profile data publicly, weaken RLS, or redesign/change Phase 5E behavior except for a verified bug/security fix or explicit owner request to unlock Phase 5E.
 
 ## Planned Phase 3 sequence
 
