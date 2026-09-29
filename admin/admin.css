@@ -5484,3 +5484,40 @@ button {
 .cv-ref-link-row span{
   font-size:7.6px;
 }
+
+
+/* Phase 5E · Video Editor final balance polish */
+.cv-ref-focus-list{
+  margin:0;
+  padding:0;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:2.2mm 5mm;
+  list-style:none;
+}
+.cv-ref-focus-list li{
+  position:relative;
+  padding-left:4mm;
+  color:#435149;
+  font-size:8.8px;
+  line-height:1.45;
+}
+.cv-ref-focus-list li::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:1.7mm;
+  width:1.7mm;
+  height:1.7mm;
+  border-radius:50%;
+  background:#c61f2a;
+}
+.cv-ref-links-section{
+  margin-top:0;
+}
+.cv-ref-main-section[data-section="creative-focus"]{
+  margin-top:-1mm;
+}
+.cv-ref-main-section[data-section="education"]{
+  margin-top:-1mm;
+}
