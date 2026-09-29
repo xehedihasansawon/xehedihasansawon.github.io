@@ -2148,6 +2148,8 @@ Static audit result:
 - Admin responsive shell includes mobile menu and narrow layout breakpoints
 - No exact fixed `width: Npx` declaration above 760px was found in the audited public/Admin CSS
 - No responsive code patch was required by static inspection before owner visual testing
+- Owner mobile screenshot later exposed a real CSS cascade issue: late scoped desktop navigation rules overrode the generic mobile hide rule at <=900px
+- Targeted fix now force-hides desktop nav/CTA and force-shows the hamburger for both homepage and case-study pages at <=900px
 
 Acceptance checklist:
 - [x] Viewport metadata audit passes
@@ -2162,7 +2164,7 @@ Acceptance checklist:
 - [ ] Owner verifies case-study at mobile width
 - [ ] Owner verifies Admin dashboard/mobile menu at mobile width
 - [ ] Owner verifies branded 404 at mobile width
-- [ ] Any owner-observed responsive issue is fixed and re-tested
+- [ ] Any owner-observed responsive issue is fixed and re-tested *(verified mobile nav overlap found; CSS fix committed, owner re-test pending)*
 - [ ] Phase 6C owner approval / lock
 
 Owner approval: Pending
