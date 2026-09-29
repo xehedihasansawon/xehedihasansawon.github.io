@@ -7272,3 +7272,23 @@ html{
     box-sizing:border-box;
   }
 }
+
+
+
+/* =========================================================
+   PHASE 6C — VERIFIED MOBILE NAV BREAKPOINT FIX
+   Scoped override for late desktop-nav presentation rules.
+   ========================================================= */
+@media (max-width:900px){
+  .home-v2 .desktop-nav,
+  .home-v2 .desktop-cta,
+  .case-study-page .desktop-nav,
+  .case-study-page .desktop-cta{
+    display:none !important;
+  }
+
+  .home-v2 .menu-button,
+  .case-study-page .menu-button{
+    display:block !important;
+  }
+}
