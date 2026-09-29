@@ -1789,6 +1789,7 @@ Scope:
 - Support duplicate CV version workflow for fast role-specific customization
 - Add live Admin A4 preview
 - Add browser Print / Save PDF workflow
+- Modern CV V4 polish: compact hero, separated Tools/Core Skills, cleaner professional links, tighter education, role-specific content caps and one-page print target
 - CV content is not added to the public homepage, public navigation, public API or anonymous Supabase grants
 - Phase 5A–5D and Phase 2–4 locked behavior remains unchanged
 - Production `main` remains untouched
@@ -1816,6 +1817,9 @@ Acceptance checklist:
 - [x] Experience/Education reordering implemented
 - [x] Duplicate CV version workflow implemented
 - [x] Private A4 preview implemented
+- [x] Modern CV V4 role-focused layout polish implemented
+- [x] Tools/Core Skills split + clean professional links implemented
+- [x] Role-specific content caps implemented for one-page targeting
 - [x] Print / Save PDF workflow implemented
 - [x] No Phase 5E public-site exposure added
 - [x] Owner creates and saves one CV version *(Graphic Designer CV)*
