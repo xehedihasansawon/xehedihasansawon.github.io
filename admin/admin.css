@@ -5216,3 +5216,219 @@ button {
     justify-content:flex-start;
   }
 }
+
+
+/* =========================================================
+   PHASE 5E · MODERN CV V4 · COMPACT ROLE-FOCUSED POLISH
+   ========================================================= */
+.cv-ref-layout{
+  grid-template-columns:63% 37%;
+}
+.cv-ref-main{
+  padding:73mm 13mm 13mm 12mm;
+}
+.cv-ref-sidebar{
+  padding:73mm 8.5mm 12mm;
+  gap:5.8mm;
+  background:#203733;
+}
+.cv-ref-hero{
+  height:64mm;
+}
+.cv-ref-hero::before{
+  width:37%;
+  background:#203733;
+}
+.cv-ref-photo-wrap{
+  left:9mm;
+  top:7mm;
+  width:48mm;
+  height:48mm;
+  border-width:2.5mm;
+  box-shadow:0 0 0 1.25mm #fff;
+}
+.cv-ref-photo-fallback{
+  font-size:24px;
+}
+.cv-ref-hero-band{
+  left:51mm;
+  top:21mm;
+  min-height:28mm;
+  padding:4.5mm 9mm 4.5mm 15mm;
+}
+.cv-ref-hero-copy{
+  gap:1mm;
+}
+.cv-ref-kicker{
+  font-size:6.3px;
+  letter-spacing:.18em;
+}
+.cv-ref-hero-copy h1{
+  font-size:23px;
+  line-height:1;
+}
+.cv-ref-hero-copy h2{
+  font-size:9.4px;
+}
+.cv-ref-hero-contact{
+  margin-top:1.2mm;
+  gap:1.5mm 5mm;
+}
+.cv-ref-hero-contact span{
+  font-size:7.2px;
+}
+
+.cv-ref-main-section{
+  margin-bottom:5.8mm;
+}
+.cv-ref-main-section>h3{
+  margin-bottom:3.2mm;
+  padding:2mm 3.5mm;
+  font-size:9.2px;
+  letter-spacing:.045em;
+}
+.cv-ref-main-section>p{
+  font-size:9.15px;
+  line-height:1.55;
+}
+.cv-ref-main .cv-preview-timeline{
+  gap:3.6mm;
+}
+.cv-ref-main .cv-preview-entry{
+  padding-left:3.7mm;
+  gap:.9mm;
+}
+.cv-ref-main .cv-preview-entry-top strong{
+  font-size:9.3px;
+}
+.cv-ref-main .cv-preview-entry-top span{
+  font-size:7.3px;
+}
+.cv-ref-main .cv-preview-entry>b{
+  font-size:8.15px;
+}
+.cv-ref-main .cv-preview-entry>p{
+  font-size:8.55px;
+  line-height:1.45;
+}
+.cv-ref-main-section[data-section="education"] .cv-preview-timeline{
+  gap:3mm;
+}
+.cv-ref-main-section[data-section="education"] .cv-preview-entry>p{
+  font-size:7.9px;
+  line-height:1.35;
+}
+.cv-ref-main-section[data-section="education"] .cv-preview-entry-top strong{
+  font-size:8.9px;
+}
+
+.cv-ref-side-section{
+  gap:2.5mm;
+}
+.cv-ref-side-section>h3{
+  padding:2mm 2.5mm;
+  font-size:8.2px;
+  letter-spacing:.055em;
+}
+.cv-ref-side-list,
+.cv-ref-skill-list,
+.cv-ref-tool-list{
+  margin:0;
+  padding:0;
+  display:grid;
+  gap:1.8mm;
+  list-style:none;
+}
+.cv-ref-side-list li,
+.cv-ref-skill-list li,
+.cv-ref-tool-list li{
+  position:relative;
+  padding-left:3.6mm;
+  color:#edf3f0;
+  font-size:7.85px;
+  line-height:1.4;
+  overflow-wrap:anywhere;
+}
+.cv-ref-side-list li::before,
+.cv-ref-skill-list li::before,
+.cv-ref-tool-list li::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:1.4mm;
+  width:1.55mm;
+  height:1.55mm;
+  border-radius:50%;
+  background:#c61f2a;
+}
+.cv-ref-skill-list li{
+  padding:1.7mm 1mm 1.7mm 4.2mm;
+  border-bottom:1px solid rgba(255,255,255,.075);
+}
+.cv-ref-skill-list li::before{
+  left:.7mm;
+  top:2.8mm;
+}
+.cv-ref-tool-list{
+  grid-template-columns:1fr 1fr;
+  gap:1.6mm;
+}
+.cv-ref-tool-list li{
+  min-height:8mm;
+  padding:2mm 1.5mm;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:1.7mm;
+  background:rgba(255,255,255,.035);
+  text-align:center;
+  font-size:7.2px;
+}
+.cv-ref-tool-list li::before{
+  display:none;
+}
+
+.cv-ref-link-list{
+  display:grid;
+  gap:2mm;
+}
+.cv-ref-link-row{
+  display:grid;
+  gap:.55mm;
+}
+.cv-ref-link-row small{
+  color:#cbd8d2;
+  font-size:6.2px;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.09em;
+}
+.cv-ref-link-row span{
+  color:#f2f6f4;
+  font-size:7.2px;
+  line-height:1.35;
+  overflow-wrap:anywhere;
+}
+.cv-ref-links-section{
+  margin-top:auto;
+}
+
+@media print{
+  #cvPreview[data-template="modern"],
+  #cvPreview[data-template="modern"] .cv-ref-layout{
+    width:210mm !important;
+    min-width:210mm !important;
+    max-width:210mm !important;
+    min-height:297mm !important;
+  }
+
+  #cvPreview[data-template="modern"]{
+    height:297mm !important;
+    overflow:hidden !important;
+  }
+
+  #cvPreview[data-template="modern"] .cv-ref-layout{
+    height:297mm !important;
+  }
+}
