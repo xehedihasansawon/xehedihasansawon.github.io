@@ -1,0 +1,75 @@
+/* =========================================================
+   PHASE 6A — HOMEPAGE MOTION FOUNDATION
+   Subtle, progressive enhancement only. No layout changes.
+   ========================================================= */
+
+@media (prefers-reduced-motion: no-preference) {
+  html.motion-system .motion-intro {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0);
+    animation: mhs-motion-intro .64s cubic-bezier(.22, 1, .36, 1) forwards;
+    animation-delay: var(--motion-delay, 0ms);
+  }
+
+  html.motion-system .motion-intro.motion-from-right {
+    transform: translate3d(18px, 0, 0);
+    animation-name: mhs-motion-intro-right;
+  }
+
+  html.motion-system .motion-reveal {
+    opacity: 0;
+    transform: translate3d(0, 22px, 0);
+    transition:
+      opacity .62s cubic-bezier(.22, 1, .36, 1),
+      transform .62s cubic-bezier(.22, 1, .36, 1);
+  }
+
+  html.motion-system .motion-reveal.motion-visible {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  html.motion-system .motion-reveal .motion-child {
+    opacity: 0;
+    transition: opacity .46s ease;
+    transition-delay: 0ms;
+  }
+
+  html.motion-system .motion-reveal.motion-visible .motion-child {
+    opacity: 1;
+    transition-delay: var(--motion-child-delay, 80ms);
+  }
+
+  @keyframes mhs-motion-intro {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 14px, 0);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  @keyframes mhs-motion-intro-right {
+    from {
+      opacity: 0;
+      transform: translate3d(18px, 0, 0);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.motion-system .motion-intro,
+  html.motion-system .motion-reveal,
+  html.motion-system .motion-reveal .motion-child {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+}
