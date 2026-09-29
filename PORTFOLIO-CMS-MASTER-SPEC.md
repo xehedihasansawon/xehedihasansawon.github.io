@@ -2023,7 +2023,7 @@ All Phase 5 modules are now owner-approved and locked on `phase02-polish`. Produ
 
 ## Phase 6 — Motion & Final Polish
 
-Status: **ACTIVE · PHASE 6A–6C LOCKED · NEXT PHASE 6D NOT STARTED**
+Status: **ACTIVE · PHASE 6A–6C LOCKED · PHASE 6D OWNER RUNTIME TEST PENDING**
 
 Phase 6 sequence:
 - **6A — Homepage Motion Foundation**
@@ -2172,6 +2172,71 @@ Owner approval: 2026-09-29
 
 Lock rule:
 Phase 6C is locked. Freeze the accepted responsive/mobile baseline, including the <=900px public navigation fix and public stylesheet cache-bust baseline. Later phases may fix verified accessibility/performance/release issues without redesigning locked layouts or changing Phase 6C responsive behavior except for a verified bug or explicit owner request to unlock it.
+
+### Phase 6D — Accessibility & Performance Final Audit
+
+Status: **STATIC ACCESSIBILITY/PERFORMANCE AUDIT PASS · OWNER RUNTIME TEST PENDING**
+
+Purpose:
+Run the final accessibility and performance pass across the locked public portfolio, case-study, branded system-state and Admin surfaces without redesigning approved content.
+
+Targeted fixes completed:
+- Added explicit `type="button"` to public buttons that previously relied on browser defaults
+- Added keyboard skip links to static/dynamic case-study pages
+- Added visible keyboard focus baselines for case-study, branded system-state and Admin surfaces
+- Added semantic live/status roles to the dynamic case-study loading/error states
+- Added accessible labels to compact social-icon links on case-study footers
+- Combined the homepage Google Fonts request into one stylesheet request
+- Bumped public/Admin stylesheet cache versions so accessibility fixes are not hidden by stale CSS
+
+Static accessibility audit result:
+- Page language + responsive viewport metadata present
+- No duplicate IDs found in audited public/Admin markup
+- All audited image elements include `alt`
+- All audited buttons now have explicit `type`
+- External `target="_blank"` links include `rel`
+- Homepage and case-study skip-link coverage present
+- Public, system-state and Admin keyboard focus styles present
+- Existing reduced-motion support remains intact
+- Dynamic case loading uses `role="status"` + polite live announcement
+- Dynamic case error state uses `role="alert"`
+- Compact case-study social links expose descriptive accessible labels
+
+Static performance audit result:
+- Homepage now uses one Google Fonts stylesheet request with `display=swap`
+- Homepage Hero is preloaded and marked high priority
+- Homepage non-Hero static images are lazy-loaded
+- Static SSFC/Biporjoy case Hero images are high priority and below-fold images are lazy-loaded
+- Dynamic case-study Hero keeps high fetch priority
+- No inline base64 image payloads were found in the audited homepage
+- Runtime public JavaScript remains split by feature/page rather than one monolithic bundle
+- Largest statically referenced homepage image is the ~47 KB Hero image; the single CSS background asset is ~85 KB
+- Production `main` remains untouched
+
+Acceptance checklist:
+- [x] Accessibility markup audit passes
+- [x] Duplicate-ID audit passes
+- [x] Image alt audit passes
+- [x] Explicit button-type audit passes
+- [x] External-link rel audit passes
+- [x] Keyboard skip-link/focus-visible baseline implemented
+- [x] Reduced-motion baseline preserved
+- [x] Dynamic loading/error semantics improved
+- [x] Case-study compact social links labelled
+- [x] Homepage font request consolidated
+- [x] Hero priority / below-fold lazy-load audit passes
+- [x] CSS structure + public JS syntax audit passes
+- [x] Phase 1–6C contracts remain intact
+- [x] Production `main` remains untouched
+- [ ] Owner runs one homepage Lighthouse check for Performance + Accessibility
+- [ ] Owner keyboard-tabs through homepage top navigation/CTA and confirms visible focus
+- [ ] Any owner-observed accessibility/performance issue is fixed and re-tested
+- [ ] Phase 6D owner approval / lock
+
+Owner approval: Pending
+
+Lock rule:
+Do not lock Phase 6D until the minimum owner runtime verification covers one Lighthouse Performance + Accessibility run and a short keyboard-focus test. Do not chase a synthetic score through visual redesign; only fix verified accessibility/performance issues that preserve the locked portfolio design and CMS contracts.
 
 ## Planned Phase 3 sequence
 
