@@ -7082,3 +7082,28 @@ html{
     text-align:left;
   }
 }
+
+
+/* =========================================================
+   PHASE 5F · PUBLIC AVAILABILITY STATUS
+   ========================================================= */
+.hero-v5-topline[data-availability-status="available"] .hero-v5-dot,
+.home-v2 .contact-status[data-availability-status="available"]>span{
+  background:#22c55e;
+  box-shadow:0 0 10px rgba(34,197,94,.42);
+}
+.hero-v5-topline[data-availability-status="limited"] .hero-v5-dot,
+.home-v2 .contact-status[data-availability-status="limited"]>span{
+  background:#f59e0b;
+  box-shadow:0 0 10px rgba(245,158,11,.34);
+}
+.hero-v5-topline[data-availability-status="busy"] .hero-v5-dot,
+.home-v2 .contact-status[data-availability-status="busy"]>span{
+  background:#ef4444;
+  box-shadow:0 0 10px rgba(239,68,68,.34);
+}
+.hero-v5-topline[data-availability-status="unavailable"] .hero-v5-dot,
+.home-v2 .contact-status[data-availability-status="unavailable"]>span{
+  background:#94a3b8;
+  box-shadow:0 0 10px rgba(148,163,184,.28);
+}
