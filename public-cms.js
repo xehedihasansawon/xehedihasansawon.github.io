@@ -125,6 +125,43 @@ const applyText = (id, value) => {
   if (element) element.textContent = value.trim();
 };
 
+const swapImageWhenReady = (element, source, altText = "") => {
+  if (!element || !isSafeImageSource(source)) return;
+
+  const nextSource = source.trim();
+  const currentSource = element.getAttribute("src") || "";
+
+  if (currentSource === nextSource) {
+    if (typeof altText === "string" && altText.trim()) {
+      element.alt = altText.trim();
+    }
+    return;
+  }
+
+  const preload = new Image();
+  preload.decoding = "async";
+  preload.fetchPriority = "high";
+
+  preload.onload = async () => {
+    try {
+      await preload.decode?.();
+    } catch {
+      // The image is already loaded; decoding support is optional.
+    }
+
+    if (!element.isConnected) return;
+
+    element.src = nextSource;
+    if (typeof altText === "string" && altText.trim()) {
+      element.alt = altText.trim();
+    }
+  };
+
+  // Keep the existing static image visible if the CMS image fails or is slow.
+  preload.onerror = () => {};
+  preload.src = nextSource;
+};
+
 const applyHero = (hero) => {
   if (!hero || typeof hero !== "object") return;
 
@@ -153,13 +190,8 @@ const applyHero = (hero) => {
     byId("heroSecondaryButton")?.setAttribute("href", hero.secondaryHref.trim());
   }
 
-  if (isSafeImageSource(hero.imageSrc)) {
-    byId("heroImage")?.setAttribute("src", hero.imageSrc.trim());
-  }
-
-  if (typeof hero.imageAlt === "string" && hero.imageAlt.trim()) {
-    byId("heroImage")?.setAttribute("alt", hero.imageAlt.trim());
-  }
+  const heroImage = byId("heroImage");
+  swapImageWhenReady(heroImage, hero.imageSrc, hero.imageAlt);
 
   document.documentElement.dataset.heroCms = "loaded";
 };
