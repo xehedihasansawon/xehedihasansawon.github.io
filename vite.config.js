@@ -11,7 +11,10 @@ export default defineConfig({
       input: {
         main: resolve(rootDir, 'index.html'),
         admin: resolve(rootDir, 'admin/index.html'),
-        notFound: resolve(rootDir, '404.html')
+        notFound: resolve(rootDir, '404.html'),
+        project: resolve(rootDir, 'project.html'),
+        ssfc: resolve(rootDir, 'ssfc.html'),
+        biporjoy: resolve(rootDir, 'biporjoy.html')
       }
     }
   }
