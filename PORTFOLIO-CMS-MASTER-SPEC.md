@@ -2031,7 +2031,7 @@ All Phase 5 modules are now owner-approved and locked on `phase02-polish`. Produ
 
 ## Phase 6 — Motion & Final Polish
 
-Status: **ACTIVE · PHASE 6A–6C LOCKED · PHASE 6D OWNER RUNTIME TEST PENDING**
+Status: **ACTIVE · PHASE 6A–6D LOCKED · NEXT PHASE 6E NOT STARTED**
 
 Phase 6 sequence:
 - **6A — Homepage Motion Foundation**
@@ -2183,7 +2183,7 @@ Phase 6C is locked. Freeze the accepted responsive/mobile baseline, including th
 
 ### Phase 6D — Accessibility & Performance Final Audit
 
-Status: **STATIC + OWNER RUNTIME TEST PASS · OWNER LOCK APPROVAL PENDING**
+Status: **LOCKED / DONE · STATIC + OWNER RUNTIME TEST PASS**
 
 Purpose:
 Run the final accessibility and performance pass across the locked public portfolio, case-study, branded system-state and Admin surfaces without redesigning approved content.
@@ -2240,12 +2240,12 @@ Acceptance checklist:
 - [x] Owner runs one-click live CMS image optimizer from Media Workflow and re-tests Lighthouse *(8 live images optimized · ~10.65 MB saved; production-preview Mobile Lighthouse: Performance 72 · Accessibility 100)*
 - [x] Owner keyboard-tabs through homepage top navigation/CTA and confirms visible focus
 - [x] Any owner-observed accessibility/performance issue is fixed and re-tested *(Creative Services number contrast corrected; Accessibility improved 96 → 100)*
-- [ ] Phase 6D owner approval / lock
+- [x] Phase 6D owner approval / lock *(2026-09-30)*
 
-Owner approval: Pending
+Owner approval: 2026-09-30
 
 Lock rule:
-Do not lock Phase 6D until the minimum owner runtime verification covers one Lighthouse Performance + Accessibility run and a short keyboard-focus test. Do not chase a synthetic score through visual redesign; only fix verified accessibility/performance issues that preserve the locked portfolio design and CMS contracts.
+Phase 6D is locked. Freeze the accepted accessibility/performance baseline, including the verified keyboard focus behavior, Accessibility 100 result and the approved image-optimization path. Later work may fix verified release/security bugs without redesigning locked Phase 6D behavior unless the owner explicitly unlocks it.
 
 ## Planned Phase 3 sequence
 
