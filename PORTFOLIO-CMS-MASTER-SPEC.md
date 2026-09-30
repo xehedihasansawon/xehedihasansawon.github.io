@@ -2284,15 +2284,17 @@ Acceptance checklist:
 - Clean rebuild after those fixes includes `project.html`, `ssfc.html` and `biporjoy.html` in `dist/` with no CSS syntax warnings in the owner-provided build output
 - Owner production-preview video then exposed broken CMS-referenced local assets (Project Explorer cover + Skills/Tools logos). Vite release config now copies the source `assets/` tree into `dist/assets/` so published CMS paths such as `assets/...` remain valid in production while static imports may still use hashed files.
 - Owner clean rebuild after the asset-preservation fix: PASS *(2026-09-30 · ~2.10s; public project entry files present in `dist/`)*
+- Remaining Vite non-module script warnings were resolved by marking homepage/case motion and interaction scripts as `type="module"`; static audit confirms every local release script on homepage/project/SSFC/Biporjoy is module-bundled.
 - Static SSFC production-preview smoke re-test: PASS *(2026-09-30; case-study route, graphics and lower sections render correctly)*
 - Dynamic Portfolio Website production-preview smoke test: PASS *(2026-09-30; CMS case-study data, hero, sections, CTA and footer render correctly)*
 - Admin production-preview smoke test: PASS *(2026-09-30; login screen and authenticated dashboard verified)*
 - Branded 404 production-preview smoke test: PASS *(2026-09-30; direct `/404.html` renders the locked branded 404 correctly)*
+- Maintenance mode release-state check: PASS *(2026-09-30; public portfolio operating normally)*
 - [x] Public homepage smoke test passes *(owner-verified on production preview 2026-09-30)*
 - [x] Dynamic/static project route smoke test passes *(static SSFC + dynamic `project.html?slug=portfolio-website` production-preview verified by owner on 2026-09-30)*
 - [x] Admin login/dashboard smoke test passes *(owner-verified on production preview 2026-09-30; login + authenticated dashboard + Phase 6E status render correctly)*
 - [x] Branded 404 smoke test passes *(owner-verified via direct `/404.html` production preview on 2026-09-30; Vite preview unknown-route fallback noted as local-server behavior only)*
-- [ ] Maintenance mode remains OFF for normal release
+- [x] Maintenance mode remains OFF for normal release *(owner-verified in Admin System States on 2026-09-30)*
 - [ ] No verified release blocker remains
 - [x] Production `main` remains untouched
 - [ ] Phase 6E owner approval / lock
