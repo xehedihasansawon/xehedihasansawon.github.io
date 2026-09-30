@@ -2282,8 +2282,9 @@ Acceptance checklist:
 - [x] Final production build passes *(owner re-verified 2026-09-30 after case-study input + CSS warning fixes; clean Vite build ~2.09s)*
 - Phase 6E rebuild exposed legacy malformed CSS comment separators; fixed 7 comment blocks and static CSS structure re-audited successfully
 - Clean rebuild after those fixes includes `project.html`, `ssfc.html` and `biporjoy.html` in `dist/` with no CSS syntax warnings in the owner-provided build output
+- Owner production-preview video then exposed broken CMS-referenced local assets (Project Explorer cover + Skills/Tools logos). Vite release config now copies the source `assets/` tree into `dist/assets/` so published CMS paths such as `assets/...` remain valid in production while static imports may still use hashed files.
 - [x] Public homepage smoke test passes *(owner-verified on production preview 2026-09-30)*
-- [ ] Dynamic/static project route smoke test passes *(initial SSFC preview exposed missing Vite inputs; config fixed, owner re-test pending)*
+- [ ] Dynamic/static project route smoke test passes *(initial SSFC preview exposed missing Vite inputs; after that fix, production preview exposed broken CMS-referenced local images because Vite hashed only static asset references. Release config now preserves the original `assets/` tree alongside hashed assets; owner re-test pending)*
 - [ ] Admin login/dashboard smoke test passes
 - [ ] Branded 404 smoke test passes
 - [ ] Maintenance mode remains OFF for normal release
