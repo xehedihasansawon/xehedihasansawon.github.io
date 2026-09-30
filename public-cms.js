@@ -125,6 +125,20 @@ const applyText = (id, value) => {
   if (element) element.textContent = value.trim();
 };
 
+const HERO_IMAGE_CACHE_KEY = "portfolio.hero.current-image";
+
+const rememberHeroImage = (source) => {
+  try {
+    localStorage.setItem(HERO_IMAGE_CACHE_KEY, source);
+  } catch {
+    // Storage can be unavailable in strict/private browser modes.
+  }
+};
+
+const revealHeroImage = (element) => {
+  element?.removeAttribute("data-hero-pending");
+};
+
 const swapImageWhenReady = (element, source, altText = "") => {
   if (!element || !isSafeImageSource(source)) return;
 
@@ -134,6 +148,16 @@ const swapImageWhenReady = (element, source, altText = "") => {
   if (currentSource === nextSource) {
     if (typeof altText === "string" && altText.trim()) {
       element.alt = altText.trim();
+    }
+
+    if (element.complete && element.naturalWidth > 0) {
+      revealHeroImage(element);
+      rememberHeroImage(nextSource);
+    } else {
+      element.addEventListener("load", () => {
+        revealHeroImage(element);
+        rememberHeroImage(nextSource);
+      }, { once: true });
     }
     return;
   }
@@ -155,9 +179,12 @@ const swapImageWhenReady = (element, source, altText = "") => {
     if (typeof altText === "string" && altText.trim()) {
       element.alt = altText.trim();
     }
+
+    revealHeroImage(element);
+    rememberHeroImage(nextSource);
   };
 
-  // Keep the existing static image visible if the CMS image fails or is slow.
+  // Keep the cached/current image visible if a replacement image fails.
   preload.onerror = () => {};
   preload.src = nextSource;
 };
@@ -219,7 +246,13 @@ const loadPublishedHero = async () => {
 
     if (published) applyHero(published);
   } catch (error) {
-    // The static HTML is intentionally the safe fallback.
+    const heroImage = byId("heroImage");
+
+    if (heroImage && !heroImage.getAttribute("src")) {
+      heroImage.addEventListener("load", () => revealHeroImage(heroImage), { once: true });
+      heroImage.setAttribute("src", heroImage.dataset.staticFallback || "assets/hero-visual.jpg");
+    }
+
     console.warn("Hero CMS unavailable; using static Hero fallback.", error);
   }
 };
