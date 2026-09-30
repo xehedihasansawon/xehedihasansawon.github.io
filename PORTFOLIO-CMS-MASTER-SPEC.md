@@ -2286,9 +2286,10 @@ Acceptance checklist:
 - Owner clean rebuild after the asset-preservation fix: PASS *(2026-09-30 · ~2.10s; public project entry files present in `dist/`)*
 - Static SSFC production-preview smoke re-test: PASS *(2026-09-30; case-study route, graphics and lower sections render correctly)*
 - Dynamic Portfolio Website production-preview smoke test: PASS *(2026-09-30; CMS case-study data, hero, sections, CTA and footer render correctly)*
+- Admin production-preview smoke test: PASS *(2026-09-30; login screen and authenticated dashboard verified)*
 - [x] Public homepage smoke test passes *(owner-verified on production preview 2026-09-30)*
 - [x] Dynamic/static project route smoke test passes *(static SSFC + dynamic `project.html?slug=portfolio-website` production-preview verified by owner on 2026-09-30)*
-- [ ] Admin login/dashboard smoke test passes
+- [x] Admin login/dashboard smoke test passes *(owner-verified on production preview 2026-09-30; login + authenticated dashboard + Phase 6E status render correctly)*
 - [ ] Branded 404 smoke test passes
 - [ ] Maintenance mode remains OFF for normal release
 - [ ] No verified release blocker remains
