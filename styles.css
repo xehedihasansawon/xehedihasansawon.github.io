@@ -1667,43 +1667,36 @@ dialog img{
   font-size:10.5px;
 }
 }
-Balanced true red accent
-   ========================================================= */
+/* Balanced true red accent */
 :root{
   --hero-accent:#C1121F;
   --hero-accent-dark:#94101A;
 }
-Deep true red accent
-   ========================================================= */
+/* Deep true red accent */
 :root{
   --hero-accent:#A40101;
   --hero-accent-dark:#7F0000;
 }
-True muted red accent
-   ========================================================= */
+/* True muted red accent */
 :root{
   --hero-accent:#C94A4A;
   --hero-accent-dark:#A93636;
 }
-Premium red accent
-   ========================================================= */
+/* Premium red accent */
 :root{
   --hero-accent:#E06C75;
   --hero-accent-dark:#C95763;
 }
-Monochrome green identity: white + sage only
-   ========================================================= */
+/* Monochrome green identity: white + sage only */
 :root{
   --hero-accent:#A8C7B3;
 }
-Warm champagne + sage accents for the green visual identity
-   ========================================================= */
+/* Warm champagne + sage accents for the green visual identity */
 :root{
   --hero-accent:#D8C58C;
   --hero-accent-soft:#A8C7B3;
 }
-Coral-red highlights while preserving the green identity
-   ========================================================= */
+/* Coral-red highlights while preserving the green identity */
 :root{
   --hero-accent:#E06C75;
 }
