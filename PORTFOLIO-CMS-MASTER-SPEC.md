@@ -2285,8 +2285,9 @@ Acceptance checklist:
 - Owner production-preview video then exposed broken CMS-referenced local assets (Project Explorer cover + Skills/Tools logos). Vite release config now copies the source `assets/` tree into `dist/assets/` so published CMS paths such as `assets/...` remain valid in production while static imports may still use hashed files.
 - Owner clean rebuild after the asset-preservation fix: PASS *(2026-09-30 · ~2.10s; public project entry files present in `dist/`)*
 - Static SSFC production-preview smoke re-test: PASS *(2026-09-30; case-study route, graphics and lower sections render correctly)*
+- Dynamic Portfolio Website production-preview smoke test: PASS *(2026-09-30; CMS case-study data, hero, sections, CTA and footer render correctly)*
 - [x] Public homepage smoke test passes *(owner-verified on production preview 2026-09-30)*
-- [ ] Dynamic/static project route smoke test passes *(static SSFC production-preview re-test PASS on 2026-09-30 after Vite input + asset-preservation fixes; dynamic project route owner re-test pending)*
+- [x] Dynamic/static project route smoke test passes *(static SSFC + dynamic `project.html?slug=portfolio-website` production-preview verified by owner on 2026-09-30)*
 - [ ] Admin login/dashboard smoke test passes
 - [ ] Branded 404 smoke test passes
 - [ ] Maintenance mode remains OFF for normal release
