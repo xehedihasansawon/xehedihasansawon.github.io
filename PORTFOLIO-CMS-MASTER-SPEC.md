@@ -2272,7 +2272,7 @@ Static release audit result:
 - No tracked `.env`, private-key or certificate file was found in the release tree
 - Browser config contains only the intended Supabase publishable client key; no service-role secret is exposed
 - `robots.txt` and `sitemap.xml` point at `https://xehedihasansawon.github.io/`
-- Vite release config uses relative `base: './'` and includes homepage, Admin and 404 build inputs
+- Vite release config uses relative `base: './'`; Phase 6E owner smoke test exposed that `ssfc.html`, `biporjoy.html` and `project.html` were missing from Rollup inputs, causing preview fallback to the homepage. The config was corrected to include all three public case-study/detail entry points.
 - One development-only wording in the Admin Real Life Projects description was removed; historical text describing prior localhost verification remains documentation only and is not a runtime URL
 - Branch remains ahead of `main` with `main` untouched
 - Owner final production build verification: PASS *(2026-09-30)*
@@ -2281,7 +2281,7 @@ Acceptance checklist:
 - [x] Final static release audit passes
 - [x] Final production build passes *(owner-verified 2026-09-30 · Vite build completed successfully in ~1.91s)*
 - [x] Public homepage smoke test passes *(owner-verified on production preview 2026-09-30)*
-- [ ] Dynamic/static project route smoke test passes
+- [ ] Dynamic/static project route smoke test passes *(initial SSFC preview exposed missing Vite inputs; config fixed, owner re-test pending)*
 - [ ] Admin login/dashboard smoke test passes
 - [ ] Branded 404 smoke test passes
 - [ ] Maintenance mode remains OFF for normal release
