@@ -7321,3 +7321,10 @@ html{
   outline:2px solid #E21D2A;
   outline-offset:3px;
 }
+
+
+/* PHASE 6D — LIGHTHOUSE COLOR CONTRAST FIX
+   Service numbers remain visually secondary while meeting accessible contrast. */
+.home-v2 .creative-services-frame .service-detail-card > span{
+  color:#80988C !important;
+}
