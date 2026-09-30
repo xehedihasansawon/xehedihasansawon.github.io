@@ -2279,8 +2279,9 @@ Static release audit result:
 
 Acceptance checklist:
 - [x] Final static release audit passes
-- [x] Final production build passes *(owner-verified 2026-09-30 · Vite build completed successfully in ~1.91s)*
+- [x] Final production build passes *(owner re-verified 2026-09-30 after case-study input + CSS warning fixes; clean Vite build ~2.09s)*
 - Phase 6E rebuild exposed legacy malformed CSS comment separators; fixed 7 comment blocks and static CSS structure re-audited successfully
+- Clean rebuild after those fixes includes `project.html`, `ssfc.html` and `biporjoy.html` in `dist/` with no CSS syntax warnings in the owner-provided build output
 - [x] Public homepage smoke test passes *(owner-verified on production preview 2026-09-30)*
 - [ ] Dynamic/static project route smoke test passes *(initial SSFC preview exposed missing Vite inputs; config fixed, owner re-test pending)*
 - [ ] Admin login/dashboard smoke test passes
