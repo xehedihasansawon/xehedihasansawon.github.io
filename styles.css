@@ -7321,3 +7321,17 @@ html{
 .home-v2 .creative-services-frame .service-detail-card > span{
   color:#80988C !important;
 }
+
+
+/* PHASE 6E — HERO REFRESH STABILITY */
+.home-v2 #heroImage[data-hero-pending="true"]{
+  opacity:0;
+}
+.home-v2 #heroImage{
+  transition:opacity .16s ease;
+}
+@media (prefers-reduced-motion:reduce){
+  .home-v2 #heroImage{
+    transition:none;
+  }
+}
