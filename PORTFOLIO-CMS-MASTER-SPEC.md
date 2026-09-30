@@ -2280,7 +2280,7 @@ Static release audit result:
 Acceptance checklist:
 - [x] Final static release audit passes
 - [x] Final production build passes *(owner-verified 2026-09-30 · Vite build completed successfully in ~1.91s)*
-- [ ] Public homepage smoke test passes
+- [x] Public homepage smoke test passes *(owner-verified on production preview 2026-09-30)*
 - [ ] Dynamic/static project route smoke test passes
 - [ ] Admin login/dashboard smoke test passes
 - [ ] Branded 404 smoke test passes
