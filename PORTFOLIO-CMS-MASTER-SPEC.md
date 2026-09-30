@@ -2305,6 +2305,13 @@ Owner approval: 2026-09-30
 Lock rule:
 Phase 6E is locked. The `phase02-polish` branch is accepted as release-ready. This lock does not deploy the site. Production `main` must remain untouched until the owner explicitly says `live koro`.
 
+Post-lock verified release bug fix *(2026-09-30)*:
+- Owner confirmed the old live site briefly blanks the Hero image on refresh while the CMS-hosted Hero image downloads.
+- `public-cms.js` now keeps the preloaded static Hero image visible and swaps to the CMS image only after the replacement image is fully loaded/decoded.
+- Homepage CMS script cache version bumped so browsers receive the fix.
+- Static JS audit passes and production `main` remains untouched.
+- Phase 6E lock remains valid because this is a verified release bug fix with no redesign or CMS contract change.
+
 ## Planned Phase 3 sequence
 
 - **3A — Portfolio Data Foundation**
