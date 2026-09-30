@@ -2310,6 +2310,7 @@ Post-lock verified release bug fix *(2026-09-30)*:
 - `public-cms.js` now keeps the preloaded static Hero image visible and swaps to the CMS image only after the replacement image is fully loaded/decoded.
 - Homepage CMS script cache version bumped so browsers receive the fix.
 - Static JS audit passes and production `main` remains untouched.
+- Post-lock Hero refresh fix production build: PASS *(owner-verified 2026-09-30 · clean Vite build ~1.82s)*
 - Phase 6E lock remains valid because this is a verified release bug fix with no redesign or CMS contract change.
 
 ## Planned Phase 3 sequence
