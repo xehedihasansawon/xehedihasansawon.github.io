@@ -9,7 +9,7 @@
   <meta name="robots" content="index,follow">
   <link rel="canonical" href="https://xehedihasansawon.github.io/">
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-  <link rel="preload" as="image" href="assets/hero-visual.jpg" fetchpriority="high">
+  <link rel="preload" as="image" href="assets/hero-current.webp" type="image/webp" fetchpriority="high">
 
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="MD Mehedi Hasan Sawon Portfolio">
@@ -108,35 +108,7 @@
           </div>
 
           <div class="hero-v5-visual">
-            <img id="heroImage" data-hero-pending="true" data-static-fallback="assets/hero-visual.jpg" alt="MD Mehedi Hasan Sawon portrait" fetchpriority="high" decoding="async">
-            <script>
-              (() => {
-                const image = document.getElementById("heroImage");
-                if (!image) return;
-
-                try {
-                  const cached = localStorage.getItem("portfolio.hero.current-image");
-                  const isSafeCachedSource =
-                    typeof cached === "string" &&
-                    (cached.startsWith("https://") ||
-                      cached.startsWith("/") ||
-                      cached.startsWith("./") ||
-                      cached.startsWith("../") ||
-                      /^[a-z0-9_-]+\//i.test(cached));
-
-                  if (!isSafeCachedSource) return;
-
-                  const reveal = () => image.removeAttribute("data-hero-pending");
-                  image.addEventListener("load", reveal, { once: true });
-                  image.addEventListener("error", () => image.removeAttribute("src"), { once: true });
-                  image.src = cached;
-
-                  if (image.complete && image.naturalWidth > 0) reveal();
-                } catch {
-                  // CMS loader will provide the current Hero image.
-                }
-              })();
-            </script>
+            <img id="heroImage" src="assets/hero-current.webp" data-static-fallback="assets/hero-current.webp" alt="MD Mehedi Hasan Sawon portrait" fetchpriority="high" decoding="async">
             <div class="hero-v5-image-shade"></div>
           </div>
         </div>
@@ -886,7 +858,7 @@
 
   <script type="module" src="script.js?v=phase6e-release-20260930-1"></script>
   <script type="module" src="public-motion.js?v=phase6e-release-20260930-1"></script>
-  <script type="module" src="public-cms.js?v=phase6e-hero-refresh-20260930-3"></script>
+  <script type="module" src="public-cms.js?v=phase6e-current-hero-fallback-20260930-1"></script>
   <script type="module" src="public-availability.js?v=phase5f-availability-20260929-1"></script>
   <script type="module" src="public-cta.js?v=phase5g-cta-placement-20260929-2"></script>
   <script type="module" src="public-inquiry.js?v=phase5a-inquiry-20260928-1"></script>
