@@ -2313,6 +2313,7 @@ Post-lock verified release bug fix *(2026-09-30)*:
 - Post-lock Hero refresh fix production build: PASS *(owner-verified 2026-09-30 · clean Vite build ~1.82s)*
 - Phase 6E lock remains valid because this is a verified release bug fix with no redesign or CMS contract change.
 - Follow-up owner refresh test showed the static fallback photo itself flashing before the current CMS Hero. The homepage now boots from the last verified CMS Hero URL when available, keeps the image hidden until that current source is loaded, and uses the static fallback only if the CMS request actually fails. This removes the stale-photo flash on normal refresh.
+- Post-lock Hero refresh stability rebuild: PASS *(owner-verified 2026-09-30 · clean Vite build ~2.10s)*
 
 ## Planned Phase 3 sequence
 
