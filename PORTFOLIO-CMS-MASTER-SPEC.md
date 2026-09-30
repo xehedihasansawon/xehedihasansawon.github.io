@@ -2031,7 +2031,7 @@ All Phase 5 modules are now owner-approved and locked on `phase02-polish`. Produ
 
 ## Phase 6 — Motion & Final Polish
 
-Status: **ACTIVE · PHASE 6A–6D LOCKED · NEXT PHASE 6E NOT STARTED**
+Status: **ACTIVE · PHASE 6A–6D LOCKED · PHASE 6E ACTIVE**
 
 Phase 6 sequence:
 - **6A — Homepage Motion Foundation**
@@ -2246,6 +2246,40 @@ Owner approval: 2026-09-30
 
 Lock rule:
 Phase 6D is locked. Freeze the accepted accessibility/performance baseline, including the verified keyboard focus behavior, Accessibility 100 result and the approved image-optimization path. Later work may fix verified release/security bugs without redesigning locked Phase 6D behavior unless the owner explicitly unlocks it.
+
+
+### Phase 6E — Release Readiness / Live Deployment Checkpoint
+
+Status: **ACTIVE · STATIC RELEASE AUDIT PENDING**
+
+Purpose:
+Verify that the fully locked portfolio is ready for release without touching production `main`. Phase 6E is a release-readiness checkpoint only; deployment happens only after the owner explicitly says `live koro`.
+
+Scope:
+- Re-audit the final `phase02-polish` branch for release blockers
+- Verify production build succeeds from a clean source state
+- Verify public routes, 404/system-state behavior, CMS/Admin entry point and critical assets are present
+- Check for accidental development-only references, broken local-only URLs, merge markers and obvious release artifacts
+- Confirm no secret/service-role credential is exposed in tracked frontend files
+- Preserve all locked Phase 1–6D behavior
+- Keep production `main` untouched until explicit owner deployment approval
+
+Acceptance checklist:
+- [ ] Final static release audit passes
+- [ ] Final production build passes
+- [ ] Public homepage smoke test passes
+- [ ] Dynamic/static project route smoke test passes
+- [ ] Admin login/dashboard smoke test passes
+- [ ] Branded 404 smoke test passes
+- [ ] Maintenance mode remains OFF for normal release
+- [ ] No verified release blocker remains
+- [ ] Production `main` remains untouched
+- [ ] Phase 6E owner approval / lock
+
+Owner approval: Pending
+
+Lock rule:
+Phase 6E may be locked when the branch is release-ready and the minimum owner smoke tests pass. Locking Phase 6E does not deploy the site. Production `main` must remain untouched until the owner explicitly says `live koro`.
 
 ## Planned Phase 3 sequence
 
