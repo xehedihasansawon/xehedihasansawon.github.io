@@ -2317,6 +2317,7 @@ Post-lock verified release bug fix *(2026-09-30)*:
 - Post-lock Hero refresh stability rebuild: PASS *(owner-verified 2026-09-30 · clean Vite build ~2.10s)*
 - Owner refresh video verification: PASS *(2026-09-30; stale/old Hero photo no longer flashes before the current CMS Hero)*
 - Uploaded current Hero static fallback added *(2026-09-30)*: owner-provided portrait optimized to `assets/hero-current.webp` (~13 KB), preloaded in the homepage, and used as the immediate static Hero source. CMS Hero swaps only after its remote image is fully ready, preventing both the old-photo flash and the blank refresh gap for the current approved portrait.
+- Current-Hero static fallback rebuild: PASS *(owner-verified 2026-09-30 · clean Vite build ~2.16s; optimized Hero emitted at ~12.98 KB)*
 
 ## Planned Phase 3 sequence
 
