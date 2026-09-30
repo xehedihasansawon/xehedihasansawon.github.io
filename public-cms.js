@@ -139,16 +139,34 @@ const revealHeroImage = (element) => {
   element?.removeAttribute("data-hero-pending");
 };
 
+const showStaticHeroFallback = (element) => {
+  if (!element || !element.isConnected) return;
+
+  const fallback = element.dataset.staticFallback || "assets/hero-visual.jpg";
+  const onFallbackLoad = () => revealHeroImage(element);
+
+  element.addEventListener("load", onFallbackLoad, { once: true });
+  element.setAttribute("src", fallback);
+
+  if (element.complete && element.naturalWidth > 0) {
+    revealHeroImage(element);
+  }
+};
+
 const swapImageWhenReady = (element, source, altText = "") => {
   if (!element || !isSafeImageSource(source)) return;
 
   const nextSource = source.trim();
   const currentSource = element.getAttribute("src") || "";
 
-  if (currentSource === nextSource) {
+  const applyAlt = () => {
     if (typeof altText === "string" && altText.trim()) {
       element.alt = altText.trim();
     }
+  };
+
+  if (currentSource === nextSource) {
+    applyAlt();
 
     if (element.complete && element.naturalWidth > 0) {
       revealHeroImage(element);
@@ -158,35 +176,32 @@ const swapImageWhenReady = (element, source, altText = "") => {
         revealHeroImage(element);
         rememberHeroImage(nextSource);
       }, { once: true });
+      element.addEventListener("error", () => showStaticHeroFallback(element), { once: true });
     }
     return;
   }
 
-  const preload = new Image();
-  preload.decoding = "async";
-  preload.fetchPriority = "high";
+  element.setAttribute("data-hero-pending", "true");
 
-  preload.onload = async () => {
-    try {
-      await preload.decode?.();
-    } catch {
-      // The image is already loaded; decoding support is optional.
-    }
-
-    if (!element.isConnected) return;
-
-    element.src = nextSource;
-    if (typeof altText === "string" && altText.trim()) {
-      element.alt = altText.trim();
-    }
-
+  element.addEventListener("load", () => {
+    applyAlt();
     revealHeroImage(element);
     rememberHeroImage(nextSource);
-  };
+  }, { once: true });
 
-  // Keep the cached/current image visible if a replacement image fails.
-  preload.onerror = () => {};
-  preload.src = nextSource;
+  element.addEventListener("error", () => {
+    showStaticHeroFallback(element);
+  }, { once: true });
+
+  // Load the current CMS Hero directly in the real <img>. It stays hidden
+  // until load completes, so the previous/static portrait never flashes.
+  element.setAttribute("src", nextSource);
+
+  if (element.complete && element.naturalWidth > 0) {
+    applyAlt();
+    revealHeroImage(element);
+    rememberHeroImage(nextSource);
+  }
 };
 
 const applyHero = (hero) => {
@@ -249,8 +264,7 @@ const loadPublishedHero = async () => {
     const heroImage = byId("heroImage");
 
     if (heroImage && !heroImage.getAttribute("src")) {
-      heroImage.addEventListener("load", () => revealHeroImage(heroImage), { once: true });
-      heroImage.setAttribute("src", heroImage.dataset.staticFallback || "assets/hero-visual.jpg");
+      showStaticHeroFallback(heroImage);
     }
 
     console.warn("Hero CMS unavailable; using static Hero fallback.", error);
