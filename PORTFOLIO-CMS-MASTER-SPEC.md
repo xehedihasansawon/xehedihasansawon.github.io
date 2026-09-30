@@ -1572,6 +1572,8 @@ Scope:
 - Phase 2 Contact CMS layout/content contract remains intact; the inquiry panel is an additive business feature
 - Phase 3 and Phase 4 remain locked
 - Production `main` remains untouched
+- Owner production-preview Lighthouse re-test on 2026-09-30: Performance 72 · Accessibility 100 · FCP 1.9 s · LCP 3.8 s · CLS 0
+- Owner keyboard-focus video confirmed visible focus progression through homepage interactive controls
 
 Acceptance checklist:
 - [x] Migration 014 applies successfully in Supabase *(owner-confirmed)*
@@ -2181,7 +2183,7 @@ Phase 6C is locked. Freeze the accepted responsive/mobile baseline, including th
 
 ### Phase 6D — Accessibility & Performance Final Audit
 
-Status: **STATIC AUDIT PASS · LIGHTHOUSE ISSUE FOUND · IMAGE OPTIMIZER OWNER TEST PENDING**
+Status: **STATIC + OWNER RUNTIME TEST PASS · OWNER LOCK APPROVAL PENDING**
 
 Purpose:
 Run the final accessibility and performance pass across the locked public portfolio, case-study, branded system-state and Admin surfaces without redesigning approved content.
@@ -2235,9 +2237,9 @@ Acceptance checklist:
 - [x] Phase 1–6C contracts remain intact
 - [x] Production `main` remains untouched
 - [x] Owner runs initial homepage Lighthouse check *(Mobile: Performance 60 · Accessibility 96; image-delivery issue identified 2026-09-29)*
-- [ ] Owner runs one-click live CMS image optimizer from Media Workflow and re-tests Lighthouse
-- [ ] Owner keyboard-tabs through homepage top navigation/CTA and confirms visible focus
-- [ ] Any owner-observed accessibility/performance issue is fixed and re-tested
+- [x] Owner runs one-click live CMS image optimizer from Media Workflow and re-tests Lighthouse *(8 live images optimized · ~10.65 MB saved; production-preview Mobile Lighthouse: Performance 72 · Accessibility 100)*
+- [x] Owner keyboard-tabs through homepage top navigation/CTA and confirms visible focus
+- [x] Any owner-observed accessibility/performance issue is fixed and re-tested *(Creative Services number contrast corrected; Accessibility improved 96 → 100)*
 - [ ] Phase 6D owner approval / lock
 
 Owner approval: Pending
