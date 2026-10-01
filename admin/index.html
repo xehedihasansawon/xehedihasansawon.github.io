@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./admin.css?v=project-studio-20261001-1">
+  <link rel="stylesheet" href="./admin.css?v=detailed-showcase-20261001-2">
   <link rel="stylesheet" href="./system-state-manager.css?v=phase5h-states-20260929-1">
 </head>
 <body>
@@ -2039,7 +2039,7 @@
             <div>
               <p class="status-pill success">PROJECT STUDIO</p>
               <h3>Projects in one place</h3>
-              <p>Edit project info, cover, homepage visibility, case-study intro and gallery without jumping between Media, Projects and Case Studies.</p>
+              <p>Edit project info, cover, homepage visibility, case-study intro and detailed image showcases without jumping between Media, Projects and Case Studies.</p>
             </div>
             <div class="editor-state">
               <span>ONE-PLACE EDITOR</span>
@@ -2062,7 +2062,7 @@
             <p id="projectStudioMessage" class="form-message" role="status" aria-live="polite"></p>
             <div class="portfolio-manager-note">
               <strong>Simple workflow</strong>
-              <span>Choose a project → edit → upload cover or multiple gallery images here → Save or Publish. SSFC and Biporjoy 18 are connected automatically and old test projects are cleaned up.</span>
+              <span>Choose a project → edit → upload images here → add title, description and details to each image → Save or Publish. SSFC and Biporjoy 18 stay connected automatically.</span>
             </div>
           </section>
 
@@ -2198,21 +2198,21 @@
                 <div class="case-builder-block">
                   <div class="editor-section-title compact">
                     <div>
-                      <p class="eyebrow">PROJECT GALLERY</p>
-                      <h3>Add all your work here</h3>
+                      <p class="eyebrow">PROJECT SHOWCASE</p>
+                      <h3>One image + its own details</h3>
                     </div>
                     <span>Multi-image upload</span>
                   </div>
 
                   <label>
-                    <span>Gallery title</span>
-                    <input id="projectStudioGalleryTitle" type="text" maxlength="220" value="Project Gallery">
+                    <span>Showcase section title</span>
+                    <input id="projectStudioGalleryTitle" type="text" maxlength="220" value="Project Showcase">
                   </label>
 
                   <label class="project-studio-dropzone">
                     <span>+ Add images</span>
-                    <strong>Choose many images at once</strong>
-                    <small>Up to 25 images per upload. They are optimized and attached to this project automatically.</small>
+                    <strong>Choose one or many images</strong>
+                    <small>Each uploaded image becomes its own detailed case-study block. Add label, title, description and extra details below.</small>
                     <input id="projectStudioGalleryInput" type="file" accept="image/jpeg,image/png,image/webp" multiple>
                   </label>
 
@@ -4048,6 +4048,6 @@
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script type="module" src="./admin.js?v=project-studio-20261001-1"></script>
+  <script type="module" src="./admin.js?v=detailed-showcase-20261001-2"></script>
 </body>
 </html>
