@@ -1,5 +1,6 @@
 import { ADMIN_CONFIG } from "./config.js";
 import { initMediaWorkflow } from "./media-workflow.js";
+import { initProjectStudio } from "./project-studio.js?v=project-studio-20261001-1";
 import { initProjectManager } from "./project-manager.js";
 import { initHomepageSelection } from "./homepage-selection.js";
 import { initProjectMetadata } from "./project-metadata.js";
@@ -53,6 +54,7 @@ const contactCmsNavButton = document.querySelector("#contactCmsNavButton");
 const footerCmsNavButton = document.querySelector("#footerCmsNavButton");
 const sectionLayoutNavButton = document.querySelector("#sectionLayoutNavButton");
 const projectsNavButton = document.querySelector("#projectsNavButton");
+const projectStudioNavButton = document.querySelector("#projectStudioNavButton");
 const mediaWorkflowNavButton = document.querySelector("#mediaWorkflowNavButton");
 const projectManagerNavButton = document.querySelector("#projectManagerNavButton");
 const homepageSelectionNavButton = document.querySelector("#homepageSelectionNavButton");
@@ -79,6 +81,7 @@ const experienceCommunityEditor = document.querySelector("#experienceCommunityEd
 const contactCmsEditor = document.querySelector("#contactCmsEditor");
 const footerCmsEditor = document.querySelector("#footerCmsEditor");
 const sectionLayoutEditor = document.querySelector("#sectionLayoutEditor");
+const projectStudioEditor = document.querySelector("#projectStudioEditor");
 const portfolioFoundationEditor = document.querySelector("#portfolioFoundationEditor");
 const mediaWorkflowEditor = document.querySelector("#mediaWorkflowEditor");
 const projectManagerEditor = document.querySelector("#projectManagerEditor");
@@ -790,6 +793,7 @@ if (!hasValidConfig) {
     const isContact = view === "contact";
     const isFooter = view === "footer";
     const isSectionLayout = view === "section-layout";
+    const isProjectStudio = view === "project-studio";
     const isPortfolioFoundation = view === "portfolio-foundation";
     const isMediaWorkflow = view === "media-workflow";
     const isProjectManager = view === "project-manager";
@@ -818,6 +822,7 @@ if (!hasValidConfig) {
     contactCmsEditor.hidden = !isContact;
     footerCmsEditor.hidden = !isFooter;
     sectionLayoutEditor.hidden = !isSectionLayout;
+    projectStudioEditor.hidden = !isProjectStudio;
     portfolioFoundationEditor.hidden = !isPortfolioFoundation;
     mediaWorkflowEditor.hidden = !isMediaWorkflow;
     projectManagerEditor.hidden = !isProjectManager;
@@ -846,6 +851,7 @@ if (!hasValidConfig) {
     contactCmsNavButton?.classList.toggle("active", isContact);
     footerCmsNavButton?.classList.toggle("active", isFooter);
     sectionLayoutNavButton?.classList.toggle("active", isSectionLayout);
+    projectStudioNavButton?.classList.toggle("active", isProjectStudio);
     projectsNavButton?.classList.toggle("active", isPortfolioFoundation);
     mediaWorkflowNavButton?.classList.toggle("active", isMediaWorkflow);
     projectManagerNavButton?.classList.toggle("active", isProjectManager);
@@ -862,7 +868,7 @@ if (!hasValidConfig) {
     ctaManagerNavButton?.classList.toggle("active", isCustomCta);
     systemStatesNavButton?.classList.toggle("active", isSystemStates);
 
-    [dashboardNavLink, homepageNavButton, realProjectsNavButton, designShowcaseNavButton, creativeServicesNavButton, digitalProjectsNavButton, aboutMeNavButton, skillsToolsNavButton, experienceCommunityNavButton, contactCmsNavButton, footerCmsNavButton, sectionLayoutNavButton, projectsNavButton, mediaWorkflowNavButton, projectManagerNavButton, homepageSelectionNavButton, projectMetadataNavButton, projectOrderingNavButton, caseStudiesNavButton, inquiryNavButton, analyticsNavButton, seoNavButton, testimonialsNavButton, cvManagerNavButton, availabilityNavButton, ctaManagerNavButton, systemStatesNavButton].forEach((item) => {
+    [dashboardNavLink, homepageNavButton, realProjectsNavButton, designShowcaseNavButton, creativeServicesNavButton, digitalProjectsNavButton, aboutMeNavButton, skillsToolsNavButton, experienceCommunityNavButton, contactCmsNavButton, footerCmsNavButton, sectionLayoutNavButton, projectStudioNavButton, projectsNavButton, mediaWorkflowNavButton, projectManagerNavButton, homepageSelectionNavButton, projectMetadataNavButton, projectOrderingNavButton, caseStudiesNavButton, inquiryNavButton, analyticsNavButton, seoNavButton, testimonialsNavButton, cvManagerNavButton, availabilityNavButton, ctaManagerNavButton, systemStatesNavButton].forEach((item) => {
       item?.removeAttribute("aria-current");
     });
 
@@ -910,6 +916,10 @@ if (!hasValidConfig) {
       sectionLayoutNavButton?.setAttribute("aria-current", "page");
       cmsPageEyebrow.textContent = "HOMEPAGE CMS";
       cmsPageTitle.textContent = "Section Order";
+    } else if (isProjectStudio) {
+      projectStudioNavButton?.setAttribute("aria-current", "page");
+      cmsPageEyebrow.textContent = "PROJECT STUDIO";
+      cmsPageTitle.textContent = "Projects";
     } else if (isPortfolioFoundation) {
       projectsNavButton?.setAttribute("aria-current", "page");
       cmsPageEyebrow.textContent = "PORTFOLIO ENGINE";
@@ -5587,6 +5597,7 @@ if (!hasValidConfig) {
 
   portfolioFoundationRefreshButton?.addEventListener("click", checkPortfolioFoundation);
 
+  initProjectStudio({ supabaseClient, showCmsView });
   initMediaWorkflow({ supabaseClient, showCmsView });
   initProjectManager({ supabaseClient, showCmsView });
   initHomepageSelection({ supabaseClient, showCmsView });
