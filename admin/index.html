@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./admin.css?v=detailed-showcase-20261001-2">
+  <link rel="stylesheet" href="./admin.css?v=existing-sections-20261001-3">
   <link rel="stylesheet" href="./system-state-manager.css?v=phase5h-states-20260929-1">
 </head>
 <body>
@@ -2198,6 +2198,64 @@
                 <div class="case-builder-block">
                   <div class="editor-section-title compact">
                     <div>
+                      <p class="eyebrow">EXISTING PAGE CONTENT</p>
+                      <h3>Edit the current SSFC / project sections</h3>
+                    </div>
+                    <span>Same page, same editor</span>
+                  </div>
+
+                  <div class="project-studio-existing-note">
+                    Hero image, summary facts and the existing text/image/card sections from the public case-study page can be edited here.
+                  </div>
+
+                  <div class="project-studio-existing-grid">
+                    <div>
+                      <label class="media-file-field">
+                        <span>Replace hero image</span>
+                        <input id="projectStudioHeroImageInput" type="file" accept="image/jpeg,image/png,image/webp">
+                        <small>Optional. Upload a replacement for the large case-study hero image.</small>
+                      </label>
+                      <label>
+                        <span>Hero image URL</span>
+                        <input id="projectStudioHeroImageUrl" type="text" maxlength="1200" placeholder="Existing image path or uploaded URL">
+                      </label>
+                      <label>
+                        <span>Hero image alt text</span>
+                        <input id="projectStudioHeroImageAlt" type="text" maxlength="220" placeholder="Describe the hero image">
+                      </label>
+                      <p id="projectStudioHeroImageStatus" class="form-message" role="status" aria-live="polite"></p>
+                    </div>
+
+                    <div class="project-studio-cover-preview">
+                      <img id="projectStudioHeroImagePreview" alt="" hidden>
+                      <span>Hero preview</span>
+                    </div>
+                  </div>
+
+                  <div class="project-studio-existing-subsection">
+                    <div class="editor-section-title compact">
+                      <div>
+                        <p class="eyebrow">SUMMARY FACTS</p>
+                        <h3>Top information row</h3>
+                      </div>
+                    </div>
+                    <div id="projectStudioFacts" class="project-studio-facts"></div>
+                  </div>
+
+                  <div class="project-studio-existing-subsection">
+                    <div class="editor-section-title compact">
+                      <div>
+                        <p class="eyebrow">PAGE SECTIONS</p>
+                        <h3>Current case-study blocks</h3>
+                      </div>
+                    </div>
+                    <div id="projectStudioExistingSections" class="project-studio-existing-sections"></div>
+                  </div>
+                </div>
+
+                <div class="case-builder-block">
+                  <div class="editor-section-title compact">
+                    <div>
                       <p class="eyebrow">PROJECT SHOWCASE</p>
                       <h3>One image + its own details</h3>
                     </div>
@@ -4048,6 +4106,6 @@
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script type="module" src="./admin.js?v=detailed-showcase-20261001-2"></script>
+  <script type="module" src="./admin.js?v=existing-sections-20261001-3"></script>
 </body>
 </html>
