@@ -1,6 +1,6 @@
 import { ADMIN_CONFIG } from "./config.js";
 import { initMediaWorkflow } from "./media-workflow.js";
-import { initProjectStudio } from "./project-studio.js?v=project-studio-20261001-1";
+import { initProjectStudio } from "./project-studio.js?v=detailed-showcase-20261001-2";
 import { initProjectManager } from "./project-manager.js";
 import { initHomepageSelection } from "./homepage-selection.js";
 import { initProjectMetadata } from "./project-metadata.js";
