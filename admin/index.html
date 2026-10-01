@@ -210,6 +210,12 @@
             <small>Locked</small>
           </button>
 
+          <button id="projectStudioNavButton" class="nav-item" type="button">
+            <span class="nav-index">03</span>
+            <span>Project Studio</span>
+            <small>Simple editor</small>
+          </button>
+
           <button id="projectsNavButton" class="nav-item" type="button">
             <span class="nav-index">03A</span>
             <span>Foundation</span>
@@ -2026,6 +2032,220 @@
 
             <div id="sectionLayoutPreviewList" class="section-layout-preview-list"></div>
           </section>
+        </div>
+
+        <div id="projectStudioEditor" class="editor-content" hidden>
+          <section class="editor-heading-card">
+            <div>
+              <p class="status-pill success">PROJECT STUDIO</p>
+              <h3>Projects in one place</h3>
+              <p>Edit project info, cover, homepage visibility, case-study intro and gallery without jumping between Media, Projects and Case Studies.</p>
+            </div>
+            <div class="editor-state">
+              <span>ONE-PLACE EDITOR</span>
+              <strong>Portfolio Engine + Case Studies</strong>
+              <b id="projectStudioState">Ready</b>
+            </div>
+          </section>
+
+          <section class="editor-card">
+            <div class="editor-section-title">
+              <div>
+                <p class="eyebrow">PROJECT STUDIO</p>
+                <h3>Simple project manager</h3>
+              </div>
+              <div class="project-studio-top-actions">
+                <button id="projectStudioNewButton" class="secondary-button" type="button">+ New project</button>
+                <button id="projectStudioRefreshButton" class="secondary-button" type="button">Refresh</button>
+              </div>
+            </div>
+            <p id="projectStudioMessage" class="form-message" role="status" aria-live="polite"></p>
+            <div class="portfolio-manager-note">
+              <strong>Simple workflow</strong>
+              <span>Choose a project → edit → upload cover or multiple gallery images here → Save or Publish. SSFC and Biporjoy 18 are connected automatically and old test projects are cleaned up.</span>
+            </div>
+          </section>
+
+          <div class="project-studio-layout">
+            <aside class="editor-card project-studio-sidebar">
+              <div class="editor-section-title compact">
+                <div>
+                  <p class="eyebrow">PROJECTS</p>
+                  <h3>Choose one</h3>
+                </div>
+              </div>
+              <div id="projectStudioList" class="project-studio-list"></div>
+            </aside>
+
+            <section class="editor-card project-studio-editor-card">
+              <form id="projectStudioForm" class="cms-editor-form manager-form" novalidate>
+                <input id="projectStudioId" type="hidden">
+
+                <div class="case-builder-block">
+                  <div class="editor-section-title compact">
+                    <div>
+                      <p class="eyebrow">PROJECT INFO</p>
+                      <h3>Basic details</h3>
+                    </div>
+                  </div>
+
+                  <div class="editor-grid two">
+                    <label>
+                      <span>Project title</span>
+                      <input id="projectStudioTitle" type="text" maxlength="160" required placeholder="SSFC">
+                    </label>
+                    <label>
+                      <span>Slug</span>
+                      <input id="projectStudioSlug" type="text" maxlength="120" required placeholder="ssfc">
+                    </label>
+                    <label class="editor-grid-span">
+                      <span>Summary</span>
+                      <textarea id="projectStudioSummary" rows="4" maxlength="900" placeholder="Short project summary"></textarea>
+                    </label>
+                    <label>
+                      <span>Category</span>
+                      <select id="projectStudioCategory"><option value="">No category</option></select>
+                    </label>
+                    <label>
+                      <span>Visibility</span>
+                      <select id="projectStudioVisibility">
+                        <option value="public">Public</option>
+                        <option value="private">Private</option>
+                      </select>
+                    </label>
+                    <label>
+                      <span>Tags</span>
+                      <input id="projectStudioTags" type="text" maxlength="1000" placeholder="Sports Branding, Event Design, Social Media">
+                      <small>Separate tags with commas.</small>
+                    </label>
+                    <label>
+                      <span>Badges</span>
+                      <input id="projectStudioBadges" type="text" maxlength="500" placeholder="Case Study, Featured">
+                      <small>Separate badges with commas.</small>
+                    </label>
+                  </div>
+
+                  <div class="project-studio-toggle-row">
+                    <label class="manager-check">
+                      <input id="projectStudioHomepage" type="checkbox">
+                      <span>Show on homepage</span>
+                    </label>
+                    <label class="manager-check">
+                      <input id="projectStudioFeatured" type="checkbox">
+                      <span>Featured priority</span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="case-builder-block">
+                  <div class="editor-section-title compact">
+                    <div>
+                      <p class="eyebrow">COVER</p>
+                      <h3>Project cover</h3>
+                    </div>
+                    <span>Upload here</span>
+                  </div>
+
+                  <div class="project-studio-cover-layout">
+                    <div>
+                      <label class="media-file-field">
+                        <span>Choose cover image</span>
+                        <input id="projectStudioCoverInput" type="file" accept="image/jpeg,image/png,image/webp">
+                        <small>JPG, PNG or WebP. The image is optimized before upload.</small>
+                      </label>
+                      <label>
+                        <span>Cover image URL</span>
+                        <input id="projectStudioCoverUrl" type="text" maxlength="1200" placeholder="Upload a cover or use an existing image path">
+                      </label>
+                      <label>
+                        <span>Cover alt text</span>
+                        <input id="projectStudioCoverAlt" type="text" maxlength="220" placeholder="Describe the cover image">
+                      </label>
+                      <p id="projectStudioCoverStatus" class="form-message" role="status" aria-live="polite"></p>
+                    </div>
+                    <div class="project-studio-cover-preview">
+                      <img id="projectStudioCoverPreview" alt="" hidden>
+                      <span>Cover preview</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="case-builder-block">
+                  <div class="editor-section-title compact">
+                    <div>
+                      <p class="eyebrow">CASE STUDY</p>
+                      <h3>Project page intro</h3>
+                    </div>
+                    <span>Optional</span>
+                  </div>
+
+                  <div class="editor-grid two">
+                    <label>
+                      <span>Kicker</span>
+                      <input id="projectStudioKicker" type="text" maxlength="120" placeholder="Featured Case Study">
+                    </label>
+                    <label>
+                      <span>Headline</span>
+                      <input id="projectStudioHeadline" type="text" maxlength="220" placeholder="Leave blank to use project title">
+                    </label>
+                    <label class="editor-grid-span">
+                      <span>Intro</span>
+                      <textarea id="projectStudioLead" rows="4" maxlength="1200" placeholder="Short case-study introduction"></textarea>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="case-builder-block">
+                  <div class="editor-section-title compact">
+                    <div>
+                      <p class="eyebrow">PROJECT GALLERY</p>
+                      <h3>Add all your work here</h3>
+                    </div>
+                    <span>Multi-image upload</span>
+                  </div>
+
+                  <label>
+                    <span>Gallery title</span>
+                    <input id="projectStudioGalleryTitle" type="text" maxlength="220" value="Project Gallery">
+                  </label>
+
+                  <label class="project-studio-dropzone">
+                    <span>+ Add images</span>
+                    <strong>Choose many images at once</strong>
+                    <small>Up to 25 images per upload. They are optimized and attached to this project automatically.</small>
+                    <input id="projectStudioGalleryInput" type="file" accept="image/jpeg,image/png,image/webp" multiple>
+                  </label>
+
+                  <p id="projectStudioGalleryStatus" class="form-message" role="status" aria-live="polite"></p>
+                  <div id="projectStudioGalleryGrid" class="project-studio-gallery-grid"></div>
+                </div>
+
+                <details class="project-studio-advanced">
+                  <summary>Optional project link</summary>
+                  <div class="editor-grid two">
+                    <label>
+                      <span>Action label</span>
+                      <input id="projectStudioActionLabel" type="text" maxlength="80" value="View project">
+                    </label>
+                    <label>
+                      <span>Action link</span>
+                      <input id="projectStudioActionHref" type="text" maxlength="500" placeholder="https://... or project.html">
+                    </label>
+                  </div>
+                </details>
+
+                <div class="manager-form-actions project-studio-actions">
+                  <button id="projectStudioSaveButton" type="submit">Save changes</button>
+                  <button id="projectStudioPublishButton" class="publish-button" type="button">Publish project</button>
+                  <button id="projectStudioUnpublishButton" class="secondary-button" type="button" hidden>Unpublish</button>
+                  <button id="projectStudioOpenButton" class="secondary-button" type="button" hidden>Open page ↗</button>
+                  <button id="projectStudioDeleteButton" class="secondary-button danger-button" type="button" hidden>Delete project</button>
+                </div>
+
+                <p id="projectStudioFormMessage" class="form-message" role="status" aria-live="polite"></p>
+              </form>
+            </section>
+          </div>
         </div>
 
         <div id="portfolioFoundationEditor" class="editor-content" hidden>
