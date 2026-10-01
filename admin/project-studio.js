@@ -222,6 +222,14 @@ export const initProjectStudio = ({ supabaseClient, showCmsView }) => {
   const galleryStatus = document.querySelector("#projectStudioGalleryStatus");
   const galleryGrid = document.querySelector("#projectStudioGalleryGrid");
 
+  const heroImageInput = document.querySelector("#projectStudioHeroImageInput");
+  const heroImageUrlInput = document.querySelector("#projectStudioHeroImageUrl");
+  const heroImageAltInput = document.querySelector("#projectStudioHeroImageAlt");
+  const heroImagePreview = document.querySelector("#projectStudioHeroImagePreview");
+  const heroImageStatus = document.querySelector("#projectStudioHeroImageStatus");
+  const factsRoot = document.querySelector("#projectStudioFacts");
+  const existingSectionsRoot = document.querySelector("#projectStudioExistingSections");
+
   const saveButton = document.querySelector("#projectStudioSaveButton");
   const publishButton = document.querySelector("#projectStudioPublishButton");
   const unpublishButton = document.querySelector("#projectStudioUnpublishButton");
@@ -236,6 +244,8 @@ export const initProjectStudio = ({ supabaseClient, showCmsView }) => {
   let currentProject = null;
   let currentCaseStudy = null;
   let showcaseItems = [];
+  let caseFactsDraft = [];
+  let existingSectionsDraft = [];
   let busy = false;
   let repairAttempted = false;
 
@@ -262,7 +272,8 @@ export const initProjectStudio = ({ supabaseClient, showCmsView }) => {
       deleteButton,
       openButton,
       coverInput,
-      galleryInput
+      galleryInput,
+      heroImageInput
     ].forEach((element) => {
       if (element) element.disabled = value;
     });
@@ -492,6 +503,321 @@ export const initProjectStudio = ({ supabaseClient, showCmsView }) => {
     });
   };
 
+  const syncHeroImagePreview = () => {
+    const src = clean(heroImageUrlInput?.value, 1200);
+    if (!heroImagePreview) return;
+
+    if (!src) {
+      heroImagePreview.hidden = true;
+      heroImagePreview.removeAttribute("src");
+      heroImagePreview.alt = "";
+      return;
+    }
+
+    heroImagePreview.src = src;
+    heroImagePreview.alt =
+      clean(heroImageAltInput?.value, 220) || "Case-study hero preview";
+    heroImagePreview.hidden = false;
+  };
+
+  const renderFacts = () => {
+    if (!factsRoot) return;
+    factsRoot.replaceChildren();
+
+    if (!caseFactsDraft.length) {
+      caseFactsDraft = [
+        { label: "PROJECT", value: currentProject?.title || "" },
+        { label: "ROLE", value: "" },
+        { label: "YEAR", value: "" },
+        { label: "LOCATION", value: "" }
+      ];
+    }
+
+    caseFactsDraft.forEach((fact, index) => {
+      const row = document.createElement("div");
+      row.className = "project-studio-fact-row";
+
+      const label = document.createElement("input");
+      label.type = "text";
+      label.maxLength = 80;
+      label.placeholder = "Label";
+      label.value = clean(fact?.label, 80);
+      label.addEventListener("input", () => {
+        caseFactsDraft[index].label = clean(label.value, 80);
+      });
+
+      const value = document.createElement("input");
+      value.type = "text";
+      value.maxLength = 220;
+      value.placeholder = "Value";
+      value.value = clean(fact?.value, 220);
+      value.addEventListener("input", () => {
+        caseFactsDraft[index].value = clean(value.value, 220);
+      });
+
+      row.append(label, value);
+      factsRoot.appendChild(row);
+    });
+  };
+
+  const makeExistingField = ({
+    labelText,
+    value = "",
+    maxLength = 1200,
+    multiline = false,
+    wide = false,
+    onInput
+  }) => {
+    const label = document.createElement("label");
+    if (wide) label.classList.add("wide");
+
+    const span = document.createElement("span");
+    span.textContent = labelText;
+
+    const field = multiline
+      ? document.createElement("textarea")
+      : document.createElement("input");
+
+    if (multiline) {
+      field.rows = 4;
+    } else {
+      field.type = "text";
+    }
+
+    field.maxLength = maxLength;
+    field.value = clean(value, maxLength);
+    field.addEventListener("input", () => onInput(clean(field.value, maxLength)));
+
+    label.append(span, field);
+    return label;
+  };
+
+  const renderExistingSections = () => {
+    if (!existingSectionsRoot) return;
+    existingSectionsRoot.replaceChildren();
+
+    if (!existingSectionsDraft.length) {
+      const empty = document.createElement("div");
+      empty.className = "manager-empty";
+      empty.textContent = "No existing case-study blocks. Add new detailed items in Project Showcase below.";
+      existingSectionsRoot.appendChild(empty);
+      return;
+    }
+
+    existingSectionsDraft.forEach((section, sectionIndex) => {
+      const card = document.createElement("article");
+      card.className = "project-studio-existing-card";
+
+      const head = document.createElement("div");
+      head.className = "project-studio-existing-card-head";
+
+      const name = document.createElement("strong");
+      name.textContent = section.title || section.eyebrow || "Case-study block";
+
+      const type = document.createElement("span");
+      type.textContent = section.type || "text";
+
+      head.append(name, type);
+      card.appendChild(head);
+
+      const fields = document.createElement("div");
+      fields.className = "project-studio-existing-fields";
+
+      fields.append(
+        makeExistingField({
+          labelText: "Small label",
+          value: section.eyebrow,
+          maxLength: 120,
+          onInput: (value) => {
+            existingSectionsDraft[sectionIndex].eyebrow = value;
+            name.textContent = existingSectionsDraft[sectionIndex].title || value || "Case-study block";
+          }
+        }),
+        makeExistingField({
+          labelText: "Title",
+          value: section.title,
+          maxLength: 220,
+          onInput: (value) => {
+            existingSectionsDraft[sectionIndex].title = value;
+            name.textContent = value || existingSectionsDraft[sectionIndex].eyebrow || "Case-study block";
+          }
+        }),
+        makeExistingField({
+          labelText: "Description",
+          value: section.body,
+          maxLength: 1600,
+          multiline: true,
+          wide: true,
+          onInput: (value) => {
+            existingSectionsDraft[sectionIndex].body = value;
+          }
+        })
+      );
+
+      card.appendChild(fields);
+
+      if (section.type === "image") {
+        const imageRow = document.createElement("div");
+        imageRow.className = "project-studio-existing-image-row";
+
+        const imageFields = document.createElement("div");
+        imageFields.className = "project-studio-existing-fields";
+
+        const urlField = makeExistingField({
+          labelText: "Image URL",
+          value: section.image_url,
+          maxLength: 1200,
+          wide: true,
+          onInput: (value) => {
+            existingSectionsDraft[sectionIndex].image_url = value;
+            previewImage.src = value;
+          }
+        });
+
+        const altField = makeExistingField({
+          labelText: "Image alt text",
+          value: section.image_alt,
+          maxLength: 220,
+          wide: true,
+          onInput: (value) => {
+            existingSectionsDraft[sectionIndex].image_alt = value;
+            previewImage.alt = value || "Project artwork";
+          }
+        });
+
+        const uploadLabel = document.createElement("label");
+        uploadLabel.className = "wide media-file-field";
+        const uploadSpan = document.createElement("span");
+        uploadSpan.textContent = "Replace this image";
+        const upload = document.createElement("input");
+        upload.type = "file";
+        upload.accept = "image/jpeg,image/png,image/webp";
+        const uploadSmall = document.createElement("small");
+        uploadSmall.textContent = "Choose a JPG, PNG or WebP replacement.";
+        uploadLabel.append(uploadSpan, upload, uploadSmall);
+
+        imageFields.append(urlField, altField, uploadLabel);
+
+        const preview = document.createElement("div");
+        preview.className = "project-studio-existing-image-preview";
+        const previewImage = document.createElement("img");
+        previewImage.src = clean(section.image_url, 1200);
+        previewImage.alt = clean(section.image_alt, 220) || "Project artwork";
+        preview.appendChild(previewImage);
+
+        upload.addEventListener("change", async () => {
+          const file = upload.files?.[0];
+          if (!file) return;
+          setBusy(true);
+          try {
+            const url = await uploadImage(file, "section");
+            const defaultAlt =
+              clean(file.name.replace(/\.[^.]+$/, "").replace(/[-_]+/g, " "), 220) ||
+              "Project artwork";
+            existingSectionsDraft[sectionIndex].image_url = url;
+            if (!existingSectionsDraft[sectionIndex].image_alt) {
+              existingSectionsDraft[sectionIndex].image_alt = defaultAlt;
+            }
+            renderExistingSections();
+            setFormMessage("Replacement image uploaded. Press Save changes or Publish project.");
+          } catch (error) {
+            setFormMessage(error?.message || "Could not replace this image.");
+          } finally {
+            setBusy(false);
+          }
+        });
+
+        imageRow.append(imageFields, preview);
+        card.appendChild(imageRow);
+      }
+
+      if (section.type === "cards") {
+        const cardsRoot = document.createElement("div");
+        cardsRoot.className = "project-studio-existing-cards";
+        const cards = Array.isArray(section.cards) ? section.cards : [];
+
+        cards.forEach((miniCard, cardIndex) => {
+          const mini = document.createElement("div");
+          mini.className = "project-studio-existing-mini-card";
+
+          mini.append(
+            makeExistingField({
+              labelText: "Card title",
+              value: miniCard?.title,
+              maxLength: 160,
+              onInput: (value) => {
+                existingSectionsDraft[sectionIndex].cards[cardIndex].title = value;
+              }
+            }),
+            makeExistingField({
+              labelText: "Card text",
+              value: miniCard?.text,
+              maxLength: 600,
+              onInput: (value) => {
+                existingSectionsDraft[sectionIndex].cards[cardIndex].text = value;
+              }
+            })
+          );
+
+          cardsRoot.appendChild(mini);
+        });
+
+        card.appendChild(cardsRoot);
+      }
+
+      if (section.type === "gallery") {
+        const images = Array.isArray(section.images) ? section.images : [];
+        const galleryRoot = document.createElement("div");
+        galleryRoot.className = "project-studio-existing-cards";
+
+        images.forEach((galleryImage, imageIndex) => {
+          const imageRow = document.createElement("div");
+          imageRow.className = "project-studio-existing-image-row";
+
+          const imageFields = document.createElement("div");
+          imageFields.className = "project-studio-existing-fields";
+
+          imageFields.append(
+            makeExistingField({
+              labelText: "Image URL",
+              value: galleryImage?.url,
+              maxLength: 1200,
+              wide: true,
+              onInput: (value) => {
+                existingSectionsDraft[sectionIndex].images[imageIndex].url = value;
+                previewImage.src = value;
+              }
+            }),
+            makeExistingField({
+              labelText: "Image alt text",
+              value: galleryImage?.alt,
+              maxLength: 220,
+              wide: true,
+              onInput: (value) => {
+                existingSectionsDraft[sectionIndex].images[imageIndex].alt = value;
+                previewImage.alt = value || "Project artwork";
+              }
+            })
+          );
+
+          const preview = document.createElement("div");
+          preview.className = "project-studio-existing-image-preview";
+          const previewImage = document.createElement("img");
+          previewImage.src = clean(galleryImage?.url, 1200);
+          previewImage.alt = clean(galleryImage?.alt, 220) || "Project artwork";
+          preview.appendChild(previewImage);
+
+          imageRow.append(imageFields, preview);
+          galleryRoot.appendChild(imageRow);
+        });
+
+        card.appendChild(galleryRoot);
+      }
+
+      existingSectionsRoot.appendChild(card);
+    });
+  };
+
   const renderProjectList = () => {
     list.replaceChildren();
 
@@ -532,6 +858,8 @@ export const initProjectStudio = ({ supabaseClient, showCmsView }) => {
     currentProject = null;
     currentCaseStudy = null;
     showcaseItems = [];
+    caseFactsDraft = [];
+    existingSectionsDraft = [];
     form.reset();
     delete slugInput.dataset.manual;
     idInput.value = "";
@@ -540,6 +868,10 @@ export const initProjectStudio = ({ supabaseClient, showCmsView }) => {
     coverUrlInput.value = "";
     coverAltInput.value = "";
     galleryTitleInput.value = "Project Showcase";
+    if (heroImageUrlInput) heroImageUrlInput.value = "";
+    if (heroImageAltInput) heroImageAltInput.value = "";
+    if (heroImageInput) heroImageInput.value = "";
+    if (heroImageStatus) heroImageStatus.textContent = "";
     homepageInput.checked = false;
     featuredInput.checked = false;
     publishButton.textContent = "Publish project";
@@ -547,6 +879,9 @@ export const initProjectStudio = ({ supabaseClient, showCmsView }) => {
     deleteButton.hidden = true;
     openButton.hidden = true;
     syncCoverPreview();
+    syncHeroImagePreview();
+    renderFacts();
+    renderExistingSections();
     renderShowcase();
     renderProjectList();
     setFormMessage("Create a project here. Cover, showcase items and case-study content stay together in this editor.");
@@ -579,6 +914,24 @@ export const initProjectStudio = ({ supabaseClient, showCmsView }) => {
     headlineInput.value = currentCaseStudy?.headline || "";
     leadInput.value = currentCaseStudy?.lead || "";
 
+    if (heroImageUrlInput) {
+      heroImageUrlInput.value =
+        currentCaseStudy?.hero_image_url || project.cover_image_url || "";
+    }
+    if (heroImageAltInput) {
+      heroImageAltInput.value =
+        currentCaseStudy?.hero_image_alt || project.cover_image_alt || "";
+    }
+
+    caseFactsDraft = structuredClone(
+      Array.isArray(currentCaseStudy?.facts) ? currentCaseStudy.facts : []
+    );
+
+    existingSectionsDraft = structuredClone(
+      (Array.isArray(currentCaseStudy?.sections) ? currentCaseStudy.sections : [])
+        .filter((section) => section?.id !== SHOWCASE_SECTION_ID)
+    );
+
     const showcase = getManagedShowcase(currentCaseStudy?.sections || []);
     galleryTitleInput.value = showcase?.title || "Project Showcase";
 
@@ -597,6 +950,9 @@ export const initProjectStudio = ({ supabaseClient, showCmsView }) => {
     openButton.hidden = !(project.is_published && project.visibility === "public");
     publishButton.textContent = project.is_published ? "Save & keep published" : "Publish project";
     syncCoverPreview();
+    syncHeroImagePreview();
+    renderFacts();
+    renderExistingSections();
     renderShowcase();
     renderProjectList();
     setFormMessage("Editing " + project.title + ". Everything important for this project is on this page.");
@@ -678,16 +1034,27 @@ export const initProjectStudio = ({ supabaseClient, showCmsView }) => {
   const persistCaseStudy = async ({ publish = null } = {}) => {
     if (!currentProject?.id) return null;
 
-    const existingSections = currentCaseStudy?.sections || [];
     const payload = {
       project_id: currentProject.id,
       kicker: clean(kickerInput.value, 120),
       headline: clean(headlineInput.value, 220),
       lead: clean(leadInput.value, 1200),
-      hero_image_url: currentCaseStudy?.hero_image_url || currentProject.cover_image_url || null,
-      hero_image_alt: currentCaseStudy?.hero_image_alt || currentProject.cover_image_alt || "",
-      facts: Array.isArray(currentCaseStudy?.facts) ? currentCaseStudy.facts : [],
-      sections: withManagedShowcase(existingSections),
+      hero_image_url:
+        clean(heroImageUrlInput?.value, 1200) ||
+        currentProject.cover_image_url ||
+        null,
+      hero_image_alt:
+        clean(heroImageAltInput?.value, 220) ||
+        currentProject.cover_image_alt ||
+        "",
+      facts: caseFactsDraft
+        .map((fact) => ({
+          label: clean(fact?.label, 80),
+          value: clean(fact?.value, 220)
+        }))
+        .filter((fact) => fact.label || fact.value)
+        .slice(0, 8),
+      sections: withManagedShowcase(existingSectionsDraft),
       related_project_id: currentCaseStudy?.related_project_id || null,
       cta_label: currentCaseStudy?.cta_label || "",
       cta_href: currentCaseStudy?.cta_href || null,
@@ -729,6 +1096,8 @@ export const initProjectStudio = ({ supabaseClient, showCmsView }) => {
       if (galleryStatus) galleryStatus.textContent = error?.message || "Could not save the showcase.";
     } finally {
       setBusy(false);
+      renderFacts();
+      renderExistingSections();
       renderShowcase();
     }
   }
@@ -1020,6 +1389,40 @@ export const initProjectStudio = ({ supabaseClient, showCmsView }) => {
 
   coverUrlInput.addEventListener("input", syncCoverPreview);
   coverAltInput.addEventListener("input", syncCoverPreview);
+  heroImageUrlInput?.addEventListener("input", syncHeroImagePreview);
+  heroImageAltInput?.addEventListener("input", syncHeroImagePreview);
+
+  heroImageInput?.addEventListener("change", async () => {
+    const file = heroImageInput.files?.[0];
+    if (!file) return;
+
+    setBusy(true);
+    if (heroImageStatus) heroImageStatus.textContent = "Optimizing & uploading hero image…";
+
+    try {
+      const url = await uploadImage(file, "hero");
+      const defaultAlt =
+        clean(file.name.replace(/\.[^.]+$/, "").replace(/[-_]+/g, " "), 220) ||
+        "Case-study hero image";
+
+      if (heroImageUrlInput) heroImageUrlInput.value = url;
+      if (heroImageAltInput && !heroImageAltInput.value.trim()) {
+        heroImageAltInput.value = defaultAlt;
+      }
+
+      syncHeroImagePreview();
+      if (heroImageStatus) {
+        heroImageStatus.textContent = "Hero image uploaded. Press Save changes or Publish project.";
+      }
+    } catch (error) {
+      if (heroImageStatus) {
+        heroImageStatus.textContent = error?.message || "Could not upload hero image.";
+      }
+    } finally {
+      heroImageInput.value = "";
+      setBusy(false);
+    }
+  });
 
   coverInput.addEventListener("change", async () => {
     const file = coverInput.files?.[0];
