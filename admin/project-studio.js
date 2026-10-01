@@ -1,6 +1,6 @@
 const TEST_PROJECT_SLUGS = ["ordering-test-2", "test-portfolio-project"];
 const LEGACY_PROJECT_SLUGS = ["ssfc", "biporjoy-18"];
-const GALLERY_SECTION_ID = "project-gallery";
+const SHOWCASE_SECTION_ID = "project-gallery";
 const BUCKET = "portfolio-media";
 
 const clean = (value, max = 2000) =>
@@ -110,7 +110,7 @@ const createLegacyCaseStudy = (slug, relatedProjectId = null) => {
           ]
         },
         {
-          id: GALLERY_SECTION_ID,
+          id: SHOWCASE_SECTION_ID,
           type: "gallery",
           eyebrow: "More Work",
           title: "SSFC Project Gallery",
@@ -170,7 +170,7 @@ const createLegacyCaseStudy = (slug, relatedProjectId = null) => {
         ]
       },
       {
-        id: GALLERY_SECTION_ID,
+        id: SHOWCASE_SECTION_ID,
         type: "gallery",
         eyebrow: "More Work",
         title: "Biporjoy 18 Project Gallery",
@@ -235,7 +235,7 @@ export const initProjectStudio = ({ supabaseClient, showCmsView }) => {
   let caseStudies = [];
   let currentProject = null;
   let currentCaseStudy = null;
-  let galleryImages = [];
+  let showcaseItems = [];
   let busy = false;
   let repairAttempted = false;
 
@@ -271,24 +271,44 @@ export const initProjectStudio = ({ supabaseClient, showCmsView }) => {
   const categoryName = (id) =>
     categories.find((item) => item.id === id)?.name || "Uncategorized";
 
-  const getManagedGallery = (sections = []) =>
+  const getManagedShowcase = (sections = []) =>
     (Array.isArray(sections) ? sections : []).find(
-      (section) => section?.id === GALLERY_SECTION_ID
+      (section) => section?.id === SHOWCASE_SECTION_ID
     ) || null;
 
-  const withManagedGallery = (sections = []) => {
+  const normalizeShowcaseItem = (item, index = 0) => {
+    const legacyUrl = clean(item?.url || item?.image_url, 1200);
+    const legacyAlt = clean(item?.alt || item?.image_alt, 220);
+    return {
+      image_url: legacyUrl,
+      image_alt: legacyAlt || "Project artwork",
+      label: clean(item?.label || item?.eyebrow || "Project Artwork", 100),
+      title: clean(
+        item?.title ||
+          legacyAlt ||
+          "Project Artwork " + String(index + 1).padStart(2, "0"),
+        220
+      ),
+      description: clean(item?.description || item?.body, 1200),
+      meta: clean(
+        Array.isArray(item?.meta) ? item.meta.join(" | ") : item?.meta,
+        500
+      )
+    };
+  };
+
+  const withManagedShowcase = (sections = []) => {
     const source = Array.isArray(sections) ? sections : [];
-    const next = source.filter((section) => section?.id !== GALLERY_SECTION_ID);
+    const next = source.filter((section) => section?.id !== SHOWCASE_SECTION_ID);
     next.push({
-      id: GALLERY_SECTION_ID,
-      type: "gallery",
-      eyebrow: "More Work",
-      title: clean(galleryTitleInput?.value || "Project Gallery", 220) || "Project Gallery",
-      body: "Additional selected work from this project.",
-      images: galleryImages.map((item) => ({
-        url: clean(item.url, 1200),
-        alt: clean(item.alt, 220) || "Project artwork"
-      }))
+      id: SHOWCASE_SECTION_ID,
+      type: "showcase",
+      eyebrow: "Selected Work",
+      title: clean(galleryTitleInput?.value || "Project Showcase", 220) || "Project Showcase",
+      body: "Selected project work presented one piece at a time with its own details.",
+      items: showcaseItems
+        .filter((item) => item?.image_url)
+        .map((item, index) => normalizeShowcaseItem(item, index))
     });
     return next.slice(0, 20);
   };
@@ -326,68 +346,129 @@ export const initProjectStudio = ({ supabaseClient, showCmsView }) => {
     coverPreview.hidden = false;
   };
 
-  const renderGallery = () => {
+  const renderShowcase = () => {
     galleryGrid.replaceChildren();
 
-    if (!galleryImages.length) {
+    if (!showcaseItems.length) {
       const empty = document.createElement("div");
       empty.className = "manager-empty";
-      empty.textContent = "No extra project images yet. Choose images above to upload and attach them here.";
+      empty.textContent = "No showcase items yet. Upload images above, then add details for each one.";
       galleryGrid.appendChild(empty);
       return;
     }
 
-    galleryImages.forEach((item, index) => {
+    showcaseItems.forEach((item, index) => {
       const card = document.createElement("article");
-      card.className = "project-studio-gallery-card";
+      card.className = "project-studio-showcase-card";
+
+      const preview = document.createElement("div");
+      preview.className = "project-studio-showcase-preview";
 
       const image = document.createElement("img");
-      image.src = item.url;
-      image.alt = item.alt || "Project artwork";
+      image.src = item.image_url;
+      image.alt = item.image_alt || item.title || "Project artwork";
       image.loading = "lazy";
       image.decoding = "async";
+      preview.appendChild(image);
 
-      const controls = document.createElement("div");
-      controls.className = "project-studio-gallery-controls";
+      const fields = document.createElement("div");
+      fields.className = "project-studio-showcase-fields";
+
+      const makeField = (labelText, field) => {
+        const label = document.createElement("label");
+        const span = document.createElement("span");
+        span.textContent = labelText;
+        label.append(span, field);
+        return label;
+      };
+
+      const labelInput = document.createElement("input");
+      labelInput.type = "text";
+      labelInput.maxLength = 100;
+      labelInput.value = item.label || "";
+      labelInput.placeholder = "Match Graphic / Banner / Jersey";
+      labelInput.addEventListener("change", async () => {
+        item.label = clean(labelInput.value, 100);
+        await saveShowcaseOnly("Item label saved.");
+      });
+
+      const title = document.createElement("input");
+      title.type = "text";
+      title.maxLength = 220;
+      title.value = item.title || "";
+      title.placeholder = "Season 4 Opening Poster";
+      title.addEventListener("change", async () => {
+        item.title = clean(title.value, 220);
+        await saveShowcaseOnly("Item title saved.");
+      });
+
+      const description = document.createElement("textarea");
+      description.maxLength = 1200;
+      description.rows = 4;
+      description.value = item.description || "";
+      description.placeholder = "What this design was for, your role and what makes it important.";
+      description.addEventListener("change", async () => {
+        item.description = clean(description.value, 1200);
+        await saveShowcaseOnly("Item description saved.");
+      });
+
+      const meta = document.createElement("input");
+      meta.type = "text";
+      meta.maxLength = 500;
+      meta.value = item.meta || "";
+      meta.placeholder = "16 × 8 FT | Season 4 | Large Format";
+      meta.addEventListener("change", async () => {
+        item.meta = clean(meta.value, 500);
+        await saveShowcaseOnly("Item details saved.");
+      });
 
       const alt = document.createElement("input");
       alt.type = "text";
       alt.maxLength = 220;
-      alt.value = item.alt || "";
-      alt.placeholder = "Image description";
+      alt.value = item.image_alt || "";
+      alt.placeholder = "Describe this image";
       alt.addEventListener("change", async () => {
-        item.alt = clean(alt.value, 220) || "Project artwork";
-        await saveCaseStudyOnly("Image description saved.");
+        item.image_alt = clean(alt.value, 220) || "Project artwork";
+        await saveShowcaseOnly("Image alt text saved.");
       });
+
+      fields.append(
+        makeField("Label", labelInput),
+        makeField("Title", title),
+        makeField("Description", description),
+        makeField("Details", meta),
+        makeField("Image alt text", alt)
+      );
+
+      const actions = document.createElement("div");
+      actions.className = "project-studio-showcase-actions";
 
       const up = document.createElement("button");
       up.type = "button";
       up.className = "secondary-button";
-      up.textContent = "↑";
+      up.textContent = "Move up";
       up.disabled = busy || index === 0;
-      up.setAttribute("aria-label", "Move image up");
       up.addEventListener("click", async () => {
-        [galleryImages[index - 1], galleryImages[index]] = [
-          galleryImages[index],
-          galleryImages[index - 1]
+        [showcaseItems[index - 1], showcaseItems[index]] = [
+          showcaseItems[index],
+          showcaseItems[index - 1]
         ];
-        renderGallery();
-        await saveCaseStudyOnly("Gallery order saved.");
+        renderShowcase();
+        await saveShowcaseOnly("Showcase order saved.");
       });
 
       const down = document.createElement("button");
       down.type = "button";
       down.className = "secondary-button";
-      down.textContent = "↓";
-      down.disabled = busy || index === galleryImages.length - 1;
-      down.setAttribute("aria-label", "Move image down");
+      down.textContent = "Move down";
+      down.disabled = busy || index === showcaseItems.length - 1;
       down.addEventListener("click", async () => {
-        [galleryImages[index + 1], galleryImages[index]] = [
-          galleryImages[index],
-          galleryImages[index + 1]
+        [showcaseItems[index + 1], showcaseItems[index]] = [
+          showcaseItems[index],
+          showcaseItems[index + 1]
         ];
-        renderGallery();
-        await saveCaseStudyOnly("Gallery order saved.");
+        renderShowcase();
+        await saveShowcaseOnly("Showcase order saved.");
       });
 
       const remove = document.createElement("button");
@@ -395,15 +476,13 @@ export const initProjectStudio = ({ supabaseClient, showCmsView }) => {
       remove.className = "text-button manager-delete-button";
       remove.textContent = "Remove";
       remove.addEventListener("click", async () => {
-        galleryImages.splice(index, 1);
-        renderGallery();
-        await saveCaseStudyOnly("Image removed from project gallery.");
+        showcaseItems.splice(index, 1);
+        renderShowcase();
+        await saveShowcaseOnly("Item removed from project showcase.");
       });
 
-      const buttons = document.createElement("div");
-      buttons.append(up, down, remove);
-      controls.append(alt, buttons);
-      card.append(image, controls);
+      actions.append(up, down, remove);
+      card.append(preview, fields, actions);
       galleryGrid.appendChild(card);
     });
   };
@@ -447,7 +526,7 @@ export const initProjectStudio = ({ supabaseClient, showCmsView }) => {
   const resetForm = () => {
     currentProject = null;
     currentCaseStudy = null;
-    galleryImages = [];
+    showcaseItems = [];
     form.reset();
     delete slugInput.dataset.manual;
     idInput.value = "";
@@ -455,7 +534,7 @@ export const initProjectStudio = ({ supabaseClient, showCmsView }) => {
     actionLabelInput.value = "View project";
     coverUrlInput.value = "";
     coverAltInput.value = "";
-    galleryTitleInput.value = "Project Gallery";
+    galleryTitleInput.value = "Project Showcase";
     homepageInput.checked = false;
     featuredInput.checked = false;
     publishButton.textContent = "Publish project";
@@ -463,9 +542,9 @@ export const initProjectStudio = ({ supabaseClient, showCmsView }) => {
     deleteButton.hidden = true;
     openButton.hidden = true;
     syncCoverPreview();
-    renderGallery();
+    renderShowcase();
     renderProjectList();
-    setFormMessage("Create a project here. Cover, gallery and case-study content stay together in this editor.");
+    setFormMessage("Create a project here. Cover, showcase items and case-study content stay together in this editor.");
   };
 
   const selectProject = (id) => {
@@ -495,18 +574,25 @@ export const initProjectStudio = ({ supabaseClient, showCmsView }) => {
     headlineInput.value = currentCaseStudy?.headline || "";
     leadInput.value = currentCaseStudy?.lead || "";
 
-    const gallery = getManagedGallery(currentCaseStudy?.sections || []);
-    galleryTitleInput.value = gallery?.title || "Project Gallery";
-    galleryImages = (Array.isArray(gallery?.images) ? gallery.images : [])
-      .filter((item) => item?.url)
-      .map((item) => ({ url: clean(item.url, 1200), alt: clean(item.alt, 220) }));
+    const showcase = getManagedShowcase(currentCaseStudy?.sections || []);
+    galleryTitleInput.value = showcase?.title || "Project Showcase";
+
+    if (Array.isArray(showcase?.items)) {
+      showcaseItems = showcase.items
+        .filter((item) => item?.image_url || item?.url)
+        .map((item, index) => normalizeShowcaseItem(item, index));
+    } else {
+      showcaseItems = (Array.isArray(showcase?.images) ? showcase.images : [])
+        .filter((item) => item?.url)
+        .map((item, index) => normalizeShowcaseItem(item, index));
+    }
 
     unpublishButton.hidden = !project.is_published;
     deleteButton.hidden = false;
     openButton.hidden = !(project.is_published && project.visibility === "public");
     publishButton.textContent = project.is_published ? "Save & keep published" : "Publish project";
     syncCoverPreview();
-    renderGallery();
+    renderShowcase();
     renderProjectList();
     setFormMessage("Editing " + project.title + ". Everything important for this project is on this page.");
     titleInput.focus();
@@ -596,7 +682,7 @@ export const initProjectStudio = ({ supabaseClient, showCmsView }) => {
       hero_image_url: currentCaseStudy?.hero_image_url || currentProject.cover_image_url || null,
       hero_image_alt: currentCaseStudy?.hero_image_alt || currentProject.cover_image_alt || "",
       facts: Array.isArray(currentCaseStudy?.facts) ? currentCaseStudy.facts : [],
-      sections: withManagedGallery(existingSections),
+      sections: withManagedShowcase(existingSections),
       related_project_id: currentCaseStudy?.related_project_id || null,
       cta_label: currentCaseStudy?.cta_label || "",
       cta_href: currentCaseStudy?.cta_href || null,
@@ -623,10 +709,10 @@ export const initProjectStudio = ({ supabaseClient, showCmsView }) => {
     return result.data;
   };
 
-  async function saveCaseStudyOnly(successMessage = "Project gallery saved.") {
+  async function saveShowcaseOnly(successMessage = "Project showcase saved.") {
     if (!currentProject?.id || busy) return;
     setBusy(true);
-    if (galleryStatus) galleryStatus.textContent = "Saving gallery…";
+    if (galleryStatus) galleryStatus.textContent = "Saving showcase…";
     try {
       await persistCaseStudy();
       const index = caseStudies.findIndex((item) => item.project_id === currentProject.id);
@@ -634,11 +720,11 @@ export const initProjectStudio = ({ supabaseClient, showCmsView }) => {
       else caseStudies.push(currentCaseStudy);
       if (galleryStatus) galleryStatus.textContent = successMessage;
     } catch (error) {
-      console.error("Project Studio gallery save failed:", error);
-      if (galleryStatus) galleryStatus.textContent = error?.message || "Could not save the gallery.";
+      console.error("Project Studio showcase save failed:", error);
+      if (galleryStatus) galleryStatus.textContent = error?.message || "Could not save the showcase.";
     } finally {
       setBusy(false);
-      renderGallery();
+      renderShowcase();
     }
   }
 
@@ -913,7 +999,7 @@ export const initProjectStudio = ({ supabaseClient, showCmsView }) => {
       return false;
     } finally {
       setBusy(false);
-      renderGallery();
+      renderShowcase();
     }
   }
 
@@ -956,7 +1042,7 @@ export const initProjectStudio = ({ supabaseClient, showCmsView }) => {
     if (!files.length) return;
 
     if (!currentProject?.id) {
-      galleryStatus.textContent = "Save this new project once before adding gallery images.";
+      galleryStatus.textContent = "Save this new project once before adding showcase images.";
       galleryInput.value = "";
       return;
     }
@@ -972,21 +1058,36 @@ export const initProjectStudio = ({ supabaseClient, showCmsView }) => {
       for (let index = 0; index < files.length; index += 1) {
         const file = files[index];
         galleryStatus.textContent = `Uploading ${index + 1} of ${files.length}…`;
-        const url = await uploadImage(file, "gallery");
-        galleryImages.push({
-          url,
-          alt: clean(file.name.replace(/\.[^.]+$/, "").replace(/[-_]+/g, " "), 220) || "Project artwork"
+        const url = await uploadImage(file, "showcase");
+        const baseTitle = clean(
+          file.name.replace(/\.[^.]+$/, "").replace(/[-_]+/g, " "),
+          220
+        ) || "Project Artwork";
+
+        showcaseItems.push({
+          image_url: url,
+          image_alt: baseTitle,
+          label: "Project Artwork",
+          title: baseTitle,
+          description: "",
+          meta: ""
         });
       }
+
       await persistCaseStudy();
       const caseIndex = caseStudies.findIndex((item) => item.project_id === currentProject.id);
       if (caseIndex >= 0) caseStudies[caseIndex] = currentCaseStudy;
       else caseStudies.push(currentCaseStudy);
-      galleryStatus.textContent = files.length + (files.length === 1 ? " image uploaded and added." : " images uploaded and added.");
-      renderGallery();
+
+      galleryStatus.textContent =
+        files.length +
+        (files.length === 1
+          ? " showcase item added. Add its title and details below."
+          : " showcase items added. Add details for each one below.");
+      renderShowcase();
     } catch (error) {
-      console.error("Project Studio gallery upload failed:", error);
-      galleryStatus.textContent = error?.message || "Could not upload project images.";
+      console.error("Project Studio showcase upload failed:", error);
+      galleryStatus.textContent = error?.message || "Could not upload showcase images.";
     } finally {
       galleryInput.value = "";
       setBusy(false);
