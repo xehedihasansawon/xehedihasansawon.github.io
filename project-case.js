@@ -252,6 +252,90 @@ const renderGallerySection = (section) => {
   return wrapper;
 };
 
+
+const renderShowcaseSection = (section) => {
+  const items = (Array.isArray(section.items) ? section.items : [])
+    .filter((item) => isSafeImage(item?.image_url || item?.url));
+
+  if (!items.length) {
+    return renderTextSection(section);
+  }
+
+  const wrapper = document.createElement("section");
+  wrapper.className = "case-section dynamic-case-showcase-section section-line";
+
+  const shell = document.createElement("div");
+  shell.className = "shell";
+
+  if (section.eyebrow || section.title || section.body) {
+    shell.appendChild(createSectionHeader(section));
+  }
+
+  const list = document.createElement("div");
+  list.className = "dynamic-case-showcase-list";
+
+  items.forEach((item, index) => {
+    const src = item.image_url || item.url;
+    const card = document.createElement("article");
+    card.className = "dynamic-case-showcase-item";
+
+    const copy = document.createElement("div");
+    copy.className = "dynamic-case-showcase-copy";
+
+    if (item.label || item.eyebrow) {
+      const label = document.createElement("p");
+      label.className = "case-eyebrow";
+      label.textContent = item.label || item.eyebrow;
+      copy.appendChild(label);
+    }
+
+    if (item.title) {
+      copy.appendChild(createHeading(item.title));
+    }
+
+    if (item.description || item.body) {
+      const description = document.createElement("p");
+      description.className = "dynamic-case-showcase-description";
+      description.textContent = item.description || item.body;
+      copy.appendChild(description);
+    }
+
+    const metaValues = Array.isArray(item.meta)
+      ? item.meta
+      : String(item.meta || "")
+          .split("|")
+          .map((value) => value.trim())
+          .filter(Boolean);
+
+    if (metaValues.length) {
+      const meta = document.createElement("div");
+      meta.className = "dynamic-case-showcase-meta";
+      metaValues.forEach((value) => {
+        const chip = document.createElement("span");
+        chip.textContent = value;
+        meta.appendChild(chip);
+      });
+      copy.appendChild(meta);
+    }
+
+    const media = document.createElement("div");
+    media.className = "dynamic-case-showcase-media";
+    media.appendChild(
+      createLightboxButton(
+        src,
+        item.image_alt || item.alt || item.title || "Project artwork"
+      )
+    );
+
+    card.append(copy, media);
+    list.appendChild(card);
+  });
+
+  shell.appendChild(list);
+  wrapper.appendChild(shell);
+  return wrapper;
+};
+
 const renderCardsSection = (section) => {
   const cards = (Array.isArray(section.cards) ? section.cards : [])
     .filter((card) => card?.title || card?.text);
@@ -299,6 +383,8 @@ const renderSections = (sections) => {
       sectionsRoot.appendChild(renderImageSection(section));
     } else if (type === "gallery") {
       sectionsRoot.appendChild(renderGallerySection(section));
+    } else if (type === "showcase") {
+      sectionsRoot.appendChild(renderShowcaseSection(section));
     } else if (type === "cards") {
       sectionsRoot.appendChild(renderCardsSection(section));
     } else {
