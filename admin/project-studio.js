@@ -300,16 +300,21 @@ export const initProjectStudio = ({ supabaseClient, showCmsView }) => {
   const withManagedShowcase = (sections = []) => {
     const source = Array.isArray(sections) ? sections : [];
     const next = source.filter((section) => section?.id !== SHOWCASE_SECTION_ID);
-    next.push({
-      id: SHOWCASE_SECTION_ID,
-      type: "showcase",
-      eyebrow: "Selected Work",
-      title: clean(galleryTitleInput?.value || "Project Showcase", 220) || "Project Showcase",
-      body: "Selected project work presented one piece at a time with its own details.",
-      items: showcaseItems
-        .filter((item) => item?.image_url)
-        .map((item, index) => normalizeShowcaseItem(item, index))
-    });
+    const items = showcaseItems
+      .filter((item) => item?.image_url)
+      .map((item, index) => normalizeShowcaseItem(item, index));
+
+    if (items.length) {
+      next.push({
+        id: SHOWCASE_SECTION_ID,
+        type: "showcase",
+        eyebrow: "Selected Work",
+        title: clean(galleryTitleInput?.value || "Project Showcase", 220) || "Project Showcase",
+        body: "Selected project work presented one piece at a time with its own details.",
+        items
+      });
+    }
+
     return next.slice(0, 20);
   };
 
