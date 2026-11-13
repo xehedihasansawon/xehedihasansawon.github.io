@@ -1,19 +1,7 @@
 import { ADMIN_CONFIG } from "./config.js";
-import { initMediaWorkflow } from "./media-workflow.js";
 import { initProjectStudio } from "./project-studio.js?v=existing-sections-20261001-3";
-import { initProjectManager } from "./project-manager.js";
-import { initHomepageSelection } from "./homepage-selection.js";
-import { initProjectMetadata } from "./project-metadata.js";
-import { initProjectOrdering } from "./project-ordering.js";
-import { initCaseStudyManager } from "./case-study-manager.js";
 import { initInquiryManager } from "./inquiry-manager.js";
-import { initAnalyticsDashboard } from "./analytics-dashboard.js";
-import { initSeoManager } from "./seo-manager.js?v=phase5c-seo-20260928-2";
-import { initTestimonialsManager } from "./testimonials-manager.js?v=phase5d-feedback-20260928-1";
 import { initCvManager } from "./cv-manager.js?v=phase5e-smartfill-v7-20260929-1";
-import { initAvailabilityManager } from "./availability-manager.js?v=phase5f-availability-20260929-1";
-import { initCtaManager } from "./cta-manager.js?v=phase5g-cta-20260929-1";
-import { initSystemStateManager } from "./system-state-manager.js?v=phase5h-states-20260929-1";
 
 const configPanel = document.querySelector("#configPanel");
 const loginPanel = document.querySelector("#loginPanel");
@@ -43,7 +31,6 @@ const mobileMenuToggle = document.querySelector("#mobileMenuToggle");
 const sidebarBackdrop = document.querySelector("#sidebarBackdrop");
 const dashboardNavLink = document.querySelector("#dashboardNavLink");
 const homepageNavButton = document.querySelector("#homepageNavButton");
-const realProjectsNavButton = document.querySelector("#realProjectsNavButton");
 const designShowcaseNavButton = document.querySelector("#designShowcaseNavButton");
 const creativeServicesNavButton = document.querySelector("#creativeServicesNavButton");
 const digitalProjectsNavButton = document.querySelector("#digitalProjectsNavButton");
@@ -53,25 +40,11 @@ const experienceCommunityNavButton = document.querySelector("#experienceCommunit
 const contactCmsNavButton = document.querySelector("#contactCmsNavButton");
 const footerCmsNavButton = document.querySelector("#footerCmsNavButton");
 const sectionLayoutNavButton = document.querySelector("#sectionLayoutNavButton");
-const projectsNavButton = document.querySelector("#projectsNavButton");
 const projectStudioNavButton = document.querySelector("#projectStudioNavButton");
-const mediaWorkflowNavButton = document.querySelector("#mediaWorkflowNavButton");
-const projectManagerNavButton = document.querySelector("#projectManagerNavButton");
-const homepageSelectionNavButton = document.querySelector("#homepageSelectionNavButton");
-const projectMetadataNavButton = document.querySelector("#projectMetadataNavButton");
-const projectOrderingNavButton = document.querySelector("#projectOrderingNavButton");
-const caseStudiesNavButton = document.querySelector("#caseStudiesNavButton");
 const inquiryNavButton = document.querySelector("#inquiryNavButton");
-const analyticsNavButton = document.querySelector("#analyticsNavButton");
-const seoNavButton = document.querySelector("#seoNavButton");
-const testimonialsNavButton = document.querySelector("#testimonialsNavButton");
 const cvManagerNavButton = document.querySelector("#cvManagerNavButton");
-const availabilityNavButton = document.querySelector("#availabilityNavButton");
-const ctaManagerNavButton = document.querySelector("#ctaManagerNavButton");
-const systemStatesNavButton = document.querySelector("#systemStatesNavButton");
 const dashboard = document.querySelector("#dashboard");
 const homepageEditor = document.querySelector("#homepageEditor");
-const realProjectsEditor = document.querySelector("#realProjectsEditor");
 const designShowcaseEditor = document.querySelector("#designShowcaseEditor");
 const creativeServicesEditor = document.querySelector("#creativeServicesEditor");
 const digitalProjectsEditor = document.querySelector("#digitalProjectsEditor");
@@ -82,21 +55,8 @@ const contactCmsEditor = document.querySelector("#contactCmsEditor");
 const footerCmsEditor = document.querySelector("#footerCmsEditor");
 const sectionLayoutEditor = document.querySelector("#sectionLayoutEditor");
 const projectStudioEditor = document.querySelector("#projectStudioEditor");
-const portfolioFoundationEditor = document.querySelector("#portfolioFoundationEditor");
-const mediaWorkflowEditor = document.querySelector("#mediaWorkflowEditor");
-const projectManagerEditor = document.querySelector("#projectManagerEditor");
-const homepageSelectionEditor = document.querySelector("#homepageSelectionEditor");
-const projectMetadataEditor = document.querySelector("#projectMetadataEditor");
-const projectOrderingEditor = document.querySelector("#projectOrderingEditor");
-const caseStudiesEditor = document.querySelector("#caseStudiesEditor");
 const inquiryEditor = document.querySelector("#inquiryEditor");
-const analyticsEditor = document.querySelector("#analyticsEditor");
-const seoEditor = document.querySelector("#seoEditor");
-const testimonialsEditor = document.querySelector("#testimonialsEditor");
 const cvManagerEditor = document.querySelector("#cvManagerEditor");
-const availabilityEditor = document.querySelector("#availabilityEditor");
-const ctaManagerEditor = document.querySelector("#ctaManagerEditor");
-const systemStatesEditor = document.querySelector("#systemStatesEditor");
 const cmsPageEyebrow = document.querySelector("#cmsPageEyebrow");
 const cmsPageTitle = document.querySelector("#cmsPageTitle");
 
@@ -780,212 +740,39 @@ if (!hasValidConfig) {
     heroDraftPreview.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
+  const CMS_VIEWS = {
+    "dashboard": { panel: dashboard, nav: dashboardNavLink, eyebrow: "PORTFOLIO CMS", title: "Dashboard" },
+    "project-studio": { panel: projectStudioEditor, nav: projectStudioNavButton, eyebrow: "PROJECTS", title: "Projects" },
+    "inquiries": { panel: inquiryEditor, nav: inquiryNavButton, eyebrow: "CLIENTS", title: "Client Inquiries" },
+    "cv-manager": { panel: cvManagerEditor, nav: cvManagerNavButton, eyebrow: "PRIVATE", title: "CV Manager" },
+    "hero": { panel: homepageEditor, nav: homepageNavButton, eyebrow: "HOMEPAGE", title: "Hero" },
+    "design-showcase": { panel: designShowcaseEditor, nav: designShowcaseNavButton, eyebrow: "HOMEPAGE", title: "Design Showcase" },
+    "creative-services": { panel: creativeServicesEditor, nav: creativeServicesNavButton, eyebrow: "HOMEPAGE", title: "Services" },
+    "digital-projects": { panel: digitalProjectsEditor, nav: digitalProjectsNavButton, eyebrow: "HOMEPAGE", title: "Digital Projects" },
+    "about-me": { panel: aboutMeEditor, nav: aboutMeNavButton, eyebrow: "HOMEPAGE", title: "About" },
+    "skills-tools": { panel: skillsToolsEditor, nav: skillsToolsNavButton, eyebrow: "HOMEPAGE", title: "Skills & Tools" },
+    "experience-community": { panel: experienceCommunityEditor, nav: experienceCommunityNavButton, eyebrow: "HOMEPAGE", title: "Experience" },
+    "contact": { panel: contactCmsEditor, nav: contactCmsNavButton, eyebrow: "HOMEPAGE", title: "Contact" },
+    "footer": { panel: footerCmsEditor, nav: footerCmsNavButton, eyebrow: "HOMEPAGE", title: "Footer" },
+    "section-layout": { panel: sectionLayoutEditor, nav: sectionLayoutNavButton, eyebrow: "HOMEPAGE", title: "Section Order" }
+  };
+
   const showCmsView = (view) => {
-    const isDashboard = view === "dashboard";
-    const isHero = view === "hero";
-    const isRealProjects = view === "real-projects";
-    const isDesignShowcase = view === "design-showcase";
-    const isCreativeServices = view === "creative-services";
-    const isDigitalProjects = view === "digital-projects";
-    const isAboutMe = view === "about-me";
-    const isSkillsTools = view === "skills-tools";
-    const isExperienceCommunity = view === "experience-community";
-    const isContact = view === "contact";
-    const isFooter = view === "footer";
-    const isSectionLayout = view === "section-layout";
-    const isProjectStudio = view === "project-studio";
-    const isPortfolioFoundation = view === "portfolio-foundation";
-    const isMediaWorkflow = view === "media-workflow";
-    const isProjectManager = view === "project-manager";
-    const isHomepageSelection = view === "homepage-selection";
-    const isProjectMetadata = view === "project-metadata";
-    const isProjectOrdering = view === "project-ordering";
-    const isCaseStudies = view === "case-studies";
-    const isInquiries = view === "inquiries";
-    const isAnalytics = view === "analytics";
-    const isSeo = view === "seo";
-    const isTestimonials = view === "testimonials";
-    const isCvManager = view === "cv-manager";
-    const isAvailability = view === "availability";
-    const isCustomCta = view === "custom-cta";
-    const isSystemStates = view === "system-states";
+    const active = CMS_VIEWS[view] ? view : "dashboard";
 
-    dashboard.hidden = !isDashboard;
-    homepageEditor.hidden = !isHero;
-    realProjectsEditor.hidden = !isRealProjects;
-    designShowcaseEditor.hidden = !isDesignShowcase;
-    creativeServicesEditor.hidden = !isCreativeServices;
-    digitalProjectsEditor.hidden = !isDigitalProjects;
-    aboutMeEditor.hidden = !isAboutMe;
-    skillsToolsEditor.hidden = !isSkillsTools;
-    experienceCommunityEditor.hidden = !isExperienceCommunity;
-    contactCmsEditor.hidden = !isContact;
-    footerCmsEditor.hidden = !isFooter;
-    sectionLayoutEditor.hidden = !isSectionLayout;
-    projectStudioEditor.hidden = !isProjectStudio;
-    portfolioFoundationEditor.hidden = !isPortfolioFoundation;
-    mediaWorkflowEditor.hidden = !isMediaWorkflow;
-    projectManagerEditor.hidden = !isProjectManager;
-    homepageSelectionEditor.hidden = !isHomepageSelection;
-    projectMetadataEditor.hidden = !isProjectMetadata;
-    projectOrderingEditor.hidden = !isProjectOrdering;
-    caseStudiesEditor.hidden = !isCaseStudies;
-    inquiryEditor.hidden = !isInquiries;
-    analyticsEditor.hidden = !isAnalytics;
-    seoEditor.hidden = !isSeo;
-    testimonialsEditor.hidden = !isTestimonials;
-    cvManagerEditor.hidden = !isCvManager;
-    availabilityEditor.hidden = !isAvailability;
-    ctaManagerEditor.hidden = !isCustomCta;
-    systemStatesEditor.hidden = !isSystemStates;
-
-    dashboardNavLink?.classList.toggle("active", isDashboard);
-    homepageNavButton?.classList.toggle("active", isHero);
-    realProjectsNavButton?.classList.toggle("active", isRealProjects);
-    designShowcaseNavButton?.classList.toggle("active", isDesignShowcase);
-    creativeServicesNavButton?.classList.toggle("active", isCreativeServices);
-    digitalProjectsNavButton?.classList.toggle("active", isDigitalProjects);
-    aboutMeNavButton?.classList.toggle("active", isAboutMe);
-    skillsToolsNavButton?.classList.toggle("active", isSkillsTools);
-    experienceCommunityNavButton?.classList.toggle("active", isExperienceCommunity);
-    contactCmsNavButton?.classList.toggle("active", isContact);
-    footerCmsNavButton?.classList.toggle("active", isFooter);
-    sectionLayoutNavButton?.classList.toggle("active", isSectionLayout);
-    projectStudioNavButton?.classList.toggle("active", isProjectStudio);
-    projectsNavButton?.classList.toggle("active", isPortfolioFoundation);
-    mediaWorkflowNavButton?.classList.toggle("active", isMediaWorkflow);
-    projectManagerNavButton?.classList.toggle("active", isProjectManager);
-    homepageSelectionNavButton?.classList.toggle("active", isHomepageSelection);
-    projectMetadataNavButton?.classList.toggle("active", isProjectMetadata);
-    projectOrderingNavButton?.classList.toggle("active", isProjectOrdering);
-    caseStudiesNavButton?.classList.toggle("active", isCaseStudies);
-    inquiryNavButton?.classList.toggle("active", isInquiries);
-    analyticsNavButton?.classList.toggle("active", isAnalytics);
-    seoNavButton?.classList.toggle("active", isSeo);
-    testimonialsNavButton?.classList.toggle("active", isTestimonials);
-    cvManagerNavButton?.classList.toggle("active", isCvManager);
-    availabilityNavButton?.classList.toggle("active", isAvailability);
-    ctaManagerNavButton?.classList.toggle("active", isCustomCta);
-    systemStatesNavButton?.classList.toggle("active", isSystemStates);
-
-    [dashboardNavLink, homepageNavButton, realProjectsNavButton, designShowcaseNavButton, creativeServicesNavButton, digitalProjectsNavButton, aboutMeNavButton, skillsToolsNavButton, experienceCommunityNavButton, contactCmsNavButton, footerCmsNavButton, sectionLayoutNavButton, projectStudioNavButton, projectsNavButton, mediaWorkflowNavButton, projectManagerNavButton, homepageSelectionNavButton, projectMetadataNavButton, projectOrderingNavButton, caseStudiesNavButton, inquiryNavButton, analyticsNavButton, seoNavButton, testimonialsNavButton, cvManagerNavButton, availabilityNavButton, ctaManagerNavButton, systemStatesNavButton].forEach((item) => {
-      item?.removeAttribute("aria-current");
+    Object.entries(CMS_VIEWS).forEach(([key, config]) => {
+      const isActive = key === active;
+      if (config.panel) config.panel.hidden = !isActive;
+      config.nav?.classList.toggle("active", isActive);
+      if (isActive) {
+        config.nav?.setAttribute("aria-current", "page");
+      } else {
+        config.nav?.removeAttribute("aria-current");
+      }
     });
 
-    if (isHero) {
-      homepageNavButton?.setAttribute("aria-current", "page");
-      cmsPageEyebrow.textContent = "HOMEPAGE CMS";
-      cmsPageTitle.textContent = "Hero";
-    } else if (isRealProjects) {
-      realProjectsNavButton?.setAttribute("aria-current", "page");
-      cmsPageEyebrow.textContent = "HOMEPAGE CMS";
-      cmsPageTitle.textContent = "Real Life Projects";
-    } else if (isDesignShowcase) {
-      designShowcaseNavButton?.setAttribute("aria-current", "page");
-      cmsPageEyebrow.textContent = "HOMEPAGE CMS";
-      cmsPageTitle.textContent = "Design Showcase";
-    } else if (isCreativeServices) {
-      creativeServicesNavButton?.setAttribute("aria-current", "page");
-      cmsPageEyebrow.textContent = "HOMEPAGE CMS";
-      cmsPageTitle.textContent = "Creative Services";
-    } else if (isDigitalProjects) {
-      digitalProjectsNavButton?.setAttribute("aria-current", "page");
-      cmsPageEyebrow.textContent = "HOMEPAGE CMS";
-      cmsPageTitle.textContent = "AI & Digital Projects";
-    } else if (isAboutMe) {
-      aboutMeNavButton?.setAttribute("aria-current", "page");
-      cmsPageEyebrow.textContent = "HOMEPAGE CMS";
-      cmsPageTitle.textContent = "About Me";
-    } else if (isSkillsTools) {
-      skillsToolsNavButton?.setAttribute("aria-current", "page");
-      cmsPageEyebrow.textContent = "HOMEPAGE CMS";
-      cmsPageTitle.textContent = "Skills & Tools";
-    } else if (isExperienceCommunity) {
-      experienceCommunityNavButton?.setAttribute("aria-current", "page");
-      cmsPageEyebrow.textContent = "HOMEPAGE CMS";
-      cmsPageTitle.textContent = "Experience / Community";
-    } else if (isContact) {
-      contactCmsNavButton?.setAttribute("aria-current", "page");
-      cmsPageEyebrow.textContent = "HOMEPAGE CMS";
-      cmsPageTitle.textContent = "Contact";
-    } else if (isFooter) {
-      footerCmsNavButton?.setAttribute("aria-current", "page");
-      cmsPageEyebrow.textContent = "HOMEPAGE CMS";
-      cmsPageTitle.textContent = "Footer";
-    } else if (isSectionLayout) {
-      sectionLayoutNavButton?.setAttribute("aria-current", "page");
-      cmsPageEyebrow.textContent = "HOMEPAGE CMS";
-      cmsPageTitle.textContent = "Section Order";
-    } else if (isProjectStudio) {
-      projectStudioNavButton?.setAttribute("aria-current", "page");
-      cmsPageEyebrow.textContent = "PROJECT STUDIO";
-      cmsPageTitle.textContent = "Projects";
-    } else if (isPortfolioFoundation) {
-      projectsNavButton?.setAttribute("aria-current", "page");
-      cmsPageEyebrow.textContent = "PORTFOLIO ENGINE";
-      cmsPageTitle.textContent = "Projects Foundation";
-    } else if (isMediaWorkflow) {
-      mediaWorkflowNavButton?.setAttribute("aria-current", "page");
-      cmsPageEyebrow.textContent = "PORTFOLIO ENGINE";
-      cmsPageTitle.textContent = "Media";
-    } else if (isProjectManager) {
-      projectManagerNavButton?.setAttribute("aria-current", "page");
-      cmsPageEyebrow.textContent = "PORTFOLIO ENGINE";
-      cmsPageTitle.textContent = "Project Manager";
-    } else if (isHomepageSelection) {
-      homepageSelectionNavButton?.setAttribute("aria-current", "page");
-      cmsPageEyebrow.textContent = "PORTFOLIO ENGINE";
-      cmsPageTitle.textContent = "Homepage Selection";
-    } else if (isProjectMetadata) {
-      projectMetadataNavButton?.setAttribute("aria-current", "page");
-      cmsPageEyebrow.textContent = "PORTFOLIO ENGINE";
-      cmsPageTitle.textContent = "Tags & Search";
-    } else if (isProjectOrdering) {
-      projectOrderingNavButton?.setAttribute("aria-current", "page");
-      cmsPageEyebrow.textContent = "PORTFOLIO ENGINE";
-      cmsPageTitle.textContent = "Project Ordering";
-    } else if (isCaseStudies) {
-      caseStudiesNavButton?.setAttribute("aria-current", "page");
-      cmsPageEyebrow.textContent = "CASE STUDIES";
-      cmsPageTitle.textContent = "Dynamic Case Studies";
-    } else if (isInquiries) {
-      inquiryNavButton?.setAttribute("aria-current", "page");
-      cmsPageEyebrow.textContent = "BUSINESS SYSTEM";
-      cmsPageTitle.textContent = "Client Inquiries";
-    } else if (isAnalytics) {
-      analyticsNavButton?.setAttribute("aria-current", "page");
-      cmsPageEyebrow.textContent = "BUSINESS SYSTEM";
-      cmsPageTitle.textContent = "Analytics Dashboard";
-    } else if (isSeo) {
-      seoNavButton?.setAttribute("aria-current", "page");
-      cmsPageEyebrow.textContent = "BUSINESS SYSTEM";
-      cmsPageTitle.textContent = "Per-Project SEO";
-    } else if (isTestimonials) {
-      testimonialsNavButton?.setAttribute("aria-current", "page");
-      cmsPageEyebrow.textContent = "BUSINESS SYSTEM";
-      cmsPageTitle.textContent = "Testimonials / Client Feedback";
-    } else if (isCvManager) {
-      cvManagerNavButton?.setAttribute("aria-current", "page");
-      cmsPageEyebrow.textContent = "BUSINESS SYSTEM";
-      cmsPageTitle.textContent = "Multiple Resume / CV Manager";
-    } else if (isAvailability) {
-      availabilityNavButton?.setAttribute("aria-current", "page");
-      cmsPageEyebrow.textContent = "BUSINESS SYSTEM";
-      cmsPageTitle.textContent = "Availability Status Control";
-    } else if (isCustomCta) {
-      ctaManagerNavButton?.setAttribute("aria-current", "page");
-      cmsPageEyebrow.textContent = "BUSINESS SYSTEM";
-      cmsPageTitle.textContent = "Custom CTA Manager";
-    } else if (isSystemStates) {
-      systemStatesNavButton?.setAttribute("aria-current", "page");
-      cmsPageEyebrow.textContent = "BUSINESS SYSTEM";
-      cmsPageTitle.textContent = "Branded System States";
-    } else {
-      dashboardNavLink?.setAttribute("aria-current", "page");
-      cmsPageEyebrow.textContent = "HOMEPAGE CMS";
-      cmsPageTitle.textContent = "Dashboard";
-    }
-
+    cmsPageEyebrow.textContent = CMS_VIEWS[active].eyebrow;
+    cmsPageTitle.textContent = CMS_VIEWS[active].title;
     setSidebarOpen(false);
   };
 
@@ -1547,11 +1334,6 @@ if (!hasValidConfig) {
 
   renderRealProjectsEditorCards();
   populateRealProjectsForm(realProjectsDefaults);
-
-  realProjectsNavButton?.addEventListener("click", async () => {
-    showCmsView("real-projects");
-    await loadRealProjectsEditor();
-  });
 
   realProjectsEditorForm?.addEventListener("input", (event) => {
     if (event.target.matches("[data-project-upload]")) return;
@@ -5590,28 +5372,11 @@ if (!hasValidConfig) {
     return ready;
   };
 
-  projectsNavButton?.addEventListener("click", async () => {
-    showCmsView("portfolio-foundation");
-    await checkPortfolioFoundation();
-  });
-
   portfolioFoundationRefreshButton?.addEventListener("click", checkPortfolioFoundation);
 
-  initProjectStudio({ supabaseClient, showCmsView });
-  initMediaWorkflow({ supabaseClient, showCmsView });
-  initProjectManager({ supabaseClient, showCmsView });
-  initHomepageSelection({ supabaseClient, showCmsView });
-  initProjectMetadata({ supabaseClient, showCmsView });
-  initProjectOrdering({ supabaseClient, showCmsView });
-  initCaseStudyManager({ supabaseClient, showCmsView });
+  const projectStudio = initProjectStudio({ supabaseClient, showCmsView });
   initInquiryManager({ supabaseClient, showCmsView });
-  initAnalyticsDashboard({ supabaseClient, showCmsView });
-  initSeoManager({ supabaseClient, showCmsView });
-  initTestimonialsManager({ supabaseClient, showCmsView });
   initCvManager({ supabaseClient, showCmsView });
-  initAvailabilityManager({ supabaseClient, showCmsView });
-  initCtaManager({ supabaseClient, showCmsView });
-  initSystemStateManager({ supabaseClient, showCmsView });
 
   const checkAdminMembership = async (user) => {
     if (!user?.id) {
@@ -5645,6 +5410,7 @@ if (!hasValidConfig) {
     setSidebarOpen(false);
     showOnly(adminPanel);
     showCmsView("dashboard");
+    projectStudio?.openFromHash?.();
     checkContentStore();
     checkRevisionStore();
     checkPublishAction();

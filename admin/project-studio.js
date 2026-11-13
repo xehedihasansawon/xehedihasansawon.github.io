@@ -1336,7 +1336,6 @@ export const initProjectStudio = ({ supabaseClient, showCmsView }) => {
         supabaseClient
           .from("portfolio_projects")
           .select("id,slug,title,summary,category_id,cover_image_url,cover_image_alt,action_label,action_href,tags,badges,is_featured,show_on_homepage,sort_order,visibility,is_published,published_at,created_at,updated_at")
-          .order("sort_order", { ascending: true })
           .order("created_at", { ascending: false }),
         supabaseClient
           .from("portfolio_case_studies")
@@ -1573,4 +1572,24 @@ export const initProjectStudio = ({ supabaseClient, showCmsView }) => {
   });
 
   resetForm();
+
+  // Deep link from a public project page: admin/#edit=<slug>
+  const openFromHash = async () => {
+    const match = /^#edit=([a-z0-9]+(?:-[a-z0-9]+)*)$/.exec(window.location.hash);
+    if (!match) return false;
+
+    history.replaceState(null, "", window.location.pathname + window.location.search);
+    showCmsView("project-studio");
+    await loadData({ repair: false });
+
+    const target = projects.find((item) => item.slug === match[1]);
+    if (target) {
+      selectProject(target.id);
+    } else {
+      setFormMessage("Project \"" + match[1] + "\" was not found.");
+    }
+    return true;
+  };
+
+  return { openFromHash };
 };

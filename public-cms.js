@@ -66,59 +66,6 @@ const isSafeImageSource = (value) => {
   }
 };
 
-let publishedCaseStudyProjectIdsPromise = null;
-
-const loadPublishedCaseStudyProjectIds = () => {
-  if (publishedCaseStudyProjectIdsPromise) {
-    return publishedCaseStudyProjectIdsPromise;
-  }
-
-  publishedCaseStudyProjectIdsPromise = (async () => {
-    try {
-      const endpoint = new URL(
-        "/rest/v1/portfolio_case_studies",
-        ADMIN_CONFIG.supabaseUrl
-      );
-      endpoint.searchParams.set("select", "project_id");
-      endpoint.searchParams.set("is_published", "eq.true");
-
-      const response = await fetch(endpoint, {
-        headers: {
-          apikey: ADMIN_CONFIG.supabaseAnonKey,
-          Accept: "application/json"
-        }
-      });
-
-      if (!response.ok) return new Set();
-
-      const rows = await response.json();
-      return new Set(
-        (Array.isArray(rows) ? rows : [])
-          .map((item) => item?.project_id)
-          .filter(Boolean)
-      );
-    } catch {
-      return new Set();
-    }
-  })();
-
-  return publishedCaseStudyProjectIdsPromise;
-};
-
-const getProjectCaseHref = (project, caseStudyProjectIds) => {
-  if (
-    project?.id &&
-    project?.slug &&
-    caseStudyProjectIds?.has(project.id)
-  ) {
-    return "project.html?slug=" + encodeURIComponent(project.slug);
-  }
-
-  return isSafeHref(project?.action_href)
-    ? String(project.action_href).trim()
-    : "";
-};
-
 const applyText = (id, value) => {
   if (typeof value !== "string" || !value.trim()) return;
   const element = byId(id);
@@ -243,235 +190,75 @@ const loadPublishedHero = async () => {
 loadPublishedHero();
 
 
-const applyRealProjects = (data) => {
+/* =========================================================
+   WORK SECTION
+   Projects come from Project Studio (portfolio_projects).
+   - Newest project first (created_at desc), so anything you add
+     shows up at the top automatically.
+   - Every card opens its own page: project.html?slug=<slug>.
+   - If Supabase is unreachable, the static cards in index.html stay.
+   ========================================================= */
+
+const WORK_INITIAL_COUNT = 6;
+
+const fetchPublicRows = async (path, params) => {
+  const endpoint = new URL(path, ADMIN_CONFIG.supabaseUrl);
+  Object.entries(params).forEach(([key, value]) =>
+    endpoint.searchParams.set(key, value)
+  );
+
+  const response = await fetch(endpoint, {
+    headers: {
+      apikey: ADMIN_CONFIG.supabaseAnonKey,
+      Accept: "application/json"
+    }
+  });
+
+  if (!response.ok) {
+    throw new Error(`${path} request failed with status ${response.status}`);
+  }
+
+  const rows = await response.json();
+  return Array.isArray(rows) ? rows : [];
+};
+
+const projectPageHref = (slug) =>
+  "project.html?slug=" + encodeURIComponent(slug);
+
+const applyRealProjectsHeading = (data) => {
   if (!data || typeof data !== "object") return;
 
   applyText("realProjectsEyebrow", data.eyebrow);
   applyText("realProjectsTitleMain", data.titleMain);
   applyText("realProjectsTitleAccent", data.titleAccent);
-
-  if (!Array.isArray(data.projects)) return;
-
-  data.projects.forEach((project) => {
-    if (!project?.key) return;
-
-    const card = document.querySelector(`[data-cms-project="${CSS.escape(project.key)}"]`);
-    if (!card) return;
-
-    const setCardText = (field, value) => {
-      if (typeof value !== "string" || !value.trim()) return;
-      const element = card.querySelector(`[data-cms-field="${field}"]`);
-      if (element) element.textContent = value.trim();
-    };
-
-    setCardText("category", project.category);
-    setCardText("title", project.title);
-    setCardText("description", project.description);
-    setCardText("actionLabel", project.actionLabel);
-
-    const image = card.querySelector('[data-cms-field="image"]');
-    if (image && isSafeImageSource(project.imageSrc)) {
-      image.src = project.imageSrc.trim();
-    }
-    if (image && typeof project.imageAlt === "string" && project.imageAlt.trim()) {
-      image.alt = project.imageAlt.trim();
-    }
-
-    if (project.type === "link" && card.tagName === "A" && isSafeHref(project.href)) {
-      card.setAttribute("href", project.href.trim());
-    }
-
-    if (card.classList.contains("project-card")) {
-      if (typeof project.title === "string" && project.title.trim()) {
-        card.dataset.title = project.title.trim();
-      }
-      if (typeof project.category === "string" && project.category.trim()) {
-        card.dataset.meta = project.category.trim();
-      }
-    }
-  });
-
-  document.documentElement.dataset.realProjectsCms = "loaded";
 };
 
-const loadPublishedRealProjects = async () => {
+const loadPublishedRealProjectsHeading = async () => {
   try {
-    const endpoint = new URL("/rest/v1/cms_content_entries", ADMIN_CONFIG.supabaseUrl);
-    endpoint.searchParams.set("select", "published_data");
-    endpoint.searchParams.set("content_key", `eq.${REAL_PROJECTS_CONTENT_KEY}`);
-    endpoint.searchParams.set("limit", "1");
-
-    const response = await fetch(endpoint, {
-      headers: {
-        apikey: ADMIN_CONFIG.supabaseAnonKey,
-        Accept: "application/json"
-      }
+    const rows = await fetchPublicRows("/rest/v1/cms_content_entries", {
+      select: "published_data",
+      content_key: `eq.${REAL_PROJECTS_CONTENT_KEY}`,
+      limit: "1"
     });
 
-    if (!response.ok) {
-      throw new Error(`Real Life Projects CMS request failed with status ${response.status}`);
-    }
-
-    const rows = await response.json();
-    const published = rows?.[0]?.published_data;
-
-    if (published) applyRealProjects(published);
+    applyRealProjectsHeading(rows[0]?.published_data);
   } catch (error) {
-    // Static homepage cards remain the safe fallback.
-    console.warn("Real Life Projects CMS unavailable; using static fallback.", error);
+    console.warn("Work heading CMS unavailable; using static heading.", error);
   }
 };
 
-loadPublishedRealProjects();
+loadPublishedRealProjectsHeading();
 
-const realProjectsPhase2FallbackCards = (() => {
-  const grid = document.querySelector("#work .real-projects-grid");
-  return grid ? [...grid.children] : [];
-})();
+const renderWorkCard = (project, categoryName) => {
+  const card = document.createElement("a");
+  card.className = "real-project-card real-project-split-card";
+  card.href = projectPageHref(project.slug);
+  card.dataset.engineProject = project.slug;
 
-const fallbackMatchesEngineProject = (card, project) => {
-  if (!card || !project) return false;
+  const thumb = document.createElement("div");
+  thumb.className = "real-project-thumb";
 
-  const key = String(card.dataset?.cmsProject || "").trim().toLowerCase();
-  const slug = String(project.slug || "").trim().toLowerCase();
-
-  if (
-    key &&
-    slug &&
-    (key === slug || slug.startsWith(key + "-") || key.startsWith(slug + "-"))
-  ) {
-    return true;
-  }
-
-  if (card.tagName === "A" && isSafeHref(project.action_href)) {
-    const fallbackHref = String(card.getAttribute("href") || "").trim();
-    const projectHref = String(project.action_href || "").trim();
-
-    if (fallbackHref && fallbackHref === projectHref) {
-      return true;
-    }
-  }
-
-  return false;
-};
-
-const applyStaticCaseStudyLinks = (
-  grid,
-  projects,
-  caseStudyProjectIds = new Set()
-) => {
-  if (!grid) return;
-
-  const publicCaseProjects = (Array.isArray(projects) ? projects : [])
-    .filter(
-      (project) =>
-        project?.id &&
-        project?.slug &&
-        caseStudyProjectIds.has(project.id)
-    );
-
-  if (!publicCaseProjects.length) return;
-
-  [...grid.children].forEach((card) => {
-    if (card.dataset?.engineProject) return;
-
-    const project = publicCaseProjects.find((item) =>
-      fallbackMatchesEngineProject(card, item)
-    );
-    if (!project) return;
-
-    const href = getProjectCaseHref(project, caseStudyProjectIds);
-    if (!isSafeHref(href)) return;
-
-    if (card.tagName === "A") {
-      card.setAttribute("href", href);
-      return;
-    }
-
-    const opener = card.querySelector(".real-project-open, .project-open");
-    if (!opener) return;
-
-    opener.dataset.dynamicCaseHref = href;
-    opener.removeAttribute("aria-haspopup");
-    opener.setAttribute(
-      "aria-label",
-      "View " + (project.title || "project") + " case study"
-    );
-
-    if (opener.dataset.dynamicCaseBound !== "true") {
-      opener.dataset.dynamicCaseBound = "true";
-      opener.addEventListener(
-        "click",
-        (event) => {
-          const nextHref = opener.dataset.dynamicCaseHref;
-          if (!isSafeHref(nextHref)) return;
-
-          event.preventDefault();
-          event.stopImmediatePropagation();
-          window.location.assign(nextHref);
-        },
-        { capture: true }
-      );
-    }
-
-    const action = card.querySelector('[data-cms-field="actionLabel"]');
-    if (action) action.textContent = "View project ↗";
-  });
-};
-
-const renderPortfolioEngineHomepageProjects = (
-  projects,
-  categories,
-  caseStudyProjectIds = new Set(),
-  publishedCaseStudyProjects = []
-) => {
-  const grid = document.querySelector("#work .real-projects-grid");
-  if (!grid) return;
-
-  const projectList = Array.isArray(projects) ? projects : [];
-
-  const categoryMap = new Map(
-    (Array.isArray(categories) ? categories : []).map((category) => [
-      category.id,
-      category.name
-    ])
-  );
-
-  const validProjects = projectList.filter(
-    (project) =>
-      project &&
-      typeof project.title === "string" &&
-      project.title.trim() &&
-      isSafeImageSource(project.cover_image_url)
-  );
-
-  if (!validProjects.length) {
-    applyStaticCaseStudyLinks(
-      grid,
-      publishedCaseStudyProjects,
-      caseStudyProjectIds
-    );
-    return;
-  }
-
-  const fragment = document.createDocumentFragment();
-
-  const selected = validProjects.slice(0, 4);
-
-  selected.forEach((project) => {
-    const projectHref = getProjectCaseHref(project, caseStudyProjectIds);
-    const hasLink = isSafeHref(projectHref);
-    const card = document.createElement(hasLink ? "a" : "article");
-    card.className = "real-project-card real-project-split-card";
-    card.dataset.engineProject = project.slug || project.id;
-
-    if (hasLink) {
-      card.setAttribute("href", projectHref);
-    }
-
-    const thumb = document.createElement("div");
-    thumb.className = "real-project-thumb";
-
+  if (isSafeImageSource(project.cover_image_url)) {
     const image = document.createElement("img");
     image.src = project.cover_image_url.trim();
     image.alt =
@@ -481,485 +268,134 @@ const renderPortfolioEngineHomepageProjects = (
     image.loading = "lazy";
     image.decoding = "async";
     thumb.appendChild(image);
-
-    const details = document.createElement("div");
-    details.className = "real-project-details";
-
-    const category = document.createElement("small");
-    category.textContent =
-      categoryMap.get(project.category_id) || "Portfolio Project";
-
-    const title = document.createElement("strong");
-    title.textContent = project.title.trim();
-
-    const description = document.createElement("p");
-    description.textContent =
-      typeof project.summary === "string" && project.summary.trim()
-        ? project.summary.trim()
-        : "Selected portfolio project.";
-
-    const action = document.createElement("span");
-    const actionLabel =
-      typeof project.action_label === "string" && project.action_label.trim()
-        ? project.action_label.trim()
-        : "View project";
-    action.textContent = hasLink && !actionLabel.includes("↗")
-      ? actionLabel + " ↗"
-      : actionLabel;
-
-    details.append(category, title, description, action);
-    card.append(thumb, details);
-    fragment.appendChild(card);
-  });
-
-  const remainingSlots = Math.max(0, 4 - selected.length);
-  const fallbackCandidates = realProjectsPhase2FallbackCards.filter(
-    (card) =>
-      !selected.some((project) => fallbackMatchesEngineProject(card, project))
-  );
-
-  fallbackCandidates.slice(0, remainingSlots).forEach((card) => {
-    fragment.appendChild(card);
-  });
-
-  grid.replaceChildren(fragment);
-  applyStaticCaseStudyLinks(
-    grid,
-    publishedCaseStudyProjects,
-    caseStudyProjectIds
-  );
-  grid.dataset.engineSelectedCount = String(selected.length);
-  document.documentElement.dataset.portfolioEngineHome = "loaded";
-};
-
-const loadPortfolioEngineHomepageProjects = async () => {
-  try {
-    const projectsEndpoint = new URL(
-      "/rest/v1/portfolio_projects",
-      ADMIN_CONFIG.supabaseUrl
-    );
-    projectsEndpoint.searchParams.set(
-      "select",
-      "id,slug,title,summary,category_id,cover_image_url,cover_image_alt,action_label,action_href,is_featured,show_on_homepage,sort_order,published_at,created_at"
-    );
-    projectsEndpoint.searchParams.set("show_on_homepage", "eq.true");
-    projectsEndpoint.searchParams.set("is_published", "eq.true");
-    projectsEndpoint.searchParams.set("visibility", "eq.public");
-    projectsEndpoint.searchParams.set(
-      "order",
-      "is_featured.desc,sort_order.asc,published_at.desc.nullslast,created_at.desc"
-    );
-    projectsEndpoint.searchParams.set("limit", "4");
-
-    const categoriesEndpoint = new URL(
-      "/rest/v1/portfolio_categories",
-      ADMIN_CONFIG.supabaseUrl
-    );
-    categoriesEndpoint.searchParams.set("select", "id,name");
-    categoriesEndpoint.searchParams.set("is_active", "eq.true");
-    categoriesEndpoint.searchParams.set("order", "name.asc");
-
-    const publicProjectsEndpoint = new URL(
-      "/rest/v1/portfolio_projects",
-      ADMIN_CONFIG.supabaseUrl
-    );
-    publicProjectsEndpoint.searchParams.set(
-      "select",
-      "id,slug,title,action_href"
-    );
-    publicProjectsEndpoint.searchParams.set("is_published", "eq.true");
-    publicProjectsEndpoint.searchParams.set("visibility", "eq.public");
-
-    const headers = {
-      apikey: ADMIN_CONFIG.supabaseAnonKey,
-      Accept: "application/json"
-    };
-
-    const [projectResponse, categoryResponse, publicProjectsResponse] =
-      await Promise.all([
-        fetch(projectsEndpoint, { headers }),
-        fetch(categoriesEndpoint, { headers }),
-        fetch(publicProjectsEndpoint, { headers })
-      ]);
-
-    if (!projectResponse.ok) {
-      throw new Error(
-        `Portfolio Engine homepage request failed with status ${projectResponse.status}`
-      );
-    }
-
-    if (!categoryResponse.ok) {
-      throw new Error(
-        `Portfolio category request failed with status ${categoryResponse.status}`
-      );
-    }
-
-    if (!publicProjectsResponse.ok) {
-      throw new Error(
-        `Portfolio public project bridge request failed with status ${publicProjectsResponse.status}`
-      );
-    }
-
-    const [projects, categories, caseStudyProjectIds, publicProjects] =
-      await Promise.all([
-        projectResponse.json(),
-        categoryResponse.json(),
-        loadPublishedCaseStudyProjectIds(),
-        publicProjectsResponse.json()
-      ]);
-
-    const publishedCaseStudyProjects = (
-      Array.isArray(publicProjects) ? publicProjects : []
-    ).filter((project) => caseStudyProjectIds.has(project?.id));
-
-    renderPortfolioEngineHomepageProjects(
-      projects,
-      categories,
-      caseStudyProjectIds,
-      publishedCaseStudyProjects
-    );
-  } catch (error) {
-    // Existing Phase 2 cards remain the safe public fallback.
-    console.warn(
-      "Portfolio Engine homepage selection unavailable; using Phase 2 fallback.",
-      error
-    );
+  } else {
+    thumb.classList.add("real-project-thumb-empty");
+    const placeholder = document.createElement("span");
+    placeholder.textContent = project.title.trim().slice(0, 2).toUpperCase();
+    thumb.appendChild(placeholder);
   }
+
+  const details = document.createElement("div");
+  details.className = "real-project-details";
+
+  const category = document.createElement("small");
+  category.textContent = categoryName || "Portfolio Project";
+
+  const title = document.createElement("strong");
+  title.textContent = project.title.trim();
+
+  const description = document.createElement("p");
+  description.textContent =
+    typeof project.summary === "string" && project.summary.trim()
+      ? project.summary.trim()
+      : "Selected portfolio project.";
+
+  const action = document.createElement("span");
+  action.textContent = "View project";
+
+  details.append(category, title, description, action);
+  card.append(thumb, details);
+  return card;
 };
 
-loadPortfolioEngineHomepageProjects();
+const initWorkSection = async () => {
+  const grid = byId("workGrid");
+  const filterRoot = byId("workFilter");
+  const showMoreButton = byId("workShowMore");
+  if (!grid) return;
 
+  let projects;
+  let categories;
 
-const initProjectExplorer = () => {
-  const root = byId("projectExplorer");
-  const searchInput = byId("projectExplorerSearch");
-  const categorySelect = byId("projectExplorerCategory");
-  const tagSelect = byId("projectExplorerTag");
-  const badgeSelect = byId("projectExplorerBadge");
-  const resetButton = byId("projectExplorerReset");
-  const status = byId("projectExplorerStatus");
-  const grid = byId("projectExplorerGrid");
-  const empty = byId("projectExplorerEmpty");
-
-  if (
-    !root ||
-    !searchInput ||
-    !categorySelect ||
-    !tagSelect ||
-    !badgeSelect ||
-    !resetButton ||
-    !status ||
-    !grid ||
-    !empty
-  ) {
+  try {
+    [projects, categories] = await Promise.all([
+      fetchPublicRows("/rest/v1/portfolio_projects", {
+        select: "id,slug,title,summary,category_id,cover_image_url,cover_image_alt,created_at",
+        is_published: "eq.true",
+        visibility: "eq.public",
+        order: "created_at.desc"
+      }),
+      fetchPublicRows("/rest/v1/portfolio_categories", {
+        select: "id,name",
+        is_active: "eq.true",
+        order: "name.asc"
+      })
+    ]);
+  } catch (error) {
+    console.warn("Projects unavailable; keeping static Work cards.", error);
     return;
   }
 
-  let projects = [];
-  let categories = [];
-  let categoryMap = new Map();
-  let caseStudyProjectIds = new Set();
+  projects = projects.filter(
+    (project) =>
+      project &&
+      typeof project.title === "string" &&
+      project.title.trim() &&
+      /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(project.slug || "")
+  );
 
-  const normalize = (value) => String(value || "").trim().toLowerCase();
+  if (!projects.length) return;
 
-  const uniqueValues = (items) => {
-    const seen = new Set();
-    const output = [];
+  const categoryMap = new Map(categories.map((item) => [item.id, item.name]));
+  let activeCategory = "";
+  let expanded = false;
 
-    items.forEach((value) => {
-      const clean = String(value || "").trim();
-      const key = clean.toLowerCase();
-      if (!clean || seen.has(key)) return;
-      seen.add(key);
-      output.push(clean);
-    });
-
-    return output.sort((a, b) => a.localeCompare(b));
-  };
-
-  const fillSelect = (select, firstLabel, values) => {
-    const current = select.value;
-    select.innerHTML = "";
-
-    const first = document.createElement("option");
-    first.value = "";
-    first.textContent = firstLabel;
-    select.appendChild(first);
-
-    values.forEach((value) => {
-      const option = document.createElement("option");
-      option.value = value;
-      option.textContent = value;
-      select.appendChild(option);
-    });
-
-    if ([...select.options].some((option) => option.value === current)) {
-      select.value = current;
-    }
-  };
-
-  const renderCard = (project) => {
-    const projectHref = getProjectCaseHref(project, caseStudyProjectIds);
-    const hasLink = isSafeHref(projectHref);
-    const card = document.createElement(hasLink ? "a" : "article");
-    card.className = "project-explorer-card";
-
-    if (hasLink) {
-      card.href = projectHref;
-    }
-
-    const visual = document.createElement("div");
-    visual.className = "project-explorer-visual";
-
-    if (isSafeImageSource(project.cover_image_url)) {
-      const image = document.createElement("img");
-      image.src = project.cover_image_url.trim();
-      image.alt =
-        typeof project.cover_image_alt === "string" && project.cover_image_alt.trim()
-          ? project.cover_image_alt.trim()
-          : project.title + " project cover";
-      image.loading = "lazy";
-      image.decoding = "async";
-      visual.appendChild(image);
-    } else {
-      const noCover = document.createElement("span");
-      noCover.textContent = "PROJECT";
-      visual.appendChild(noCover);
-    }
-
-    const body = document.createElement("div");
-    body.className = "project-explorer-body";
-
-    const badgeRow = document.createElement("div");
-    badgeRow.className = "project-explorer-badges";
-
-    (Array.isArray(project.badges) ? project.badges : []).forEach((badge) => {
-      const chip = document.createElement("span");
-      chip.textContent = badge;
-      badgeRow.appendChild(chip);
-    });
-
-    const meta = document.createElement("small");
-    meta.textContent =
-      categoryMap.get(project.category_id) || "Portfolio Project";
-
-    const title = document.createElement("strong");
-    title.textContent = project.title || "Untitled Project";
-
-    const summary = document.createElement("p");
-    summary.textContent =
-      typeof project.summary === "string" && project.summary.trim()
-        ? project.summary.trim()
-        : "Selected portfolio project.";
-
-    const tagRow = document.createElement("div");
-    tagRow.className = "project-explorer-tags";
-
-    (Array.isArray(project.tags) ? project.tags : []).forEach((tag) => {
-      const chip = document.createElement("span");
-      chip.textContent = tag;
-      tagRow.appendChild(chip);
-    });
-
-    body.append(badgeRow, meta, title, summary, tagRow);
-
-    if (hasLink) {
-      const action = document.createElement("span");
-      action.className = "project-explorer-action";
-      const label =
-        typeof project.action_label === "string" && project.action_label.trim()
-          ? project.action_label.trim()
-          : "View project";
-      action.textContent = label.includes("↗") ? label : label + " ↗";
-      body.appendChild(action);
-    }
-
-    card.append(visual, body);
-    return card;
-  };
-
-  const applyFilters = () => {
-    const query = normalize(searchInput.value);
-    const categoryId = categorySelect.value;
-    const tag = normalize(tagSelect.value);
-    const badge = normalize(badgeSelect.value);
-
-    const filtered = projects.filter((project) => {
-      const categoryName = categoryMap.get(project.category_id) || "";
-      const tags = Array.isArray(project.tags) ? project.tags : [];
-      const badges = Array.isArray(project.badges) ? project.badges : [];
-
-      const searchText = [
-        project.title,
-        project.summary,
-        categoryName,
-        ...tags,
-        ...badges
-      ]
-        .map(normalize)
-        .join(" ");
-
-      const matchesSearch = !query || searchText.includes(query);
-      const matchesCategory = !categoryId || project.category_id === categoryId;
-      const matchesTag =
-        !tag || tags.some((value) => normalize(value) === tag);
-      const matchesBadge =
-        !badge || badges.some((value) => normalize(value) === badge);
-
-      return matchesSearch && matchesCategory && matchesTag && matchesBadge;
-    });
-
-    filtered.sort((a, b) => {
-      const orderDiff = (a.sort_order ?? 0) - (b.sort_order ?? 0);
-      if (orderDiff) return orderDiff;
-
-      const aDate = Date.parse(a.published_at || a.created_at || 0) || 0;
-      const bDate = Date.parse(b.published_at || b.created_at || 0) || 0;
-      return bDate - aDate;
-    });
-
-    grid.replaceChildren();
-
-    filtered.forEach((project) => {
-      grid.appendChild(renderCard(project));
-    });
-
-    const hasResults = filtered.length > 0;
-    empty.hidden = hasResults;
-    grid.hidden = !hasResults;
-
-    status.textContent =
-      filtered.length +
-      (filtered.length === 1 ? " project" : " projects") +
-      (filtered.length === projects.length ? "" : " matched");
-
-    document.documentElement.dataset.projectExplorerFiltered = "true";
-  };
-
-  const load = async () => {
-    status.textContent = "Loading projects…";
-
-    try {
-      const projectsEndpoint = new URL(
-        "/rest/v1/portfolio_projects",
-        ADMIN_CONFIG.supabaseUrl
-      );
-      projectsEndpoint.searchParams.set(
-        "select",
-        "id,slug,title,summary,category_id,cover_image_url,cover_image_alt,action_label,action_href,tags,badges,sort_order,published_at,created_at"
-      );
-      projectsEndpoint.searchParams.set("is_published", "eq.true");
-      projectsEndpoint.searchParams.set("visibility", "eq.public");
-      projectsEndpoint.searchParams.set(
-        "order",
-        "sort_order.asc,published_at.desc.nullslast,created_at.desc"
-      );
-
-      const categoriesEndpoint = new URL(
-        "/rest/v1/portfolio_categories",
-        ADMIN_CONFIG.supabaseUrl
-      );
-      categoriesEndpoint.searchParams.set("select", "id,name");
-      categoriesEndpoint.searchParams.set("is_active", "eq.true");
-      categoriesEndpoint.searchParams.set("order", "name.asc");
-
-      const headers = {
-        apikey: ADMIN_CONFIG.supabaseAnonKey,
-        Accept: "application/json"
-      };
-
-      const [projectResponse, categoryResponse] = await Promise.all([
-        fetch(projectsEndpoint, { headers }),
-        fetch(categoriesEndpoint, { headers })
-      ]);
-
-      if (!projectResponse.ok) {
-        throw new Error(
-          `Project Explorer request failed with status ${projectResponse.status}`
-        );
-      }
-
-      if (!categoryResponse.ok) {
-        throw new Error(
-          `Project Explorer category request failed with status ${categoryResponse.status}`
-        );
-      }
-
-      [projects, categories, caseStudyProjectIds] = await Promise.all([
-        projectResponse.json(),
-        categoryResponse.json(),
-        loadPublishedCaseStudyProjectIds()
-      ]);
-
-      categoryMap = new Map(
-        categories.map((category) => [category.id, category.name])
-      );
-
-      if (!projects.length) {
-        root.hidden = true;
-        return;
-      }
-
-      fillSelect(
-        categorySelect,
-        "All categories",
-        categories.map((category) => category.name)
-      );
-
-      // Category options need ids for exact filtering.
-      categorySelect.innerHTML = "";
-      const allCategories = document.createElement("option");
-      allCategories.value = "";
-      allCategories.textContent = "All categories";
-      categorySelect.appendChild(allCategories);
-      categories.forEach((category) => {
-        const option = document.createElement("option");
-        option.value = category.id;
-        option.textContent = category.name;
-        categorySelect.appendChild(option);
-      });
-
-      fillSelect(
-        tagSelect,
-        "All tags",
-        uniqueValues(projects.flatMap((project) => project.tags || []))
-      );
-
-      fillSelect(
-        badgeSelect,
-        "All badges",
-        uniqueValues(projects.flatMap((project) => project.badges || []))
-      );
-
-      root.hidden = false;
-      applyFilters();
-      document.documentElement.dataset.projectExplorerCms = "loaded";
-    } catch (error) {
-      root.hidden = true;
-      console.warn("Project Explorer unavailable.", error);
-    }
-  };
-
-  [searchInput, categorySelect, tagSelect, badgeSelect].forEach((control) => {
-    control.addEventListener(
-      control === searchInput ? "input" : "change",
-      applyFilters
+  const render = () => {
+    const visible = projects.filter(
+      (project) => !activeCategory || project.category_id === activeCategory
     );
+    const limited = expanded ? visible : visible.slice(0, WORK_INITIAL_COUNT);
+
+    grid.replaceChildren(
+      ...limited.map((project) =>
+        renderWorkCard(project, categoryMap.get(project.category_id))
+      )
+    );
+
+    if (showMoreButton) {
+      showMoreButton.hidden = expanded || visible.length <= WORK_INITIAL_COUNT;
+    }
+  };
+
+  // Category chips only when projects span more than one category.
+  const usedCategories = categories.filter((category) =>
+    projects.some((project) => project.category_id === category.id)
+  );
+
+  if (filterRoot && usedCategories.length > 1) {
+    const makeChip = (label, value) => {
+      const chip = document.createElement("button");
+      chip.type = "button";
+      chip.textContent = label;
+      chip.setAttribute("aria-pressed", String(value === activeCategory));
+      chip.addEventListener("click", () => {
+        activeCategory = value;
+        expanded = false;
+        filterRoot.querySelectorAll("button").forEach((button) => {
+          button.setAttribute("aria-pressed", String(button === chip));
+        });
+        render();
+      });
+      return chip;
+    };
+
+    filterRoot.replaceChildren(
+      makeChip("All", ""),
+      ...usedCategories.map((category) => makeChip(category.name, category.id))
+    );
+    filterRoot.hidden = false;
+  }
+
+  showMoreButton?.addEventListener("click", () => {
+    expanded = true;
+    render();
   });
 
-  resetButton.addEventListener("click", () => {
-    searchInput.value = "";
-    categorySelect.value = "";
-    tagSelect.value = "";
-    badgeSelect.value = "";
-    applyFilters();
-    searchInput.focus();
-  });
-
-  load();
+  render();
+  document.documentElement.dataset.portfolioEngineHome = "loaded";
 };
 
-initProjectExplorer();
+initWorkSection();
 
 
 const applyDesignShowcase = (data) => {

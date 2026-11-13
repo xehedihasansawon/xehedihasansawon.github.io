@@ -7405,3 +7405,88 @@ html{
     padding-bottom:6px;
   }
 }
+
+/* =========================================================
+   WORK SECTION - category chips, show more, cover placeholder
+   ========================================================= */
+.home-v2 .work-filter{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  padding:16px 18px 0;
+}
+@media (max-width:760px){
+  .home-v2 .work-filter{
+    padding:12px 14px 0;
+  }
+}
+.home-v2 .work-filter[hidden],
+.home-v2 .work-show-more[hidden]{
+  display:none !important;
+}
+.home-v2 .work-filter button,
+.home-v2 .work-show-more{
+  min-height:40px;
+  padding:9px 16px;
+  border:1px solid rgba(218,241,222,.16);
+  border-radius:999px;
+  background:rgba(4,27,26,.58);
+  color:#F3F8F5;
+  font:inherit;
+  font-size:.82rem;
+  font-weight:700;
+  cursor:pointer;
+  transition:border-color .18s ease,background .18s ease;
+}
+.home-v2 .work-filter button:hover,
+.home-v2 .work-show-more:hover{
+  border-color:rgba(226,29,42,.52);
+}
+.home-v2 .work-filter button[aria-pressed="true"]{
+  border-color:#E21D2A;
+  background:rgba(226,29,42,.12);
+}
+.home-v2 .work-filter button:focus-visible,
+.home-v2 .work-show-more:focus-visible{
+  outline:2px solid #E21D2A;
+  outline-offset:2px;
+}
+.home-v2 .work-show-more{
+  display:block;
+  margin:22px auto 0;
+}
+.home-v2 .real-project-thumb-empty{
+  display:grid;
+  place-items:center;
+  background:linear-gradient(135deg,#0B2B26,#051918);
+}
+.home-v2 .real-project-thumb-empty span{
+  color:rgba(218,241,222,.5);
+  font-size:2rem;
+  font-weight:800;
+  letter-spacing:.06em;
+}
+
+/* Project page: floating edit shortcut (only shown with a CMS session) */
+.case-admin-edit{
+  position:fixed;
+  right:16px;
+  bottom:16px;
+  z-index:50;
+  padding:10px 16px;
+  border:1px solid #E21D2A;
+  border-radius:999px;
+  background:rgba(4,27,26,.92);
+  color:#F3F8F5;
+  font-size:.85rem;
+  font-weight:700;
+  text-decoration:none;
+  box-shadow:0 8px 24px rgba(0,0,0,.35);
+}
+.case-admin-edit:hover{
+  background:rgba(226,29,42,.18);
+}
+.case-admin-edit:focus-visible{
+  outline:2px solid #E21D2A;
+  outline-offset:2px;
+}

@@ -629,27 +629,23 @@ const renderCaseStudy = async (project, caseStudy, seo = null) => {
   content.hidden = false;
 };
 
-const loadProjectSeo = async (projectId) => {
-  if (!projectId) return null;
-
+// Shows an "Edit this project" shortcut when this browser has a CMS session.
+// It only links to the admin; the admin itself still checks login + allowlist.
+const showAdminEditLink = (slug) => {
+  let hasSession = false;
   try {
-    const endpoint = new URL(
-      "/rest/v1/portfolio_project_seo",
-      ADMIN_CONFIG.supabaseUrl
-    );
-    endpoint.searchParams.set(
-      "select",
-      "project_id,seo_title,seo_description,social_image_url,social_image_alt"
-    );
-    endpoint.searchParams.set("project_id", "eq." + projectId);
-    endpoint.searchParams.set("limit", "1");
-
-    const rows = await fetchJson(endpoint);
-    return rows[0] || null;
+    const ref = new URL(ADMIN_CONFIG.supabaseUrl).hostname.split(".")[0];
+    hasSession = Boolean(window.localStorage.getItem("sb-" + ref + "-auth-token"));
   } catch {
-    // Phase 5C remains an additive layer; old case-study SEO fallback must still work.
-    return null;
+    hasSession = false;
   }
+  if (!hasSession) return;
+
+  const link = document.createElement("a");
+  link.className = "case-admin-edit";
+  link.href = "admin/#edit=" + encodeURIComponent(slug);
+  link.textContent = "Edit this project";
+  document.body.appendChild(link);
 };
 
 const showError = () => {
@@ -699,15 +695,16 @@ const loadCaseStudy = async () => {
     caseEndpoint.searchParams.set("limit", "1");
 
     const caseStudies = await fetchJson(caseEndpoint);
-    const caseStudy = caseStudies[0];
 
-    if (!caseStudy) {
-      showError();
-      return;
-    }
+    // No published case study yet: still show the project itself.
+    const caseStudy = caseStudies[0] || {
+      kicker: "Project",
+      cta_label: project.action_href ? "Visit project" : "",
+      cta_href: project.action_href || ""
+    };
 
-    const seo = await loadProjectSeo(project.id);
-    await renderCaseStudy(project, caseStudy, seo);
+    await renderCaseStudy(project, caseStudy);
+    showAdminEditLink(project.slug);
   } catch (error) {
     console.warn("Dynamic case study unavailable.", error);
     showError();
