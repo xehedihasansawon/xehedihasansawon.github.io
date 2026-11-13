@@ -7322,3 +7322,86 @@ html{
   color:#80988C !important;
 }
 
+
+/* =========================================================
+   PHASE 6F - MOBILE TYPOGRAPHY POLISH
+   Improves small-screen readability without changing desktop.
+   ========================================================= */
+@media (max-width:560px){
+
+  .home-v2 .real-project-split-card.project-card h3{
+    font-size:1.08rem;
+    line-height:1.28;
+  }
+
+  .home-v2 .real-project-split-card.project-card p{
+    font-size:.92rem;
+    line-height:1.55;
+  }
+
+  .home-v2 .creative-services-frame .service-detail-card > span{
+    font-size:.94rem;
+    line-height:1.48;
+  }
+
+  .home-v2 .experience-type{
+    font-size:.94rem;
+    line-height:1.4;
+  }
+
+  .home-v2 .experience-period{
+    font-size:.84rem;
+  }
+
+  .home-v2 .experience-card p{
+    font-size:.92rem;
+    line-height:1.55;
+  }
+
+  .home-v2 .footer-name{
+    font-size:1.05rem;
+  }
+
+  .home-v2 .footer-nav a,
+  .home-v2 .footer-socials a,
+  .home-v2 .footer-bottom-left,
+  .home-v2 .footer-bottom-right a{
+    font-size:.88rem;
+    line-height:1.45;
+  }
+}
+
+/* =========================================================
+   PHASE 6F - MOBILE TOUCH TARGET + SPACING POLISH
+   Makes important mobile controls easier to tap.
+   ========================================================= */
+@media (max-width:560px){
+
+  .home-v2 .menu-button,
+  .case-study-page .menu-button{
+    min-width:44px;
+    min-height:44px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .custom-cta-actions a{
+    min-height:44px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding-top:11px;
+    padding-bottom:11px;
+  }
+
+  .home-v2 .footer-nav a,
+  .home-v2 .footer-socials a,
+  .home-v2 .footer-bottom-right a{
+    min-height:40px;
+    display:inline-flex;
+    align-items:center;
+    padding-top:6px;
+    padding-bottom:6px;
+  }
+}
