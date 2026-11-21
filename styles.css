@@ -386,7 +386,9 @@ a.contact-item:hover strong { color: var(--mint-light); }
 
 .format-feature + .format-feature { margin-top: 56px; padding-top: 56px; border-top: 1px solid var(--line); }
 .format-portrait { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
-.format-flip .portrait-art { order: -1; }
+.format-flip > :not(.format-copy) { order: -1; }
+.format-landscape { grid-template-columns: 5fr 7fr; }
+.format-landscape.format-flip { grid-template-columns: 7fr 5fr; }
 
 /* Case stats band + jump links (SSFC) */
 .case-stats { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 40px; overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius); background: rgba(10, 39, 36, .35); }
@@ -524,7 +526,8 @@ a.contact-item:hover strong { color: var(--mint-light); }
   .contact-grid { grid-template-columns: 1fr; }
   .cta-note { display: none; }
   .case-intro-grid, .case-section-head, .format-portrait { grid-template-columns: 1fr; gap: 20px; }
-  .format-flip .portrait-art { order: 0; }
+  .format-flip > :not(.format-copy) { order: 0; }
+  .format-landscape, .format-landscape.format-flip { grid-template-columns: 1fr; }
   .wide-copy { grid-template-columns: 1fr; gap: 10px; }
   .role-grid { grid-template-columns: repeat(2, 1fr); }
   .case-summary-grid { grid-template-columns: repeat(2, 1fr); }
