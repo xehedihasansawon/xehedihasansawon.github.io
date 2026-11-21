@@ -425,27 +425,23 @@ a.contact-item:hover strong { color: var(--mint-light); }
 }
 .case-image-button:hover::after, .case-image-button:focus-visible::after { opacity: 1; }
 @media (hover: none) { .case-image-button::after { opacity: .9; } }
-.portrait-art, .wide-art, .identity-piece, .biporjoy-jerseys .case-image-button {
+.portrait-art, .wide-art {
   overflow: hidden; padding: 12px; border: 1px solid var(--line-strong); border-radius: 18px; background: #061d1d;
   transition: border-color .2s ease;
 }
-.portrait-art:hover, .wide-art:hover, .identity-piece:hover, .biporjoy-jerseys .case-image-button:hover { border-color: var(--mint); }
+.portrait-art:hover, .wide-art:hover { border-color: var(--mint); }
 .portrait-art { width: min(100%, 380px); justify-self: center; }
 .post-art { width: min(100%, 480px); }
 .art-stack { display: grid; gap: 16px; }
 .art-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .portrait-art img { width: 100%; max-height: 760px; object-fit: contain; border-radius: 8px; }
-.wide-art img, .biporjoy-jerseys img { width: 100%; border-radius: 8px; }
-.identity-piece img { width: 100%; height: 100%; max-height: 600px; object-fit: contain; }
+.wide-art img { width: 100%; border-radius: 8px; }
 .role-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
 .role-card { padding: 22px; border: 1px solid var(--line); border-radius: var(--radius); background: linear-gradient(180deg, rgba(14, 49, 44, .6), rgba(10, 39, 36, .35)); }
 .role-card strong { display: block; font-size: 16px; font-weight: 700; }
 .role-card span { display: block; margin-top: 6px; font-size: 14px; color: var(--muted); }
 .case-note { margin-top: 20px; padding: 16px 18px; border-left: 3px solid var(--red); border-radius: 0 10px 10px 0; background: rgba(142, 182, 155, .07); font-size: 14px; color: var(--soft); }
 
-.biporjoy-identity { display: grid; grid-template-columns: .7fr 1.3fr; gap: 16px; align-items: start; }
-.biporjoy-identity .role-grid { grid-template-columns: 1fr 1fr; }
-.biporjoy-jerseys { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 
 .case-next { padding: 64px 0; }
 .case-next-inner { display: flex; align-items: center; justify-content: space-between; gap: 32px; padding: 40px; border: 1px solid var(--line-strong); border-radius: 22px; background: radial-gradient(500px 240px at 0% 100%, rgba(142, 182, 155, .16), transparent 70%), linear-gradient(180deg, #0b2b27, #061f1f); }
@@ -533,7 +529,6 @@ a.contact-item:hover strong { color: var(--mint-light); }
   .case-summary-grid { grid-template-columns: repeat(2, 1fr); }
   .case-summary-grid > div:nth-child(odd) { border-left: 0; padding-left: 0; }
   .case-summary-grid > div:nth-child(n+3) { border-top: 1px solid var(--line); }
-  .biporjoy-identity { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 640px) {
@@ -560,7 +555,7 @@ a.contact-item:hover strong { color: var(--mint-light); }
   .form-grid { grid-template-columns: 1fr; }
   .form-actions .btn { flex: 1 1 100%; }
   .footer-grid { grid-template-columns: 1fr; gap: 28px; }
-  .role-grid, .biporjoy-identity .role-grid, .biporjoy-jerseys { grid-template-columns: 1fr; }
+  .role-grid { grid-template-columns: 1fr; }
   .case-next-inner { flex-direction: column; align-items: flex-start; padding: 28px 22px; }
   .case-section { padding: 56px 0; }
   .case-stats { grid-template-columns: repeat(2, 1fr); margin-top: 28px; }
