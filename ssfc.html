@@ -20,43 +20,64 @@
   <meta name="twitter:image" content="https://xehedihasansawon.github.io/assets/work/ssfc-cover.webp">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=static-20261121">
-  <link rel="stylesheet" href="case-motion.css?v=static-20261121">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Caveat:wght@600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=v2-20261121">
 </head>
 <body class="case-study-page">
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-arrow-up-right" viewBox="0 0 24 24"><path d="M7 17 17 7M7 7h10v10"/></symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></symbol>
+  <symbol id="i-pen-tool" viewBox="0 0 24 24"><path d="m12 19 7-7 3 3-7 7-3-3z"/><path d="m18 13-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="m2 2 7.586 7.586"/><circle cx="11" cy="11" r="2"/></symbol>
+  <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></symbol>
+  <symbol id="i-shirt" viewBox="0 0 24 24"><path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/></symbol>
+  <symbol id="i-video" viewBox="0 0 24 24"><path d="m23 7-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></symbol>
+  <symbol id="i-trending-up" viewBox="0 0 24 24"><path d="m23 6-9.5 9.5-5-5L1 18"/><path d="M17 6h6v6"/></symbol>
+  <symbol id="i-monitor" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></symbol>
+  <symbol id="i-award" viewBox="0 0 24 24"><circle cx="12" cy="8" r="7"/><path d="M8.21 13.89 7 23l5-3 5 3-1.21-9.12"/></symbol>
+  <symbol id="i-briefcase" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></symbol>
+  <symbol id="i-message" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></symbol>
+  <symbol id="i-linkedin" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></symbol>
+  <symbol id="i-github" viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></symbol>
+  <symbol id="i-facebook" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></symbol>
+  <symbol id="i-instagram" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37zM17.5 6.5h.01"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></symbol>
+  <symbol id="i-map-pin" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+</svg>
   <a class="skip-link" href="#main-content">Skip to main content</a>
-  <header class="topbar">
-    <div class="shell nav">
-      <a class="signature" href="index.html#home" aria-label="Home">Mhs<span>.</span></a>
-      <nav class="desktop-nav" aria-label="Primary">
+  <header class="site-header" id="top">
+    <div class="shell header-inner">
+      <a class="brand" href="index.html#home" aria-label="MD Mehedi Hasan Sawon, home">MHS<span>.</span></a>
+      <nav class="nav" aria-label="Primary">
         <a href="index.html#home">Home</a>
-        <a class="active" href="index.html#work">Work</a>
+        <a href="index.html#work">Work</a>
         <a href="index.html#services">Services</a>
-        <a href="index.html#digital">Digital</a>
         <a href="index.html#about">About</a>
+        <a href="index.html#experience">Experience</a>
         <a href="index.html#contact">Contact</a>
       </nav>
-      <a class="outline-pill desktop-cta" href="index.html#contact">Let's Work Together <span>→</span></a>
-      <button type="button" class="menu-button" id="menuButton" aria-label="Open menu" aria-controls="mobileNav" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
+      <a class="btn btn-outline btn-sm header-cta" href="index.html#contact">Let's talk <svg class="icon icon-sm" aria-hidden="true"><use href="#i-arrow-up-right"/></svg></a>
+      <button type="button" class="menu-btn" id="menuButton" aria-label="Open menu" aria-controls="mobileNav" aria-expanded="false"><span></span><span></span></button>
     </div>
-    <nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
-      <a href="index.html#home">Home</a>
+    <nav class="mobile-nav" id="mobileNav" aria-label="Mobile">
       <a href="index.html#work">Work</a>
       <a href="index.html#services">Services</a>
-      <a href="index.html#digital">Digital</a>
       <a href="index.html#about">About</a>
+      <a href="index.html#experience">Experience</a>
       <a href="index.html#contact">Contact</a>
+      <a href="index.html#contact">Let's talk →</a>
     </nav>
   </header>
 
   <main id="main-content">
-    <section class="case-hero section-line">
+    <section class="case-hero">
       <div class="shell case-hero-grid">
         <div class="case-hero-copy">
-          <a class="case-back" href="index.html#work">← Back to Projects</a>
+          <a class="case-back" href="index.html#work"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-arrow-left"/></svg> Back to projects</a>
           <p class="kicker">Featured Case Study · SSFC</p>
           <h1>SHAHEEN SCHOOL<br><span>FOOTBALL CHAMPIONSHIP</span></h1>
           <p class="case-lead">A multi-season football tournament design system covering social media, match graphics, jerseys, notices, event branding and large-format print — with Season 4 co-organizing responsibility.</p>
@@ -66,7 +87,7 @@
       </div>
     </section>
 
-    <section class="case-summary section-line">
+    <section class="case-summary">
       <div class="shell case-summary-grid">
         <div><small>PROJECT</small><strong>SSFC · Seasons 1–4</strong></div>
         <div><small>ROLE</small><strong>Lead Graphic Designer</strong></div>
@@ -75,14 +96,14 @@
       </div>
     </section>
 
-    <section class="case-section section-line">
+    <section class="case-section">
       <div class="shell case-intro-grid">
         <div><p class="case-eyebrow">Project Scope</p><h2>One tournament, <span>many formats.</span></h2></div>
         <p>SSFC needs graphics for different real-world uses: social posts, fixtures, match graphics, jerseys, notices, champion posts, stage backdrops, rally materials, ID cards and stadium banners. Each format is shown in its real proportion instead of being forced into one fixed-size grid.</p>
       </div>
     </section>
 
-    <section class="case-section large-format-section section-line">
+    <section class="case-section large-format-section">
       <div class="shell">
         <article class="format-feature format-portrait">
           <div class="format-copy">
@@ -117,7 +138,7 @@
       </div>
     </section>
 
-    <section class="case-section section-line">
+    <section class="case-section">
       <div class="shell">
         <div class="case-section-head">
           <div><p class="case-eyebrow">Role & Responsibility</p><h2>More than <span>design.</span></h2></div>
@@ -132,28 +153,57 @@
       </div>
     </section>
 
-    <section class="case-next section-line">
+    <section class="case-next">
       <div class="shell case-next-inner">
         <div><p class="case-eyebrow">Related Project</p><h2>Meet <span>Biporjoy 18.</span></h2><p>A complete team identity created for the SSC Batch 2018 football team.</p></div>
-        <a class="mint-button" href="biporjoy.html">View Biporjoy 18 <span>→</span></a>
+        <a class="btn btn-primary" href="biporjoy.html">View Biporjoy 18 <span>→</span></a>
       </div>
     </section>
   </main>
 
-  <footer>
+  <footer class="site-footer">
     <div class="shell footer-grid">
-      <div><strong>MD MEHEDI HASAN SAWON</strong><span>Graphic Designer · Founder, MAAZ STUDIO</span></div>
-      <nav><a href="index.html#home">Home</a><a href="index.html#work">Work</a><a href="index.html#services">Services</a><a href="index.html#digital">Digital</a><a href="index.html#about">About</a><a href="index.html#contact">Contact</a></nav>
-      <div class="socials"><a href="https://www.facebook.com/mdmehedihasansawoon/" target="_blank" rel="noreferrer" aria-label="Facebook">f</a><a href="https://www.behance.net/mehedihasan194" target="_blank" rel="noreferrer" aria-label="Behance">Bē</a><a href="https://www.linkedin.com/in/mdmehedihasansawon/" target="_blank" rel="noreferrer" aria-label="LinkedIn">in</a><a href="mailto:xehedi@gmail.com" aria-label="Email">✉</a></div>
-      <small>© 2026 Mehedi Hasan Sawon<br>All Rights Reserved.</small>
+      <div class="footer-brand">
+        <a class="brand" href="index.html#home">MHS<span>.</span></a>
+        <strong>MD MEHEDI HASAN SAWON</strong>
+        <p>Graphic Designer · Founder, MAAZ STUDIO. Brand identities, sports design, websites and ERP software for growing businesses.</p>
+        <p class="script footer-quote">Design. Build. Grow.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <a href="index.html#work">Work</a>
+        <a href="index.html#services">Services</a>
+        <a href="index.html#about">About</a>
+        <a href="index.html#experience">Experience</a>
+        <a href="index.html#contact">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h4>Projects</h4>
+        <a href="maaz-studio.html">MAAZ STUDIO</a>
+        <a href="chowdhury-overseas.html">Chowdhury Overseas</a>
+        <a href="ssfc.html">SSFC</a>
+        <a href="biporjoy.html">Biporjoy 18</a>
+        <a href="miuw-erp.html">MIUW ERP</a>
+        <a href="portfolio.html">Portfolio Website</a>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <a href="mailto:xehedi@gmail.com">xehedi@gmail.com</a>
+        <a href="https://wa.me/60174723951" target="_blank" rel="noreferrer">WhatsApp · +60 17-472 3951</a>
+        <a href="https://maazstudio.digital/" target="_blank" rel="noreferrer">maazstudio.digital</a>
+        <div class="socials"><a class="social" href="https://www.facebook.com/mdmehedihasansawoon/" target="_blank" rel="noreferrer" aria-label="Facebook" title="Facebook"><svg class="icon" aria-hidden="true"><use href="#i-facebook"/></svg></a><a class="social" href="https://www.instagram.com/honu______20" target="_blank" rel="noreferrer" aria-label="Instagram" title="Instagram"><svg class="icon" aria-hidden="true"><use href="#i-instagram"/></svg></a><a class="social" href="https://www.linkedin.com/in/mdmehedihasansawon/" target="_blank" rel="noreferrer" aria-label="LinkedIn" title="LinkedIn"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg></a><a class="social" href="https://github.com/xehedihasansawon" target="_blank" rel="noreferrer" aria-label="GitHub" title="GitHub"><svg class="icon" aria-hidden="true"><use href="#i-github"/></svg></a><a class="social" href="https://www.behance.net/mehedihasan194" target="_blank" rel="noreferrer" aria-label="Behance" title="Behance">Bē</a></div>
+      </div>
+    </div>
+    <div class="shell footer-bottom">
+      <span>© 2026 Mehedi Hasan Sawon. All rights reserved.</span>
+      <a href="#top">Back to top ↑</a>
     </div>
   </footer>
 
-  <dialog id="caseLightbox" class="case-lightbox" aria-label="Project artwork preview">
-    <button type="button" class="dialog-close" id="caseLightboxClose" aria-label="Close image">×</button>
-    <img id="caseLightboxImage" src="" alt="" loading="lazy" decoding="async">
+  <dialog class="lightbox" id="lightbox" aria-label="Image preview">
+    <img id="lightboxImage" src="" alt="">
+    <div class="lightbox-bar"><span id="lightboxCaption"></span><button type="button" class="lightbox-close" id="lightboxClose" aria-label="Close preview"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></button></div>
   </dialog>
-  <script type="module" src="case.js?v=static-20261121"></script>
-  <script type="module" src="public-case-motion.js?v=static-20261121"></script>
+  <script type="module" src="main.js?v=v2-20261121"></script>
 </body>
 </html>
