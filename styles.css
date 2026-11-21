@@ -402,7 +402,6 @@ a.contact-item:hover strong { color: var(--mint-light); }
 /* Chapter labels between groups of features */
 .case-chapter { display: flex; align-items: center; gap: 14px; margin-top: 80px; }
 .case-chapter:first-child { margin-top: 0; }
-.case-section-head + .case-chapter { margin-top: 56px; }
 .case-chapter::after { content: ""; flex: 1; height: 1px; background: var(--line-strong); }
 .case-chapter-name { font-family: var(--display); font-size: 24px; letter-spacing: .03em; text-transform: uppercase; color: var(--mint-light); }
 .case-chapter-range { padding: 3px 10px; border: 1px solid var(--line-strong); border-radius: 999px; font-size: 12px; font-weight: 700; color: var(--mint); }
