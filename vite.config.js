@@ -29,7 +29,9 @@ export default defineConfig({
         ssfc: resolve(rootDir, 'ssfc.html'),
         biporjoy: resolve(rootDir, 'biporjoy.html'),
         miuwErp: resolve(rootDir, 'miuw-erp.html'),
-        portfolio: resolve(rootDir, 'portfolio.html')
+        portfolio: resolve(rootDir, 'portfolio.html'),
+        maazStudio: resolve(rootDir, 'maaz-studio.html'),
+        chowdhuryOverseas: resolve(rootDir, 'chowdhury-overseas.html')
       }
     }
   }

@@ -12,6 +12,8 @@ GitHub Pages serves the `main` branch as it is, so a push to `main` goes live in
 | Homepage | `index.html` |
 | SSFC case study | `ssfc.html` |
 | Biporjoy 18 case study | `biporjoy.html` |
+| MAAZ STUDIO case study | `maaz-studio.html` |
+| Chowdhury Overseas case study | `chowdhury-overseas.html` |
 | MIUW ERP case study | `miuw-erp.html` |
 | Portfolio website case study | `portfolio.html` |
 | Old `project.html?slug=…` links | `project.html` (redirects to the pages above) |

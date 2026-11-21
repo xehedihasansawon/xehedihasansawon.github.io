@@ -7516,3 +7516,16 @@ html{
     width:100%;
   }
 }
+
+/* Portfolio A–Z update: odd last experience card spans both columns; links in case summary */
+.home-v2 .experience-card:last-child:nth-child(odd){grid-column:1 / -1}
+.case-summary-grid strong a{color:inherit;text-decoration:none;border-bottom:1px solid currentColor}
+.case-summary-grid strong a:hover{opacity:.8}
+/* Work grid now holds six projects: let the panel grow and keep each row the original card height */
+@media (min-width:761px){
+.real-projects-panel.real-projects-panel-split{height:auto !important;min-height:0 !important}
+.real-projects-split-grid{grid-template-rows:none !important;grid-auto-rows:215px}
+}
+@media (max-width:1050px) and (min-width:761px){
+.real-projects-split-grid{grid-auto-rows:195px}
+}
