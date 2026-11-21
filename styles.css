@@ -7532,6 +7532,6 @@ html{
 
 /* Final personal logo: hand-drawn "Mhs." SVG replaces the cursive text signature */
 .signature,.home-v2 .signature{transform:none !important;display:inline-flex;align-items:center;line-height:0}
-.signature img{display:block;height:54px;width:auto}
+.signature img{display:block;height:46px;width:auto}
 .home-v2 .signature:hover{transform:translateY(-1px) !important}
-@media (max-width:900px){.signature img{height:42px}}
+@media (max-width:900px){.signature img{height:40px}}
