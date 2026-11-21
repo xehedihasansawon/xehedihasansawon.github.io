@@ -101,8 +101,9 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .site-header.is-scrolled { border-color: var(--line); background: rgba(4, 23, 24, .9); }
 .header-inner { display: flex; align-items: center; gap: 24px; height: var(--header-h); }
 
-.brand { font-family: var(--display); font-size: 28px; letter-spacing: .02em; line-height: 1; color: var(--text); }
-.brand span { color: var(--red); }
+.brand { display: inline-flex; align-items: center; line-height: 0; }
+.brand img { display: block; height: 44px; width: auto; }
+.footer-brand .brand img { height: 56px; }
 
 .nav { display: flex; gap: 4px; margin-left: auto; }
 .nav a {

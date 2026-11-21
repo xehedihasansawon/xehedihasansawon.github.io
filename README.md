@@ -27,6 +27,7 @@ GitHub Pages serves the `main` branch as it is, so a push to `main` goes live in
 
 ## Images
 
+- Logo and favicons: `assets/brand/` (`mhs-logo.svg` is the one in the header and footer) and `assets/favicon.svg`
 - Hero photo: `assets/hero-current.webp`
 - Project covers, case study artwork and showcase designs: `assets/work/`
 - Tool logos: `assets/tool-*`
