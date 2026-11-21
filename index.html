@@ -16,13 +16,15 @@
   <meta property="og:title" content="MD Mehedi Hasan Sawon | Graphic Designer & Digital Projects">
   <meta property="og:description" content="Brand identity, social and sports design, video, web and practical digital project work.">
   <meta property="og:url" content="https://xehedihasansawon.github.io/">
-  <meta property="og:image" content="https://xehedihasansawon.github.io/assets/case-portfolio-final.jpg">
+  <meta property="og:image" content="https://xehedihasansawon.github.io/assets/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="MD Mehedi Hasan Sawon portfolio preview">
 
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="MD Mehedi Hasan Sawon | Graphic Designer & Digital Projects">
   <meta name="twitter:description" content="Brand identity, social and sports design, video, web and practical digital project work.">
-  <meta name="twitter:image" content="https://xehedihasansawon.github.io/assets/case-portfolio-final.jpg">
+  <meta name="twitter:image" content="https://xehedihasansawon.github.io/assets/og-image.jpg">
 
   <script type="application/ld+json">
   {
@@ -41,7 +43,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=phase6e-current-hero-fallback-20260930-1">
+  <link rel="stylesheet" href="styles.css?v=static-20261121">
   <link rel="stylesheet" href="system-states.css?v=phase6d-a11y-perf-20260929-1">
   <link rel="stylesheet" href="case-motion.css?v=phase6b-case-motion-20260929-1">
   <link rel="stylesheet" href="motion.css?v=phase6a-motion-20260929-1">
@@ -123,14 +125,11 @@
             <h2><span id="realProjectsTitleMain">REAL LIFE</span> <span id="realProjectsTitleAccent">PROJECTS</span></h2>
           </header>
 
-          <div id="workFilter" class="work-filter" role="group" aria-label="Filter projects by category" hidden></div>
-
           <div class="real-projects-panel real-projects-panel-split">
-          <!-- Static fallback. public-cms.js replaces these with Project Studio projects, newest first. -->
           <div id="workGrid" class="real-projects-grid real-projects-split-grid">
-            <a class="real-project-card real-project-split-card" data-cms-project="ssfc" href="project.html?slug=ssfc">
+            <a class="real-project-card real-project-split-card" href="ssfc.html">
               <div class="real-project-thumb">
-                <img src="assets/case-ssfc-final.jpg" alt="Shaheen School Football Championship case study cover" loading="lazy" decoding="async">
+                <img src="assets/work/ssfc-cover.webp" width="1484" height="1060" alt="Shaheen School Football Championship case study cover" loading="lazy" decoding="async">
               </div>
               <div class="real-project-details">
                 <small>Sports Branding · Event Creative</small>
@@ -140,9 +139,9 @@
               </div>
             </a>
 
-            <a class="real-project-card real-project-split-card" data-cms-project="biporjoy-18" href="project.html?slug=biporjoy-18">
+            <a class="real-project-card real-project-split-card" href="biporjoy.html">
               <div class="real-project-thumb">
-                <img src="assets/case-biporjoy18-final.jpg" alt="Biporjoy 18 football team identity cover" loading="lazy" decoding="async">
+                <img src="assets/work/biporjoy-18-cover.webp" width="1484" height="1060" alt="Biporjoy 18 football team identity cover" loading="lazy" decoding="async">
               </div>
               <div class="real-project-details">
                 <small>Team Identity · Sports Design</small>
@@ -152,9 +151,21 @@
               </div>
             </a>
 
-            <a class="real-project-card real-project-split-card" data-cms-project="portfolio-website" href="project.html?slug=portfolio-website">
+            <a class="real-project-card real-project-split-card" href="miuw-erp.html">
               <div class="real-project-thumb">
-                <img src="assets/case-portfolio-final.jpg" alt="Mehedi Portfolio website cover" loading="lazy" decoding="async">
+                <img src="assets/work/miuw-erp-cover.webp" width="1484" height="1060" alt="MIUW ERP business system cover" loading="lazy" decoding="async">
+              </div>
+              <div class="real-project-details">
+                <small>Business System · ERP Workflow</small>
+                <strong>MIUW ERP</strong>
+                <p>Orders, inventory, sourcing, delivery, finance and reporting in one system.</p>
+                <span>View project</span>
+              </div>
+            </a>
+
+            <a class="real-project-card real-project-split-card" href="portfolio.html">
+              <div class="real-project-thumb">
+                <img src="assets/work/portfolio-cover.webp" width="1484" height="1060" alt="Mehedi portfolio website cover" loading="lazy" decoding="async">
               </div>
               <div class="real-project-details">
                 <small>Personal Brand · UI · Front-End</small>
@@ -165,8 +176,6 @@
             </a>
           </div>
           </div>
-
-          <button id="workShowMore" class="work-show-more" type="button" hidden>Show all projects</button>
         </div>
       </div>
     </section>
@@ -550,7 +559,7 @@
                 <span class="contact-channel-label">Project inquiry</span>
                 <h3>Tell me what you’re building.</h3>
               </div>
-              <p>Short brief is enough. I’ll reply using the email you provide.</p>
+              <p>Short brief is enough. It opens ready to send.</p>
             </div>
 
             <form id="inquiryForm" class="contact-inquiry-form" novalidate>
@@ -560,8 +569,8 @@
                   <input name="name" id="inquiryName" type="text" maxlength="100" autocomplete="name" required>
                 </label>
                 <label>
-                  <span>Email</span>
-                  <input name="email" id="inquiryEmail" type="email" maxlength="254" autocomplete="email" required>
+                  <span>Brand / company (optional)</span>
+                  <input name="company" id="inquiryCompany" type="text" maxlength="120" autocomplete="organization">
                 </label>
                 <label>
                   <span>Project type</span>
@@ -605,18 +614,11 @@
                 <textarea name="message" id="inquiryMessage" rows="5" maxlength="3000" placeholder="What do you need, what is the goal, and anything I should know?" required></textarea>
               </label>
 
-              <label class="contact-inquiry-consent">
-                <input name="consent" id="inquiryConsent" type="checkbox" required>
-                <span>I’m okay with these details being stored so you can reply to this inquiry.</span>
-              </label>
-
-              <label class="contact-inquiry-trap" aria-hidden="true" hidden>
-                <span>Website</span>
-                <input id="inquiryWebsite" name="company_website" type="text" tabindex="-1" autocomplete="off">
-              </label>
-
               <div class="contact-inquiry-actions">
-                <button id="inquirySubmit" type="submit">Send project inquiry</button>
+                <div class="contact-inquiry-buttons">
+                  <button type="submit" value="whatsapp">Send on WhatsApp</button>
+                  <button type="submit" value="email" class="contact-inquiry-secondary">Send by email</button>
+                </div>
                 <p id="inquiryFormMessage" role="status" aria-live="polite"></p>
               </div>
             </form>
@@ -720,7 +722,6 @@
 
   <script type="module" src="script.js?v=phase6e-release-20260930-1"></script>
   <script type="module" src="public-motion.js?v=phase6e-release-20260930-1"></script>
-  <script type="module" src="public-cms.js?v=phase6e-current-hero-fallback-20260930-1"></script>
-  <script type="module" src="public-inquiry.js?v=phase5a-inquiry-20260928-1"></script>
+  <script type="module" src="public-inquiry.js?v=static-20261121"></script>
 </body>
 </html>

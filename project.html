@@ -3,139 +3,23 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#051F20">
-  <title>Project Case Study | MD Mehedi Hasan Sawon</title>
-  <meta id="caseMetaDescription" name="description" content="Project case study by MD Mehedi Hasan Sawon.">
-  <meta name="robots" content="index,follow">
-  <link id="caseCanonical" rel="canonical" href="https://xehedihasansawon.github.io/project.html">
-  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-  <meta property="og:type" content="article">
-  <meta id="caseOgTitle" property="og:title" content="Project Case Study | MD Mehedi Hasan Sawon">
-  <meta id="caseOgDescription" property="og:description" content="Project case study by MD Mehedi Hasan Sawon.">
-  <meta id="caseOgUrl" property="og:url" content="https://xehedihasansawon.github.io/project.html">
-  <meta id="caseOgImage" property="og:image" content="">
-  <meta id="caseOgImageAlt" property="og:image:alt" content="">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta id="caseTwitterTitle" name="twitter:title" content="Project Case Study | MD Mehedi Hasan Sawon">
-  <meta id="caseTwitterDescription" name="twitter:description" content="Project case study by MD Mehedi Hasan Sawon.">
-  <meta id="caseTwitterImage" name="twitter:image" content="">
-  <meta id="caseTwitterImageAlt" name="twitter:image:alt" content="">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=phase6d-a11y-perf-20260929-1">
-  <link rel="stylesheet" href="system-states.css?v=phase6d-a11y-perf-20260929-1">
-  <link rel="stylesheet" href="case-motion.css?v=phase6b-case-motion-20260929-1">
-  <link rel="stylesheet" href="project-showcase.css?v=detailed-showcase-20261001-1">
+  <meta name="robots" content="noindex,follow">
+  <title>Project | MD Mehedi Hasan Sawon</title>
+  <script>
+    // Old links used project.html?slug=…; send them to the static project pages.
+    (function () {
+      var pages = {
+        "ssfc": "ssfc.html",
+        "biporjoy-18": "biporjoy.html",
+        "miuw-erp": "miuw-erp.html",
+        "portfolio-website": "portfolio.html"
+      };
+      var slug = new URLSearchParams(location.search).get("slug");
+      location.replace(pages[slug] || "index.html#work");
+    })();
+  </script>
 </head>
-<body class="case-study-page dynamic-case-study-page">
-  <a class="skip-link" href="#main-content">Skip to main content</a>
-  <header class="topbar">
-    <div class="shell nav">
-      <a class="signature" href="index.html#home" aria-label="Home">Mhs<span>.</span></a>
-
-      <nav class="desktop-nav" aria-label="Primary">
-        <a href="index.html#home">Home</a>
-        <a class="active" href="index.html#work">Work</a>
-        <a href="index.html#services">Services</a>
-        <a href="index.html#digital">Digital</a>
-        <a href="index.html#about">About</a>
-        <a href="index.html#contact">Contact</a>
-      </nav>
-
-      <a class="outline-pill desktop-cta" href="index.html#contact">Let's Work Together <span>→</span></a>
-
-      <button type="button" class="menu-button" id="menuButton" aria-label="Open menu" aria-controls="mobileNav" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-
-    <nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
-      <a href="index.html#home">Home</a>
-      <a href="index.html#work">Work</a>
-      <a href="index.html#services">Services</a>
-      <a href="index.html#digital">Digital</a>
-      <a href="index.html#about">About</a>
-      <a href="index.html#contact">Contact</a>
-    </nav>
-  </header>
-
-  <main id="main-content">
-    <section id="caseLoading" class="case-dynamic-state section-line" role="status" aria-live="polite">
-      <div class="shell">
-        <p class="case-eyebrow">Case Study</p>
-        <h1>Loading project…</h1>
-      </div>
-    </section>
-
-    <section id="caseError" class="case-dynamic-state section-line" role="alert" hidden>
-      <div class="shell">
-        <p class="case-eyebrow">Case Study</p>
-        <h1>PROJECT NOT AVAILABLE</h1>
-        <p>This project page is not published or could not be found.</p>
-        <a class="mint-button" href="index.html#work">Back to Projects <span>→</span></a>
-      </div>
-    </section>
-
-    <div id="caseStudyContent" hidden>
-      <section class="case-hero section-line">
-        <div class="shell case-hero-grid">
-          <div class="case-hero-copy">
-            <a class="case-back" href="index.html#work">← Back to Projects</a>
-            <p id="caseKicker" class="kicker"></p>
-            <h1 id="caseHeadline"></h1>
-            <p id="caseLead" class="case-lead"></p>
-            <div id="caseTags" class="case-tags"></div>
-          </div>
-          <div id="caseHeroVisual" class="case-hero-visual"></div>
-        </div>
-      </section>
-
-      <section id="caseSummary" class="case-summary section-line" hidden>
-        <div id="caseFacts" class="shell case-summary-grid"></div>
-      </section>
-
-      <div id="caseSections"></div>
-
-      <section id="caseNext" class="case-next section-line" hidden>
-        <div class="shell case-next-inner">
-          <div>
-            <p id="caseNextEyebrow" class="case-eyebrow">Related Project</p>
-            <h2 id="caseNextTitle"></h2>
-            <p id="caseNextSummary"></p>
-          </div>
-          <a id="caseNextLink" class="mint-button" href="#">View Project <span>→</span></a>
-        </div>
-      </section>
-
-      <section id="caseCta" class="case-next dynamic-case-cta section-line" hidden>
-        <div class="shell case-next-inner">
-          <div>
-            <p class="case-eyebrow">Project Link</p>
-            <h2>Explore the <span>live project.</span></h2>
-            <p>Open the project, product or live website connected to this case study.</p>
-          </div>
-          <a id="caseCtaLink" class="mint-button" href="#">Visit Project <span>→</span></a>
-        </div>
-      </section>
-    </div>
-  </main>
-
-  <footer>
-    <div class="shell footer-grid">
-      <div><strong>MD MEHEDI HASAN SAWON</strong><span>Graphic Designer · Brand & Digital Projects</span></div>
-      <nav><a href="index.html#home">Home</a><a href="index.html#work">Work</a><a href="index.html#services">Services</a><a href="index.html#digital">Digital</a><a href="index.html#about">About</a><a href="index.html#contact">Contact</a></nav>
-      <div class="socials"><a href="https://www.facebook.com/mdmehedihasansawoon/" target="_blank" rel="noreferrer" aria-label="Facebook">f</a><a href="https://www.behance.net/mehedihasan194" target="_blank" rel="noreferrer" aria-label="Behance">Bē</a><a href="https://www.linkedin.com/in/mdmehedihasansawon/" target="_blank" rel="noreferrer" aria-label="LinkedIn">in</a><a href="mailto:xehedi@gmail.com" aria-label="Email">✉</a></div>
-      <small>© 2026 Mehedi Hasan Sawon<br>All Rights Reserved.</small>
-    </div>
-  </footer>
-
-  <dialog id="caseLightbox" class="case-lightbox" aria-label="Project artwork preview">
-    <button type="button" class="dialog-close" id="caseLightboxClose" aria-label="Close image">×</button>
-    <img id="caseLightboxImage" src="" alt="" loading="lazy" decoding="async">
-  </dialog>
-
-  <script type="module" src="project-case.js?v=detailed-showcase-20261001-1"></script>
-  <script type="module" src="public-case-motion.js?v=phase6e-release-20260930-1"></script>
+<body>
+  <p><a href="index.html#work">View projects</a></p>
 </body>
 </html>

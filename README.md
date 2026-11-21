@@ -1,38 +1,39 @@
-# Mehedi Portfolio - Vite Version
+# MD Mehedi Hasan Sawon — Portfolio
 
-Same approved green portfolio design, converted to a Vite project so it runs like the MIUW ERP workflow.
+Live: https://xehedihasansawon.github.io/
 
-## Run in VS Code
+A plain static site (HTML, CSS, JavaScript). No database, no login, no backend.
+GitHub Pages serves the `main` branch as it is, so a push to `main` goes live in a minute or two.
 
-Open this folder in VS Code and run:
+## Pages
+
+| Page | File |
+| --- | --- |
+| Homepage | `index.html` |
+| SSFC case study | `ssfc.html` |
+| Biporjoy 18 case study | `biporjoy.html` |
+| MIUW ERP case study | `miuw-erp.html` |
+| Portfolio website case study | `portfolio.html` |
+| Old `project.html?slug=…` links | `project.html` (redirects to the pages above) |
+| Not found | `404.html` |
+
+## Images
+
+- Project covers and case study artwork: `assets/work/`
+- Social share preview (Facebook, LinkedIn, WhatsApp): `assets/og-image.jpg`, 1200 × 630
+
+Use WebP for photos and artwork. About 1400–2000 px wide is enough for the site.
+
+## Contact form
+
+The inquiry form has no server. When a visitor submits it, the message opens ready to send in
+WhatsApp or their email app. The number and email address are at the top of `public-inquiry.js`.
+
+## Run locally
 
 ```bash
 npm install
 npm run dev
 ```
 
-Vite will print a local URL, usually:
-
-```text
-http://localhost:5173/
-```
-
-Ctrl + click that URL to open the site.
-
-## Production build
-
-```bash
-npm run build
-```
-
-The final production files will be created in `dist/`.
-
-## Preview production build
-
-```bash
-npm run preview
-```
-
-## GitHub
-
-Keep these source files in GitHub. `node_modules` and `dist` are excluded through `.gitignore`.
+Open the URL Vite prints, usually `http://localhost:5173/`.

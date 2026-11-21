@@ -7490,3 +7490,29 @@ html{
   outline:2px solid #E21D2A;
   outline-offset:2px;
 }
+
+/* =========================================================
+   STATIC INQUIRY — WhatsApp / email buttons (no database)
+   ========================================================= */
+.contact-inquiry-buttons{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.contact-inquiry-actions .contact-inquiry-secondary{
+  background:transparent;
+  border-color:rgba(218,241,222,.32);
+  color:#daf1de;
+}
+.contact-inquiry-actions .contact-inquiry-secondary:hover{
+  background:rgba(218,241,222,.08);
+  border-color:rgba(218,241,222,.55);
+}
+@media (max-width:760px){
+  .contact-inquiry-buttons{
+    display:grid;
+  }
+  .contact-inquiry-buttons button{
+    width:100%;
+  }
+}

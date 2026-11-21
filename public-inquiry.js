@@ -1,63 +1,35 @@
-import { ADMIN_CONFIG } from "./admin/config.js";
+// Project inquiry form. No server or database: the form builds the message
+// and opens it in WhatsApp or the visitor's email app, ready to send.
+
+const WHATSAPP_NUMBER = "60174723951";
+const EMAIL_ADDRESS = "xehedi@gmail.com";
 
 const form = document.querySelector("#inquiryForm");
-const submitButton = document.querySelector("#inquirySubmit");
 const messageBox = document.querySelector("#inquiryFormMessage");
-const honeypot = document.querySelector("#inquiryWebsite");
 
-if (form && submitButton && messageBox) {
-  let startedAt = Date.now();
-  let busy = false;
-
+if (form && messageBox) {
   const setMessage = (message, type = "") => {
     messageBox.textContent = message;
     messageBox.dataset.state = type;
   };
 
-  const clean = (value, max) =>
-    String(value || "").trim().slice(0, max);
+  const value = (name, max) =>
+    String(form.elements[name]?.value || "").trim().slice(0, max);
 
-  const validEmail = (value) =>
-    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(value || "").trim());
-
-  const setBusy = (value) => {
-    busy = value;
-    submitButton.disabled = value;
-    submitButton.textContent = value ? "Sending…" : "Send project inquiry";
-  };
-
-  form.addEventListener("submit", async (event) => {
+  form.addEventListener("submit", (event) => {
     event.preventDefault();
-    if (busy) return;
 
-    if (honeypot?.value) {
-      form.reset();
-      setMessage("Thanks. Your message has been received.", "success");
-      return;
-    }
-
-    if (Date.now() - startedAt < 1200) {
-      setMessage("Please check the form and try again.", "error");
-      return;
-    }
-
-    const name = clean(form.elements.name?.value, 100);
-    const email = clean(form.elements.email?.value, 254);
-    const projectType = clean(form.elements.project_type?.value, 100);
-    const budget = clean(form.elements.budget?.value, 100);
-    const timeline = clean(form.elements.timeline?.value, 100);
-    const message = clean(form.elements.message?.value, 3000);
-    const consent = Boolean(form.elements.consent?.checked);
+    const channel = event.submitter?.value === "email" ? "email" : "whatsapp";
+    const name = value("name", 100);
+    const company = value("company", 120);
+    const projectType = value("project_type", 100);
+    const budget = value("budget", 100);
+    const timeline = value("timeline", 100);
+    const brief = value("message", 3000);
 
     if (name.length < 2) {
       setMessage("Please enter your name.", "error");
       form.elements.name?.focus();
-      return;
-    }
-
-    if (!validEmail(email)) {
-      setMessage("Please enter a valid email address.", "error");
-      form.elements.email?.focus();
       return;
     }
 
@@ -67,74 +39,40 @@ if (form && submitButton && messageBox) {
       return;
     }
 
-    if (message.length < 20) {
+    if (brief.length < 20) {
       setMessage("Tell me a little more about the project.", "error");
       form.elements.message?.focus();
       return;
     }
 
-    if (!consent) {
-      setMessage("Please confirm that I may use these details to reply.", "error");
-      form.elements.consent?.focus();
-      return;
-    }
+    const lines = [
+      `Hi Mehedi, I'm ${name}${company ? ` from ${company}` : ""}.`,
+      "",
+      `Project type: ${projectType}`,
+      budget ? `Budget: ${budget}` : "",
+      timeline ? `Timeline: ${timeline}` : "",
+      "",
+      brief
+    ].filter((line, index, all) => line !== "" || all[index - 1] !== "");
 
-    setBusy(true);
-    setMessage("Sending your inquiry…");
+    const text = lines.join("\n");
 
-    try {
-      const endpoint = new URL(
-        "/rest/v1/portfolio_inquiries",
-        ADMIN_CONFIG.supabaseUrl
+    if (channel === "email") {
+      const subject = `Project inquiry: ${projectType}`;
+      window.location.href =
+        `mailto:${EMAIL_ADDRESS}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(text)}`;
+      setMessage("Your email app should open with the message ready. Just press send.", "success");
+    } else {
+      window.open(
+        `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`,
+        "_blank",
+        "noopener"
       );
-
-      const response = await fetch(endpoint, {
-        method: "POST",
-        headers: {
-          apikey: ADMIN_CONFIG.supabaseAnonKey,
-          Authorization: "Bearer " + ADMIN_CONFIG.supabaseAnonKey,
-          "Content-Type": "application/json",
-          Prefer: "return=minimal"
-        },
-        body: JSON.stringify({
-          name,
-          email,
-          project_type: projectType,
-          budget,
-          timeline,
-          message,
-          source_page: clean(
-            window.location.pathname + window.location.search,
-            500
-          ) || "/",
-          consent: true
-        })
-      });
-
-      if (!response.ok) {
-        throw new Error("Inquiry request failed with status " + response.status);
-      }
-
-      form.reset();
-      startedAt = Date.now();
-      setMessage(
-        "Message sent. I’ll use the email you provided to reply.",
-        "success"
-      );
-    } catch (error) {
-      console.error("Project inquiry submission failed:", error);
-      setMessage(
-        "Could not send the inquiry right now. Please use WhatsApp or email instead.",
-        "error"
-      );
-    } finally {
-      setBusy(false);
+      setMessage("WhatsApp opened with your message ready. Just press send.", "success");
     }
   });
 
   form.addEventListener("input", () => {
-    if (messageBox.dataset.state === "error") {
-      setMessage("");
-    }
+    if (messageBox.dataset.state === "error") setMessage("");
   });
 }
