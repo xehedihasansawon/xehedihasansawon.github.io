@@ -9,6 +9,13 @@ const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 
 document.documentElement.classList.add("js");
 
+/* ---------- Intro loader: play once per visit, then remove it ---------- */
+const loader = $("#loader");
+if (loader) {
+  try { sessionStorage.setItem("mhs-intro", "1"); } catch (error) { /* storage blocked: it just plays again */ }
+  setTimeout(() => loader.remove(), 2100);
+}
+
 /* ---------- Header: shadow on scroll + mobile menu ---------- */
 const header = $(".site-header");
 const onScroll = () => header?.classList.toggle("is-scrolled", window.scrollY > 8);

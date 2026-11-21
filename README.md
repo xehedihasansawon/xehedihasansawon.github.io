@@ -24,10 +24,11 @@ GitHub Pages serves the `main` branch as it is, so a push to `main` goes live in
 - `styles.css`: the only stylesheet, shared by every page. Colours and fonts are CSS variables at the top.
 - `main.js`: the only script: mobile menu, active nav link, scroll reveal, image lightbox, copy email and the inquiry form.
 - Every page carries the same header, footer and icon set. If you change one, change it on all pages.
+- Intro loader: the `#loader` block at the top of every page, with the logo drawn in three parts (letters, dot, brush underline). The animation is in the "Intro loader" part of `styles.css`. It plays once per visit, it is skipped for visitors who turn on reduced motion, and it always ends by itself.
 
 ## Images
 
-- Logo and favicons: `assets/brand/` (`mhs-logo.svg` is the one in the header and footer) and `assets/favicon.svg`
+- Logo and favicons: `assets/brand/` and `assets/favicon.svg`. `mhs-logo.svg` is the red "Mhs." with the brush underline, used in the header, the footer and the hero background. There are also white and dark versions, and 2000 px PNGs.
 - Hero photo: `assets/hero-current.webp`
 - Project covers, case study artwork and showcase designs: `assets/work/`
 - Tool logos: `assets/tool-*`

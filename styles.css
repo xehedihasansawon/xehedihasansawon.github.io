@@ -102,8 +102,8 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .header-inner { display: flex; align-items: center; gap: 24px; height: var(--header-h); }
 
 .brand { display: inline-flex; align-items: center; line-height: 0; }
-.brand img { display: block; height: 44px; width: auto; }
-.footer-brand .brand img { height: 56px; }
+.brand img { display: block; height: 52px; width: auto; }
+.footer-brand .brand img { height: 72px; }
 
 .nav { display: flex; gap: 4px; margin-left: auto; }
 .nav a {
@@ -176,8 +176,9 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 
 .hero-visual { position: relative; justify-self: end; width: min(100%, 470px); }
 .hero-visual::before {
-  content: "MHS"; position: absolute; right: -6%; top: -4%; z-index: -1;
-  font-family: var(--display); font-size: clamp(120px, 16vw, 210px); line-height: 1; color: rgba(142, 182, 155, .07);
+  content: ""; position: absolute; right: -12%; top: -7%; z-index: -1;
+  width: 80%; aspect-ratio: 1920 / 976;
+  background: url("assets/brand/mhs-logo-white.svg") no-repeat center / contain; opacity: .06;
 }
 .hero-photo {
   position: relative; overflow: hidden; aspect-ratio: 700 / 777;
@@ -424,6 +425,40 @@ a.contact-item:hover strong { color: var(--mint-light); }
 .simple-page p { max-width: 460px; margin: 12px auto 0; color: var(--muted); }
 .simple-page .hero-actions { justify-content: center; }
 
+/* ---------- Intro loader ----------
+   The Mhs. logo writes itself (letters, then the dot, then the brush
+   underline), then the screen slides up. Pure CSS, so it always ends,
+   even without JavaScript. Shown once per visit: main.js remembers it in
+   sessionStorage and the inline <head> script adds .intro-seen. */
+.loader {
+  position: fixed; inset: 0; z-index: 200;
+  display: grid; place-items: center;
+  background: radial-gradient(520px 360px at 50% 48%, rgba(142, 182, 155, .1), transparent 70%), var(--bg);
+  pointer-events: none;
+  animation: loader-out .6s cubic-bezier(.76, 0, .24, 1) 1.3s forwards;
+}
+.intro-seen .loader { display: none; }
+.loader-logo { position: relative; width: min(340px, 62vw); aspect-ratio: 1920 / 976; animation: loader-logo-out .4s ease 1.2s forwards; }
+.loader-logo svg { position: absolute; inset: 0; width: 100%; height: 100%; fill: #e21d2a; }
+.loader-letters {
+  -webkit-clip-path: polygon(-22% 0, 15% 0, -7% 100%, -22% 100%);
+  clip-path: polygon(-22% 0, 15% 0, -7% 100%, -22% 100%);
+  animation: loader-write .75s cubic-bezier(.45, .05, .55, .95) .1s forwards;
+}
+.loader-dot { transform: scale(0); transform-origin: 88.5% 65.7%; animation: loader-pop .38s cubic-bezier(.34, 1.56, .64, 1) .62s forwards; }
+.loader-swash {
+  -webkit-clip-path: inset(0 100% 0 0);
+  clip-path: inset(0 100% 0 0);
+  animation: loader-swipe .45s cubic-bezier(.22, 1, .36, 1) .74s forwards;
+}
+@keyframes loader-write {
+  to { -webkit-clip-path: polygon(-22% 0, 122% 0, 100% 100%, -22% 100%); clip-path: polygon(-22% 0, 122% 0, 100% 100%, -22% 100%); }
+}
+@keyframes loader-pop { to { transform: scale(1); } }
+@keyframes loader-swipe { to { -webkit-clip-path: inset(0 0 0 0); clip-path: inset(0 0 0 0); } }
+@keyframes loader-logo-out { to { opacity: 0; transform: translateY(-12px) scale(.97); } }
+@keyframes loader-out { to { transform: translateY(-100%); visibility: hidden; } }
+
 /* ---------- Reveal on scroll (only when JS is on) ---------- */
 @media (prefers-reduced-motion: no-preference) {
   .js [data-reveal] { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
@@ -432,6 +467,7 @@ a.contact-item:hover strong { color: var(--mint-light); }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition: none !important; animation: none !important; }
+  .loader { display: none; }
 }
 
 /* =========================================================
