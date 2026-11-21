@@ -387,7 +387,26 @@ a.contact-item:hover strong { color: var(--mint-light); }
 .format-feature + .format-feature { margin-top: 56px; padding-top: 56px; border-top: 1px solid var(--line); }
 .format-portrait { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
 .format-flip .portrait-art { order: -1; }
-.case-section-head + .format-feature { padding-top: 48px; border-top: 1px solid var(--line); }
+
+/* Case stats band + jump links (SSFC) */
+.case-stats { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 40px; overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius); background: rgba(10, 39, 36, .35); }
+.case-stats div { padding: 22px 24px; border-left: 1px solid var(--line); }
+.case-stats div:first-child { border-left: 0; }
+.case-stats strong { display: block; font-family: var(--display); font-size: clamp(40px, 5vw, 56px); font-weight: 400; line-height: 1; color: var(--red); }
+.case-stats span { display: block; margin-top: 8px; font-size: 13px; color: var(--muted); }
+.case-jump { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+.case-jump a { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border: 1px solid var(--line-strong); border-radius: 999px; font-size: 13px; font-weight: 600; color: var(--soft); transition: border-color .2s ease, color .2s ease; }
+.case-jump a span { font-family: var(--display); letter-spacing: .04em; color: var(--mint); }
+.case-jump a:hover { border-color: var(--mint); color: var(--text); }
+
+/* Chapter labels between groups of features */
+.case-chapter { display: flex; align-items: center; gap: 14px; margin-top: 80px; }
+.case-chapter:first-child { margin-top: 0; }
+.case-section-head + .case-chapter { margin-top: 56px; }
+.case-chapter::after { content: ""; flex: 1; height: 1px; background: var(--line-strong); }
+.case-chapter-name { font-family: var(--display); font-size: 24px; letter-spacing: .03em; text-transform: uppercase; color: var(--mint-light); }
+.case-chapter-range { padding: 3px 10px; border: 1px solid var(--line-strong); border-radius: 999px; font-size: 12px; font-weight: 700; color: var(--mint); }
+.case-chapter + .format-feature { margin-top: 40px; }
 .format-number { display: block; font-family: var(--display); font-size: 64px; line-height: 1; color: rgba(142, 182, 155, .2); }
 .format-copy h2 { margin-bottom: 12px; }
 .format-copy p { color: var(--soft); }
@@ -395,13 +414,23 @@ a.contact-item:hover strong { color: var(--mint-light); }
 .wide-copy { display: grid; grid-template-columns: 90px 1fr 1fr; gap: 24px; align-items: end; margin-bottom: 24px; }
 .wide-copy h2 { margin: 0; }
 
-.case-image-button { display: block; width: 100%; padding: 0; border: 0; background: none; cursor: zoom-in; }
+.case-image-button { position: relative; display: block; width: 100%; padding: 0; border: 0; background: none; cursor: zoom-in; }
+/* "Opens full size" badge on every zoomable image */
+.case-image-button::after {
+  content: ""; position: absolute; right: 22px; bottom: 22px; width: 36px; height: 36px;
+  border: 1px solid var(--line-strong); border-radius: 50%; opacity: 0;
+  background: rgba(4, 23, 24, .8) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23daf1de' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7'/%3E%3C/svg%3E") center / 16px no-repeat;
+  transition: opacity .2s ease;
+}
+.case-image-button:hover::after, .case-image-button:focus-visible::after { opacity: 1; }
+@media (hover: none) { .case-image-button::after { opacity: .9; } }
 .portrait-art, .wide-art, .identity-piece, .biporjoy-jerseys .case-image-button {
   overflow: hidden; padding: 12px; border: 1px solid var(--line-strong); border-radius: 18px; background: #061d1d;
   transition: border-color .2s ease;
 }
 .portrait-art:hover, .wide-art:hover, .identity-piece:hover, .biporjoy-jerseys .case-image-button:hover { border-color: var(--mint); }
 .portrait-art { width: min(100%, 380px); justify-self: center; }
+.post-art { width: min(100%, 480px); }
 .portrait-art img { width: 100%; max-height: 760px; object-fit: contain; border-radius: 8px; }
 .wide-art img, .biporjoy-jerseys img { width: 100%; border-radius: 8px; }
 .identity-piece img { width: 100%; height: 100%; max-height: 600px; object-fit: contain; }
@@ -530,4 +559,14 @@ a.contact-item:hover strong { color: var(--mint-light); }
   .role-grid, .biporjoy-identity .role-grid, .biporjoy-jerseys { grid-template-columns: 1fr; }
   .case-next-inner { flex-direction: column; align-items: flex-start; padding: 28px 22px; }
   .case-section { padding: 56px 0; }
+  .case-stats { grid-template-columns: repeat(2, 1fr); margin-top: 28px; }
+  .case-stats div { padding: 18px; }
+  .case-stats div:nth-child(3) { border-left: 0; }
+  .case-stats div:nth-child(n+3) { border-top: 1px solid var(--line); }
+  .case-chapter { margin-top: 56px; }
+  .case-chapter-name { font-size: 20px; }
+  .case-chapter + .format-feature { margin-top: 28px; }
+  .format-feature + .format-feature { margin-top: 40px; padding-top: 40px; }
+  .format-number { font-size: 44px; }
+  .case-image-button::after { right: 18px; bottom: 18px; width: 30px; height: 30px; background-size: 14px; }
 }
