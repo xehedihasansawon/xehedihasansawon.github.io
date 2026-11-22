@@ -22,7 +22,7 @@ GitHub Pages serves the `main` branch as it is, so a push to `main` goes live in
 ## Code
 
 - `styles.css`: the only stylesheet, shared by every page. Colours and fonts are CSS variables at the top.
-- `main.js`: the only script: mobile menu, active nav link, scroll reveal, image lightbox, copy email and the inquiry form.
+- `main.js`: the only script: language and theme buttons, mobile menu, active nav link, scroll motion, image lightbox, copy email and the inquiry form.
 - Every page carries the same header, footer and icon set. If you change one, change it on all pages.
 - Intro loader: the `#loader` block at the top of every page, with the logo drawn in three parts (letters, dot, brush underline). The animation is in the "Intro loader" part of `styles.css`. It plays on every page load and refresh, it is skipped for visitors who turn on reduced motion, and it always ends by itself.
 
@@ -38,7 +38,19 @@ Use WebP for photos and artwork. About 1400–2000 px wide is enough for the sit
 
 ## Fonts
 
-Inter, Anton and Caveat are served from `assets/fonts/` (latin subset, woff2), not from Google Fonts, so pages do not wait on another server. Every page preloads Inter and Anton. All three fonts use the SIL Open Font License.
+Inter, Anton and Caveat are served from `assets/fonts/` (latin subset, woff2), not from Google Fonts, so pages do not wait on another server. Every page preloads Inter and Anton. Bangla uses Anek Bangla (`anek-bangla-400.woff2` and `-700.woff2`), cut down to the Bengali letters in `assets/i18n/bn.json`. The browser downloads it only when Bengali text is on screen. All four fonts use the SIL Open Font License.
+
+## Light theme and Bangla
+
+The header has an EN / বাং switch and a light/dark button. Both choices are saved in the visitor's browser. Dark is the default.
+
+- Light theme: the `[data-theme="light"]` block in `styles.css` changes the colour variables, plus a few backgrounds that are not variables.
+- Bangla: the pages stay in English. `assets/i18n/bn.json` maps each English text to its Bangla, and `main.js` swaps them when বাং is chosen.
+  - A key is the exact English text, with runs of spaces collapsed to one. When a text mixes in tags like `<strong>` or `<span>`, the key is the element's inner HTML.
+  - Alt text, `aria-label`, `placeholder`, `data-caption` and the page title are looked up the same way.
+  - When you change English text on a page, update or add its entry in `bn.json` and bump `I18N_VERSION` in `main.js`. Text with no entry stays in English.
+  - If the new Bangla uses a letter the font does not have yet, subset the font again.
+  - Names (people, brands, tools) are left in English on purpose.
 
 ## Contact form
 

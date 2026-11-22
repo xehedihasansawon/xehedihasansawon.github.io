@@ -9,6 +9,110 @@ const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 
 document.documentElement.classList.add("js");
 
+const root = document.documentElement;
+const store = {
+  get: (key) => { try { return localStorage.getItem(key); } catch { return null; } },
+  set: (key, value) => { try { localStorage.setItem(key, value); } catch { /* private mode: just don't remember */ } }
+};
+
+/* ---------- Language: English (in the HTML) or Bangla (assets/i18n/bn.json) ----------
+   Bangla is keyed by the English text itself, so pages need no extra markup.
+   A "unit" is a run of text, or a whole element when it mixes text with inline tags
+   (strong, span, a...) so the Bangla word order can differ from the English. */
+const I18N_VERSION = "v1-20261123";
+let lang = "en";
+let dict = null;
+let originals = null;
+const t = (text) => (lang === "bn" && dict && dict[text]) || text;
+
+// i18n-collector:start
+const I18N_INLINE = new Set(["STRONG", "EM", "B", "I", "SPAN", "A", "BR", "SMALL", "SUP", "SUB"]);
+const I18N_SKIP = "script, style, svg, noscript, template, .loader, .lang-switch, [translate='no']";
+const I18N_ATTRS = ["alt", "aria-label", "title", "placeholder", "data-caption"];
+const normText = (s) => s.replace(/\s+/g, " ").trim();
+const isPlainInline = (el) => I18N_INLINE.has(el.tagName) && !el.querySelector("svg, img") && [...el.children].every(isPlainInline);
+const collectUnits = (start = document.body) => {
+  const units = [];
+  const walk = (el) => {
+    if (el.matches(I18N_SKIP)) return;
+    const kids = [...el.childNodes];
+    const texts = kids.filter((n) => n.nodeType === 3 && n.textContent.trim());
+    const elements = kids.filter((n) => n.nodeType === 1);
+    if (texts.length && elements.length && elements.every(isPlainInline)) {
+      units.push({ el, key: normText(el.innerHTML) });
+      return;
+    }
+    texts.forEach((node) => units.push({ node, key: normText(node.textContent) }));
+    elements.forEach(walk);
+  };
+  walk(start);
+  return units;
+};
+const collectAttrs = (start = document.body) => [...start.querySelectorAll("*")]
+  .filter((el) => !el.closest(I18N_SKIP) && !el.matches(".theme-toggle, #menuButton"))
+  .flatMap((el) => I18N_ATTRS.filter((name) => el.getAttribute(name)?.trim()).map((name) => ({ el, name, key: normText(el.getAttribute(name)), value: el.getAttribute(name) })));
+// i18n-collector:end
+
+const langButtons = $$(".lang-switch [data-lang]");
+const langListeners = [];
+
+async function setLanguage(next, remember = true) {
+  if (next === "bn" && !dict) {
+    try {
+      const response = await fetch(new URL("assets/i18n/bn.json?v=" + I18N_VERSION, import.meta.url));
+      if (!response.ok) throw new Error(String(response.status));
+      dict = await response.json();
+    } catch {
+      next = "en";
+    }
+  }
+  if (next !== lang || next === "bn") {
+    if (!originals) {
+      originals = {
+        units: collectUnits().map((u) => ({ ...u, value: u.el ? u.el.innerHTML : u.node.textContent })),
+        attrs: collectAttrs(),
+        title: document.title
+      };
+    }
+    lang = next;
+    originals.units.forEach((u) => {
+      const bangla = lang === "bn" ? dict[u.key] : null;
+      if (u.el) { u.el.innerHTML = bangla ?? u.value; return; }
+      // keep the spaces around the words, so inline layout does not change
+      const [, lead, trail] = u.value.match(/^(\s*)[\s\S]*?(\s*)$/);
+      u.node.textContent = bangla ? lead + bangla + trail : u.value;
+    });
+    originals.attrs.forEach((a) => a.el.setAttribute(a.name, (lang === "bn" && dict[a.key]) || a.value));
+    document.title = (lang === "bn" && dict[normText(originals.title)]) || originals.title;
+  }
+  root.lang = lang;
+  root.dataset.lang = lang;
+  root.classList.add("i18n-ready");
+  langButtons.forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.lang === lang)));
+  langListeners.forEach((fn) => fn(lang));
+  if (remember) store.set("lang", lang);
+}
+
+langButtons.forEach((button) => button.addEventListener("click", () => setLanguage(button.dataset.lang)));
+if (store.get("lang") === "bn") setLanguage("bn", false);
+else root.classList.add("i18n-ready");
+setTimeout(() => root.classList.add("i18n-ready"), 3000); // never keep the page hidden if Bangla fails to load
+
+/* ---------- Theme: dark green by default, light on request, remembered ---------- */
+const themeButton = $(".theme-toggle");
+const themeMeta = $('meta[name="theme-color"]');
+const currentTheme = () => (root.dataset.theme === "light" ? "light" : "dark");
+const applyTheme = (theme, remember = false) => {
+  if (theme === "light") root.dataset.theme = "light";
+  else delete root.dataset.theme;
+  themeMeta?.setAttribute("content", theme === "light" ? "#f3f7f4" : "#041718");
+  themeButton?.setAttribute("aria-label", t(theme === "light" ? "Switch to dark mode" : "Switch to light mode"));
+  if (remember) store.set("theme", theme);
+};
+applyTheme(currentTheme());
+themeButton?.addEventListener("click", () => applyTheme(currentTheme() === "light" ? "dark" : "light", true));
+langListeners.push(() => applyTheme(currentTheme()));
+
 /* ---------- Intro loader: plays on every load, removed once it is done ---------- */
 const loader = $("#loader");
 if (loader) setTimeout(() => loader.remove(), 2100);
@@ -26,11 +130,12 @@ const setMenu = (open) => {
   if (!menuButton || !mobileNav) return;
   mobileNav.classList.toggle("is-open", open);
   menuButton.setAttribute("aria-expanded", String(open));
-  menuButton.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+  menuButton.setAttribute("aria-label", t(open ? "Close menu" : "Open menu"));
 };
 
 menuButton?.addEventListener("click", () => setMenu(!mobileNav.classList.contains("is-open")));
 $$("a", mobileNav || undefined).forEach((link) => link.addEventListener("click", () => setMenu(false)));
+langListeners.push(() => setMenu(mobileNav?.classList.contains("is-open") || false));
 
 /* ---------- Active nav link (homepage sections) ---------- */
 const navLinks = $$('.nav a[href^="#"]');
@@ -94,14 +199,24 @@ if (motionOK) {
   $$(".timeline").forEach((el) => drawObserver.observe(el));
 
   // stats count up from zero (small numbers only, so years like 2018 stay as they are)
+  const BN_DIGITS = "০১২৩৪৫৬৭৮৯";
   const countUp = (el) => {
-    const [, digits, rest] = el.textContent.trim().match(/^(\d+)(.*)$/);
-    const end = Number(digits);
+    const node = [...el.childNodes].find((n) => n.nodeType === 3 && n.textContent.trim());
+    const match = node?.textContent.match(/^(\s*)([0-9০-৯]+)([\s\S]*)$/);
+    if (!match) return;
+    const finalText = node.textContent;
+    const [, lead, digits, rest] = match;
+    const bangla = /[০-৯]/.test(digits);
+    const end = Number([...digits].map((d) => (bangla ? BN_DIGITS.indexOf(d) : d)).join(""));
     const start = performance.now();
+    let last = finalText;
     const tick = (now) => {
-      const t = Math.min(1, (now - start) / 1200);
-      el.textContent = Math.round(end * (1 - (1 - t) ** 3)) + rest;
-      if (t < 1) requestAnimationFrame(tick);
+      if (node.textContent !== last) return; // the language was switched mid-count: leave the new text alone
+      const p = Math.min(1, (now - start) / 1200);
+      const value = String(Math.round(end * (1 - (1 - p) ** 3)));
+      last = p < 1 ? lead + (bangla ? value.replace(/\d/g, (d) => BN_DIGITS[d]) : value) + rest : finalText;
+      node.textContent = last;
+      if (p < 1) requestAnimationFrame(tick);
     };
     requestAnimationFrame(tick);
   };
@@ -112,7 +227,7 @@ if (motionOK) {
     setTimeout(() => countUp(entry.target), Math.max(150, 1500 - performance.now()));
   }), { threshold: 0.6 });
   $$(".hero-facts strong, .case-stats strong")
-    .filter((el) => /^\d{1,3}\D*$/.test(el.textContent.trim()))
+    .filter((el) => /^[0-9০-৯]{1,3}[^0-9০-৯]*$/.test(el.textContent.trim()))
     .forEach((el) => countObserver.observe(el));
 
   const progress = document.createElement("div");
@@ -159,17 +274,17 @@ document.addEventListener("keydown", (event) => {
 
 /* ---------- Copy email ---------- */
 $$("[data-copy]").forEach((button) => {
-  const label = button.textContent;
+  const labelNode = [...button.childNodes].find((n) => n.nodeType === 3);
   let timer;
   button.addEventListener("click", async () => {
     clearTimeout(timer);
     try {
       await navigator.clipboard.writeText(button.dataset.copy);
-      button.textContent = "Copied";
+      if (labelNode) labelNode.textContent = t("Copied");
     } catch {
       window.location.href = `mailto:${button.dataset.copy}`;
     }
-    timer = setTimeout(() => { button.textContent = label; }, 1800);
+    timer = setTimeout(() => { if (labelNode) labelNode.textContent = t("Copy"); }, 1800);
   });
 });
 
@@ -195,9 +310,9 @@ if (form && formMessage) {
     const timeline = value("timeline", 100);
     const brief = value("message", 3000);
 
-    if (name.length < 2) { setMessage("Please enter your name.", "error"); form.elements.name.focus(); return; }
-    if (!projectType) { setMessage("Please choose a project type.", "error"); form.elements.project_type.focus(); return; }
-    if (brief.length < 20) { setMessage("Tell me a little more about the project.", "error"); form.elements.message.focus(); return; }
+    if (name.length < 2) { setMessage(t("Please enter your name."), "error"); form.elements.name.focus(); return; }
+    if (!projectType) { setMessage(t("Please choose a project type."), "error"); form.elements.project_type.focus(); return; }
+    if (brief.length < 20) { setMessage(t("Tell me a little more about the project."), "error"); form.elements.message.focus(); return; }
 
     const text = [
       `Hi Mehedi, I'm ${name}${company ? ` from ${company}` : ""}.`,
@@ -211,10 +326,10 @@ if (form && formMessage) {
 
     if (channel === "email") {
       window.location.href = `mailto:${EMAIL_ADDRESS}?subject=${encodeURIComponent(`Project inquiry: ${projectType}`)}&body=${encodeURIComponent(text)}`;
-      setMessage("Your email app should open with the message ready. Just press send.", "success");
+      setMessage(t("Your email app should open with the message ready. Just press send."), "success");
     } else {
       window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`, "_blank", "noopener");
-      setMessage("WhatsApp opened with your message ready. Just press send.", "success");
+      setMessage(t("WhatsApp opened with your message ready. Just press send."), "success");
     }
   });
 

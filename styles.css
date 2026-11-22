@@ -7,6 +7,9 @@
 @font-face { font-family: "Inter"; font-style: normal; font-weight: 400 800; font-display: swap; src: url("assets/fonts/inter-latin.woff2") format("woff2"); }
 @font-face { font-family: "Anton"; font-style: normal; font-weight: 400; font-display: swap; src: url("assets/fonts/anton-latin.woff2") format("woff2"); }
 @font-face { font-family: "Caveat"; font-style: normal; font-weight: 600; font-display: swap; src: url("assets/fonts/caveat-600-latin.woff2") format("woff2"); }
+/* Bangla: Anek Bangla 400/700, subset to the characters in assets/i18n/bn.json. Only loads when Bengali is on screen. */
+@font-face { font-family: "Anek Bangla"; font-style: normal; font-weight: 400; font-display: swap; src: url("assets/fonts/anek-bangla-400.woff2") format("woff2"); unicode-range: U+0964-0965, U+0980-09FE, U+200C-200D, U+25CC; }
+@font-face { font-family: "Anek Bangla"; font-style: normal; font-weight: 700; font-display: swap; src: url("assets/fonts/anek-bangla-700.woff2") format("woff2"); unicode-range: U+0964-0965, U+0980-09FE, U+200C-200D, U+25CC; }
 /* Arial sized to match Inter, so text does not jump when Inter arrives */
 @font-face { font-family: "Inter Fallback"; src: local("Arial"); size-adjust: 107.12%; ascent-override: 90.44%; descent-override: 22.52%; line-gap-override: 0%; }
 
@@ -137,6 +140,27 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .menu-btn[aria-expanded="true"] span:last-child { transform: translateY(-4px) rotate(-45deg); }
 
 .mobile-nav { display: none; }
+
+/* language + theme buttons */
+.header-tools { display: flex; align-items: center; gap: 8px; }
+.lang-switch { display: flex; padding: 3px; border: 1px solid var(--line-strong); border-radius: 999px; }
+.lang-switch button {
+  min-width: 42px; height: 32px; padding: 0 10px; border: 0; border-radius: 999px;
+  background: transparent; color: var(--muted); font-size: 13px; font-weight: 700; cursor: pointer;
+  transition: background-color .2s ease, color .2s ease;
+}
+.lang-switch button:hover { color: var(--text); }
+.lang-switch button[aria-pressed="true"] { background: var(--red); color: #fff; }
+/* system Bangla font for the button label, so English visitors never download the web font */
+.lang-switch button[lang="bn"] { font-family: "Nirmala UI", "Noto Sans Bengali", "Kohinoor Bangla", "Bangla Sangam MN", system-ui, sans-serif; font-size: 14px; }
+.theme-toggle {
+  display: grid; place-items: center; width: 40px; height: 40px; padding: 0;
+  border: 1px solid var(--line-strong); border-radius: 50%; background: transparent; color: var(--text); cursor: pointer;
+  transition: border-color .2s ease, transform .3s ease;
+}
+.theme-toggle:hover { border-color: var(--mint); transform: rotate(15deg); }
+.theme-toggle .icon-moon, [data-theme="light"] .theme-toggle .icon-sun { display: none; }
+[data-theme="light"] .theme-toggle .icon-moon { display: block; }
 
 /* ---------- Sections ---------- */
 .section { padding: 64px 0; border-top: 1px solid var(--line); }
@@ -501,6 +525,81 @@ a.contact-item:hover strong { color: var(--mint-light); }
 @keyframes loader-swipe { to { -webkit-clip-path: inset(0 0 0 0); clip-path: inset(0 0 0 0); } }
 @keyframes loader-out { to { opacity: 0; visibility: hidden; } }
 
+/* =========================================================
+   Light theme (button in the header; dark stays the default)
+   ========================================================= */
+:root[data-theme="light"] {
+  --bg: #f3f7f4;
+  --bg-2: #e8efea;
+  --surface: #ffffff;
+  --surface-2: #f7faf8;
+  --line: rgba(4, 40, 36, .1);
+  --line-strong: rgba(4, 40, 36, .2);
+  --text: #0b1f1d;
+  --muted: #4c665d;
+  --soft: #2c4741;
+  --mint: #2a7553;
+  --mint-light: #1b5a40;
+  --red: #dc1f2a;
+  --red-hover: #c11922;
+  color-scheme: light;
+}
+[data-theme="light"] body {
+  background:
+    radial-gradient(900px 520px at 85% -10%, rgba(42, 117, 83, .1), transparent 60%),
+    radial-gradient(700px 480px at -10% 30%, rgba(142, 182, 155, .22), transparent 60%),
+    var(--bg);
+}
+[data-theme="light"] .site-header { background: rgba(243, 247, 244, .78); }
+[data-theme="light"] .site-header.is-scrolled { background: rgba(243, 247, 244, .94); }
+[data-theme="light"] .card, [data-theme="light"] .role-card { background: linear-gradient(180deg, #ffffff, #f8fbf9); box-shadow: 0 1px 2px rgba(4, 40, 36, .04), 0 8px 24px rgba(4, 40, 36, .04); }
+[data-theme="light"] .btn-outline, [data-theme="light"] .status { background: rgba(255, 255, 255, .75); }
+[data-theme="light"] .btn-outline:hover { background: rgba(42, 117, 83, .08); }
+[data-theme="light"] .fact-icon, [data-theme="light"] .service-icon { background: rgba(42, 117, 83, .08); }
+[data-theme="light"] .hero-visual::before { background-image: url("assets/brand/mhs-logo-dark.svg"); opacity: .07; }
+[data-theme="light"] .hero-photo, [data-theme="light"] .case-hero-visual { box-shadow: 0 30px 70px rgba(4, 40, 36, .18), 0 0 0 8px rgba(42, 117, 83, .05); }
+[data-theme="light"] .hero-badge { background: rgba(255, 255, 255, .92); box-shadow: 0 12px 30px rgba(4, 40, 36, .12); }
+[data-theme="light"] .project-media, [data-theme="light"] .showcase-thumb, [data-theme="light"] .portrait-art, [data-theme="light"] .wide-art { background: #e6eee9; }
+[data-theme="light"] .cta-band {
+  background:
+    radial-gradient(600px 300px at 15% 120%, rgba(42, 117, 83, .14), transparent 70%),
+    radial-gradient(500px 260px at 90% -20%, rgba(220, 31, 42, .1), transparent 70%),
+    linear-gradient(180deg, #ffffff, #eaf2ed);
+}
+[data-theme="light"] .case-next-inner { background: radial-gradient(500px 240px at 0% 100%, rgba(42, 117, 83, .12), transparent 70%), linear-gradient(180deg, #ffffff, #eaf2ed); }
+[data-theme="light"] .form input, [data-theme="light"] .form select, [data-theme="light"] .form textarea { background: #fff; }
+[data-theme="light"] .form select option { background: #fff; }
+[data-theme="light"] .form-message[data-state="error"] { color: #b3202a; }
+[data-theme="light"] .form-message[data-state="success"] { color: #1d7046; }
+[data-theme="light"] .site-footer { background: rgba(232, 239, 234, .7); }
+[data-theme="light"] .case-summary { background: rgba(255, 255, 255, .6); }
+[data-theme="light"] .case-stats { background: #fff; }
+[data-theme="light"] .format-number { color: rgba(4, 40, 36, .16); }
+[data-theme="light"] .simple-page .code { color: rgba(4, 40, 36, .12); }
+[data-theme="light"] .loader { background: radial-gradient(520px 360px at 50% 48%, rgba(42, 117, 83, .08), transparent 70%), var(--bg); }
+/* white logos (GitHub, CapCut, ChatGPT) turn dark on a light page */
+[data-theme="light"] .tool img[src*="github"], [data-theme="light"] .tool img[src*="capcut"], [data-theme="light"] .tool img[src*="chatgpt"] { filter: invert(1) brightness(.35); }
+@media (prefers-reduced-motion: no-preference) {
+  :root[data-theme="light"].js :is(.section-title, .about-title) span { background-image: linear-gradient(rgba(220, 31, 42, .16), rgba(220, 31, 42, .16)); }
+}
+
+/* =========================================================
+   Bangla (EN / বাং button)
+   ========================================================= */
+/* while Bangla loads on a page opened in Bangla, don't flash the English (the loader covers the first second) */
+html[data-lang="bn"]:not(.i18n-ready) body > :not(.loader):not(svg) { visibility: hidden; }
+html[lang="bn"] {
+  --body: "Anek Bangla", "Inter", "Inter Fallback", "Nirmala UI", "Noto Sans Bengali", system-ui, sans-serif;
+  --display: "Anek Bangla", "Anton", "Nirmala UI", sans-serif;
+}
+html[lang="bn"] body { line-height: 1.75; }
+/* Bengali has no capitals and its letters join, so no tracking; Anton lines need more room for the vowel signs */
+html[lang="bn"] body * { letter-spacing: normal !important; }
+html[lang="bn"] :is(h1, h2, h3, .section-title, .about-title, .cta-band h2, .case-stats strong, .format-number, .case-chapter-name, .simple-page .code) { font-synthesis: none; }
+html[lang="bn"] :is(h1, .case-stats strong, .case-chapter-name, .case-jump a span) { font-weight: 700; line-height: 1.15; }
+html[lang="bn"] :is(h2, h3, .section-title, .about-title) { line-height: 1.35; }
+html[lang="bn"] :is(.eyebrow, .kicker, .tool-row-label, .case-eyebrow, .contact-follow p, .step-period, .footer-col h2) { font-size: 13px; text-transform: none; }
+
 /* ---------- Motion ----------
    Only when JS is on and the visitor has not asked for reduced motion.
    Intro: header and hero come in one by one while the loader fades (1.2s).
@@ -588,7 +687,8 @@ a.contact-item:hover strong { color: var(--mint-light); }
 
 @media (max-width: 960px) {
   .nav, .header-cta { display: none; }
-  .menu-btn { display: flex; }
+  .header-tools { margin-left: auto; }
+  .menu-btn { display: flex; margin-left: 0; }
   .mobile-nav { display: none; flex-direction: column; padding: 8px 20px 20px; border-top: 1px solid var(--line); }
   .mobile-nav.is-open { display: flex; }
   .mobile-nav a { padding: 14px 4px; border-bottom: 1px solid var(--line); font-size: 16px; font-weight: 600; }
