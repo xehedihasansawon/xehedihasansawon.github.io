@@ -47,19 +47,81 @@ if (navLinks.length && "IntersectionObserver" in window) {
   sections.forEach((section) => spy.observe(section));
 }
 
-/* ---------- Reveal on scroll ---------- */
+/* ---------- Motion: reveal on scroll, count-up numbers, reading progress ---------- */
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const motionOK = !reduceMotion && "IntersectionObserver" in window;
+
+// Every page gets the same reveal: tag the parts that rise in (pages only mark a few by hand).
+const revealTargets = {
+  up: ".section-head, .case-section-head, .case-intro-grid > *, .case-chapter, .case-jump, .case-next-inner, .about-grid > :first-child, .about-copy > p, .tools-wrap > :first-child, .service, .project, .showcase, .tool-row-label, .step, .about-facts > *, .role-card, .case-summary-grid > *, .case-stats > *, .format-copy, .cta-band, .contact-card, .form, .footer-grid > *, .footer-bottom",
+  pop: ".tool",
+  zoom: ".format-feature .case-image-button, .format-feature .art-stack, .format-feature .art-pair"
+};
+if (motionOK) {
+  // these wrappers used to fade as one block; now their children come in one by one
+  $$(".tool-rows, .timeline, .about-copy").forEach((el) => el.removeAttribute("data-reveal"));
+  Object.entries(revealTargets).forEach(([kind, selector]) => {
+    $$(selector).forEach((el) => { if (!el.hasAttribute("data-reveal")) el.setAttribute("data-reveal", kind === "up" ? "" : kind); });
+  });
+  // never fade something twice: untag anything that sits inside another tagged element
+  $$("[data-reveal] [data-reveal]").forEach((el) => el.removeAttribute("data-reveal"));
+}
+
 const revealItems = $$("[data-reveal]");
-if ("IntersectionObserver" in window) {
+if (motionOK) {
   const reveal = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (!entry.isIntersecting) return;
-      entry.target.classList.add("is-visible");
-      reveal.unobserve(entry.target);
+    const shown = entries.filter((entry) => entry.isIntersecting).map((entry) => entry.target)
+      .sort((x, y) => (x.compareDocumentPosition(y) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1));
+    // things that arrive together come in one after another; the last is never more than 0.65s late
+    const step = shown.length > 1 ? Math.min(90, 650 / (shown.length - 1)) : 0;
+    shown.forEach((el, i) => {
+      const delay = Math.round(i * step);
+      el.style.setProperty("--delay", delay + "ms");
+      el.classList.add("is-visible");
+      reveal.unobserve(el);
+      // once it is in place, hand the element back to its own hover transitions
+      setTimeout(() => { el.removeAttribute("data-reveal"); el.style.removeProperty("--delay"); }, delay + 1000);
     });
   }, { rootMargin: "0px 0px -8% 0px", threshold: 0.08 });
   revealItems.forEach((item) => reveal.observe(item));
+
+  // the timeline line draws itself when the journey comes into view
+  const drawObserver = new IntersectionObserver((entries) => entries.forEach((entry) => {
+    if (!entry.isIntersecting) return;
+    entry.target.classList.add("is-drawn");
+    drawObserver.unobserve(entry.target);
+  }), { threshold: 0.2 });
+  $$(".timeline").forEach((el) => drawObserver.observe(el));
+
+  // stats count up from zero (small numbers only, so years like 2018 stay as they are)
+  const countUp = (el) => {
+    const [, digits, rest] = el.textContent.trim().match(/^(\d+)(.*)$/);
+    const end = Number(digits);
+    const start = performance.now();
+    const tick = (now) => {
+      const t = Math.min(1, (now - start) / 1200);
+      el.textContent = Math.round(end * (1 - (1 - t) ** 3)) + rest;
+      if (t < 1) requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+  };
+  const countObserver = new IntersectionObserver((entries) => entries.forEach((entry) => {
+    if (!entry.isIntersecting) return;
+    countObserver.unobserve(entry.target);
+    // the hero stats wait for the intro, the rest start as they appear
+    setTimeout(() => countUp(entry.target), Math.max(150, 1500 - performance.now()));
+  }), { threshold: 0.6 });
+  $$(".hero-facts strong, .case-stats strong")
+    .filter((el) => /^\d{1,3}\D*$/.test(el.textContent.trim()))
+    .forEach((el) => countObserver.observe(el));
+
+  const progress = document.createElement("div");
+  progress.className = "scroll-progress";
+  progress.setAttribute("aria-hidden", "true");
+  document.body.append(progress);
 } else {
   revealItems.forEach((item) => item.classList.add("is-visible"));
+  $$(".timeline").forEach((el) => el.classList.add("is-drawn"));
 }
 
 /* ---------- Lightbox ---------- */
