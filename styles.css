@@ -243,9 +243,13 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 
 /* ---------- Tools ---------- */
 .tools-wrap { display: grid; grid-template-columns: 1fr 1.6fr; align-items: center; gap: 40px; }
-.tools-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-.tool { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 18px 10px; text-align: center; font-size: 13px; font-weight: 600; color: var(--soft); }
-.tool img { width: 34px; height: 34px; object-fit: contain; }
+/* one labelled row per kind of work; five equal columns so the tiles line up across rows */
+.tool-rows { display: grid; gap: 10px; }
+.tool-row { display: grid; grid-template-columns: 92px repeat(5, 1fr); gap: 10px; align-items: center; }
+.tool-row-label { font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--mint); }
+.tool { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 14px 6px; text-align: center; font-size: 12.5px; font-weight: 600; color: var(--soft); transition: border-color .2s ease, transform .2s ease; }
+.tool:hover { border-color: var(--line-strong); transform: translateY(-2px); }
+.tool img { width: 30px; height: 30px; object-fit: contain; }
 
 /* ---------- About ---------- */
 .about-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 56px; align-items: start; }
@@ -542,7 +546,9 @@ a.contact-item:hover strong { color: var(--mint-light); }
   .hero-facts { grid-template-columns: 1fr; gap: 16px; }
   .hero-badge { position: relative; right: auto; bottom: auto; max-width: none; margin: -40px 16px 0; }
   .services-grid, .projects-grid { grid-template-columns: 1fr; }
-  .tools-grid { grid-template-columns: repeat(2, 1fr); }
+  .tool-rows { gap: 16px; }
+  .tool-row { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .tool-row-label { grid-column: 1 / -1; }
   .showcase { grid-template-columns: 110px 1fr; gap: 14px; }
   .about-facts { grid-template-columns: 1fr; }
   .timeline { grid-template-columns: 1fr; row-gap: 0; }
