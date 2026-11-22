@@ -43,7 +43,7 @@
   </script>
   <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/anton-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="styles.css?v=v16-20261122">
+  <link rel="stylesheet" href="styles.css?v=v17-20261122">
 </head>
 <body>
   <div class="loader" id="loader" aria-hidden="true">
@@ -305,18 +305,57 @@
     </section>
 
     <section class="section" id="tools">
-      <div class="shell tools-wrap">
-        <div data-reveal>
-          <span class="eyebrow">Tools</span>
-          <h2 class="section-title">Software I <span>use daily</span></h2>
-          <p class="section-lead">Design, video, web, AI, office and social media work, all in one workflow.</p>
+      <div class="shell">
+        <div class="section-head" data-reveal>
+          <div>
+            <span class="eyebrow">Tools</span>
+            <h2 class="section-title">Software I <span>use daily</span></h2>
+            <p class="section-lead">Design, video, web, AI, office and social media work, all in one workflow.</p>
+          </div>
         </div>
-        <div class="tool-rows" data-reveal>
-          <div class="tool-row"><span class="tool-row-label">Design</span><div class="card tool"><img src="assets/tool-illustrator.svg" alt="" width="30" height="30" loading="lazy">Illustrator</div><div class="card tool"><img src="assets/tool-photoshop.svg" alt="" width="30" height="30" loading="lazy">Photoshop</div><div class="card tool"><img src="assets/tool-canva.svg" alt="" width="30" height="30" loading="lazy">Canva</div></div>
-          <div class="tool-row"><span class="tool-row-label">Video</span><div class="card tool"><img src="assets/tool-premiere-pro.svg" alt="" width="30" height="30" loading="lazy">Premiere Pro</div><div class="card tool"><img src="assets/tool-capcut.svg" alt="" width="30" height="30" loading="lazy">CapCut</div></div>
-          <div class="tool-row"><span class="tool-row-label">Web</span><div class="card tool"><img src="assets/tool-vscode.png" alt="" width="30" height="30" loading="lazy">VS Code</div><div class="card tool"><img src="assets/tool-github.svg" alt="" width="30" height="30" loading="lazy">GitHub</div><div class="card tool"><img src="assets/tool-cloudflare.svg" alt="" width="30" height="30" loading="lazy">Cloudflare</div><div class="card tool"><img src="assets/tool-supabase.svg" alt="" width="30" height="30" loading="lazy">Supabase</div></div>
-          <div class="tool-row"><span class="tool-row-label">AI</span><div class="card tool"><img src="assets/tool-claude.svg" alt="" width="30" height="30" loading="lazy">Claude</div><div class="card tool"><img src="assets/tool-chatgpt.svg" alt="" width="30" height="30" loading="lazy">ChatGPT</div><div class="card tool"><img src="assets/tool-gemini.svg" alt="" width="30" height="30" loading="lazy">Gemini</div></div>
-          <div class="tool-row"><span class="tool-row-label">Office &amp; Social</span><div class="card tool"><img src="assets/tool-word.png" alt="" width="30" height="30" loading="lazy">Word</div><div class="card tool"><img src="assets/tool-excel.png" alt="" width="30" height="30" loading="lazy">Excel</div><div class="card tool"><img src="assets/tool-powerpoint.png" alt="" width="30" height="30" loading="lazy">PowerPoint</div><div class="card tool"><img src="assets/tool-google-workspace.svg" alt="" width="30" height="30" loading="lazy">Google Workspace</div><div class="card tool"><img src="assets/tool-meta.svg" alt="" width="30" height="30" loading="lazy">Meta Business Suite</div></div>
+        <div class="tool-groups" data-reveal>
+          <div class="card tool-group">
+            <h3>Design</h3>
+            <ul>
+              <li><span class="tool-icon"><img src="assets/tool-illustrator.svg" alt="" width="30" height="30" loading="lazy"></span>Illustrator</li>
+              <li><span class="tool-icon"><img src="assets/tool-photoshop.svg" alt="" width="30" height="30" loading="lazy"></span>Photoshop</li>
+              <li><span class="tool-icon"><img src="assets/tool-canva.svg" alt="" width="30" height="30" loading="lazy"></span>Canva</li>
+            </ul>
+          </div>
+          <div class="card tool-group">
+            <h3>Video</h3>
+            <ul>
+              <li><span class="tool-icon"><img src="assets/tool-premiere-pro.svg" alt="" width="30" height="30" loading="lazy"></span>Premiere Pro</li>
+              <li><span class="tool-icon"><img src="assets/tool-capcut.svg" alt="" width="30" height="30" loading="lazy"></span>CapCut</li>
+            </ul>
+          </div>
+          <div class="card tool-group">
+            <h3>Web</h3>
+            <ul>
+              <li><span class="tool-icon"><img src="assets/tool-vscode.png" alt="" width="30" height="30" loading="lazy"></span>VS Code</li>
+              <li><span class="tool-icon"><img src="assets/tool-github.svg" alt="" width="30" height="30" loading="lazy"></span>GitHub</li>
+              <li><span class="tool-icon"><img src="assets/tool-cloudflare.svg" alt="" width="30" height="30" loading="lazy"></span>Cloudflare</li>
+              <li><span class="tool-icon"><img src="assets/tool-supabase.svg" alt="" width="30" height="30" loading="lazy"></span>Supabase</li>
+            </ul>
+          </div>
+          <div class="card tool-group">
+            <h3>AI</h3>
+            <ul>
+              <li><span class="tool-icon"><img src="assets/tool-claude.svg" alt="" width="30" height="30" loading="lazy"></span>Claude</li>
+              <li><span class="tool-icon"><img src="assets/tool-chatgpt.svg" alt="" width="30" height="30" loading="lazy"></span>ChatGPT</li>
+              <li><span class="tool-icon"><img src="assets/tool-gemini.svg" alt="" width="30" height="30" loading="lazy"></span>Gemini</li>
+            </ul>
+          </div>
+          <div class="card tool-group">
+            <h3>Office &amp; Social</h3>
+            <ul>
+              <li><span class="tool-icon"><img src="assets/tool-word.png" alt="" width="30" height="30" loading="lazy"></span>Word</li>
+              <li><span class="tool-icon"><img src="assets/tool-excel.png" alt="" width="30" height="30" loading="lazy"></span>Excel</li>
+              <li><span class="tool-icon"><img src="assets/tool-powerpoint.png" alt="" width="30" height="30" loading="lazy"></span>PowerPoint</li>
+              <li><span class="tool-icon"><img src="assets/tool-google-workspace.svg" alt="" width="30" height="30" loading="lazy"></span>Google Workspace</li>
+              <li><span class="tool-icon"><img src="assets/tool-meta.svg" alt="" width="30" height="30" loading="lazy"></span>Meta Business Suite</li>
+            </ul>
+          </div>
         </div>
       </div>
     </section>
@@ -520,6 +559,6 @@
     <img id="lightboxImage" alt="">
     <div class="lightbox-bar"><span id="lightboxCaption"></span><button type="button" class="lightbox-close" id="lightboxClose" aria-label="Close preview"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></button></div>
   </dialog>
-  <script type="module" src="main.js?v=v16-20261122"></script>
+  <script type="module" src="main.js?v=v17-20261122"></script>
 </body>
 </html>
