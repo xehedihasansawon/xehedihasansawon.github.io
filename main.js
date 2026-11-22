@@ -83,7 +83,10 @@ $$("[data-lightbox]").forEach((trigger) => {
 
 $("#lightboxClose")?.addEventListener("click", () => lightbox.close());
 lightbox?.addEventListener("click", (event) => { if (event.target === lightbox) lightbox.close(); });
-lightbox?.addEventListener("close", () => lastTrigger?.focus());
+lightbox?.addEventListener("close", () => {
+  lightboxImage.removeAttribute("src"); // so the next design never flashes the previous one
+  lastTrigger?.focus();
+});
 
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape" && mobileNav?.classList.contains("is-open")) {
@@ -94,15 +97,17 @@ document.addEventListener("keydown", (event) => {
 
 /* ---------- Copy email ---------- */
 $$("[data-copy]").forEach((button) => {
+  const label = button.textContent;
+  let timer;
   button.addEventListener("click", async () => {
-    const label = button.textContent;
+    clearTimeout(timer);
     try {
       await navigator.clipboard.writeText(button.dataset.copy);
       button.textContent = "Copied";
     } catch {
       window.location.href = `mailto:${button.dataset.copy}`;
     }
-    setTimeout(() => { button.textContent = label; }, 1800);
+    timer = setTimeout(() => { button.textContent = label; }, 1800);
   });
 });
 

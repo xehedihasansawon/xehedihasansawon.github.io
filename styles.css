@@ -3,6 +3,13 @@
    One stylesheet for every page. Dark green + red brand.
    ========================================================= */
 
+/* ---------- Fonts (self-hosted, latin) ---------- */
+@font-face { font-family: "Inter"; font-style: normal; font-weight: 400 800; font-display: swap; src: url("assets/fonts/inter-latin.woff2") format("woff2"); }
+@font-face { font-family: "Anton"; font-style: normal; font-weight: 400; font-display: swap; src: url("assets/fonts/anton-latin.woff2") format("woff2"); }
+@font-face { font-family: "Caveat"; font-style: normal; font-weight: 600; font-display: swap; src: url("assets/fonts/caveat-600-latin.woff2") format("woff2"); }
+/* Arial sized to match Inter, so text does not jump when Inter arrives */
+@font-face { font-family: "Inter Fallback"; src: local("Arial"); size-adjust: 107.12%; ascent-override: 90.44%; descent-override: 22.52%; line-gap-override: 0%; }
+
 :root {
   --bg: #041718;
   --bg-2: #061f1f;
@@ -21,7 +28,7 @@
   --radius-sm: 10px;
   --shell: 1200px;
   --display: "Anton", Impact, "Arial Narrow", sans-serif;
-  --body: "Inter", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --body: "Inter", "Inter Fallback", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
   --script: "Caveat", "Segoe Script", cursive;
   --header-h: 68px;
 }
@@ -338,13 +345,14 @@ a.contact-item:hover strong { color: var(--mint-light); }
 .footer-grid { display: grid; grid-template-columns: 1.3fr .8fr 1fr 1.2fr; gap: 32px; padding: 56px 0 40px; }
 .footer-brand p { margin-top: 10px; font-size: 14px; color: var(--muted); }
 .footer-brand strong { display: block; margin-top: 14px; font-size: 14px; letter-spacing: .04em; }
-.footer-col h4 { margin: 0 0 14px; font-size: 13px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--mint); }
+.footer-col h2 { margin: 0 0 14px; font-size: 13px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--mint); }
 .footer-col a { display: block; padding: 4px 0; font-size: 14px; color: var(--soft); }
 .footer-col a:hover { color: var(--text); }
 .footer-col .socials { margin-top: 14px; }
 .footer-col .social { display: grid; padding: 0; }
 .footer-brand .footer-quote { margin-top: 18px; font-size: 26px; color: var(--mint-light); }
-.footer-bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; padding: 20px 0 28px; border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); }
+.footer-bottom { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 20px 0 28px; border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); }
+.footer-bottom a { display: inline-block; padding: 6px 0; }
 .footer-bottom a:hover { color: var(--text); }
 
 /* ---------- Lightbox ---------- */
@@ -360,7 +368,7 @@ a.contact-item:hover strong { color: var(--mint-light); }
    ========================================================= */
 .case-hero { padding: 48px 0 56px; }
 .case-hero-grid { display: grid; grid-template-columns: 1fr 1.05fr; align-items: center; gap: 48px; }
-.case-back { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 600; color: var(--muted); }
+.case-back { display: inline-flex; align-items: center; gap: 6px; min-height: 32px; font-size: 14px; font-weight: 600; color: var(--muted); }
 .case-back:hover { color: var(--text); }
 .kicker { margin-top: 22px; font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--mint); }
 .case-hero h1 { margin-top: 12px; font-family: var(--display); font-weight: 400; font-size: clamp(44px, 6vw, 76px); line-height: .98; letter-spacing: .01em; text-transform: uppercase; }
