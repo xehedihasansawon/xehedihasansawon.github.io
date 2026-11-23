@@ -44,7 +44,7 @@
   <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/anton-latin.woff2" as="font" type="font/woff2" crossorigin>
   <script>try{var s=localStorage;if(s.getItem("theme")==="light")document.documentElement.dataset.theme="light";if(s.getItem("lang")==="bn")document.documentElement.dataset.lang="bn"}catch(e){}</script>
-  <link rel="stylesheet" href="styles.css?v=v24-20261124">
+  <link rel="stylesheet" href="styles.css?v=v25-20261124">
 </head>
 <body>
   <div class="loader" id="loader" aria-hidden="true">
@@ -494,6 +494,7 @@
               </label>
               <label class="full">Project brief<textarea name="message" rows="5" maxlength="3000" placeholder="What do you need, what is the goal, and anything I should know?" required></textarea></label>
             </div>
+            <div class="turnstile-box" data-turnstile></div>
             <div class="form-actions">
               <button class="btn btn-primary" type="submit" value="whatsapp">Send on WhatsApp</button>
               <button class="btn btn-outline" type="submit" value="email">Send by email</button>
@@ -566,6 +567,7 @@
         <label class="full">Your review<textarea name="message" rows="4" maxlength="1200" required></textarea></label>
         <div class="hp" aria-hidden="true"><label>Website<input name="website" type="text" tabindex="-1" autocomplete="off"></label></div>
       </div>
+      <div class="turnstile-box" data-turnstile></div>
       <div class="form-actions">
         <button class="btn btn-primary" type="submit">Send review</button>
         <p class="form-message" id="reviewFormMessage" role="status" aria-live="polite"></p>
@@ -577,6 +579,6 @@
     <img id="lightboxImage" alt="">
     <div class="lightbox-bar"><span id="lightboxCaption"></span><button type="button" class="lightbox-close" id="lightboxClose" aria-label="Close preview"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></button></div>
   </dialog>
-  <script type="module" src="main.js?v=v24-20261124"></script>
+  <script type="module" src="main.js?v=v25-20261124"></script>
 </body>
 </html>

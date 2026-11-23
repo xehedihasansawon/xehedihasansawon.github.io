@@ -314,6 +314,29 @@ const API_BASE = location.hostname === "localhost" ? "http://localhost:8787" : "
 const sendToApi = (path, data) => fetch(API_BASE + path, { method: "POST", body: JSON.stringify(data), keepalive: true });
 const currentLang = () => (document.documentElement.lang === "bn" ? "bn" : "en");
 
+// Turnstile (Cloudflare's "not a robot" check): loads when a form is first used, invisible unless a click is needed
+const TURNSTILE_SITEKEY = "0x4AAAAAAGPTyMVXqcfZ1uty";
+let turnstileLoading = null;
+const loadTurnstile = () => turnstileLoading || (turnstileLoading = new Promise((resolve) => {
+  window.onTurnstileReady = () => resolve(window.turnstile);
+  const script = document.createElement("script");
+  script.src = "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=onTurnstileReady";
+  script.async = true;
+  script.onerror = () => resolve(null);
+  document.head.append(script);
+}));
+const turnstileIds = new Map();
+const armTurnstile = async (formEl) => {
+  const box = formEl && $("[data-turnstile]", formEl);
+  if (!box || turnstileIds.has(formEl)) return;
+  turnstileIds.set(formEl, null);
+  const ts = await loadTurnstile();
+  if (!ts) return;
+  turnstileIds.set(formEl, ts.render(box, { sitekey: TURNSTILE_SITEKEY, appearance: "interaction-only", size: "flexible", theme: root.dataset.theme === "light" ? "light" : "dark" }));
+};
+const turnstileToken = (formEl) => { const id = turnstileIds.get(formEl); try { return id != null ? window.turnstile.getResponse(id) || "" : ""; } catch { return ""; } };
+const resetTurnstile = (formEl) => { const id = turnstileIds.get(formEl); try { if (id != null) window.turnstile.reset(id); } catch { /* ignore */ } };
+
 // one page view, no cookies (the Worker keeps only a daily hash)
 if (!navigator.webdriver && navigator.sendBeacon) {
   try { navigator.sendBeacon(API_BASE + "/hit", JSON.stringify({ path: location.pathname, ref: document.referrer, lang: store.get("lang") === "bn" ? "bn" : "en" })); } catch { /* blocked: fine */ }
@@ -345,7 +368,7 @@ const reviewDialog = $("#reviewDialog");
 const reviewForm = $("#reviewForm");
 const reviewMessage = $("#reviewFormMessage");
 if (reviewDialog && reviewForm) {
-  $$("[data-review-open]").forEach((button) => button.addEventListener("click", () => { reviewMessage.textContent = ""; reviewDialog.showModal(); }));
+  $$("[data-review-open]").forEach((button) => button.addEventListener("click", () => { reviewMessage.textContent = ""; reviewDialog.showModal(); armTurnstile(reviewForm); }));
   $("[data-review-close]", reviewDialog)?.addEventListener("click", () => reviewDialog.close());
   reviewDialog.addEventListener("click", (event) => { if (event.target === reviewDialog) reviewDialog.close(); });
   reviewForm.addEventListener("submit", async (event) => {
@@ -357,7 +380,8 @@ if (reviewDialog && reviewForm) {
     const button = reviewForm.querySelector('[type="submit"]');
     button.disabled = true;
     try {
-      const res = await sendToApi("/review", data);
+      const res = await sendToApi("/review", { ...data, turnstile: turnstileToken(reviewForm) });
+      resetTurnstile(reviewForm);
       if (!res.ok) throw new Error(String(res.status));
       reviewForm.reset();
       reviewMessage.textContent = t("Thank you! Your review will appear after I approve it.");
@@ -459,7 +483,8 @@ if (form && formMessage) {
     ].join("\n");
 
     // keep a copy in the backend (quietly; WhatsApp or email still opens either way)
-    sendToApi("/inquiry", { name, contact, company, project_type: projectType, budget, timeline, message: brief, channel, lang: currentLang(), website: value("website", 200) }).catch(() => {});
+    sendToApi("/inquiry", { name, contact, company, project_type: projectType, budget, timeline, message: brief, channel, lang: currentLang(), website: value("website", 200), turnstile: turnstileToken(form) }).catch(() => {});
+    resetTurnstile(form);
 
     if (channel === "email") {
       window.location.href = `mailto:${EMAIL_ADDRESS}?subject=${encodeURIComponent(`Project inquiry: ${projectType}`)}&body=${encodeURIComponent(text)}`;
@@ -471,4 +496,5 @@ if (form && formMessage) {
   });
 
   form.addEventListener("input", () => { if (formMessage.dataset.state === "error") setMessage(""); });
+  form.addEventListener("focusin", () => armTurnstile(form), { once: true });
 }
