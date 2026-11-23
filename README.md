@@ -64,7 +64,9 @@ The site itself stays static. A small API at `https://xehedihasansawon-api.xehed
 - It saves a copy of each project brief.
 - It takes client reviews. Approved ones appear in the "What clients say" section, which stays hidden while there are none.
 - It counts page views without cookies.
-- It runs the admin page at `/admin`.
+- It runs the admin page at `/admin`: a personal task list, messages (with CSV download), reviews, visitors and a weekly summary. It can be installed on a phone as an app.
+
+The brief and review forms use Cloudflare Turnstile to stop bots. Its script loads only when someone starts using a form, and it stays invisible unless Cloudflare needs a click. The site key is `TURNSTILE_SITEKEY` in `main.js`; the secret lives only in Cloudflare.
 
 The code lives in a separate folder, `Desktop\xehedihasansawon-api`. `API_BASE` in `main.js` points to it. Everything is optional: if the API is down, the form still opens WhatsApp or email and nothing breaks.
 
