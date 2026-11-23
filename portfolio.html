@@ -25,7 +25,7 @@
   <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/anton-latin.woff2" as="font" type="font/woff2" crossorigin>
   <script>try{var s=localStorage;if(s.getItem("theme")==="light")document.documentElement.dataset.theme="light";if(s.getItem("lang")==="bn")document.documentElement.dataset.lang="bn"}catch(e){}</script>
-  <link rel="stylesheet" href="styles.css?v=v22-20261123">
+  <link rel="stylesheet" href="styles.css?v=v23-20261123">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"CreativeWork","name":"Portfolio website","url":"https://xehedihasansawon.github.io/portfolio.html","image":"https://xehedihasansawon.github.io/assets/work/portfolio-og.jpg","description":"The portfolio website of MD Mehedi Hasan Sawon: selected work, full case studies, services and a project brief that opens in WhatsApp or email.","creator":{"@type":"Person","name":"MD Mehedi Hasan Sawon","url":"https://xehedihasansawon.github.io/"}}</script>
 </head>
 <body class="case-study-page">
@@ -102,6 +102,10 @@
           <h1>PORTFOLIO <span>WEBSITE</span></h1>
           <p class="case-lead">A responsive personal portfolio that brings my visual design, real-world projects, case studies and digital work together in one consistent experience.</p>
           <div class="case-tags"><span>Personal Brand</span><span>UI Design</span><span>Front-End</span><span>Responsive</span></div>
+          <div class="hero-actions case-links">
+            <a class="btn btn-primary" href="index.html">Open the homepage</a>
+            <a class="btn btn-outline" href="#sections">See it section by section</a>
+          </div>
         </div>
         <div class="case-hero-visual"><img src="assets/work/portfolio-cover.webp?v=2" srcset="assets/work/portfolio-cover-sm.webp 800w, assets/work/portfolio-cover.webp?v=2 1484w" sizes="(max-width: 960px) calc(100vw - 32px), 590px" width="1484" height="1060" alt="Portfolio website cover with the live site on a browser window and a phone" fetchpriority="high" decoding="async"></div>
       </div>
@@ -111,7 +115,7 @@
       <div><small>ROLE</small><strong>Designer · Builder</strong></div>
       <div><small>TYPE</small><strong>Personal Portfolio</strong></div>
       <div><small>FOCUS</small><strong>UI · Case Studies</strong></div>
-      <div><small>STATUS</small><strong>Live</strong></div>
+      <div><small>STATUS</small><strong><a href="index.html">Live ↗</a></strong></div>
     </div></section>
 
     <section class="case-section">
@@ -121,30 +125,131 @@
       </div>
     </section>
 
-    <section class="case-section">
+    <section class="case-section" id="sections">
       <div class="shell">
+        <div class="case-section-head"><div><p class="case-eyebrow">Section by section</p><h2>What each part <span>is for.</span></h2></div><p>Screenshots of the site you are on. Each section of the homepage has one job: here is what it shows and why it is there.</p></div>
         <article class="format-feature format-portrait format-landscape">
           <div class="format-copy">
             <span class="format-number">01</span>
-            <p class="case-eyebrow">Selected Screen</p>
-            <h2>The hero <span>section.</span></h2>
-            <p>Name, role and two clear actions up front: view selected work, or start a project conversation. This is the live site as it is today.</p>
-            <div class="format-meta"><span>UI Design</span><span>Responsive</span></div>
+            <p class="case-eyebrow">Hero</p>
+            <h2>Who I am, <span>in five seconds.</span></h2>
+            <p>Name, role and two actions (view selected work, or start a project), with my photo, a MAAZ STUDIO badge and three quick facts.</p>
+            <p class="format-why"><strong>Why it’s here:</strong> A visitor should know who I am, what I do and what to click next before they scroll.</p>
+            <div class="format-meta"><span>Hero</span><span>Call to Action</span></div>
           </div>
-          <button type="button" class="case-image-button wide-art" data-lightbox="assets/work/portfolio-hero-screen.webp" data-caption="The hero section · Live site"><img src="assets/work/portfolio-hero-screen-sm.webp" width="1200" height="750" alt="Live portfolio homepage hero with the Mhs. logo, name and photo" loading="lazy" decoding="async"></button>
+          <button type="button" class="case-image-button wide-art browser-art" data-url="xehedihasansawon.github.io" data-lightbox="assets/work/portfolio-web-01-hero.webp" data-caption="Hero · xehedihasansawon.github.io"><img src="assets/work/portfolio-web-01-hero-sm.webp" srcset="assets/work/portfolio-web-01-hero-sm.webp 900w, assets/work/portfolio-web-01-hero.webp 1600w" sizes="(max-width: 960px) calc(100vw - 32px), 680px" width="1600" height="816" alt="Portfolio hero with the name, two buttons, three facts and the photo" loading="lazy" decoding="async"></button>
         </article>
-      </div>
-    </section>
 
-    <section class="case-section">
-      <div class="shell">
-        <div class="case-section-head"><div><p class="case-eyebrow">What It Includes</p><h2>More than <span>a homepage.</span></h2></div><p>Each part of the site has a clear job, from first impression to first message.</p></div>
-        <div class="role-grid">
-          <div class="role-card"><strong>Real Projects</strong><span>Featured work with a full case study page for each project.</span></div>
-          <div class="role-card"><strong>Design Showcase</strong><span>Selected graphics with quick project snapshots.</span></div>
-          <div class="role-card"><strong>Services</strong><span>Six services, from brand identity to websites and ERP software.</span></div>
-          <div class="role-card"><strong>Contact Flow</strong><span>Project brief that opens straight in WhatsApp or email.</span></div>
-        </div>
+        <article class="format-feature format-portrait format-landscape format-flip">
+          <div class="format-copy">
+            <span class="format-number">02</span>
+            <p class="case-eyebrow">What I do</p>
+            <h2>Six services, <span>one place.</span></h2>
+            <p>Brand identity, social and marketing design, sports and jersey design, video, digital marketing support, and websites and business software, each with its own number and examples.</p>
+            <p class="format-why"><strong>Why it’s here:</strong> Clients usually come for one thing. Separate cards help them find it fast and see what else I can do.</p>
+            <div class="format-meta"><span>Services</span><span>Cards</span></div>
+          </div>
+          <button type="button" class="case-image-button wide-art browser-art" data-url="xehedihasansawon.github.io" data-lightbox="assets/work/portfolio-web-02-services.webp" data-caption="What I do · xehedihasansawon.github.io"><img src="assets/work/portfolio-web-02-services-sm.webp" srcset="assets/work/portfolio-web-02-services-sm.webp 900w, assets/work/portfolio-web-02-services.webp 1600w" sizes="(max-width: 960px) calc(100vw - 32px), 680px" width="1600" height="978" alt="Portfolio What I do section with six numbered service cards" loading="lazy" decoding="async"></button>
+        </article>
+
+        <article class="format-feature format-portrait format-landscape">
+          <div class="format-copy">
+            <span class="format-number">03</span>
+            <p class="case-eyebrow">Real-life work</p>
+            <h2>Every project, <span>a full story.</span></h2>
+            <p>Six project cards with a cover, a short line and tags. Each one opens a full case study page like this one.</p>
+            <p class="format-why"><strong>Why it’s here:</strong> A picture shows the result; a case study shows the thinking behind it, which is what clients pay for.</p>
+            <div class="format-meta"><span>Projects</span><span>Case Studies</span></div>
+          </div>
+          <button type="button" class="case-image-button wide-art browser-art" data-url="xehedihasansawon.github.io" data-lightbox="assets/work/portfolio-web-03-work.webp" data-caption="Real-life work · xehedihasansawon.github.io"><img src="assets/work/portfolio-web-03-work-sm.webp" srcset="assets/work/portfolio-web-03-work-sm.webp 900w, assets/work/portfolio-web-03-work.webp 1600w" sizes="(max-width: 960px) calc(100vw - 32px), 680px" width="1600" height="1483" alt="Portfolio Real-life work section with six project cards" loading="lazy" decoding="async"></button>
+        </article>
+
+        <article class="format-feature format-portrait format-landscape format-flip">
+          <div class="format-copy">
+            <span class="format-number">04</span>
+            <p class="case-eyebrow">Selected graphics</p>
+            <h2>Quick looks at <span>client designs.</span></h2>
+            <p>Freelance designs (a sports kit, a restaurant menu and two social promos) that open full size with one tap.</p>
+            <p class="format-why"><strong>Why it’s here:</strong> Not every job needs a case study, but strong single designs still show range and quality.</p>
+            <div class="format-meta"><span>Showcase</span><span>Full-Size View</span></div>
+          </div>
+          <button type="button" class="case-image-button wide-art browser-art" data-url="xehedihasansawon.github.io" data-lightbox="assets/work/portfolio-web-04-showcase.webp" data-caption="Selected graphics · xehedihasansawon.github.io"><img src="assets/work/portfolio-web-04-showcase-sm.webp" srcset="assets/work/portfolio-web-04-showcase-sm.webp 900w, assets/work/portfolio-web-04-showcase.webp 1600w" sizes="(max-width: 960px) calc(100vw - 32px), 680px" width="1600" height="770" alt="Portfolio Selected graphics section with four freelance designs" loading="lazy" decoding="async"></button>
+        </article>
+
+        <article class="format-feature format-portrait format-landscape">
+          <div class="format-copy">
+            <span class="format-number">05</span>
+            <p class="case-eyebrow">Tools</p>
+            <h2>The software <span>behind the work.</span></h2>
+            <p>Seventeen tools in five rows: video, AI, design, web, and office and social.</p>
+            <p class="format-why"><strong>Why it’s here:</strong> Clients and teams want to know if I can work inside the tools they already use.</p>
+            <div class="format-meta"><span>Tools</span></div>
+          </div>
+          <button type="button" class="case-image-button wide-art browser-art" data-url="xehedihasansawon.github.io" data-lightbox="assets/work/portfolio-web-05-tools.webp" data-caption="Tools · xehedihasansawon.github.io"><img src="assets/work/portfolio-web-05-tools-sm.webp" srcset="assets/work/portfolio-web-05-tools-sm.webp 900w, assets/work/portfolio-web-05-tools.webp 1600w" sizes="(max-width: 960px) calc(100vw - 32px), 680px" width="1600" height="699" alt="Portfolio tools section with seventeen tools in five rows" loading="lazy" decoding="async"></button>
+        </article>
+
+        <article class="format-feature format-portrait format-landscape format-flip">
+          <div class="format-copy">
+            <span class="format-number">06</span>
+            <p class="case-eyebrow">About &amp; experience</p>
+            <h2>The person <span>and the path.</span></h2>
+            <p>A short story, three facts and a timeline of my work, from freelancing to Square Group, SSFC and MAAZ STUDIO, that draws itself as you scroll.</p>
+            <p class="format-why"><strong>Why it’s here:</strong> People hire people. The story and the timeline explain where my mix of design and business systems comes from.</p>
+            <div class="format-meta"><span>About</span><span>Timeline</span></div>
+          </div>
+          <button type="button" class="case-image-button wide-art browser-art" data-url="xehedihasansawon.github.io" data-lightbox="assets/work/portfolio-web-06-about.webp" data-caption="About &amp; experience · xehedihasansawon.github.io"><img src="assets/work/portfolio-web-06-about-sm.webp" srcset="assets/work/portfolio-web-06-about-sm.webp 900w, assets/work/portfolio-web-06-about.webp 1600w" sizes="(max-width: 960px) calc(100vw - 32px), 680px" width="1600" height="1228" alt="Portfolio about section and the experience timeline" loading="lazy" decoding="async"></button>
+        </article>
+
+        <article class="format-feature format-portrait format-landscape">
+          <div class="format-copy">
+            <span class="format-number">07</span>
+            <p class="case-eyebrow">Contact</p>
+            <h2>From brief <span>to message.</span></h2>
+            <p>WhatsApp, email and phone in one card, and a short brief form that opens the message ready to send in WhatsApp or the email app, with no server in between.</p>
+            <p class="format-why"><strong>Why it’s here:</strong> Most clients message on WhatsApp. The form gives them a ready-made message instead of a blank chat.</p>
+            <div class="format-meta"><span>Contact Form</span><span>WhatsApp</span></div>
+          </div>
+          <button type="button" class="case-image-button wide-art browser-art" data-url="xehedihasansawon.github.io" data-lightbox="assets/work/portfolio-web-07-contact.webp" data-caption="Contact · xehedihasansawon.github.io"><img src="assets/work/portfolio-web-07-contact-sm.webp" srcset="assets/work/portfolio-web-07-contact-sm.webp 900w, assets/work/portfolio-web-07-contact.webp 1600w" sizes="(max-width: 960px) calc(100vw - 32px), 680px" width="1600" height="1227" alt="Portfolio contact section with direct channels and the project brief form" loading="lazy" decoding="async"></button>
+        </article>
+
+        <article class="format-feature format-portrait format-landscape format-flip">
+          <div class="format-copy">
+            <span class="format-number">08</span>
+            <p class="case-eyebrow">Case study pages</p>
+            <h2>Each project, <span>in depth.</span></h2>
+            <p>Every project has its own page with the brief, numbered designs, sizes and my role. The SSFC page alone shows 18 designs.</p>
+            <p class="format-why"><strong>Why it’s here:</strong> Deep pages show how I work, not just what the final image looks like.</p>
+            <div class="format-meta"><span>Case Studies</span><span>Print &amp; Social</span></div>
+          </div>
+          <button type="button" class="case-image-button wide-art browser-art" data-url="xehedihasansawon.github.io" data-lightbox="assets/work/portfolio-web-case.webp" data-caption="Case study pages · xehedihasansawon.github.io"><img src="assets/work/portfolio-web-case-sm.webp" srcset="assets/work/portfolio-web-case-sm.webp 900w, assets/work/portfolio-web-case.webp 1600w" sizes="(max-width: 960px) calc(100vw - 32px), 680px" width="1600" height="1311" alt="The SSFC case study page with its hero, summary and numbers" loading="lazy" decoding="async"></button>
+        </article>
+
+        <article class="format-feature format-portrait format-landscape">
+          <div class="format-copy">
+            <span class="format-number">09</span>
+            <p class="case-eyebrow">Bangla &amp; light theme</p>
+            <h2>Read it <span>your way.</span></h2>
+            <p>An English / Bangla switch and a light / dark theme in the header. The whole site, every case study included, is translated, and the choice is remembered for the next visit.</p>
+            <p class="format-why"><strong>Why it’s here:</strong> Many visitors read Bangla more comfortably, and some prefer a light screen in daylight.</p>
+            <div class="format-meta"><span>Bilingual</span><span>Light &amp; Dark</span></div>
+          </div>
+          <button type="button" class="case-image-button wide-art browser-art" data-url="xehedihasansawon.github.io" data-lightbox="assets/work/portfolio-web-bn-light.webp" data-caption="Bangla &amp; light theme · xehedihasansawon.github.io"><img src="assets/work/portfolio-web-bn-light-sm.webp" srcset="assets/work/portfolio-web-bn-light-sm.webp 900w, assets/work/portfolio-web-bn-light.webp 1600w" sizes="(max-width: 960px) calc(100vw - 32px), 680px" width="1600" height="1000" alt="The portfolio homepage in Bangla with the light theme" loading="lazy" decoding="async"></button>
+        </article>
+
+        <article class="format-feature format-portrait format-landscape format-flip">
+          <div class="format-copy">
+            <span class="format-number">10</span>
+            <p class="case-eyebrow">On a phone</p>
+            <h2>Made for <span>small screens.</span></h2>
+            <p>The same site on a phone, in English with the dark theme and in Bangla with the light one. Buttons are full width and every link is at least 44 pixels tall.</p>
+            <p class="format-why"><strong>Why it’s here:</strong> Most visitors open the link from Facebook, WhatsApp or LinkedIn on their phone.</p>
+            <div class="format-meta"><span>Mobile-First</span><span>Tap Targets</span></div>
+          </div>
+          <div class="phone-pair">
+            <button type="button" class="case-image-button phone-art" data-lightbox="assets/work/portfolio-web-phone-hero-en.webp" data-caption="Phone · English · Dark"><img src="assets/work/portfolio-web-phone-hero-en.webp" width="720" height="1558" alt="The portfolio on a phone in English with the dark theme" loading="lazy" decoding="async"></button>
+            <button type="button" class="case-image-button phone-art" data-lightbox="assets/work/portfolio-web-phone-hero-bn.webp" data-caption="Phone · Bangla · Light"><img src="assets/work/portfolio-web-phone-hero-bn.webp" width="720" height="1558" alt="The portfolio on a phone in Bangla with the light theme" loading="lazy" decoding="async"></button>
+          </div>
+        </article>
       </div>
     </section>
 
@@ -197,6 +302,6 @@
     <img id="lightboxImage" alt="">
     <div class="lightbox-bar"><span id="lightboxCaption"></span><button type="button" class="lightbox-close" id="lightboxClose" aria-label="Close preview"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></button></div>
   </dialog>
-  <script type="module" src="main.js?v=v22-20261123"></script>
+  <script type="module" src="main.js?v=v23-20261123"></script>
 </body>
 </html>

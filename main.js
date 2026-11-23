@@ -19,7 +19,7 @@ const store = {
    Bangla is keyed by the English text itself, so pages need no extra markup.
    A "unit" is a run of text, or a whole element when it mixes text with inline tags
    (strong, span, a...) so the Bangla word order can differ from the English. */
-const I18N_VERSION = "v1-20261123";
+const I18N_VERSION = "v2-20261123";
 let lang = "en";
 let dict = null;
 let originals = null;

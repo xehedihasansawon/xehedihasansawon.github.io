@@ -519,6 +519,41 @@ a.contact-item:hover strong { color: var(--mint-light); }
 .role-card { padding: 22px; border: 1px solid var(--line); border-radius: var(--radius); background: linear-gradient(180deg, rgba(14, 49, 44, .6), rgba(10, 39, 36, .35)); }
 .role-card strong { display: block; font-size: 16px; font-weight: 700; }
 .role-card span { display: block; margin-top: 6px; font-size: 14px; color: var(--muted); }
+/* website case studies */
+.case-summary strong { overflow-wrap: anywhere; } /* long web addresses break instead of spilling out */
+.case-links { margin-top: 24px; }
+.case-status {
+  display: flex; align-items: flex-start; gap: 10px; max-width: 520px; margin-top: 24px; padding: 12px 16px;
+  border: 1px solid var(--line-strong); border-radius: 12px; background: rgba(142, 182, 155, .06);
+  font-size: 14px; color: var(--soft);
+}
+.case-status .icon { flex: none; margin-top: 2px; color: var(--red); }
+.case-status strong { color: var(--text); }
+.format-why {
+  margin-top: 14px; padding: 12px 14px; border-left: 3px solid var(--red); border-radius: 0 10px 10px 0;
+  background: rgba(142, 182, 155, .07); font-size: 14px;
+}
+.format-why strong { color: var(--text); }
+.format-copy .format-why + .format-meta { margin-top: 16px; }
+/* a browser window around website screenshots: three dots and the address from data-url */
+.browser-art { padding: 0; }
+.browser-art::before {
+  content: attr(data-url); display: flex; align-items: center; height: 34px; padding: 0 14px 0 72px;
+  border-bottom: 1px solid var(--line-strong);
+  background:
+    radial-gradient(circle at 20px 50%, #e3222d 0 5px, transparent 5.5px),
+    radial-gradient(circle at 38px 50%, #d9a23a 0 5px, transparent 5.5px),
+    radial-gradient(circle at 56px 50%, #3ddc84 0 5px, transparent 5.5px),
+    rgba(4, 23, 24, .7);
+  font-size: 12px; letter-spacing: .02em; color: var(--muted); text-align: left; white-space: nowrap; overflow: hidden;
+}
+.browser-art img { border-radius: 0; }
+/* two phones side by side, the second one a little lower */
+.phone-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; width: min(100%, 520px); justify-self: center; padding-bottom: 30px; }
+.phone-art { padding: 8px; border: 1px solid var(--line-strong); border-radius: 34px; background: #050b0b; box-shadow: 0 24px 50px rgba(0, 0, 0, .35); }
+.phone-art img { width: 100%; border-radius: 26px; }
+.phone-art:hover { border-color: var(--mint); }
+.phone-pair .phone-art:nth-child(2) { transform: translateY(30px); }
 .case-note { margin-top: 20px; padding: 16px 18px; border-left: 3px solid var(--red); border-radius: 0 10px 10px 0; background: rgba(142, 182, 155, .07); font-size: 14px; color: var(--soft); }
 
 
@@ -613,6 +648,15 @@ a.contact-item:hover strong { color: var(--mint-light); }
 [data-theme="light"] .case-next-inner { background: radial-gradient(500px 240px at 0% 100%, rgba(42, 117, 83, .12), transparent 70%), linear-gradient(180deg, #ffffff, #eaf2ed); }
 [data-theme="light"] .form input, [data-theme="light"] .form select, [data-theme="light"] .form textarea { background: #fff; }
 [data-theme="light"] .form select option { background: #fff; }
+[data-theme="light"] .browser-art::before {
+  background:
+    radial-gradient(circle at 20px 50%, #e3222d 0 5px, transparent 5.5px),
+    radial-gradient(circle at 38px 50%, #d9a23a 0 5px, transparent 5.5px),
+    radial-gradient(circle at 56px 50%, #3ddc84 0 5px, transparent 5.5px),
+    #eef3ef;
+}
+[data-theme="light"] .phone-art { box-shadow: 0 24px 50px rgba(4, 40, 36, .18); }
+[data-theme="light"] .case-status { background: rgba(255, 255, 255, .7); }
 [data-theme="light"] .form-message[data-state="error"] { color: #b3202a; }
 [data-theme="light"] .form-message[data-state="success"] { color: #1d7046; }
 [data-theme="light"] .site-footer { background: rgba(232, 239, 234, .7); }
@@ -809,6 +853,11 @@ html[lang="bn"] :is(.eyebrow, .kicker, .tool-row-label, .case-eyebrow, .contact-
   .format-feature + .format-feature { margin-top: 40px; padding-top: 40px; }
   .format-number { font-size: 44px; }
   .art-pair { grid-template-columns: 1fr; }
+  .phone-pair { gap: 12px; padding-bottom: 20px; }
+  .phone-pair .phone-art:nth-child(2) { transform: translateY(20px); }
+  .phone-art { padding: 5px; border-radius: 26px; }
+  .phone-art img { border-radius: 21px; }
+  .browser-art::before { height: 28px; font-size: 11px; }
   .case-image-button::after { right: 18px; bottom: 18px; width: 30px; height: 30px; background-size: 14px; }
 }
 
@@ -819,6 +868,7 @@ html[lang="bn"] :is(.eyebrow, .kicker, .tool-row-label, .case-eyebrow, .contact-
   .footer-col a { display: flex; align-items: center; min-height: 44px; padding: 0; }
   .footer-bottom a { display: inline-flex; align-items: center; min-height: 44px; padding: 0; }
   .case-back { min-height: 44px; }
+  .case-summary a { display: inline-flex; align-items: center; min-height: 44px; }
   .case-jump a, .btn-sm { min-height: 44px; }
   .copy-btn { min-height: 44px; }
   .social { width: 44px; height: 44px; }

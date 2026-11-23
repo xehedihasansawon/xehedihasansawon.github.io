@@ -31,6 +31,7 @@ GitHub Pages serves the `main` branch as it is, so a push to `main` goes live in
 - Logo and favicons: `assets/brand/` and `assets/favicon.svg`. `mhs-logo.svg` is the red "Mhs." with the brush underline, used in the header, the footer and the hero background. There are also white and dark versions, and 2000 px PNGs.
 - Hero photo: `assets/hero-current.webp`
 - Project covers, case study artwork and showcase designs: `assets/work/`. Each cover (1484 × 1060) has an 800 px `-cover-sm.webp` copy that phones and the homepage cards load through `srcset`. When a cover changes, remake its `-sm` copy too.
+- Website case studies (MAAZ STUDIO, Chowdhury Overseas, Portfolio): section screenshots of the live sites in `assets/work/*-web-*.webp`. Each one is 1600 px wide, with a 900 px `-sm` copy; the phone shots are 720 px. When a live site changes, take new screenshots and keep the same file names.
 - Tool logos: `assets/tool-*`
 - Social share previews (Facebook, LinkedIn, WhatsApp), 1200 × 630 JPG: `assets/og-image.jpg` for the homepage and `assets/work/*-og.jpg` for each case study. Use JPG here, not WebP, because LinkedIn and some WhatsApp versions do not show WebP previews.
 
