@@ -237,12 +237,39 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .hero-badge .icon { color: var(--red); }
 
 /* ---------- Services ---------- */
-.services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-.service { padding: 26px; transition: border-color .2s ease, transform .2s ease; }
-.service:hover { border-color: var(--line-strong); transform: translateY(-3px); }
-.service-icon { display: grid; place-items: center; width: 48px; height: 48px; margin-bottom: 18px; border-radius: 12px; color: var(--mint-light); background: rgba(142, 182, 155, .1); border: 1px solid var(--line); }
+.services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; counter-reset: service; }
+.service {
+  position: relative; isolation: isolate; overflow: hidden; display: flex; flex-direction: column;
+  padding: 26px; counter-increment: service;
+  transition: border-color .25s ease, transform .25s ease, box-shadow .25s ease;
+}
+.service > * { position: relative; z-index: 1; }
+/* a big quiet number in the corner (hidden from screen readers) */
+.service::before {
+  content: counter(service, decimal-leading-zero); content: counter(service, decimal-leading-zero) / "";
+  position: absolute; top: 14px; right: 20px; z-index: 0;
+  font-family: var(--display); font-size: 52px; line-height: 1; letter-spacing: .02em; color: rgba(142, 182, 155, .09);
+  transition: color .3s ease, transform .4s cubic-bezier(.34, 1.56, .64, 1);
+}
+html[lang="bn"] .service::before { content: "০" counter(service, bengali); content: "০" counter(service, bengali) / ""; font-weight: 700; }
+/* a soft light that follows the pointer (main.js sets --mx / --my) */
+.service::after {
+  content: ""; position: absolute; inset: 0; z-index: 0; border-radius: inherit; pointer-events: none;
+  background: radial-gradient(360px circle at var(--mx, 50%) var(--my, -20%), rgba(142, 182, 155, .13), transparent 60%);
+  opacity: 0; transition: opacity .3s ease;
+}
+.service:hover { border-color: rgba(227, 34, 45, .35); transform: translateY(-4px); box-shadow: 0 18px 40px rgba(0, 0, 0, .25); }
+.service:hover::after { opacity: 1; }
+.service:hover::before { color: rgba(227, 34, 45, .3); transform: translateY(-2px); }
+.service-icon {
+  display: grid; place-items: center; width: 48px; height: 48px; margin-bottom: 18px; border-radius: 12px;
+  color: var(--mint-light); background: rgba(142, 182, 155, .1); border: 1px solid var(--line);
+  transition: background-color .25s ease, border-color .25s ease, color .25s ease;
+}
+.service:hover .service-icon { background-color: var(--red); border-color: var(--red); color: #fff; }
 .service h3 { font-size: 18px; line-height: 1.3; font-weight: 700; }
-.service p { margin: 8px 0 16px; font-size: 14px; color: var(--muted); }
+.service p { margin: 8px 0 18px; font-size: 14px; color: var(--muted); }
+.service .chips { margin-top: auto; }
 
 /* ---------- Projects ---------- */
 .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
@@ -298,11 +325,23 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .about-facts strong { display: block; margin-top: 6px; font-size: 14px; line-height: 1.4; font-weight: 600; }
 
 /* ---------- Experience timeline ---------- */
-.timeline { position: relative; display: grid; grid-template-columns: repeat(5, 1fr); gap: 18px; }
-.timeline::before { content: ""; position: absolute; left: 8px; right: 8px; top: 8px; height: 2px; background: linear-gradient(90deg, var(--red), var(--line-strong) 40%, var(--line)); }
+.timeline { position: relative; display: grid; grid-template-columns: repeat(5, 1fr); gap: 18px; --p: 1; }
+/* a quiet track, and the red line drawn over it (main.js moves --p from 0 to 1) */
+.timeline::before, .timeline::after { content: ""; position: absolute; left: 8px; right: 8px; top: 8px; height: 2px; border-radius: 2px; }
+.timeline::before { background: var(--line-strong); }
+.timeline::after { background: linear-gradient(90deg, var(--red), rgba(227, 34, 45, .55) 40%, var(--mint)); clip-path: inset(0 calc((1 - var(--p)) * 100%) 0 0); }
+.timeline-comet {
+  position: absolute; z-index: 2; top: 4px; left: calc(8px + var(--p) * (100% - 16px));
+  width: 10px; height: 10px; margin-left: -5px; border-radius: 50%; background: #ff5a63;
+  box-shadow: 0 0 0 4px rgba(227, 34, 45, .25), 0 0 18px 4px rgba(227, 34, 45, .6);
+  opacity: 0; pointer-events: none; transition: opacity .4s ease;
+}
+.timeline.is-drawing .timeline-comet { opacity: 1; }
 .step { position: relative; padding-top: 34px; }
-.step::before { content: ""; position: absolute; left: 0; top: 0; width: 18px; height: 18px; border: 2px solid var(--mint); border-radius: 50%; background: var(--bg); }
+.step::before { content: ""; position: absolute; z-index: 1; left: 0; top: 0; width: 18px; height: 18px; border: 2px solid var(--mint); border-radius: 50%; background: var(--bg); transition: transform .5s cubic-bezier(.34, 1.56, .64, 1), opacity .3s ease, box-shadow .3s ease; }
 .step:first-child::before { border-color: var(--red); box-shadow: 0 0 0 5px rgba(227, 34, 45, .15); }
+.step:hover::before { transform: scale(1.2); box-shadow: 0 0 0 6px rgba(142, 182, 155, .14); }
+.step:first-child:hover::before { box-shadow: 0 0 0 7px rgba(227, 34, 45, .2); }
 .step-period { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--mint); }
 .step h3 { margin-top: 8px; font-size: 18px; line-height: 1.25; font-weight: 800; }
 .step-role { margin-top: 4px; font-size: 13px; font-weight: 600; color: var(--soft); }
@@ -555,7 +594,12 @@ a.contact-item:hover strong { color: var(--mint-light); }
 [data-theme="light"] .card, [data-theme="light"] .role-card { background: linear-gradient(180deg, #ffffff, #f8fbf9); box-shadow: 0 1px 2px rgba(4, 40, 36, .04), 0 8px 24px rgba(4, 40, 36, .04); }
 [data-theme="light"] .btn-outline, [data-theme="light"] .status { background: rgba(255, 255, 255, .75); }
 [data-theme="light"] .btn-outline:hover { background: rgba(42, 117, 83, .08); }
-[data-theme="light"] .fact-icon, [data-theme="light"] .service-icon { background: rgba(42, 117, 83, .08); }
+[data-theme="light"] .fact-icon, [data-theme="light"] .service-icon { background-color: rgba(42, 117, 83, .08); }
+[data-theme="light"] .service:hover .service-icon { background-color: var(--red); }
+[data-theme="light"] .service::before { color: rgba(4, 40, 36, .07); }
+[data-theme="light"] .service:hover::before { color: rgba(220, 31, 42, .28); }
+[data-theme="light"] .service::after { background: radial-gradient(360px circle at var(--mx, 50%) var(--my, -20%), rgba(42, 117, 83, .1), transparent 60%); }
+[data-theme="light"] .service:hover { box-shadow: 0 18px 40px rgba(4, 40, 36, .1); }
 [data-theme="light"] .hero-visual::before { background-image: url("assets/brand/mhs-logo-dark.svg"); opacity: .07; }
 [data-theme="light"] .hero-photo, [data-theme="light"] .case-hero-visual { box-shadow: 0 30px 70px rgba(4, 40, 36, .18), 0 0 0 8px rgba(42, 117, 83, .05); }
 [data-theme="light"] .hero-badge { background: rgba(255, 255, 255, .92); box-shadow: 0 12px 30px rgba(4, 40, 36, .12); }
@@ -615,6 +659,8 @@ html[lang="bn"] :is(.eyebrow, .kicker, .tool-row-label, .case-eyebrow, .contact-
 @keyframes ping { to { box-shadow: 0 0 0 10px rgba(61, 220, 132, 0); } }
 @keyframes grow-x { from { transform: scaleX(0); } }
 @keyframes progress { to { transform: scaleX(1); } }
+@keyframes ripple { from { opacity: .9; transform: scale(1); } to { opacity: 0; transform: scale(2.8); } }
+@keyframes current-pulse { 0% { box-shadow: 0 0 0 0 rgba(227, 34, 45, .45); } 70%, 100% { box-shadow: 0 0 0 12px rgba(227, 34, 45, 0); } }
 
 @media (prefers-reduced-motion: no-preference) {
   /* intro */
@@ -643,14 +689,25 @@ html[lang="bn"] :is(.eyebrow, .kicker, .tool-row-label, .case-eyebrow, .contact-
   .js .section-title span, .js .about-title span { background: linear-gradient(rgba(227, 34, 45, .22), rgba(227, 34, 45, .22)) no-repeat 0 88% / 0% .22em; transition: background-size 1s var(--ease-out) .45s; }
   .js .is-visible .section-title span, .js .is-visible .about-title span { background-size: 100% .22em; }
 
-  /* timeline line draws itself, then the dots pop */
-  .js .timeline::before { transform: scaleX(0); transform-origin: left; transition: transform 1.6s var(--ease-out) .1s; }
-  .js .timeline.is-drawn::before { transform: none; }
+  /* timeline: stops wait small, pop as the red line reaches them, and their text follows */
+  .js .timeline.motion .step::before { transform: scale(.45); opacity: .4; }
+  .js .timeline.motion .step.is-lit::before { transform: none; opacity: 1; }
+  .js .timeline.motion .step.is-lit:hover::before { transform: scale(1.2); }
+  .js .timeline.motion .step::after { content: ""; position: absolute; left: 0; top: 0; width: 18px; height: 18px; border: 2px solid var(--mint); border-radius: 50%; opacity: 0; pointer-events: none; }
+  .js .timeline.motion .step:first-child::after { border-color: var(--red); }
+  .js .timeline.motion .step.is-lit::after { animation: ripple 1s var(--ease-out); }
+  .js .timeline.motion .step:first-child.is-lit::before { animation: current-pulse 2.4s ease-out 1s infinite; }
+  .js .timeline.motion .step > * { opacity: 0; transform: translateY(14px); transition: opacity .55s var(--ease-out), transform .7s var(--ease-out); }
+  .js .timeline.motion .step.is-lit > * { opacity: 1; transform: none; }
+  .js .timeline.motion .step.is-lit > :nth-child(2) { transition-delay: 70ms; }
+  .js .timeline.motion .step.is-lit > :nth-child(3) { transition-delay: 140ms; }
+  .js .timeline.motion .step.is-lit > :nth-child(4) { transition-delay: 210ms; }
 
   /* hover details */
   .btn .icon { transition: transform .25s var(--ease-out); }
   .btn:hover .icon { transform: translateX(3px); }
-  .tool img, .service-icon, .fact-icon, .social .icon { transition: transform .35s var(--spring); }
+  .tool img, .fact-icon, .social .icon { transition: transform .35s var(--spring); }
+  .service-icon { transition: background-color .25s ease, border-color .25s ease, color .25s ease, transform .35s var(--spring); }
   .tool:hover img { transform: scale(1.15) rotate(-6deg); }
   .service:hover .service-icon { transform: rotate(-8deg) scale(1.08); }
   .fact:hover .fact-icon, .contact-item:hover .fact-icon { transform: translateY(-3px) rotate(-6deg); }
@@ -663,12 +720,11 @@ html[lang="bn"] :is(.eyebrow, .kicker, .tool-row-label, .case-eyebrow, .contact-
     .scroll-progress { animation: progress linear both; animation-timeline: scroll(root); }
   }
 }
-@media (prefers-reduced-motion: no-preference) and (max-width: 640px) {
-  .js .timeline::before { transform: scaleY(0); transform-origin: top; }
-}
 @media print {
   [data-reveal] { opacity: 1 !important; transform: none !important; }
-  .scroll-progress, .loader { display: none !important; }
+  .scroll-progress, .loader, .timeline-comet { display: none !important; }
+  .timeline { --p: 1 !important; }
+  .timeline .step > *, .timeline .step::before { opacity: 1 !important; transform: none !important; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -681,7 +737,7 @@ html[lang="bn"] :is(.eyebrow, .kicker, .tool-row-label, .case-eyebrow, .contact-
    ========================================================= */
 @media (max-width: 1100px) {
   .timeline { grid-template-columns: repeat(3, 1fr); row-gap: 40px; }
-  .timeline::before { display: none; }
+  .timeline::before, .timeline::after, .timeline-comet { display: none; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
 }
 
@@ -729,7 +785,9 @@ html[lang="bn"] :is(.eyebrow, .kicker, .tool-row-label, .case-eyebrow, .contact-
   .showcase { grid-template-columns: 110px 1fr; gap: 14px; }
   .about-facts { grid-template-columns: 1fr; }
   .timeline { grid-template-columns: 1fr; row-gap: 0; }
-  .timeline::before { display: block; left: 8px; right: auto; top: 8px; bottom: 8px; width: 2px; height: auto; background: linear-gradient(180deg, var(--red), var(--line-strong) 30%, var(--line)); }
+  .timeline::before, .timeline::after { display: block; left: 8px; right: auto; top: 8px; bottom: 8px; width: 2px; height: auto; }
+  .timeline::after { background: linear-gradient(180deg, var(--red), rgba(227, 34, 45, .55) 35%, var(--mint)); clip-path: inset(0 0 calc((1 - var(--p)) * 100%) 0); }
+  .timeline-comet { display: block; top: calc(8px + var(--p) * (100% - 16px)); left: 9px; margin: -5px 0 0 -5px; }
   .step { padding: 0 0 32px 36px; }
   .step:last-child { padding-bottom: 0; }
   .cta-band { padding: 44px 20px; border-radius: 20px; }

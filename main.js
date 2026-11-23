@@ -158,7 +158,7 @@ const motionOK = !reduceMotion && "IntersectionObserver" in window;
 
 // Every page gets the same reveal: tag the parts that rise in (pages only mark a few by hand).
 const revealTargets = {
-  up: ".section-head, .case-section-head, .case-intro-grid > *, .case-chapter, .case-jump, .case-next-inner, .about-grid > :first-child, .about-copy > p, .tools-wrap > :first-child, .service, .project, .showcase, .tool-row-label, .step, .about-facts > *, .role-card, .case-summary-grid > *, .case-stats > *, .format-copy, .cta-band, .contact-card, .form, .footer-grid > *, .footer-bottom",
+  up: ".section-head, .case-section-head, .case-intro-grid > *, .case-chapter, .case-jump, .case-next-inner, .about-grid > :first-child, .about-copy > p, .tools-wrap > :first-child, .service, .project, .showcase, .tool-row-label, .about-facts > *, .role-card, .case-summary-grid > *, .case-stats > *, .format-copy, .cta-band, .contact-card, .form, .footer-grid > *, .footer-bottom",
   pop: ".tool",
   zoom: ".format-feature .case-image-button, .format-feature .art-stack, .format-feature .art-pair"
 };
@@ -190,13 +190,72 @@ if (motionOK) {
   }, { rootMargin: "0px 0px -8% 0px", threshold: 0.08 });
   revealItems.forEach((item) => reveal.observe(item));
 
-  // the timeline line draws itself when the journey comes into view
-  const drawObserver = new IntersectionObserver((entries) => entries.forEach((entry) => {
-    if (!entry.isIntersecting) return;
-    entry.target.classList.add("is-drawn");
-    drawObserver.unobserve(entry.target);
-  }), { threshold: 0.2 });
-  $$(".timeline").forEach((el) => drawObserver.observe(el));
+  // the journey: the red line draws itself with a glowing head, and each stop lights up as the line
+  // reaches it. Side by side it plays once; on phones (one column) it follows the scroll.
+  $$(".timeline").forEach((timeline) => {
+    const steps = $$(".step", timeline);
+    const comet = document.createElement("span");
+    comet.className = "timeline-comet";
+    comet.setAttribute("aria-hidden", "true");
+    timeline.append(comet);
+    timeline.classList.add("motion");
+    let p = 0;
+    let done = false;
+    const setP = (v) => { p = v; timeline.style.setProperty("--p", v.toFixed(4)); };
+    setP(0);
+    const geometry = () => {
+      const box = timeline.getBoundingClientRect();
+      const hidden = getComputedStyle(timeline, "::after").display === "none";
+      const vertical = getComputedStyle(timeline).gridTemplateColumns.trim().split(/\s+/).length === 1;
+      const start = vertical ? box.top + 8 : box.left + 8;
+      const length = Math.max(1, (vertical ? box.height : box.width) - 16);
+      const stops = steps.map((s) => { const r = s.getBoundingClientRect(); return ((vertical ? r.top : r.left) + 9 - start) / length; });
+      return { hidden, vertical, start, length, stops };
+    };
+    const lightUpTo = (v, stops) => steps.forEach((s, i) => { if (v >= stops[i] - 0.002) s.classList.add("is-lit"); });
+    const finish = () => {
+      done = true;
+      setP(1);
+      steps.forEach((s) => s.classList.add("is-lit"));
+      timeline.classList.remove("is-drawing");
+      window.removeEventListener("scroll", schedule);
+    };
+    // phones: the line follows the scroll and never goes back
+    const onScroll = () => {
+      if (done) return;
+      const g = geometry();
+      if (!g.vertical) { finish(); return; }
+      const target = Math.min(1, Math.max(0, (innerHeight * 0.75 - g.start) / g.length));
+      if (target > p) { setP(target); lightUpTo(target, g.stops); timeline.classList.add("is-drawing"); }
+      if (p >= 1) finish();
+    };
+    let queued = false;
+    function schedule() { if (queued) return; queued = true; requestAnimationFrame(() => { queued = false; onScroll(); }); }
+    const play = () => {
+      const g = geometry();
+      if (g.hidden) { steps.forEach((s, i) => setTimeout(() => s.classList.add("is-lit"), i * 140)); done = true; setP(1); return; }
+      if (g.vertical) { window.addEventListener("scroll", schedule, { passive: true }); onScroll(); return; }
+      timeline.classList.add("is-drawing");
+      const t0 = performance.now();
+      const ease = (x) => (x < 0.5 ? 4 * x ** 3 : 1 - (-2 * x + 2) ** 3 / 2);
+      const tick = (now) => {
+        const x = Math.min(1, (now - t0) / 1900);
+        setP(ease(x));
+        lightUpTo(p, g.stops);
+        if (x < 1) requestAnimationFrame(tick); else finish();
+      };
+      requestAnimationFrame(tick);
+    };
+    const startObserver = new IntersectionObserver((entries) => {
+      const entry = entries[entries.length - 1];
+      if (!entry.isIntersecting) return;
+      const g = geometry();
+      if (!g.vertical && !g.hidden && entry.intersectionRatio < 0.3) return;
+      startObserver.disconnect();
+      play();
+    }, { threshold: [0, 0.3] });
+    startObserver.observe(timeline);
+  });
 
   // stats count up from zero (small numbers only, so years like 2018 stay as they are)
   const BN_DIGITS = "০১২৩৪৫৬৭৮৯";
@@ -236,8 +295,16 @@ if (motionOK) {
   document.body.append(progress);
 } else {
   revealItems.forEach((item) => item.classList.add("is-visible"));
-  $$(".timeline").forEach((el) => el.classList.add("is-drawn"));
 }
+
+/* ---------- Services: a soft light follows the pointer ---------- */
+$(".services-grid")?.addEventListener("pointermove", (event) => {
+  const card = event.target.closest(".service");
+  if (!card) return;
+  const box = card.getBoundingClientRect();
+  card.style.setProperty("--mx", Math.round(event.clientX - box.left) + "px");
+  card.style.setProperty("--my", Math.round(event.clientY - box.top) + "px");
+});
 
 /* ---------- Lightbox ---------- */
 const lightbox = $("#lightbox");
