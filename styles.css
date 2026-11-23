@@ -753,3 +753,24 @@ html[lang="bn"] :is(.eyebrow, .kicker, .tool-row-label, .case-eyebrow, .contact-
   .art-pair { grid-template-columns: 1fr; }
   .case-image-button::after { right: 18px; bottom: 18px; width: 30px; height: 30px; background-size: 14px; }
 }
+
+/* ---------- Tap targets on phones and small tablets ----------
+   Every link and button is at least 44px tall. Only the tap area grows:
+   font sizes, colours and the look of the pills stay the same. */
+@media (max-width: 900px) {
+  .footer-col a { display: flex; align-items: center; min-height: 44px; padding: 0; }
+  .footer-bottom a { display: inline-flex; align-items: center; min-height: 44px; padding: 0; }
+  .case-back { min-height: 44px; }
+  .case-jump a, .btn-sm { min-height: 44px; }
+  .copy-btn { min-height: 44px; }
+  .social { width: 44px; height: 44px; }
+  .theme-toggle { width: 44px; height: 44px; }
+  /* the red "selected" pill keeps its size; the button around it is 44px */
+  .lang-switch { padding: 0; }
+  .lang-switch button, .lang-switch button[aria-pressed="true"] { height: 44px; min-width: 48px; padding: 4px; background-clip: content-box; }
+}
+@media (max-width: 640px) {
+  /* seven icons in one row: as tall as needed, as wide as the card allows */
+  .contact-follow .socials { gap: 4px; }
+  .contact-follow .social { width: auto; height: auto; min-height: 44px; aspect-ratio: auto; }
+}
