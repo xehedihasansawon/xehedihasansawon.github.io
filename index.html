@@ -44,7 +44,7 @@
   <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/anton-latin.woff2" as="font" type="font/woff2" crossorigin>
   <script>try{var s=localStorage;if(s.getItem("theme")==="light")document.documentElement.dataset.theme="light";if(s.getItem("lang")==="bn")document.documentElement.dataset.lang="bn"}catch(e){}</script>
-  <link rel="stylesheet" href="styles.css?v=v23-20261123">
+  <link rel="stylesheet" href="styles.css?v=v24-20261124">
 </head>
 <body>
   <div class="loader" id="loader" aria-hidden="true">
@@ -392,6 +392,20 @@
       </div>
     </section>
 
+    <section class="section" id="reviews" hidden>
+      <div class="shell">
+        <div class="section-head" data-reveal>
+          <div>
+            <span class="eyebrow">Client words</span>
+            <h2 class="section-title">What clients <span>say</span></h2>
+            <p class="section-lead">Reviews from people I have worked with, shown as they wrote them.</p>
+          </div>
+          <button type="button" class="btn btn-outline" data-review-open>Leave a review</button>
+        </div>
+        <div class="reviews-grid" id="reviewsGrid"></div>
+      </div>
+    </section>
+
     <section class="section" id="contact">
       <div class="shell">
         <div class="cta-band" data-reveal>
@@ -432,14 +446,20 @@
               <p>Follow my work</p>
               <div class="socials"><a class="social" href="https://www.facebook.com/mdmehedihasansawoon/" target="_blank" rel="noreferrer" aria-label="Facebook" title="Facebook"><svg class="icon" aria-hidden="true"><use href="#i-facebook"/></svg></a><a class="social" href="https://www.instagram.com/honu______20" target="_blank" rel="noreferrer" aria-label="Instagram" title="Instagram"><svg class="icon" aria-hidden="true"><use href="#i-instagram"/></svg></a><a class="social" href="https://www.linkedin.com/in/mdmehedihasansawon/" target="_blank" rel="noreferrer" aria-label="LinkedIn" title="LinkedIn"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg></a><a class="social" href="https://github.com/xehedihasansawon" target="_blank" rel="noreferrer" aria-label="GitHub" title="GitHub"><svg class="icon" aria-hidden="true"><use href="#i-github"/></svg></a><a class="social" href="https://www.behance.net/mehedihasan194" target="_blank" rel="noreferrer" aria-label="Behance" title="Behance"><svg class="icon" aria-hidden="true"><use href="#i-behance"/></svg></a><a class="social" href="https://wa.me/60174723951" target="_blank" rel="noreferrer" aria-label="WhatsApp" title="WhatsApp"><svg class="icon" aria-hidden="true"><use href="#i-message"/></svg></a><a class="social" href="https://maazstudio.digital/" target="_blank" rel="noreferrer" aria-label="MAAZ STUDIO website" title="MAAZ STUDIO website"><svg class="icon" aria-hidden="true"><use href="#i-globe"/></svg></a></div>
             </div>
+            <div class="contact-review">
+              <p>Worked with me before?</p>
+              <button type="button" class="btn btn-outline btn-sm" data-review-open>Leave a review</button>
+            </div>
           </div>
 
           <form class="card form" id="inquiryForm" novalidate data-reveal>
             <h3>Tell me what you’re building</h3>
-            <p>A short brief is enough. It opens ready to send in WhatsApp or your email app.</p>
+            <p>A short brief is enough. It opens ready to send in WhatsApp or your email app, and a copy reaches me directly, so nothing gets lost.</p>
             <div class="form-grid">
               <label>Name<input name="name" type="text" maxlength="100" autocomplete="name" required></label>
               <label>Brand / company (optional)<input name="company" type="text" maxlength="120" autocomplete="organization"></label>
+              <label class="full">WhatsApp or email (optional)<input name="contact" type="text" maxlength="120" autocomplete="email" inputmode="email"></label>
+              <div class="hp" aria-hidden="true"><label>Website<input name="website" type="text" tabindex="-1" autocomplete="off"></label></div>
               <label class="full">Project type
                 <select name="project_type" required>
                   <option value="">Choose one</option>
@@ -524,10 +544,39 @@
     </div>
   </footer>
 
+  <dialog class="review-dialog" id="reviewDialog" aria-labelledby="reviewTitle">
+    <form class="form review-form" id="reviewForm" novalidate>
+      <div class="review-dialog-head">
+        <h3 id="reviewTitle">Leave a review</h3>
+        <button type="button" class="lightbox-close" data-review-close aria-label="Close"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></button>
+      </div>
+      <p>Worked with me? A few honest lines help other clients decide. Your review appears on the site after I approve it.</p>
+      <div class="form-grid">
+        <label>Your name<input name="name" type="text" maxlength="100" autocomplete="name" required></label>
+        <label>Role or business (optional)<input name="role" type="text" maxlength="120" autocomplete="organization-title"></label>
+        <label class="full">Rating
+          <select name="rating">
+            <option value="5">★★★★★ Excellent</option>
+            <option value="4">★★★★☆ Very good</option>
+            <option value="3">★★★☆☆ Good</option>
+            <option value="2">★★☆☆☆ Fair</option>
+            <option value="1">★☆☆☆☆ Poor</option>
+          </select>
+        </label>
+        <label class="full">Your review<textarea name="message" rows="4" maxlength="1200" required></textarea></label>
+        <div class="hp" aria-hidden="true"><label>Website<input name="website" type="text" tabindex="-1" autocomplete="off"></label></div>
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-primary" type="submit">Send review</button>
+        <p class="form-message" id="reviewFormMessage" role="status" aria-live="polite"></p>
+      </div>
+    </form>
+  </dialog>
+
   <dialog class="lightbox" id="lightbox" aria-label="Image preview">
     <img id="lightboxImage" alt="">
     <div class="lightbox-bar"><span id="lightboxCaption"></span><button type="button" class="lightbox-close" id="lightboxClose" aria-label="Close preview"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></button></div>
   </dialog>
-  <script type="module" src="main.js?v=v23-20261123"></script>
+  <script type="module" src="main.js?v=v24-20261124"></script>
 </body>
 </html>

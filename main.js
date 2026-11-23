@@ -19,7 +19,7 @@ const store = {
    Bangla is keyed by the English text itself, so pages need no extra markup.
    A "unit" is a run of text, or a whole element when it mixes text with inline tags
    (strong, span, a...) so the Bangla word order can differ from the English. */
-const I18N_VERSION = "v2-20261123";
+const I18N_VERSION = "v3-20261124";
 let lang = "en";
 let dict = null;
 let originals = null;
@@ -306,6 +306,71 @@ $(".services-grid")?.addEventListener("pointermove", (event) => {
   card.style.setProperty("--my", Math.round(event.clientY - box.top) + "px");
 });
 
+/* ---------- Backend (Cloudflare Worker + D1): saved briefs, reviews, visitor count ----------
+   Everything here is optional: if the API is down, the form still opens WhatsApp or email,
+   the reviews section stays hidden and nothing else changes. */
+const API_BASE = location.hostname === "localhost" ? "http://localhost:8787" : "https://xehedihasansawon-api.xehedi.workers.dev";
+// text/plain JSON is a "simple" request: no CORS preflight, and keepalive lets it finish while WhatsApp/email opens
+const sendToApi = (path, data) => fetch(API_BASE + path, { method: "POST", body: JSON.stringify(data), keepalive: true });
+const currentLang = () => (document.documentElement.lang === "bn" ? "bn" : "en");
+
+// one page view, no cookies (the Worker keeps only a daily hash)
+if (!navigator.webdriver && navigator.sendBeacon) {
+  try { navigator.sendBeacon(API_BASE + "/hit", JSON.stringify({ path: location.pathname, ref: document.referrer, lang: store.get("lang") === "bn" ? "bn" : "en" })); } catch { /* blocked: fine */ }
+}
+
+// approved reviews on the homepage
+const reviewsSection = $("#reviews");
+if (reviewsSection) {
+  fetch(API_BASE + "/reviews").then((r) => (r.ok ? r.json() : null)).then((data) => {
+    const reviews = data?.reviews || [];
+    if (!reviews.length) return;
+    const make = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text) n.textContent = text; return n; };
+    $("#reviewsGrid").replaceChildren(...reviews.map((r) => {
+      const card = make("article", "card review");
+      if (r.rating) { const s = make("div", "review-stars", "★".repeat(r.rating) + "☆".repeat(5 - r.rating)); s.setAttribute("aria-label", r.rating + " / 5"); card.append(s); }
+      card.append(make("p", "review-text", r.message));
+      const by = make("div", "review-by");
+      by.append(make("strong", "", r.name));
+      if (r.role) by.append(make("small", "", r.role));
+      card.append(by);
+      return card;
+    }));
+    reviewsSection.hidden = false;
+  }).catch(() => { /* no reviews yet or API down */ });
+}
+
+// review dialog
+const reviewDialog = $("#reviewDialog");
+const reviewForm = $("#reviewForm");
+const reviewMessage = $("#reviewFormMessage");
+if (reviewDialog && reviewForm) {
+  $$("[data-review-open]").forEach((button) => button.addEventListener("click", () => { reviewMessage.textContent = ""; reviewDialog.showModal(); }));
+  $("[data-review-close]", reviewDialog)?.addEventListener("click", () => reviewDialog.close());
+  reviewDialog.addEventListener("click", (event) => { if (event.target === reviewDialog) reviewDialog.close(); });
+  reviewForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const field = (name, max) => String(reviewForm.elements[name]?.value || "").trim().slice(0, max);
+    const data = { name: field("name", 100), role: field("role", 120), rating: field("rating", 1), message: field("message", 1200), website: field("website", 200), lang: currentLang() };
+    if (data.name.length < 2) { reviewMessage.textContent = t("Please enter your name."); reviewMessage.dataset.state = "error"; reviewForm.elements.name.focus(); return; }
+    if (data.message.length < 10) { reviewMessage.textContent = t("Please write a few words about the work."); reviewMessage.dataset.state = "error"; reviewForm.elements.message.focus(); return; }
+    const button = reviewForm.querySelector('[type="submit"]');
+    button.disabled = true;
+    try {
+      const res = await sendToApi("/review", data);
+      if (!res.ok) throw new Error(String(res.status));
+      reviewForm.reset();
+      reviewMessage.textContent = t("Thank you! Your review will appear after I approve it.");
+      reviewMessage.dataset.state = "success";
+    } catch {
+      reviewMessage.textContent = t("Could not send right now. Please try again later.");
+      reviewMessage.dataset.state = "error";
+    } finally {
+      button.disabled = false;
+    }
+  });
+}
+
 /* ---------- Lightbox ---------- */
 const lightbox = $("#lightbox");
 const lightboxImage = $("#lightboxImage");
@@ -372,6 +437,7 @@ if (form && formMessage) {
     const channel = event.submitter?.value === "email" ? "email" : "whatsapp";
     const name = value("name", 100);
     const company = value("company", 120);
+    const contact = value("contact", 120);
     const projectType = value("project_type", 100);
     const budget = value("budget", 100);
     const timeline = value("timeline", 100);
@@ -383,6 +449,7 @@ if (form && formMessage) {
 
     const text = [
       `Hi Mehedi, I'm ${name}${company ? ` from ${company}` : ""}.`,
+      ...(contact ? [`Contact: ${contact}`] : []),
       "",
       `Project type: ${projectType}`,
       ...(budget ? [`Budget: ${budget}`] : []),
@@ -390,6 +457,9 @@ if (form && formMessage) {
       "",
       brief
     ].join("\n");
+
+    // keep a copy in the backend (quietly; WhatsApp or email still opens either way)
+    sendToApi("/inquiry", { name, contact, company, project_type: projectType, budget, timeline, message: brief, channel, lang: currentLang(), website: value("website", 200) }).catch(() => {});
 
     if (channel === "email") {
       window.location.href = `mailto:${EMAIL_ADDRESS}?subject=${encodeURIComponent(`Project inquiry: ${projectType}`)}&body=${encodeURIComponent(text)}`;

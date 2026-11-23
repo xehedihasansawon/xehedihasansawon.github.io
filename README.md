@@ -55,8 +55,20 @@ The header has an EN / বাং switch and a light/dark button. Both choices ar
 
 ## Contact form
 
-The inquiry form has no server. When a visitor submits it, the message opens ready to send in
-WhatsApp or their email app. The number and email address are at the top of `main.js`.
+When a visitor submits the inquiry form, the message opens ready to send in WhatsApp or their email app. The number and email address are at the top of `main.js`.
+
+## Backend (Cloudflare Worker + D1)
+
+The site itself stays static. A small API at `https://xehedihasansawon-api.xehedi.workers.dev` adds four things:
+
+- It saves a copy of each project brief.
+- It takes client reviews. Approved ones appear in the "What clients say" section, which stays hidden while there are none.
+- It counts page views without cookies.
+- It runs the admin page at `/admin`.
+
+The code lives in a separate folder, `Desktop\xehedihasansawon-api`. `API_BASE` in `main.js` points to it. Everything is optional: if the API is down, the form still opens WhatsApp or email and nothing breaks.
+
+The admin password is the `ADMIN_PASSWORD` secret in Cloudflare. It is never stored in this repo.
 
 ## Run locally
 
