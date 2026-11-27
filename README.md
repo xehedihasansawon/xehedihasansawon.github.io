@@ -2,7 +2,7 @@
 
 Live: https://xehedihasansawon.github.io/
 
-A plain static site (HTML, CSS, JavaScript). No database, no login, no backend.
+A static site (HTML, CSS, JavaScript) with a small optional backend on Cloudflare (see "Backend" below).
 GitHub Pages serves the `main` branch as it is, so a push to `main` goes live in a minute or two.
 
 ## Pages
@@ -22,7 +22,7 @@ GitHub Pages serves the `main` branch as it is, so a push to `main` goes live in
 ## Code
 
 - `styles.css`: the only stylesheet, shared by every page. Colours and fonts are CSS variables at the top.
-- `main.js`: the only script: language and theme buttons, mobile menu, active nav link, scroll motion, image lightbox, copy email and the inquiry form.
+- `main.js`: the only script: language and theme buttons, mobile menu, active nav link, scroll motion, image lightbox, the showcase categories, copy email, the inquiry form and the calls to the backend.
 - Every page carries the same header, footer and icon set. If you change one, change it on all pages.
 - Intro loader: the `#loader` block at the top of every page, with the logo drawn in three parts (letters, dot, brush underline). The animation is in the "Intro loader" part of `styles.css`. It plays on every page load and refresh, it is skipped for visitors who turn on reduced motion, and it always ends by itself.
 
@@ -70,13 +70,21 @@ The brief and review forms use Cloudflare Turnstile to stop bots. Its script loa
 
 The code lives in a separate folder, `Desktop\xehedihasansawon-api`. `API_BASE` in `main.js` points to it. Everything is optional: if the API is down, the form still opens WhatsApp or email and nothing breaks.
 
-The admin password is the `ADMIN_PASSWORD` secret in Cloudflare. It is never stored in this repo.
+The admin password is the `ADMIN_PASSWORD` secret in Cloudflare. It is never stored in this repo, and the admin page keeps only a login token that ends after 12 hours.
+
+### Edit site (admin)
+
+The admin's "Edit site" tab changes this repo through GitHub: add, edit, move or remove showcase designs and case study posts, edit the homepage text and contact details, add a new project page, and undo the last change. Every save is one commit on `main` whose message starts with "Admin:", so **run `git pull` before you change anything here by hand**. The editor reads the HTML as text, so keep the existing markup patterns (showcase cards, `format-feature` posts, chapters, the footer project list) when you edit by hand.
+
+### Visitor counts
+
+Page views and daily visitors are counted without cookies. The admin's "Open my site" link adds `?notrack=1` once, and from then on that browser's visits are not counted (`?notrack=0` turns counting back on).
 
 ## Run locally
 
 ```bash
 npm install
-npm run dev
+npx vite --port 5180
 ```
 
-Open the URL Vite prints, usually `http://localhost:5173/`.
+Open `http://localhost:5180/`. Use port 5180: it is the local address the backend accepts, so the forms and reviews work in local tests too.

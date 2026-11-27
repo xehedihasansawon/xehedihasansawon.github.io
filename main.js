@@ -1,5 +1,5 @@
-// Shared script for every page: menu, active nav, reveal, lightbox,
-// copy email and the project inquiry form. No server, no database.
+// Shared script for every page: language and theme, menu, active nav, motion, lightbox, showcase,
+// copy email, the project inquiry form and the optional backend (saved briefs, reviews, page views).
 
 const WHATSAPP_NUMBER = "60174723951";
 const EMAIL_ADDRESS = "xehedi@gmail.com";
@@ -19,7 +19,7 @@ const store = {
    Bangla is keyed by the English text itself, so pages need no extra markup.
    A "unit" is a run of text, or a whole element when it mixes text with inline tags
    (strong, span, a...) so the Bangla word order can differ from the English. */
-const I18N_VERSION = "v4-20261127";
+const I18N_VERSION = "v5-20261127";
 let lang = "en";
 let dict = null;
 let originals = null;
@@ -331,15 +331,34 @@ const armTurnstile = async (formEl) => {
   if (!box || turnstileIds.has(formEl)) return;
   turnstileIds.set(formEl, null);
   const ts = await loadTurnstile();
-  if (!ts) return;
+  if (!ts) { turnstileIds.delete(formEl); return; } // blocked or offline: send without it
   turnstileIds.set(formEl, ts.render(box, { sitekey: TURNSTILE_SITEKEY, appearance: "interaction-only", size: "flexible", theme: root.dataset.theme === "light" ? "light" : "dark" }));
 };
 const turnstileToken = (formEl) => { const id = turnstileIds.get(formEl); try { return id != null ? window.turnstile.getResponse(id) || "" : ""; } catch { return ""; } };
 const resetTurnstile = (formEl) => { const id = turnstileIds.get(formEl); try { if (id != null) window.turnstile.reset(id); } catch { /* ignore */ } };
+// the check takes a moment after the first click in a form (or needs a tick): wait for its token a little
+const waitForToken = async (formEl, ms) => {
+  const end = Date.now() + ms;
+  let token = turnstileToken(formEl);
+  while (!token && turnstileIds.has(formEl) && Date.now() < end) {
+    await new Promise((resolve) => setTimeout(resolve, 250));
+    token = turnstileToken(formEl);
+  }
+  return token;
+};
 
-// one page view, no cookies (the Worker keeps only a daily hash)
-if (!navigator.webdriver && navigator.sendBeacon) {
-  try { navigator.sendBeacon(API_BASE + "/hit", JSON.stringify({ path: location.pathname, ref: document.referrer, lang: store.get("lang") === "bn" ? "bn" : "en" })); } catch { /* blocked: fine */ }
+// one page view, no cookies (the Worker keeps only a daily hash). The owner's own visits are not counted:
+// the admin's "Open my site" link adds ?notrack=1 once, and this browser remembers it (?notrack=0 undoes it).
+const trackParam = new URLSearchParams(location.search).get("notrack");
+if (trackParam === "1" || trackParam === "0") {
+  store.set("notrack", trackParam);
+  const clean = new URL(location.href);
+  clean.searchParams.delete("notrack");
+  history.replaceState(history.state, "", clean.pathname + clean.search + clean.hash);
+}
+if (!navigator.webdriver && navigator.sendBeacon && store.get("notrack") !== "1") {
+  const page = $("main.simple-page") ? "/404" : location.pathname.replace(/\/index\.html$/, "/");
+  try { navigator.sendBeacon(API_BASE + "/hit", JSON.stringify({ path: page, ref: document.referrer, lang: store.get("lang") === "bn" ? "bn" : "en" })); } catch { /* blocked: fine */ }
 }
 
 // approved reviews on the homepage
@@ -379,8 +398,19 @@ if (reviewDialog && reviewForm) {
     if (data.message.length < 10) { reviewMessage.textContent = t("Please write a few words about the work."); reviewMessage.dataset.state = "error"; reviewForm.elements.message.focus(); return; }
     const button = reviewForm.querySelector('[type="submit"]');
     button.disabled = true;
+    reviewMessage.textContent = t("Sending…");
+    reviewMessage.dataset.state = "";
     try {
-      const res = await sendToApi("/review", { ...data, turnstile: turnstileToken(reviewForm) });
+      // the bot check usually answers within a few seconds, but a slow phone can take longer
+      const token = await waitForToken(reviewForm, 20000);
+      const box = $("[data-turnstile]", reviewForm);
+      if (!token && turnstileIds.get(reviewForm) != null && box && box.getBoundingClientRect().height > 0) {
+        // Cloudflare is showing its box above the button and wants a tick
+        reviewMessage.textContent = t("Please finish the quick check above, then press Send review again.");
+        reviewMessage.dataset.state = "error";
+        return;
+      }
+      const res = await sendToApi("/review", { ...data, turnstile: token });
       resetTurnstile(reviewForm);
       if (!res.ok) throw new Error(String(res.status));
       reviewForm.reset();
@@ -581,9 +611,12 @@ if (form && formMessage) {
       brief
     ].join("\n");
 
-    // keep a copy in the backend (quietly; WhatsApp or email still opens either way)
-    sendToApi("/inquiry", { name, contact, company, project_type: projectType, budget, timeline, message: brief, channel, lang: currentLang(), website: value("website", 200), turnstile: turnstileToken(form) }).catch(() => {});
-    resetTurnstile(form);
+    // keep a copy in the backend (quietly, once the bot check is ready; WhatsApp or email opens right away either way)
+    const copy = { name, contact, company, project_type: projectType, budget, timeline, message: brief, channel, lang: currentLang(), website: value("website", 200) };
+    waitForToken(form, 20000)
+      .then((token) => sendToApi("/inquiry", { ...copy, turnstile: token }))
+      .catch(() => {})
+      .finally(() => resetTurnstile(form));
 
     if (channel === "email") {
       window.location.href = `mailto:${EMAIL_ADDRESS}?subject=${encodeURIComponent(`Project inquiry: ${projectType}`)}&body=${encodeURIComponent(text)}`;
