@@ -25,7 +25,7 @@
   <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/anton-latin.woff2" as="font" type="font/woff2" crossorigin>
   <script>try{var s=localStorage;if(s.getItem("theme")==="light")document.documentElement.dataset.theme="light";if(s.getItem("lang")==="bn")document.documentElement.dataset.lang="bn"}catch(e){}</script>
-  <link rel="stylesheet" href="styles.css?v=v27-20261127">
+  <link rel="stylesheet" href="styles.css?v=v28-20261127">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"CreativeWork","name":"MIUW ERP","url":"https://xehedihasansawon.github.io/miuw-erp.html","image":"https://xehedihasansawon.github.io/assets/work/miuw-og.jpg","description":"MIUW ERP case study by MD Mehedi Hasan Sawon: one business system for sourcing, inventory, orders, courier delivery, expenses and reporting, shown with demo data only.","creator":{"@type":"Person","name":"MD Mehedi Hasan Sawon","url":"https://xehedihasansawon.github.io/"}}</script>
 </head>
 <body class="case-study-page">
@@ -116,37 +116,192 @@
     </div></section>
 
     <section class="case-section">
-      <div class="shell case-intro-grid">
-        <div><p class="case-eyebrow">Project Overview</p><h2>One workflow, <span>connected operations.</span></h2></div>
-        <p>MIUW ERP connects sourcing, inventory, order confirmation, sales, courier delivery, expenses and reporting, so a small business can run from one place instead of many disconnected spreadsheets.</p>
+      <div class="shell">
+        <div class="case-intro-grid">
+          <div><p class="case-eyebrow">Project Overview</p><h2>One workflow, <span>connected operations.</span></h2></div>
+          <p>MIUW ERP connects sourcing, inventory, order confirmation, sales, courier delivery, expenses and reporting, so a small business can run from one place instead of many disconnected spreadsheets.</p>
+        </div>
+        <div class="case-stats">
+          <div><strong>11</strong><span>Modules</span></div>
+          <div><strong>8</strong><span>Steps per order</span></div>
+          <div><strong>6</strong><span>Stock counts per bag</span></div>
+          <div><strong>13</strong><span>Screens on this page</span></div>
+        </div>
+        <nav class="case-jump" aria-label="Sections on this page">
+          <a href="#overview"><span>01–02</span>Overview</a>
+          <a href="#orders"><span>03–06</span>Orders &amp; delivery</a>
+          <a href="#stock"><span>07–09</span>Stock &amp; costing</a>
+          <a href="#sourcing"><span>10–11</span>Sourcing</a>
+          <a href="#money"><span>12–13</span>Money &amp; reports</a>
+        </nav>
       </div>
     </section>
 
-    <section class="case-section">
+    <section class="case-section" id="sections">
       <div class="shell">
+        <div class="case-section-head"><div><p class="case-eyebrow">Screen by screen</p><h2>What each part <span>is for.</span></h2></div><p>Real screens of MIUW ERP, filled with made-up demo data: no real customers, orders or business numbers. Each screen has one job: here is what it shows and why it’s there.</p></div>
+        <div class="case-chapter" id="overview"><span class="case-chapter-name">Overview</span><span class="case-chapter-range">01–02</span></div>
         <article class="format-feature format-portrait format-landscape">
           <div class="format-copy">
             <span class="format-number">01</span>
-            <p class="case-eyebrow">System Preview</p>
-            <h2>The admin <span>dashboard.</span></h2>
-            <p>Revenue, delivered cash, in-transit pipeline, order status and stock alerts on one screen. All figures shown are demo values.</p>
-            <div class="format-meta"><span>Dashboard UI</span><span>Demo Data</span></div>
+            <p class="case-eyebrow">Dashboard</p>
+            <h2>The whole business <span>on one screen.</span></h2>
+            <p>Gross revenue, delivered cash, money still with the courier and real net profit at the top, then today’s orders, parcels in transit, delivery success, returns and low-stock alerts.</p>
+            <p class="format-why"><strong>Why it’s here:</strong> The owner opens the system and knows in ten seconds how the business is doing and what needs attention today.</p>
+            <div class="format-meta"><span>Dashboard</span><span>KPIs</span><span>Live Numbers</span></div>
           </div>
-          <button type="button" class="case-image-button wide-art" data-lightbox="assets/work/miuw-dashboard.webp" data-caption="The admin dashboard · Demo data"><img src="assets/work/miuw-dashboard.webp" width="884" height="740" alt="MIUW ERP admin dashboard on a laptop with demo data" loading="lazy" decoding="async"></button>
+          <button type="button" class="case-image-button wide-art browser-art" data-url="MIUW ERP · demo data" data-lightbox="assets/work/miuw-screen-01-dashboard.webp" data-caption="Dashboard · Demo data"><img src="assets/work/miuw-screen-01-dashboard-sm.webp" srcset="assets/work/miuw-screen-01-dashboard-sm.webp 900w, assets/work/miuw-screen-01-dashboard.webp 1600w" sizes="(max-width: 960px) calc(100vw - 32px), 680px" width="1600" height="1000" alt="MIUW ERP dashboard with revenue, delivered cash, net profit and order tracking cards, shown with demo data" loading="lazy" decoding="async"></button>
         </article>
-      </div>
-    </section>
 
-    <section class="case-section">
-      <div class="shell">
-        <div class="case-section-head"><div><p class="case-eyebrow">Core System</p><h2>Built around <span>daily business work.</span></h2></div><p>Common operational tasks are grouped into clear modules: orders, courier, inventory, sourcing, expenses, accounts, team, reports and user permissions.</p></div>
-        <div class="role-grid">
-          <div class="role-card"><strong>Sourcing & Inventory</strong><span>Track incoming products, lots, stock and item-level costing.</span></div>
-          <div class="role-card"><strong>Orders & Sales</strong><span>Keep order confirmation and sales activity inside one workflow.</span></div>
-          <div class="role-card"><strong>Courier & Delivery</strong><span>Follow packing, transit and delivery status without losing order context.</span></div>
-          <div class="role-card"><strong>Finance & Reporting</strong><span>Connect expenses, accounts and sales for clear reports.</span></div>
-        </div>
-        <div class="case-note">Private by design: this case study leaves out credentials, customer records and real business data. It explains the system through demo content only.</div>
+        <article class="format-feature format-portrait format-landscape format-flip">
+          <div class="format-copy">
+            <span class="format-number">02</span>
+            <p class="case-eyebrow">Dashboard</p>
+            <h2>Sales trends and <span>profit split.</span></h2>
+            <p>A weekly order chart, a revenue curve for the day, the best-selling bags, the top customer, and the net profit split into reinvest, emergency and partner vaults.</p>
+            <p class="format-why"><strong>Why it’s here:</strong> Numbers alone don’t show direction. The charts show whether sales are growing, and the vaults turn profit into a plan.</p>
+            <div class="format-meta"><span>Charts</span><span>Top Products</span><span>Profit Vaults</span></div>
+          </div>
+          <button type="button" class="case-image-button wide-art browser-art" data-url="MIUW ERP · demo data" data-lightbox="assets/work/miuw-screen-02-dashboard-lower.webp" data-caption="Dashboard charts · Demo data"><img src="assets/work/miuw-screen-02-dashboard-lower-sm.webp" srcset="assets/work/miuw-screen-02-dashboard-lower-sm.webp 900w, assets/work/miuw-screen-02-dashboard-lower.webp 1600w" sizes="(max-width: 960px) calc(100vw - 32px), 680px" width="1600" height="1000" alt="MIUW ERP dashboard charts with weekly orders, a revenue curve, top products, the top customer and profit vaults, shown with demo data" loading="lazy" decoding="async"></button>
+        </article>
+
+        <div class="case-chapter" id="orders"><span class="case-chapter-name">Orders &amp; delivery</span><span class="case-chapter-range">03–06</span></div>
+        <article class="format-feature format-portrait format-landscape">
+          <div class="format-copy">
+            <span class="format-number">03</span>
+            <p class="case-eyebrow">Order &amp; Sales</p>
+            <h2>Every order, <span>one clear row.</span></h2>
+            <p>Each row shows the order, the customer with phone and source, the bag with its SKU and rack, the payment with cash on delivery, the status and the next action. Tabs split orders into pending, to pack and packed.</p>
+            <p class="format-why"><strong>Why it’s here:</strong> Orders arrive all day from Facebook, Instagram and WhatsApp. One row per order, with the next step on a button, means nothing gets stuck.</p>
+            <div class="format-meta"><span>Order Workflow</span><span>Filters</span><span>Next Action</span></div>
+          </div>
+          <button type="button" class="case-image-button wide-art browser-art" data-url="MIUW ERP · demo data" data-lightbox="assets/work/miuw-screen-03-orders.webp" data-caption="Order &amp; Sales · Demo data"><img src="assets/work/miuw-screen-03-orders-sm.webp" srcset="assets/work/miuw-screen-03-orders-sm.webp 900w, assets/work/miuw-screen-03-orders.webp 1600w" sizes="(max-width: 960px) calc(100vw - 32px), 680px" width="1600" height="1000" alt="MIUW ERP Order and Sales list with customers, bags, payments, statuses and next action buttons, shown with demo data" loading="lazy" decoding="async"></button>
+        </article>
+
+        <article class="format-feature format-portrait format-landscape format-flip">
+          <div class="format-copy">
+            <span class="format-number">04</span>
+            <p class="case-eyebrow">New sales order</p>
+            <h2>A guided form <span>in three steps.</span></h2>
+            <p>Customer and source, delivery details, then items and payment. While the phone number is typed, a risk check shows the customer’s past orders, returns and cancellations.</p>
+            <p class="format-why"><strong>Why it’s here:</strong> Page moderators take orders while chatting. A short guided form avoids missed fields, and the risk check flags customers who often return parcels.</p>
+            <div class="format-meta"><span>Order Form</span><span>Risk Check</span></div>
+          </div>
+          <button type="button" class="case-image-button wide-art browser-art" data-url="MIUW ERP · demo data" data-lightbox="assets/work/miuw-screen-04-new-order.webp" data-caption="New sales order · Demo data"><img src="assets/work/miuw-screen-04-new-order-sm.webp" srcset="assets/work/miuw-screen-04-new-order-sm.webp 900w, assets/work/miuw-screen-04-new-order.webp 1600w" sizes="(max-width: 960px) calc(100vw - 32px), 680px" width="1600" height="1000" alt="MIUW ERP Create New Sales Order form with customer, source and phone fields and a customer risk check, shown with demo data" loading="lazy" decoding="async"></button>
+        </article>
+
+        <article class="format-feature format-portrait format-landscape">
+          <div class="format-copy">
+            <span class="format-number">05</span>
+            <p class="case-eyebrow">Verification slip</p>
+            <h2>Confirm before <span>it ships.</span></h2>
+            <p>A clean slip with the customer, phone numbers, full address, the bag with its photo, quantity, delivery charge and the payable amount, plus a confirmation note in English and Bangla.</p>
+            <p class="format-why"><strong>Why it’s here:</strong> Sending this slip to the customer catches wrong addresses and wrong colors before the parcel leaves, so fewer parcels come back.</p>
+            <div class="format-meta"><span>Order Slip</span><span>Bangla</span><span>Fewer Returns</span></div>
+          </div>
+          <button type="button" class="case-image-button wide-art browser-art" data-url="MIUW ERP · demo data" data-lightbox="assets/work/miuw-screen-05-slip.webp" data-caption="Order verification slip · Demo data"><img src="assets/work/miuw-screen-05-slip-sm.webp" srcset="assets/work/miuw-screen-05-slip-sm.webp 900w, assets/work/miuw-screen-05-slip.webp 1600w" sizes="(max-width: 960px) calc(100vw - 32px), 680px" width="1600" height="1000" alt="MIUW ERP order verification slip with customer, delivery and item details and the payable amount, shown with demo data" loading="lazy" decoding="async"></button>
+        </article>
+
+        <article class="format-feature format-portrait format-landscape format-flip">
+          <div class="format-copy">
+            <span class="format-number">06</span>
+            <p class="case-eyebrow">Courier &amp; Delivery</p>
+            <h2>Every parcel, <span>tracked to the door.</span></h2>
+            <p>Ready to dispatch, in transit, delivered, failed or returned, and the cash on delivery still to collect, with the courier, tracking ID and last update for every order.</p>
+            <p class="format-why"><strong>Why it’s here:</strong> Cash on delivery stays with the courier until it is paid out. This screen shows how much is outstanding and where every parcel is.</p>
+            <div class="format-meta"><span>Courier Tracking</span><span>COD</span></div>
+          </div>
+          <button type="button" class="case-image-button wide-art browser-art" data-url="MIUW ERP · demo data" data-lightbox="assets/work/miuw-screen-06-courier.webp" data-caption="Courier &amp; Delivery · Demo data"><img src="assets/work/miuw-screen-06-courier-sm.webp" srcset="assets/work/miuw-screen-06-courier-sm.webp 900w, assets/work/miuw-screen-06-courier.webp 1600w" sizes="(max-width: 960px) calc(100vw - 32px), 680px" width="1600" height="1000" alt="MIUW ERP Courier and Delivery list with couriers, tracking IDs, delivery status and cash on delivery, shown with demo data" loading="lazy" decoding="async"></button>
+        </article>
+
+        <div class="case-chapter" id="stock"><span class="case-chapter-name">Stock &amp; costing</span><span class="case-chapter-range">07–09</span></div>
+        <article class="format-feature format-portrait format-landscape">
+          <div class="format-copy">
+            <span class="format-number">07</span>
+            <p class="case-eyebrow">Inventory &amp; Costing</p>
+            <h2>Stock that <span>counts itself.</span></h2>
+            <p>Each bag with its photo, color, SKU and batch, then total received, physical, reserved, available and sold, the cost and selling price with the margin, and a stock status such as Low Stock.</p>
+            <p class="format-why"><strong>Why it’s here:</strong> Confirmed orders reserve stock and packed orders deduct it, so the team never sells a bag that is already promised to someone else.</p>
+            <div class="format-meta"><span>Stock</span><span>Reservations</span><span>Margins</span></div>
+          </div>
+          <button type="button" class="case-image-button wide-art browser-art" data-url="MIUW ERP · demo data" data-lightbox="assets/work/miuw-screen-07-inventory.webp" data-caption="Inventory &amp; Costing · Demo data"><img src="assets/work/miuw-screen-07-inventory-sm.webp" srcset="assets/work/miuw-screen-07-inventory-sm.webp 900w, assets/work/miuw-screen-07-inventory.webp 1600w" sizes="(max-width: 960px) calc(100vw - 32px), 680px" width="1600" height="1000" alt="MIUW ERP Inventory and Costing list with bag photos, stock counts, cost and selling prices and stock status, shown with demo data" loading="lazy" decoding="async"></button>
+        </article>
+
+        <article class="format-feature format-portrait format-landscape format-flip">
+          <div class="format-copy">
+            <span class="format-number">08</span>
+            <p class="case-eyebrow">Stock details</p>
+            <h2>One bag, <span>every number.</span></h2>
+            <p>The stock counts and storage rack, the cost and selling price, the buying price, freight and packaging per bag, and the profit and stock value.</p>
+            <p class="format-why"><strong>Why it’s here:</strong> Before restocking or changing a price, the owner sees what one bag really costs and earns.</p>
+            <div class="format-meta"><span>Item Details</span><span>Unit Cost</span></div>
+          </div>
+          <button type="button" class="case-image-button wide-art browser-art" data-url="MIUW ERP · demo data" data-lightbox="assets/work/miuw-screen-08-inventory-details.webp" data-caption="Stock details · Demo data"><img src="assets/work/miuw-screen-08-inventory-details-sm.webp" srcset="assets/work/miuw-screen-08-inventory-details-sm.webp 900w, assets/work/miuw-screen-08-inventory-details.webp 1600w" sizes="(max-width: 960px) calc(100vw - 32px), 680px" width="1600" height="1000" alt="MIUW ERP stock details window for one bag with stock counts, costs, profit and stock value, shown with demo data" loading="lazy" decoding="async"></button>
+        </article>
+
+        <article class="format-feature format-portrait format-landscape">
+          <div class="format-copy">
+            <span class="format-number">09</span>
+            <p class="case-eyebrow">Add a new bag</p>
+            <h2>The true cost <span>of every bag.</span></h2>
+            <p>When a new bag is added, the form adds up the buying price, air freight by weight, packaging, sticker, delivery and ad cost, then works out the selling price from the target margin.</p>
+            <p class="format-why"><strong>Why it’s here:</strong> Small online shops often set prices by guesswork. Here the price comes from the real landed cost, so every sale makes money.</p>
+            <div class="format-meta"><span>Costing</span><span>Pricing</span><span>Margin</span></div>
+          </div>
+          <button type="button" class="case-image-button wide-art browser-art" data-url="MIUW ERP · demo data" data-lightbox="assets/work/miuw-screen-09-add-bag.webp" data-caption="Add a new bag · Demo data"><img src="assets/work/miuw-screen-09-add-bag-sm.webp" srcset="assets/work/miuw-screen-09-add-bag-sm.webp 900w, assets/work/miuw-screen-09-add-bag.webp 1600w" sizes="(max-width: 960px) calc(100vw - 32px), 680px" width="1600" height="1000" alt="MIUW ERP Add New Bag form with the unit costing breakdown and the cost and selling summary, shown with demo data" loading="lazy" decoding="async"></button>
+        </article>
+
+        <div class="case-chapter" id="sourcing"><span class="case-chapter-name">Sourcing</span><span class="case-chapter-range">10–11</span></div>
+        <article class="format-feature format-portrait format-landscape format-flip">
+          <div class="format-copy">
+            <span class="format-number">10</span>
+            <p class="case-eyebrow">Sourcing &amp; Procurement</p>
+            <h2>From the supplier <span>to the warehouse.</span></h2>
+            <p>Every import batch with its agent, invoice, order date, status, days on the way, product value, paid and due, and the next action.</p>
+            <p class="format-why"><strong>Why it’s here:</strong> Bags are bought abroad and arrive weeks later. This list shows where each batch is and how much is still owed.</p>
+            <div class="format-meta"><span>Import Batches</span><span>Payments</span></div>
+          </div>
+          <button type="button" class="case-image-button wide-art browser-art" data-url="MIUW ERP · demo data" data-lightbox="assets/work/miuw-screen-10-sourcing.webp" data-caption="Sourcing &amp; Procurement · Demo data"><img src="assets/work/miuw-screen-10-sourcing-sm.webp" srcset="assets/work/miuw-screen-10-sourcing-sm.webp 900w, assets/work/miuw-screen-10-sourcing.webp 1600w" sizes="(max-width: 960px) calc(100vw - 32px), 680px" width="1600" height="1000" alt="MIUW ERP Sourcing and Procurement list with import batches, statuses, journey days and amounts paid and due, shown with demo data" loading="lazy" decoding="async"></button>
+        </article>
+
+        <article class="format-feature format-portrait format-landscape">
+          <div class="format-copy">
+            <span class="format-number">11</span>
+            <p class="case-eyebrow">Batch details</p>
+            <h2>Each batch, <span>step by step.</span></h2>
+            <p>Order placement, weight and delivery cost, then final settlement, with the original and adjusted value, paid, due, weights, supplier returns, payments and extra charges.</p>
+            <p class="format-why"><strong>Why it’s here:</strong> Freight is only known once the goods are weighed. Recording every step keeps the landed cost and the final bill correct.</p>
+            <div class="format-meta"><span>Batch Timeline</span><span>Charges</span><span>Settlement</span></div>
+          </div>
+          <button type="button" class="case-image-button wide-art browser-art" data-url="MIUW ERP · demo data" data-lightbox="assets/work/miuw-screen-11-sourcing-details.webp" data-caption="Batch details · Demo data"><img src="assets/work/miuw-screen-11-sourcing-details-sm.webp" srcset="assets/work/miuw-screen-11-sourcing-details-sm.webp 900w, assets/work/miuw-screen-11-sourcing-details.webp 1600w" sizes="(max-width: 960px) calc(100vw - 32px), 680px" width="1600" height="1000" alt="MIUW ERP batch details window with the three steps, amounts, weights, payments and charges, shown with demo data" loading="lazy" decoding="async"></button>
+        </article>
+
+        <div class="case-chapter" id="money"><span class="case-chapter-name">Money &amp; reports</span><span class="case-chapter-range">12–13</span></div>
+        <article class="format-feature format-portrait format-landscape format-flip">
+          <div class="format-copy">
+            <span class="format-number">12</span>
+            <p class="case-eyebrow">Expenses</p>
+            <h2>Every taka <span>going out.</span></h2>
+            <p>Ads, packaging, courier bills, rent, internet and photo shoots, each with a date, category, description, payment method and amount, plus totals for the month and the day.</p>
+            <p class="format-why"><strong>Why it’s here:</strong> Profit is only real when every cost is counted. Daily entries keep the month’s numbers honest.</p>
+            <div class="format-meta"><span>Expenses</span><span>Categories</span></div>
+          </div>
+          <button type="button" class="case-image-button wide-art browser-art" data-url="MIUW ERP · demo data" data-lightbox="assets/work/miuw-screen-12-expenses.webp" data-caption="Expenses · Demo data"><img src="assets/work/miuw-screen-12-expenses-sm.webp" srcset="assets/work/miuw-screen-12-expenses-sm.webp 900w, assets/work/miuw-screen-12-expenses.webp 1600w" sizes="(max-width: 960px) calc(100vw - 32px), 680px" width="1600" height="1000" alt="MIUW ERP Expenses list with dates, categories, descriptions, payment methods and amounts, shown with demo data" loading="lazy" decoding="async"></button>
+        </article>
+
+        <article class="format-feature format-portrait format-landscape">
+          <div class="format-copy">
+            <span class="format-number">13</span>
+            <p class="case-eyebrow">Reports</p>
+            <h2>Real profit, <span>not guesses.</span></h2>
+            <p>A profit and loss statement: delivered sales, minus the cost of goods, business overhead and payroll, gives the real net profit.</p>
+            <p class="format-why"><strong>Why it’s here:</strong> Sales are not profit. This one statement tells the owner what the business actually earned.</p>
+            <div class="format-meta"><span>Profit &amp; Loss</span><span>Reports</span></div>
+          </div>
+          <button type="button" class="case-image-button wide-art browser-art" data-url="MIUW ERP · demo data" data-lightbox="assets/work/miuw-screen-13-reports.webp" data-caption="Profit &amp; loss report · Demo data"><img src="assets/work/miuw-screen-13-reports-sm.webp" srcset="assets/work/miuw-screen-13-reports-sm.webp 900w, assets/work/miuw-screen-13-reports.webp 1600w" sizes="(max-width: 960px) calc(100vw - 32px), 680px" width="1600" height="1000" alt="MIUW ERP profit and loss statement with delivered sales, cost of goods, overhead, payroll and net profit, shown with demo data" loading="lazy" decoding="async"></button>
+        </article>
+
+        <div class="case-note">Private by design: every screen on this page runs on made-up demo data, so no real customer, order or business number is shown, and there is no link or login to the live system.</div>
       </div>
     </section>
 
@@ -199,6 +354,6 @@
     <img id="lightboxImage" alt="">
     <div class="lightbox-bar"><span id="lightboxCaption"></span><button type="button" class="lightbox-close" id="lightboxClose" aria-label="Close preview"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></button></div>
   </dialog>
-  <script type="module" src="main.js?v=v27-20261127"></script>
+  <script type="module" src="main.js?v=v28-20261127"></script>
 </body>
 </html>
