@@ -287,20 +287,49 @@ html[lang="bn"] .service::before { content: "০" counter(service, bengali); con
 .project-body p { font-size: 14px; color: var(--muted); }
 .project-body .chips { margin-top: auto; padding-top: 6px; }
 
-/* ---------- Showcase ---------- */
-.showcase-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+/* ---------- Showcase: a catalog with category chips; the first designs show, the rest open with "Show all" ---------- */
+.showcase-filter { display: flex; flex-wrap: wrap; gap: 8px; margin: -6px 0 24px; }
+.showcase-chip {
+  display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 8px 0 16px;
+  border: 1px solid var(--line-strong); border-radius: 999px; background: transparent; color: var(--soft);
+  font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; transition: border-color .2s ease, background .2s ease, color .2s ease;
+}
+.showcase-chip span { min-width: 26px; padding: 2px 8px; border-radius: 999px; background: rgba(142, 182, 155, .14); color: var(--mint); font-size: 12px; text-align: center; }
+.showcase-chip:hover { border-color: var(--mint); color: var(--text); }
+.showcase-chip[aria-pressed="true"] { border-color: var(--red); background: var(--red); color: #fff; }
+.showcase-chip[aria-pressed="true"] span { background: rgba(255, 255, 255, .22); color: #fff; }
+.showcase-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
 .showcase {
-  display: grid; grid-template-columns: 150px 1fr; gap: 20px; align-items: center;
-  width: 100%; padding: 14px; text-align: left; cursor: zoom-in;
+  display: flex; flex-direction: column; gap: 14px;
+  width: 100%; padding: 12px 12px 18px; text-align: left; cursor: zoom-in;
   transition: border-color .2s ease, transform .2s ease;
 }
+.showcase[hidden], .showcase-more[hidden], .lightbox-nav[hidden] { display: none; }
 .showcase:hover { border-color: var(--line-strong); transform: translateY(-3px); }
-.showcase-thumb { overflow: hidden; aspect-ratio: 1; border-radius: 12px; background: #061d1d; }
+.showcase-thumb { position: relative; display: block; overflow: hidden; aspect-ratio: 1; border-radius: 12px; background: #061d1d; }
 .showcase-thumb img { width: 100%; height: 100%; object-fit: cover; }
-.showcase-title { display: block; font-size: 18px; font-weight: 700; line-height: 1.25; }
-.showcase small { display: block; margin-top: 4px; font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--mint); }
-.showcase-text { display: block; margin-top: 8px; font-size: 14px; color: var(--muted); }
-.showcase .link { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; font-size: 14px; font-weight: 700; color: var(--red); }
+/* the same "opens full size" badge as the case-study images */
+.showcase-thumb::after {
+  content: ""; position: absolute; right: 12px; bottom: 12px; width: 36px; height: 36px;
+  border: 1px solid var(--line-strong); border-radius: 50%; opacity: 0;
+  background: rgba(4, 23, 24, .8) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23daf1de' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7'/%3E%3C/svg%3E") center / 16px no-repeat;
+  transition: opacity .2s ease;
+}
+.showcase:hover .showcase-thumb::after, .showcase:focus-visible .showcase-thumb::after { opacity: 1; }
+.showcase > span:last-child { display: flex; flex-direction: column; padding: 0 6px; }
+.showcase-title { display: block; font-size: 17px; font-weight: 700; line-height: 1.3; }
+.showcase small { order: -1; display: block; margin-bottom: 6px; font-size: 11.5px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--mint); }
+.showcase-text { display: -webkit-box; margin-top: 6px; overflow: hidden; font-size: 14px; color: var(--muted); -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.showcase .link { display: none; }
+.showcase-more { display: flex; justify-content: center; margin-top: 28px; }
+/* browsing designs in the full-size view */
+.lightbox-nav {
+  position: absolute; top: calc(50% - 54px); display: grid; place-items: center; width: 46px; height: 46px;
+  border: 1px solid var(--line-strong); border-radius: 50%; background: rgba(3, 19, 20, .82); color: var(--text); cursor: pointer;
+}
+.lightbox-nav:hover { border-color: var(--mint); }
+.lightbox-nav svg { width: 22px; height: 22px; }
+.lightbox-prev { left: 12px; } .lightbox-next { right: 12px; }
 
 /* ---------- Tools ---------- */
 .tools-wrap { display: grid; grid-template-columns: 1fr 1.6fr; align-items: center; gap: 40px; }
@@ -819,7 +848,7 @@ html[lang="bn"] :is(.eyebrow, .kicker, .tool-row-label, .case-eyebrow, .contact-
   .hero-note { left: -10px; top: -18px; font-size: 26px; }
   .hero-badge { right: 12px; }
   .services-grid, .projects-grid, .reviews-grid { grid-template-columns: repeat(2, 1fr); }
-  .showcase-grid { grid-template-columns: 1fr; }
+  .showcase-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
   .contact-grid { grid-template-columns: 1fr; }
   .cta-note { display: none; }
   .case-intro-grid, .case-section-head, .format-portrait { grid-template-columns: 1fr; gap: 20px; }
@@ -846,7 +875,15 @@ html[lang="bn"] :is(.eyebrow, .kicker, .tool-row-label, .case-eyebrow, .contact-
   .tool-rows { gap: 16px; }
   .tool-row { grid-template-columns: repeat(3, 1fr); gap: 8px; }
   .tool-row-label { grid-column: 1 / -1; }
-  .showcase { grid-template-columns: 110px 1fr; gap: 14px; }
+  .showcase { gap: 10px; padding: 8px 8px 14px; }
+  .showcase > span:last-child { padding: 0 4px; }
+  .showcase-title { font-size: 15px; }
+  .showcase small { overflow: hidden; font-size: 10.5px; letter-spacing: .04em; text-overflow: ellipsis; white-space: nowrap; }
+  .showcase-text { display: none; }
+  .showcase-filter { flex-wrap: nowrap; overflow-x: auto; margin: -6px -16px 20px; padding: 2px 16px; scrollbar-width: none; }
+  .showcase-filter::-webkit-scrollbar { display: none; }
+  .showcase-chip { flex: none; }
+  .lightbox-nav { top: auto; bottom: 74px; width: 44px; height: 44px; }
   .about-facts { grid-template-columns: 1fr; }
   .timeline { grid-template-columns: 1fr; row-gap: 0; }
   .timeline::before, .timeline::after { display: block; left: 8px; right: auto; top: 8px; bottom: 8px; width: 2px; height: auto; }

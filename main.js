@@ -19,7 +19,7 @@ const store = {
    Bangla is keyed by the English text itself, so pages need no extra markup.
    A "unit" is a run of text, or a whole element when it mixes text with inline tags
    (strong, span, a...) so the Bangla word order can differ from the English. */
-const I18N_VERSION = "v3-20261124";
+const I18N_VERSION = "v4-20261127";
 let lang = "en";
 let dict = null;
 let originals = null;
@@ -401,15 +401,20 @@ const lightboxImage = $("#lightboxImage");
 const lightboxCaption = $("#lightboxCaption");
 let lastTrigger = null;
 
+const showInLightbox = (trigger) => {
+  lastTrigger = trigger;
+  const img = $("img", trigger);
+  lightboxImage.src = trigger.dataset.lightbox;
+  lightboxImage.alt = img?.alt || "";
+  lightboxCaption.textContent = trigger.dataset.caption || img?.alt || "";
+};
+const lightboxListeners = [];
 $$("[data-lightbox]").forEach((trigger) => {
   trigger.setAttribute("aria-haspopup", "dialog");
   trigger.addEventListener("click", () => {
     if (!lightbox?.showModal) return;
-    lastTrigger = trigger;
-    const img = $("img", trigger);
-    lightboxImage.src = trigger.dataset.lightbox;
-    lightboxImage.alt = img?.alt || "";
-    lightboxCaption.textContent = trigger.dataset.caption || img?.alt || "";
+    showInLightbox(trigger);
+    lightboxListeners.forEach((fn) => fn(trigger));
     lightbox.showModal();
   });
 });
@@ -420,6 +425,100 @@ lightbox?.addEventListener("close", () => {
   lightboxImage.removeAttribute("src"); // so the next design never flashes the previous one
   lastTrigger?.focus();
 });
+
+/* ---------- Showcase: categories, best designs first, browse with arrows ---------- */
+const showcaseGrid = $(".showcase-grid");
+if (showcaseGrid) {
+  const FIRST = 6; // designs shown before "Show all designs"; the order is set in the admin
+  const items = $$(".showcase", showcaseGrid);
+  // the category is the first part of the small line, e.g. "Logo Design · Photography" → "Logo Design"
+  items.forEach((item) => { item.dataset.cat = ($("small", item)?.textContent || "").split("·")[0].trim() || "Other"; });
+  const count = (cat) => items.filter((item) => item.dataset.cat === cat).length;
+  const cats = [...new Set(items.map((item) => item.dataset.cat))].sort((a, b) => count(b) - count(a));
+  const digits = (n) => (lang === "bn" ? String(n).replace(/\d/g, (d) => "০১২৩৪৫৬৭৮৯"[d]) : String(n));
+  let current = "all";
+  let expanded = false;
+  const bar = document.createElement("div");
+  bar.className = "showcase-filter";
+  bar.setAttribute("role", "group");
+  bar.setAttribute("translate", "no"); // drawn here in either language, so the page translator skips it
+  const moreWrap = document.createElement("div");
+  moreWrap.className = "showcase-more";
+  moreWrap.setAttribute("translate", "no");
+  const more = document.createElement("button");
+  more.type = "button";
+  more.className = "btn btn-outline";
+  moreWrap.append(more);
+  const shown = () => (current === "all" ? items : items.filter((item) => item.dataset.cat === current));
+  const draw = () => {
+    const list = shown();
+    items.forEach((item) => { item.hidden = !list.includes(item) || (!expanded && list.indexOf(item) >= FIRST); });
+    bar.setAttribute("aria-label", t("Design categories"));
+    bar.replaceChildren(...[["all", t("All"), items.length], ...cats.map((cat) => [cat, t(cat), count(cat)])].map(([key, label, n]) => {
+      const chip = document.createElement("button");
+      chip.type = "button";
+      chip.className = "showcase-chip";
+      chip.setAttribute("aria-pressed", String(key === current));
+      const num = document.createElement("span");
+      num.textContent = digits(n);
+      chip.append(label, num);
+      chip.addEventListener("click", () => { current = key; expanded = false; draw(); });
+      return chip;
+    }));
+    moreWrap.hidden = list.length <= FIRST;
+    more.textContent = expanded ? t("Show fewer") : `${t("Show all designs")} (${digits(list.length)})`;
+  };
+  more.addEventListener("click", () => {
+    expanded = !expanded;
+    draw();
+    if (!expanded) showcaseGrid.closest("section")?.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth" });
+  });
+  if (cats.length > 1) showcaseGrid.before(bar);
+  showcaseGrid.after(moreWrap);
+  draw();
+  langListeners.push(draw);
+
+  // in the full-size view: ‹ › buttons, arrow keys and swipes go through the designs that are showing
+  const nav = (dir, label, icon) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "lightbox-nav lightbox-" + dir;
+    button.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${icon}"/></svg>`;
+    button.hidden = true;
+    lightbox?.append(button);
+    return button;
+  };
+  const prev = nav("prev", "Previous design", "M15 6l-6 6 6 6");
+  const next = nav("next", "Next design", "M9 6l6 6-6 6");
+  const step = (d) => {
+    const list = items.filter((item) => !item.hidden);
+    const i = list.indexOf(lastTrigger);
+    if (i < 0 || list.length < 2) return;
+    showInLightbox(list[(i + d + list.length) % list.length]);
+  };
+  const browsing = () => lightbox?.open && items.includes(lastTrigger);
+  lightboxListeners.push((trigger) => {
+    const on = items.includes(trigger) && items.filter((item) => !item.hidden).length > 1;
+    prev.hidden = next.hidden = !on;
+    prev.setAttribute("aria-label", t("Previous design"));
+    next.setAttribute("aria-label", t("Next design"));
+  });
+  prev.addEventListener("click", () => step(-1));
+  next.addEventListener("click", () => step(1));
+  document.addEventListener("keydown", (event) => {
+    if (!browsing()) return;
+    if (event.key === "ArrowLeft") step(-1);
+    if (event.key === "ArrowRight") step(1);
+  });
+  let touchX = null;
+  lightboxImage?.addEventListener("touchstart", (event) => { touchX = event.touches[0].clientX; }, { passive: true });
+  lightboxImage?.addEventListener("touchend", (event) => {
+    if (touchX === null || !browsing()) return;
+    const dx = event.changedTouches[0].clientX - touchX;
+    touchX = null;
+    if (Math.abs(dx) > 50) step(dx < 0 ? 1 : -1);
+  });
+}
 
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape" && mobileNav?.classList.contains("is-open")) {
